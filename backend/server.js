@@ -10,8 +10,35 @@ const activityRoutes = require('./routes/activityRoutes');
 
 const app = express();
 
-// Middlewares
-app.use(cors());
+// CORS configuration for local development, Vercel frontend, and production domains
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'http://localhost:5173'
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow non-browser requests (curl, mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    
+    // Allow allowed origins, any *.vercel.app domain, or wildcard
+    if (
+      allowedOrigins.length === 0 ||
+      allowedOrigins.includes('*') ||
+      allowedOrigins.includes(origin) ||
+      /\.vercel\.app$/.test(new URL(origin).hostname)
+    ) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
+}));
+
 app.use(express.json());
 
 // Routes
@@ -20,6 +47,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/activity', activityRoutes);
+
 
 // Root & Health Check Endpoint
 app.get('/', (req, res) => {

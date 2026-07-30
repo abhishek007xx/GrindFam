@@ -13,7 +13,12 @@ import EditTargetModal from '../components/EditTargetModal';
 import ContributionHeatmap from '../components/ContributionHeatmap';
 import { Loader2, AlertCircle, RefreshCw, Heart } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const getApiBaseUrl = () => {
+  const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/$/, '')}/api`;
+};
+const API_BASE_URL = getApiBaseUrl();
+
 
 const Dashboard = () => {
   const { token, profile, user } = useAuth();
