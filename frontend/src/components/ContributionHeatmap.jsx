@@ -48,7 +48,7 @@ const generateFallbackDays = () => {
   return days;
 };
 
-const ContributionHeatmap = () => {
+const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const { token } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -67,6 +67,9 @@ const ContributionHeatmap = () => {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);
+        if (res.data?.weeklyData) {
+          onWeeklyDataLoaded?.(res.data.weeklyData);
+        }
       } catch (err) {
         console.warn('Backend activity heatmap fetch error, using fallback:', err);
         setData({ days: generateFallbackDays(), stats: { totalSolved: 0, activeDays: 0, maxInDay: 0, currentStreak: 0, longestStreak: 0 } });
@@ -75,7 +78,7 @@ const ContributionHeatmap = () => {
       }
     };
     fetchData();
-  }, [token]);
+  }, [token, onWeeklyDataLoaded]);
 
   const days = data?.days || generateFallbackDays();
   const stats = data?.stats || { totalSolved: 0, activeDays: 0, maxInDay: 0, currentStreak: 0, longestStreak: 0 };

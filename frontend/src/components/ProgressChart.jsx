@@ -1,13 +1,15 @@
 import React from 'react';
 import { Rocket } from 'lucide-react';
 
-const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5 }) => {
+const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }) => {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const todayIndex = new Date().getDay() - 1;
   const adjustedTodayIndex = todayIndex < 0 ? 6 : todayIndex;
 
-  // Clean data starting from 0: only today gets your actual count
-  const weekData = days.map((_, i) => (i === adjustedTodayIndex ? yourTodayCount : 0));
+  // Use real weeklyData if provided, otherwise fallback to today's count
+  const weekData = (Array.isArray(weeklyData) && weeklyData.length === 7)
+    ? weeklyData
+    : days.map((_, i) => (i === adjustedTodayIndex ? yourTodayCount : 0));
   const maxVal = Math.max(...weekData, dailyTarget, 1);
 
   const solved = yourTodayCount;

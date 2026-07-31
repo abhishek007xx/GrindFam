@@ -1,5 +1,5 @@
 const supabase = require('../config/supabaseClient');
-const { fetchUserTodayData } = require('../services/leetcodeService');
+const { fetchUserTodayData, syncUserLeetCodeHistory } = require('../services/leetcodeService');
 
 /**
  * GET /api/dashboard
@@ -79,9 +79,10 @@ const getDashboardData = async (req, res) => {
         const todayCount = lcData.todayCount || 0;
         const targetHit = todayCount >= dailyTarget;
 
-        // Upsert today's solved count into `daily_activity` table
+        // Sync historical LeetCode submission calendar into daily_activity
         if (!lcData.error) {
           try {
+            await syncUserLeetCodeHistory(profile.id, profile.leetcode_username);
             await supabase
               .from('daily_activity')
               .upsert(

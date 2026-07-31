@@ -1,4 +1,5 @@
 const axios = require('axios');
+const supabase = require('../config/supabaseClient');
 
 /**
  * Fetch LeetCode stats and today's solved problems for a user.
@@ -107,6 +108,73 @@ const fetchUserTodayData = async (username) => {
   }
 };
 
-module.exports = {
-  fetchUserTodayData
+/**
+ * Fetch historical submission calendar for a user from LeetCode and bulk-upsert into daily_activity.
+ * @param {string} userId - Supabase User UUID
+ * @param {string} username - LeetCode username
+ */
+const syncUserLeetCodeHistory = async (userId, username) => {
+  if (!userId || !username) return;
+
+  const graphqlQuery = {
+    query: `
+      query userProfileCalendar($username: String!) {
+        matchedUser(username: $username) {
+          userCalendar {
+            submissionCalendar
+          }
+        }
+      }
+    `,
+    variables: { username }
+  };
+
+  try {
+    const response = await axios.post(
+      'https://leetcode.com/graphql',
+      graphqlQuery,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+          'Referer': `https://leetcode.com/${username}/`
+        },
+        timeout: 10000
+      }
+    );
+
+    const calStr = response.data?.data?.matchedUser?.userCalendar?.submissionCalendar;
+    if (!calStr || calStr === '{}') return;
+
+    const parsedCalendar = JSON.parse(calStr);
+    const entries = Object.entries(parsedCalendar);
+    if (entries.length === 0) return;
+
+    const activityRows = entries.map(([timestampSec, count]) => {
+      const dateStr = new Date(parseInt(timestampSec, 10) * 1000).toISOString().split('T')[0];
+      return {
+        user_id: userId,
+        activity_date: dateStr,
+        solved_count: parseInt(count, 10) || 0,
+        updated_at: new Date().toISOString()
+      };
+    });
+
+    // Bulk upsert into Supabase daily_activity in chunks of 100
+    const chunkSize = 100;
+    for (let i = 0; i < activityRows.length; i += chunkSize) {
+      const chunk = activityRows.slice(i, i + chunkSize);
+      await supabase
+        .from('daily_activity')
+        .upsert(chunk, { onConflict: 'user_id, activity_date' });
+    }
+  } catch (error) {
+    console.error(`Error syncing LeetCode history for user ${username}:`, error.message);
+  }
 };
+
+module.exports = {
+  fetchUserTodayData,
+  syncUserLeetCodeHistory
+};
+

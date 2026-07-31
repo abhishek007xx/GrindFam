@@ -33,6 +33,7 @@ const Dashboard = () => {
     stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
     leaderboard: []
   });
+  const [weeklyData, setWeeklyData] = useState([]);
   const [removingId, setRemovingId] = useState(null);
 
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
@@ -166,6 +167,7 @@ const Dashboard = () => {
                     yourTodayCount={yourTodayCount}
                     dailyTarget={dailyTarget}
                     platformTotal={yourPlatformTotal}
+                    weeklyData={weeklyData}
                   />
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
                 </div>
@@ -174,7 +176,7 @@ const Dashboard = () => {
               {/* Bottom Row: Progress Chart + Motivational + Add Friend */}
               <div className="grid grid-cols-[1fr_320px] gap-4 mb-6">
                 {/* Left: Progress Chart */}
-                <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} />
+                <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} weeklyData={weeklyData} />
                 {/* Right: Motivational + Add Friend */}
                 <div className="flex flex-col gap-4">
                   <MotivationalCard yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} />
@@ -186,7 +188,7 @@ const Dashboard = () => {
 
               {/* GitHub-style All-Time Activity Heatmap */}
               <div className="mb-6">
-                <ContributionHeatmap />
+                <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
               </div>
             </>
           )}

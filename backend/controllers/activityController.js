@@ -72,8 +72,24 @@ const getHeatmapData = async (req, res) => {
       else { tempStreak = 0; }
     }
 
+    // Compute current week (Mon->Sun) activity array
+    const today = new Date();
+    const currentDayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ...
+    const distanceToMon = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+    const monday = new Date(today);
+    monday.setDate(today.getDate() + distanceToMon);
+
+    const weeklyData = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
+      const dStr = d.toISOString().split('T')[0];
+      weeklyData.push(activityMap[dStr] || 0);
+    }
+
     return res.json({
       days,
+      weeklyData,
       stats: {
         totalSolved,
         activeDays,

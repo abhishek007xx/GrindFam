@@ -1,14 +1,16 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 
-const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5 }) => {
+const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }) => {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   const todayIndex = new Date().getDay() - 1;
   const adjustedTodayIndex = todayIndex < 0 ? 6 : todayIndex; // Sunday = 6
 
-  // Clean data starting from 0: only today gets actual count, other days are 0 until recorded
-  const weekData = days.map((_, i) => (i === adjustedTodayIndex ? yourTodayCount : 0));
+  // Use real weeklyData if provided, otherwise fallback to today's count
+  const weekData = (Array.isArray(weeklyData) && weeklyData.length === 7)
+    ? weeklyData
+    : days.map((_, i) => (i === adjustedTodayIndex ? yourTodayCount : 0));
 
   const totalSolved = weekData.reduce((a, b) => a + b, 0);
   const activeDays = weekData.filter((v) => v > 0).length || 1;
