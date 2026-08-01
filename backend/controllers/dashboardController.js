@@ -29,34 +29,38 @@ const getDashboardData = async (req, res) => {
       return res.status(404).json({ error: 'User profile not found. Please complete signup.' });
     }
 
-    // 3. Resolve full connected squad network for the logged-in user
-    const squadUserIds = new Set([userId]);
-    const queue = [userId];
-    let depth = 0;
-    const maxDepth = 3; // Traverse up to 3 hops within the squad cluster
+    // 3. Resolve user's active squad from `squad_members` table
+    let activeSquad = null;
+    let squadUserIds = new Set([userId]);
 
-    while (queue.length > 0 && depth < maxDepth) {
-      const currentLevelSize = queue.length;
-      depth++;
-      const currentBatch = queue.splice(0, currentLevelSize);
+    const { data: memberRow } = await supabase
+      .from('squad_members')
+      .select('*, squad:squads(*)')
+      .eq('user_id', userId)
+      .maybeSingle();
 
-      const { data: connections, error: connError } = await supabase
-        .from('friends')
-        .select('user_id, friend_id')
-        .or(`user_id.in.(${currentBatch.join(',')}),friend_id.in.(${currentBatch.join(',')})`);
+    if (memberRow && memberRow.squad) {
+      activeSquad = memberRow.squad;
+      // Fetch all member IDs in this squad
+      const { data: squadMembers } = await supabase
+        .from('squad_members')
+        .select('user_id')
+        .eq('squad_id', activeSquad.id);
 
-      if (!connError && connections) {
-        for (const conn of connections) {
-          const neighborId = conn.user_id && currentBatch.includes(conn.user_id) ? conn.friend_id : conn.user_id;
-          if (neighborId && !squadUserIds.has(neighborId)) {
-            squadUserIds.add(neighborId);
-            queue.push(neighborId);
-          }
-        }
+      (squadMembers || []).forEach((m) => squadUserIds.add(m.user_id));
+    } else {
+      // Fallback: auto-ensure squad creation or check connected friends network
+      const { autoEnsureUserSquad } = require('../config/squadInit');
+      const squadId = await autoEnsureUserSquad(userId, userProfile);
+      if (squadId) {
+        const { data: freshSquad } = await supabase.from('squads').select('*').eq('id', squadId).single();
+        const { data: squadMembers } = await supabase.from('squad_members').select('user_id').eq('squad_id', squadId);
+        activeSquad = freshSquad;
+        (squadMembers || []).forEach((m) => squadUserIds.add(m.user_id));
       }
     }
 
-    // 4. Fetch profiles of all members in the squad network
+    // 4. Fetch profiles of all members in the squad
     const squadIdArray = Array.from(squadUserIds);
     const { data: squadProfiles, error: squadProfilesError } = await supabase
       .from('profiles')
@@ -68,7 +72,7 @@ const getDashboardData = async (req, res) => {
       return res.status(500).json({ error: 'Error fetching squad member profiles' });
     }
 
-    // Ensure logged-in user profile is included if profiles search didn't return it
+    // Ensure logged-in user profile is included
     const profileMap = new Map();
     (squadProfiles || []).forEach((p) => profileMap.set(p.id, p));
     if (!profileMap.has(userId)) {
@@ -165,6 +169,12 @@ const getDashboardData = async (req, res) => {
     return res.json({
       dailyTarget,
       userProfile,
+      squadInfo: activeSquad ? {
+        id: activeSquad.id,
+        name: activeSquad.name,
+        code: activeSquad.code,
+        createdBy: activeSquad.created_by
+      } : null,
       stats: {
         dailyTarget,
         totalFriends,

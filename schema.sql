@@ -63,3 +63,34 @@ CREATE POLICY "Allow update daily_activity" ON public.daily_activity FOR UPDATE 
 INSERT INTO public.group_settings (id, daily_target, updated_at)
 VALUES (1, 5, NOW())
 ON CONFLICT (id) DO NOTHING;
+
+-- 5. Create Squads table
+CREATE TABLE IF NOT EXISTS public.squads (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  code TEXT UNIQUE NOT NULL,
+  created_by UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+  daily_target INT NOT NULL DEFAULT 5,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 6. Create Squad Members table
+CREATE TABLE IF NOT EXISTS public.squad_members (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  squad_id UUID NOT NULL REFERENCES public.squads(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  role TEXT NOT NULL DEFAULT 'member',
+  joined_at TIMESTAMPTZ DEFAULT NOW(),
+  CONSTRAINT unique_squad_user UNIQUE (squad_id, user_id)
+);
+
+-- Enable RLS for squads
+ALTER TABLE public.squads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.squad_members ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read squads" ON public.squads FOR SELECT USING (true);
+CREATE POLICY "Allow write squads" ON public.squads FOR ALL USING (true);
+
+CREATE POLICY "Allow read squad_members" ON public.squad_members FOR SELECT USING (true);
+CREATE POLICY "Allow write squad_members" ON public.squad_members FOR ALL USING (true);
+

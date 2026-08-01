@@ -7,6 +7,7 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const friendRoutes = require('./routes/friendRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 const activityRoutes = require('./routes/activityRoutes');
+const squadRoutes = require('./routes/squadRoutes');
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/activity', activityRoutes);
+app.use('/api/squads', squadRoutes);
 
 
 // Root & Health Check Endpoint

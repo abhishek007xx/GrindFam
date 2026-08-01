@@ -124,6 +124,21 @@ const addFriend = async (req, res) => {
       return res.status(500).json({ error: 'Failed to add friend.' });
     }
 
+    // 5. Also sync friend into caller's squad_members
+    try {
+      const { autoEnsureUserSquad } = require('../config/squadInit');
+      const squadId = await autoEnsureUserSquad(userId, { name: req.user.name });
+      if (squadId) {
+        await supabase
+          .from('squad_members')
+          .upsert([
+            { squad_id: squadId, user_id: friendProfile.id, role: 'member' }
+          ], { onConflict: 'squad_id, user_id' });
+      }
+    } catch (squadErr) {
+      console.warn('Note syncing friend to squad_members:', squadErr.message);
+    }
+
     return res.status(201).json({
       message: 'Friend added to squad successfully!',
       friend: friendProfile,

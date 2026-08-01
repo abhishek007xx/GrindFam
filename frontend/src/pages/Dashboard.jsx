@@ -10,8 +10,9 @@ import RecentActivity from '../components/RecentActivity';
 import ProgressChart, { MotivationalCard } from '../components/ProgressChart';
 import AddFriend from '../components/AddFriend';
 import EditTargetModal from '../components/EditTargetModal';
+import SquadManagerModal from '../components/SquadManagerModal';
 import ContributionHeatmap from '../components/ContributionHeatmap';
-import { Loader2, AlertCircle, RefreshCw, Heart } from 'lucide-react';
+import { Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users } from 'lucide-react';
 
 const getApiBaseUrl = () => {
   const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
@@ -25,11 +26,13 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  const [dailyTarget, setDailyTarget] = useState(5);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
   const [dashboardData, setDashboardData] = useState({
     dailyTarget: 5,
+    squadInfo: null,
     stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
     leaderboard: []
   });
@@ -57,6 +60,38 @@ const Dashboard = () => {
   }, [token]);
 
   useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
+
+  const handleCopySquadCode = () => {
+    const codeToCopy = dashboardData.squadInfo?.code || dashboardData.squadInfo?.id;
+    if (!codeToCopy) return;
+    navigator.clipboard.writeText(codeToCopy);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
+  };
+
+  const handleCreateSquad = async (squadName) => {
+    const res = await axios.post(`${API_BASE_URL}/squads/create`, { name: squadName }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    await fetchDashboard(true);
+    return res.data;
+  };
+
+  const handleJoinSquad = async (squadCode) => {
+    const res = await axios.post(`${API_BASE_URL}/squads/join`, { squadCode }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    await fetchDashboard(true);
+    return res.data;
+  };
+
+  const handleLeaveSquad = async () => {
+    const res = await axios.post(`${API_BASE_URL}/squads/leave`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    await fetchDashboard(true);
+    return res.data;
+  };
 
   const handleSaveTarget = async (newTarget) => {
     await axios.put(`${API_BASE_URL}/settings/target`, { target: newTarget }, {
@@ -115,19 +150,57 @@ const Dashboard = () => {
         {/* Main Scrollable Area */}
         <main className="flex-1 p-6 overflow-y-auto animate-fadeIn">
 
-          {/* Greeting */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
-              Hey {name.split(' ')[0]}! <span className="text-2xl">👋</span>
-            </h2>
-            <p className="text-sm text-[#8b949e] mt-0.5">
-              {yourTodayCount === 0
-                ? "Time to start grinding — your squad is counting on you!"
-                : yourTodayCount >= dailyTarget
-                  ? "Target smashed! You're leading by example today. 🔥"
-                  : `${dailyTarget - yourTodayCount} more to hit today's target. Let's go! 💪`
-              }
-            </p>
+          {/* Greeting & Squad Banner */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
+                Hey {name.split(' ')[0]}! <span className="text-2xl">👋</span>
+              </h2>
+              <p className="text-sm text-[#8b949e] mt-0.5">
+                {yourTodayCount === 0
+                  ? "Time to start grinding — your squad is counting on you!"
+                  : yourTodayCount >= dailyTarget
+                    ? "Target smashed! You're leading by example today. 🔥"
+                    : `${dailyTarget - yourTodayCount} more to hit today's target. Let's go! 💪`
+                }
+              </p>
+            </div>
+
+            {/* Squad Banner Card */}
+            {dashboardData.squadInfo && (
+              <div className="dash-card px-4 py-3 border border-[#30363d] bg-[#161b22] flex items-center gap-3.5 flex-shrink-0">
+                <div className="p-2 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 text-[#22c55e]">
+                  <Shield className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Squad:</span>
+                    <span className="text-sm font-extrabold text-white">{dashboardData.squadInfo.name}</span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-[11px] font-mono text-[#22c55e] font-bold">
+                      {dashboardData.squadInfo.code || dashboardData.squadInfo.id}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopySquadCode}
+                      className="px-2 py-0.5 bg-[#21262d] hover:bg-[#30363d] text-white rounded text-[10px] font-semibold flex items-center gap-1 transition-colors border border-[#30363d]"
+                    >
+                      {copiedCode ? <Check className="w-3 h-3 text-[#22c55e]" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedCode ? 'Copied' : 'Copy ID'}</span>
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsSquadModalOpen(true)}
+                  className="ml-2 px-3 py-2 bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 shadow-sm"
+                >
+                  <Users className="w-3.5 h-3.5" />
+                  <span>Squad Options</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {loading ? (
@@ -213,6 +286,16 @@ const Dashboard = () => {
         currentTarget={dailyTarget}
         onClose={() => setIsEditModalOpen(false)}
         onSave={handleSaveTarget}
+      />
+
+      {/* Squad Manager Modal */}
+      <SquadManagerModal
+        isOpen={isSquadModalOpen}
+        onClose={() => setIsSquadModalOpen(false)}
+        squadInfo={dashboardData.squadInfo}
+        onCreateSquad={handleCreateSquad}
+        onJoinSquad={handleJoinSquad}
+        onLeaveSquad={handleLeaveSquad}
       />
     </div>
   );
