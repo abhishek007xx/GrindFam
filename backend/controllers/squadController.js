@@ -98,22 +98,34 @@ const joinSquad = async (req, res) => {
 
     const cleanInput = rawInput.toUpperCase();
 
-    // 1. Find squad by code or by UUID id
-    let query = supabase.from('squads').select('*');
-    if (rawInput.includes('-') || !rawInput.includes('0000')) {
-      query = query.or(`code.ilike.${cleanInput},id.eq.${rawInput}`);
-    } else {
-      query = query.eq('id', rawInput);
+    // 1. Find squad by code first, then try UUID id
+    let targetSquad = null;
+
+    // Try by code (case-insensitive)
+    const { data: byCode, error: codeError } = await supabase
+      .from('squads')
+      .select('*')
+      .ilike('code', cleanInput)
+      .maybeSingle();
+
+    if (!codeError && byCode) {
+      targetSquad = byCode;
     }
 
-    const { data: squadList, error: findError } = await query;
-
-    if (findError) {
-      console.error('Error finding squad:', findError);
-      return res.status(500).json({ error: 'Database error searching for squad.' });
+    // If not found by code, try by UUID id (only if input looks like a UUID)
+    if (!targetSquad) {
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (uuidRegex.test(rawInput)) {
+        const { data: byId, error: idError } = await supabase
+          .from('squads')
+          .select('*')
+          .eq('id', rawInput)
+          .maybeSingle();
+        if (!idError && byId) {
+          targetSquad = byId;
+        }
+      }
     }
-
-    const targetSquad = squadList && squadList.length > 0 ? squadList[0] : null;
 
     if (!targetSquad) {
       return res.status(404).json({

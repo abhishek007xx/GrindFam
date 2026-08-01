@@ -33,30 +33,48 @@ const getDashboardData = async (req, res) => {
     let activeSquad = null;
     let squadUserIds = new Set([userId]);
 
-    const { data: memberRow } = await supabase
-      .from('squad_members')
-      .select('*, squad:squads(*)')
-      .eq('user_id', userId)
-      .maybeSingle();
-
-    if (memberRow && memberRow.squad) {
-      activeSquad = memberRow.squad;
-      // Fetch all member IDs in this squad
-      const { data: squadMembers } = await supabase
+    try {
+      const { data: memberRow, error: memberError } = await supabase
         .from('squad_members')
-        .select('user_id')
-        .eq('squad_id', activeSquad.id);
+        .select('*, squad:squads(*)')
+        .eq('user_id', userId)
+        .maybeSingle();
 
-      (squadMembers || []).forEach((m) => squadUserIds.add(m.user_id));
-    } else {
-      // Fallback: auto-ensure squad creation or check connected friends network
-      const { autoEnsureUserSquad } = require('../config/squadInit');
-      const squadId = await autoEnsureUserSquad(userId, userProfile);
-      if (squadId) {
-        const { data: freshSquad } = await supabase.from('squads').select('*').eq('id', squadId).single();
-        const { data: squadMembers } = await supabase.from('squad_members').select('user_id').eq('squad_id', squadId);
-        activeSquad = freshSquad;
+      if (!memberError && memberRow && memberRow.squad) {
+        activeSquad = memberRow.squad;
+        // Fetch all member IDs in this squad
+        const { data: squadMembers } = await supabase
+          .from('squad_members')
+          .select('user_id')
+          .eq('squad_id', activeSquad.id);
+
         (squadMembers || []).forEach((m) => squadUserIds.add(m.user_id));
+      } else if (!memberError) {
+        // User not in any squad yet - try auto-creating one
+        try {
+          const { autoEnsureUserSquad } = require('../config/squadInit');
+          const squadId = await autoEnsureUserSquad(userId, userProfile);
+          if (squadId) {
+            const { data: freshSquad } = await supabase.from('squads').select('*').eq('id', squadId).single();
+            const { data: squadMembers } = await supabase.from('squad_members').select('user_id').eq('squad_id', squadId);
+            activeSquad = freshSquad;
+            (squadMembers || []).forEach((m) => squadUserIds.add(m.user_id));
+          }
+        } catch (autoErr) {
+          console.warn('Auto-ensure squad skipped:', autoErr.message);
+        }
+      }
+    } catch (squadErr) {
+      // Squad tables may not exist yet - fall back to friends-based lookup
+      console.warn('Squad tables not available, falling back to friends-based lookup:', squadErr.message);
+      try {
+        const { data: friendRows } = await supabase
+          .from('friends')
+          .select('friend_id')
+          .eq('user_id', userId);
+        (friendRows || []).forEach((f) => squadUserIds.add(f.friend_id));
+      } catch (friendErr) {
+        console.warn('Friends lookup also failed:', friendErr.message);
       }
     }
 
