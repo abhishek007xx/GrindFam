@@ -91,12 +91,11 @@ const addFriend = async (req, res) => {
       return res.status(400).json({ error: 'You cannot add yourself as a friend.' });
     }
 
-    // 3. Check if already added
+    // 3. Check if already added in either direction
     const { data: existingFriend, error: checkError } = await supabase
       .from('friends')
       .select('*')
-      .eq('user_id', userId)
-      .eq('friend_id', friendProfile.id)
+      .or(`and(user_id.eq.${userId},friend_id.eq.${friendProfile.id}),and(user_id.eq.${friendProfile.id},friend_id.eq.${userId})`)
       .maybeSingle();
 
     if (checkError) {
@@ -108,17 +107,17 @@ const addFriend = async (req, res) => {
       return res.status(400).json({ error: 'This user is already in your friends list.' });
     }
 
-    // 4. Insert into friends table
-    const { data: newFriend, error: insertError } = await supabase
+    // 4. Insert bi-directional records into friends table
+    const { data: newFriends, error: insertError } = await supabase
       .from('friends')
-      .insert([
-        {
-          user_id: userId,
-          friend_id: friendProfile.id
-        }
-      ])
-      .select()
-      .single();
+      .upsert(
+        [
+          { user_id: userId, friend_id: friendProfile.id },
+          { user_id: friendProfile.id, friend_id: userId }
+        ],
+        { onConflict: 'user_id, friend_id' }
+      )
+      .select();
 
     if (insertError) {
       console.error('Error inserting friend:', insertError);
@@ -126,9 +125,9 @@ const addFriend = async (req, res) => {
     }
 
     return res.status(201).json({
-      message: 'Friend added successfully!',
+      message: 'Friend added to squad successfully!',
       friend: friendProfile,
-      relationship: newFriend
+      relationship: newFriends?.[0] || null
     });
   } catch (error) {
     console.error('Error in addFriend:', error);
@@ -149,12 +148,11 @@ const removeFriend = async (req, res) => {
       return res.status(400).json({ error: 'Friend ID is required.' });
     }
 
-    // Delete record from friends table matching user_id and friend_id
+    // Delete record from friends table in both directions
     const { error: deleteError } = await supabase
       .from('friends')
       .delete()
-      .eq('user_id', userId)
-      .eq('friend_id', friendTargetId);
+      .or(`and(user_id.eq.${userId},friend_id.eq.${friendTargetId}),and(user_id.eq.${friendTargetId},friend_id.eq.${userId})`);
 
     if (deleteError) {
       console.error('Error deleting friend:', deleteError);

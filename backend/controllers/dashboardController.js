@@ -29,46 +29,58 @@ const getDashboardData = async (req, res) => {
       return res.status(404).json({ error: 'User profile not found. Please complete signup.' });
     }
 
-    // 3. Get list of friend IDs for the logged-in user
-    const { data: friendRows, error: friendsError } = await supabase
-      .from('friends')
-      .select('id, friend_id')
-      .eq('user_id', userId);
+    // 3. Resolve full connected squad network for the logged-in user
+    const squadUserIds = new Set([userId]);
+    const queue = [userId];
+    let depth = 0;
+    const maxDepth = 3; // Traverse up to 3 hops within the squad cluster
 
-    if (friendsError) {
-      console.error('Error fetching friends list:', friendsError);
-      return res.status(500).json({ error: 'Error fetching friends data' });
-    }
+    while (queue.length > 0 && depth < maxDepth) {
+      const currentLevelSize = queue.length;
+      depth++;
+      const currentBatch = queue.splice(0, currentLevelSize);
 
-    const friendIdMap = {};
-    (friendRows || []).forEach((f) => {
-      friendIdMap[f.friend_id] = f.id;
-    });
+      const { data: connections, error: connError } = await supabase
+        .from('friends')
+        .select('user_id, friend_id')
+        .or(`user_id.in.(${currentBatch.join(',')}),friend_id.in.(${currentBatch.join(',')})`);
 
-    const friendIds = Object.keys(friendIdMap);
-
-    // 4. Fetch profiles of friends if any exist
-    let friendProfiles = [];
-    if (friendIds.length > 0) {
-      const { data: friendsData, error: friendProfilesError } = await supabase
-        .from('profiles')
-        .select('*')
-        .in('id', friendIds);
-
-      if (!friendProfilesError && friendsData) {
-        friendProfiles = friendsData;
+      if (!connError && connections) {
+        for (const conn of connections) {
+          const neighborId = conn.user_id && currentBatch.includes(conn.user_id) ? conn.friend_id : conn.user_id;
+          if (neighborId && !squadUserIds.has(neighborId)) {
+            squadUserIds.add(neighborId);
+            queue.push(neighborId);
+          }
+        }
       }
     }
 
-    // 5. Combine self + friends profiles
-    const allProfiles = [
-      { ...userProfile, isSelf: true, relationshipId: null },
-      ...friendProfiles.map((p) => ({
-        ...p,
-        isSelf: false,
-        relationshipId: friendIdMap[p.id] || null
-      }))
-    ];
+    // 4. Fetch profiles of all members in the squad network
+    const squadIdArray = Array.from(squadUserIds);
+    const { data: squadProfiles, error: squadProfilesError } = await supabase
+      .from('profiles')
+      .select('*')
+      .in('id', squadIdArray);
+
+    if (squadProfilesError) {
+      console.error('Error fetching squad profiles:', squadProfilesError);
+      return res.status(500).json({ error: 'Error fetching squad member profiles' });
+    }
+
+    // Ensure logged-in user profile is included if profiles search didn't return it
+    const profileMap = new Map();
+    (squadProfiles || []).forEach((p) => profileMap.set(p.id, p));
+    if (!profileMap.has(userId)) {
+      profileMap.set(userId, userProfile);
+    }
+
+    // 5. Combine profiles with isSelf indicator
+    const allProfiles = Array.from(profileMap.values()).map((p) => ({
+      ...p,
+      isSelf: p.id === userId,
+      relationshipId: null
+    }));
 
     const todayDate = new Date().toISOString().split('T')[0];
 
@@ -147,7 +159,7 @@ const getDashboardData = async (req, res) => {
 
     // Summary stats
     const selfData = leaderboard.find((u) => u.isSelf) || { todayCount: 0, targetHit: false, platformTotal: 0 };
-    const totalFriends = friendProfiles.length;
+    const totalFriends = Math.max(0, allProfiles.length - 1);
     const hitTargetTodayCount = leaderboard.filter((u) => u.targetHit).length;
 
     return res.json({
