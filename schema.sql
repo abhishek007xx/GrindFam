@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   leetcode_username TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

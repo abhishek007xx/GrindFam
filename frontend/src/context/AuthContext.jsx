@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Helper to fetch user profile from Supabase profiles table
-  const fetchProfile = async (userId) => {
+  const fetchProfile = async (userId, userEmail = null) => {
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -21,6 +21,14 @@ export const AuthProvider = ({ children }) => {
       if (error) {
         console.error('Error fetching user profile:', error.message);
       } else if (data) {
+        // If profile exists but email is not populated, update it
+        if (!data.email && userEmail) {
+          await supabase
+            .from('profiles')
+            .update({ email: userEmail.toLowerCase() })
+            .eq('id', userId);
+          data.email = userEmail.toLowerCase();
+        }
         setProfile(data);
       }
     } catch (err) {
@@ -34,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
+        fetchProfile(session.user.id, session.user.email);
       }
       setLoading(false);
     });
@@ -44,7 +52,7 @@ export const AuthProvider = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        await fetchProfile(session.user.id, session.user.email);
       } else {
         setProfile(null);
       }
@@ -79,7 +87,8 @@ export const AuthProvider = ({ children }) => {
           {
             id: data.user.id,
             name: name,
-            leetcode_username: leetcodeUsername
+            leetcode_username: leetcodeUsername,
+            email: email ? email.toLowerCase() : null
           }
         ]);
 
@@ -87,7 +96,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Error upserting user profile:', profileError);
       }
 
-      await fetchProfile(data.user.id);
+      await fetchProfile(data.user.id, email);
     }
 
     return data;

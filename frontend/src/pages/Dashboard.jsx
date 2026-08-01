@@ -66,8 +66,12 @@ const Dashboard = () => {
     await fetchDashboard(true);
   };
 
-  const handleAddFriend = async (friendLeetcodeUsername) => {
-    const response = await axios.post(`${API_BASE_URL}/friends/add`, { friendLeetcodeUsername }, {
+  const handleAddFriend = async (payload) => {
+    const requestData = typeof payload === 'string'
+      ? { friendIdentifier: payload }
+      : payload;
+
+    const response = await axios.post(`${API_BASE_URL}/friends/add`, requestData, {
       headers: { Authorization: `Bearer ${token}` }
     });
     await fetchDashboard(true);

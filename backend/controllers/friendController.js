@@ -8,30 +8,82 @@ const supabase = require('../config/supabaseClient');
 const addFriend = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { friendLeetcodeUsername } = req.body;
+    const { friendLeetcodeUsername, friendEmail, friendIdentifier } = req.body;
 
-    if (!friendLeetcodeUsername || !friendLeetcodeUsername.trim()) {
-      return res.status(400).json({ error: 'LeetCode username is required.' });
+    const rawInput = (friendEmail || friendLeetcodeUsername || friendIdentifier || '').trim();
+
+    if (!rawInput) {
+      return res.status(400).json({ error: 'Please enter a LeetCode username or email address.' });
     }
 
-    const targetUsername = friendLeetcodeUsername.trim();
+    const isEmail = Boolean(friendEmail) || (rawInput.includes('@') && rawInput.includes('.'));
+    let friendProfile = null;
 
-    // 1. Find profile in `profiles` table
-    const { data: friendProfile, error: searchError } = await supabase
-      .from('profiles')
-      .select('*')
-      .ilike('leetcode_username', targetUsername)
-      .maybeSingle();
+    if (isEmail) {
+      const targetEmail = rawInput.toLowerCase();
+      // 1a. Search profile in `profiles` table by email
+      const { data: profileByEmail, error: emailSearchError } = await supabase
+        .from('profiles')
+        .select('*')
+        .ilike('email', targetEmail)
+        .maybeSingle();
 
-    if (searchError) {
-      console.error('Error searching profile:', searchError);
-      return res.status(500).json({ error: 'Database error searching for friend.' });
-    }
+      if (emailSearchError) {
+        console.error('Error searching profile by email:', emailSearchError);
+      }
 
-    if (!friendProfile) {
-      return res.status(404).json({
-        error: `User with LeetCode handle "${targetUsername}" has not registered on GrindFam yet.`
-      });
+      friendProfile = profileByEmail;
+
+      // 1b. Fallback: search via auth admin if available
+      if (!friendProfile && supabase.auth?.admin?.listUsers) {
+        try {
+          const { data: authUsersData, error: adminError } = await supabase.auth.admin.listUsers();
+          if (!adminError && authUsersData?.users) {
+            const foundUser = authUsersData.users.find(u => u.email && u.email.toLowerCase() === targetEmail);
+            if (foundUser) {
+              const { data: profileById } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', foundUser.id)
+                .maybeSingle();
+              if (profileById) {
+                friendProfile = profileById;
+                // Backfill email in profiles
+                await supabase.from('profiles').update({ email: targetEmail }).eq('id', foundUser.id);
+              }
+            }
+          }
+        } catch (adminErr) {
+          console.warn('Admin listUsers fallback note:', adminErr.message);
+        }
+      }
+
+      if (!friendProfile) {
+        return res.status(404).json({
+          error: `User with email "${targetEmail}" has not registered on GrindFam yet.`
+        });
+      }
+    } else {
+      // Search by LeetCode handle
+      const targetUsername = rawInput;
+      const { data: profileByUsername, error: searchError } = await supabase
+        .from('profiles')
+        .select('*')
+        .ilike('leetcode_username', targetUsername)
+        .maybeSingle();
+
+      if (searchError) {
+        console.error('Error searching profile by handle:', searchError);
+        return res.status(500).json({ error: 'Database error searching for friend.' });
+      }
+
+      if (!profileByUsername) {
+        return res.status(404).json({
+          error: `User with LeetCode handle "${targetUsername}" has not registered on GrindFam yet.`
+        });
+      }
+
+      friendProfile = profileByUsername;
     }
 
     // 2. Prevent adding oneself

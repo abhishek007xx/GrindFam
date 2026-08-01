@@ -1,45 +1,107 @@
 import React, { useState } from 'react';
-import { UserPlus, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { UserPlus, Loader2, CheckCircle2, AlertCircle, Mail, AtSign } from 'lucide-react';
 
 const AddFriend = ({ onAddFriend }) => {
-  const [leetcodeUsername, setLeetcodeUsername] = useState('');
+  const [mode, setMode] = useState('username'); // 'username' | 'email'
+  const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
+  const handleInputChange = (e) => {
+    const val = e.target.value;
+    setInputValue(val);
+
+    // Auto-detect email format if input contains '@' and '.'
+    if (val.includes('@') && val.includes('.')) {
+      setMode('email');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!leetcodeUsername.trim()) return;
-    setLoading(true); setMessage(null);
+    const cleanVal = inputValue.trim();
+    if (!cleanVal) return;
+
+    setLoading(true);
+    setMessage(null);
+
+    const isEmail = mode === 'email' || (cleanVal.includes('@') && cleanVal.includes('.'));
+    const payload = isEmail
+      ? { friendEmail: cleanVal }
+      : { friendLeetcodeUsername: cleanVal };
+
     try {
-      const result = await onAddFriend(leetcodeUsername.trim());
-      setMessage({ type: 'success', text: result?.message || 'Friend added!' });
-      setLeetcodeUsername('');
+      const result = await onAddFriend(payload);
+      setMessage({ type: 'success', text: result?.message || 'Friend added to squad!' });
+      setInputValue('');
     } catch (err) {
       setMessage({ type: 'error', text: err.response?.data?.error || 'Failed to add friend.' });
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="dash-card p-5">
-      <div className="flex items-center gap-2.5 mb-4">
-        <div className="p-2 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/25 text-[#22c55e]">
-          <UserPlus className="w-4 h-4" />
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/25 text-[#22c55e]">
+            <UserPlus className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-white">Add Friend to Squad</h3>
+            <p className="text-[10px] text-[#6e7681]">Enter their registered handle or email</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-sm font-bold text-white">Add Friend to Squad</h3>
-          <p className="text-[10px] text-[#6e7681]">Enter their registered LeetCode handle</p>
+
+        {/* Mode Switcher Tabs */}
+        <div className="flex bg-[#0d1117] p-1 rounded-lg border border-[#30363d] text-xs">
+          <button
+            type="button"
+            onClick={() => setMode('username')}
+            className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
+              mode === 'username'
+                ? 'bg-[#21262d] text-[#22c55e] font-semibold'
+                : 'text-[#8b949e] hover:text-white'
+            }`}
+          >
+            <AtSign className="w-3 h-3" /> Handle
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode('email')}
+            className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
+              mode === 'email'
+                ? 'bg-[#21262d] text-[#22c55e] font-semibold'
+                : 'text-[#8b949e] hover:text-white'
+            }`}
+          >
+            <Mail className="w-3 h-3" /> Email
+          </button>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="flex gap-2.5">
         <div className="relative flex-1">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#6e7681] text-sm font-mono">@</span>
-          <input type="text" value={leetcodeUsername} onChange={(e) => setLeetcodeUsername(e.target.value)}
-            placeholder="leetcode_username" required
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#6e7681]">
+            {mode === 'email' ? (
+              <Mail className="w-3.5 h-3.5" />
+            ) : (
+              <span className="text-sm font-mono">@</span>
+            )}
+          </span>
+          <input
+            type={mode === 'email' ? 'email' : 'text'}
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder={mode === 'email' ? 'friend@example.com' : 'leetcode_username'}
+            required
             className="w-full pl-8 pr-3 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent text-sm font-mono transition-all"
           />
         </div>
-        <button type="submit" disabled={loading || !leetcodeUsername.trim()}
+        <button
+          type="submit"
+          disabled={loading || !inputValue.trim()}
           className="px-4 py-2.5 bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50 flex-shrink-0"
         >
           {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <UserPlus className="w-3.5 h-3.5" />}
@@ -48,10 +110,14 @@ const AddFriend = ({ onAddFriend }) => {
       </form>
 
       {message && (
-        <div className={`mt-3 p-2.5 rounded-xl border text-xs flex items-center gap-2 animate-fadeIn ${
-          message.type === 'success' ? 'bg-[#22c55e]/10 border-[#22c55e]/25 text-[#22c55e]' : 'bg-red-500/10 border-red-500/25 text-red-400'
-        }`}>
-          {message.type === 'success' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+        <div
+          className={`mt-3 p-2.5 rounded-xl border text-xs flex items-center gap-2 animate-fadeIn ${
+            message.type === 'success'
+              ? 'bg-[#22c55e]/10 border-[#22c55e]/25 text-[#22c55e]'
+              : 'bg-red-500/10 border-red-500/25 text-red-400'
+          }`}
+        >
+          {message.type === 'success' ? <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" /> : <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />}
           <span>{message.text}</span>
         </div>
       )}
