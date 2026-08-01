@@ -117,13 +117,29 @@ const getDashboardData = async (req, res) => {
         if (!lcData.error) {
           try {
             await syncUserLeetCodeHistory(profile.id, profile.leetcode_username);
+
+            // Upsert today's count — use max(existing, incoming) to never lose data
+            let finalTodayCount = todayCount;
+            try {
+              const { data: existingToday } = await supabase
+                .from('daily_activity')
+                .select('solved_count')
+                .eq('user_id', profile.id)
+                .eq('activity_date', todayDate)
+                .maybeSingle();
+
+              if (existingToday && existingToday.solved_count > todayCount) {
+                finalTodayCount = existingToday.solved_count;
+              }
+            } catch (_) { /* proceed with API count */ }
+
             await supabase
               .from('daily_activity')
               .upsert(
                 {
                   user_id: profile.id,
                   activity_date: todayDate,
-                  solved_count: todayCount,
+                  solved_count: finalTodayCount,
                   updated_at: new Date().toISOString()
                 },
                 { onConflict: 'user_id, activity_date' }
@@ -132,6 +148,7 @@ const getDashboardData = async (req, res) => {
             console.error(`Error logging activity for ${profile.leetcode_username}:`, activityErr);
           }
         }
+
 
         // Fetch sum of all solved counts on GrindFam for this user
         let platformTotal = 0;
