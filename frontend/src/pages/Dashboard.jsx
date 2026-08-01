@@ -136,6 +136,7 @@ const Dashboard = () => {
         activeSection={activeSection}
         onNavigate={handleNavigate}
         onEditTarget={() => setIsEditModalOpen(true)}
+        onOpenSquadModal={() => setIsSquadModalOpen(true)}
         platformTotal={yourPlatformTotal}
       />
 

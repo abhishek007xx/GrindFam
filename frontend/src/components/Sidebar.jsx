@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard, Trophy, Users, UserPlus, Pencil,
-  Activity, Settings, LogOut, Flame
+  Activity, Settings, LogOut, Flame, Shield
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -14,6 +14,7 @@ const getInitials = (name = '') => {
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, scrollTo: null },
+  { id: 'squadOptions', label: 'Squad Options', icon: Shield, scrollTo: null },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, scrollTo: 'leaderboard-section' },
   { id: 'friends', label: 'Friends', icon: Users, scrollTo: 'leaderboard-section' },
   { id: 'addFriend', label: 'Add Friend', icon: UserPlus, scrollTo: 'add-friend-section' },
@@ -22,7 +23,7 @@ const navItems = [
   { id: 'settings', label: 'Settings', icon: Settings, scrollTo: null },
 ];
 
-const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, platformTotal = 0 }) => {
+const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpenSquadModal, platformTotal = 0 }) => {
   const { profile, user, signOut } = useAuth();
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const initials = getInitials(name);
@@ -36,6 +37,10 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, platfo
   const handleClick = (id) => {
     if (id === 'editTarget') {
       onEditTarget?.();
+      return;
+    }
+    if (id === 'squadOptions') {
+      onOpenSquadModal?.();
       return;
     }
 
