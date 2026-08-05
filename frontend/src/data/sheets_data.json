@@ -4725,7 +4725,7 @@
     "total_problems_count": 191,
     "steps": [
       {
-        "step_name": "Complete Striver SDE Sheet Roadmap",
+        "step_name": "Arrays & Pointers (21 Problems)",
         "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-arrays-pointers-problem-1",
@@ -4936,7 +4936,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-arrays-pointers-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-strings-hashing-problem-1",
             "title": "Striver SDE Sheet - Strings & Hashing Problem #1",
@@ -5146,7 +5151,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-strings-hashing-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-linkedlist-problem-1",
             "title": "Striver SDE Sheet - LinkedList Problem #1",
@@ -5356,7 +5366,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-linkedlist-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-binary-search-problem-1",
             "title": "Striver SDE Sheet - Binary Search Problem #1",
@@ -5566,7 +5581,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-binary-search-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-stack-queue-problem-1",
             "title": "Striver SDE Sheet - Stack & Queue Problem #1",
@@ -5776,7 +5796,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-stack-queue-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-trees-bst-problem-1",
             "title": "Striver SDE Sheet - Trees & BST Problem #1",
@@ -5986,7 +6011,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-trees-bst-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-graphs-bfsdfs-problem-1",
             "title": "Striver SDE Sheet - Graphs & BFS/DFS Problem #1",
@@ -6196,7 +6226,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-graphs-bfsdfs-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (21 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-dynamic-programming-problem-1",
             "title": "Striver SDE Sheet - Dynamic Programming Problem #1",
@@ -6406,7 +6441,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-sde-sheet-dynamic-programming-problem-21/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (23 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-sde-sheet-greedy-bit-manipulation-problem-1",
             "title": "Striver SDE Sheet - Greedy & Bit Manipulation Problem #1",
@@ -6649,7 +6689,7 @@
     "total_problems_count": 445,
     "steps": [
       {
-        "step_name": "Complete Love Babbar Sheet Roadmap",
+        "step_name": "Arrays & Pointers (49 Problems)",
         "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-arrays-pointers-problem-1",
@@ -7140,7 +7180,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-arrays-pointers-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-strings-hashing-problem-1",
             "title": "Love Babbar Sheet - Strings & Hashing Problem #1",
@@ -7630,7 +7675,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-strings-hashing-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-linkedlist-problem-1",
             "title": "Love Babbar Sheet - LinkedList Problem #1",
@@ -8120,7 +8170,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-linkedlist-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-binary-search-problem-1",
             "title": "Love Babbar Sheet - Binary Search Problem #1",
@@ -8610,7 +8665,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-binary-search-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-stack-queue-problem-1",
             "title": "Love Babbar Sheet - Stack & Queue Problem #1",
@@ -9100,7 +9160,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-stack-queue-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-trees-bst-problem-1",
             "title": "Love Babbar Sheet - Trees & BST Problem #1",
@@ -9590,7 +9655,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-trees-bst-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-graphs-bfsdfs-problem-1",
             "title": "Love Babbar Sheet - Graphs & BFS/DFS Problem #1",
@@ -10080,7 +10150,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-graphs-bfsdfs-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (49 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-dynamic-programming-problem-1",
             "title": "Love Babbar Sheet - Dynamic Programming Problem #1",
@@ -10570,7 +10645,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/love-babbar-sheet-dynamic-programming-problem-49/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (53 Problems)",
+        "problems": [
           {
             "leetcode_slug": "love-babbar-sheet-greedy-bit-manipulation-problem-1",
             "title": "Love Babbar Sheet - Greedy & Bit Manipulation Problem #1",
@@ -11113,7 +11193,7 @@
     "total_problems_count": 150,
     "steps": [
       {
-        "step_name": "Complete Neetcode 150 Roadmap",
+        "step_name": "Arrays & Pointers (16 Problems)",
         "problems": [
           {
             "leetcode_slug": "neetcode-150-arrays-pointers-problem-1",
@@ -11274,7 +11354,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-arrays-pointers-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-strings-hashing-problem-1",
             "title": "Neetcode 150 - Strings & Hashing Problem #1",
@@ -11434,7 +11519,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-strings-hashing-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-linkedlist-problem-1",
             "title": "Neetcode 150 - LinkedList Problem #1",
@@ -11594,7 +11684,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-linkedlist-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-binary-search-problem-1",
             "title": "Neetcode 150 - Binary Search Problem #1",
@@ -11754,7 +11849,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-binary-search-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-stack-queue-problem-1",
             "title": "Neetcode 150 - Stack & Queue Problem #1",
@@ -11914,7 +12014,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-stack-queue-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-trees-bst-problem-1",
             "title": "Neetcode 150 - Trees & BST Problem #1",
@@ -12074,7 +12179,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-trees-bst-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-graphs-bfsdfs-problem-1",
             "title": "Neetcode 150 - Graphs & BFS/DFS Problem #1",
@@ -12234,7 +12344,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-graphs-bfsdfs-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-dynamic-programming-problem-1",
             "title": "Neetcode 150 - Dynamic Programming Problem #1",
@@ -12394,7 +12509,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-150-dynamic-programming-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (22 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-150-greedy-bit-manipulation-problem-1",
             "title": "Neetcode 150 - Greedy & Bit Manipulation Problem #1",
@@ -12627,7 +12747,7 @@
     "total_problems_count": 75,
     "steps": [
       {
-        "step_name": "Complete Blind 75 Roadmap",
+        "step_name": "Arrays & Pointers (8 Problems)",
         "problems": [
           {
             "leetcode_slug": "blind-75-arrays-pointers-problem-1",
@@ -12708,7 +12828,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-arrays-pointers-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-strings-hashing-problem-1",
             "title": "Blind 75 - Strings & Hashing Problem #1",
@@ -12788,7 +12913,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/blind-75-strings-hashing-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-linkedlist-problem-1",
             "title": "Blind 75 - LinkedList Problem #1",
@@ -12868,7 +12998,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-linkedlist-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-binary-search-problem-1",
             "title": "Blind 75 - Binary Search Problem #1",
@@ -12948,7 +13083,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-binary-search-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-stack-queue-problem-1",
             "title": "Blind 75 - Stack & Queue Problem #1",
@@ -13028,7 +13168,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-stack-queue-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-trees-bst-problem-1",
             "title": "Blind 75 - Trees & BST Problem #1",
@@ -13108,7 +13253,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-trees-bst-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-graphs-bfsdfs-problem-1",
             "title": "Blind 75 - Graphs & BFS/DFS Problem #1",
@@ -13188,7 +13338,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/blind-75-graphs-bfsdfs-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-dynamic-programming-problem-1",
             "title": "Blind 75 - Dynamic Programming Problem #1",
@@ -13268,7 +13423,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/blind-75-dynamic-programming-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "blind-75-greedy-bit-manipulation-problem-1",
             "title": "Blind 75 - Greedy & Bit Manipulation Problem #1",
@@ -13391,7 +13551,7 @@
     "total_problems_count": 726,
     "steps": [
       {
-        "step_name": "Complete Code Army Sheet Roadmap",
+        "step_name": "Arrays & Pointers (80 Problems)",
         "problems": [
           {
             "leetcode_slug": "code-army-sheet-arrays-pointers-problem-1",
@@ -14192,7 +14352,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-arrays-pointers-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-strings-hashing-problem-1",
             "title": "Code Army Sheet - Strings & Hashing Problem #1",
@@ -14992,7 +15157,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-strings-hashing-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-linkedlist-problem-1",
             "title": "Code Army Sheet - LinkedList Problem #1",
@@ -15792,7 +15962,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-linkedlist-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-binary-search-problem-1",
             "title": "Code Army Sheet - Binary Search Problem #1",
@@ -16592,7 +16767,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-binary-search-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-stack-queue-problem-1",
             "title": "Code Army Sheet - Stack & Queue Problem #1",
@@ -17392,7 +17572,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-stack-queue-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-trees-bst-problem-1",
             "title": "Code Army Sheet - Trees & BST Problem #1",
@@ -18192,7 +18377,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-trees-bst-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-graphs-bfsdfs-problem-1",
             "title": "Code Army Sheet - Graphs & BFS/DFS Problem #1",
@@ -18992,7 +19182,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-graphs-bfsdfs-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (80 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-dynamic-programming-problem-1",
             "title": "Code Army Sheet - Dynamic Programming Problem #1",
@@ -19792,7 +19987,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/code-army-sheet-dynamic-programming-problem-80/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (86 Problems)",
+        "problems": [
           {
             "leetcode_slug": "code-army-sheet-greedy-bit-manipulation-problem-1",
             "title": "Code Army Sheet - Greedy & Bit Manipulation Problem #1",
@@ -20665,7 +20865,7 @@
     "total_problems_count": 400,
     "steps": [
       {
-        "step_name": "Complete CSES Problem Set Roadmap",
+        "step_name": "Arrays & Pointers (44 Problems)",
         "problems": [
           {
             "leetcode_slug": "cses-problem-set-arrays-pointers-problem-1",
@@ -21106,7 +21306,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-arrays-pointers-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-strings-hashing-problem-1",
             "title": "CSES Problem Set - Strings & Hashing Problem #1",
@@ -21546,7 +21751,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-strings-hashing-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-linkedlist-problem-1",
             "title": "CSES Problem Set - LinkedList Problem #1",
@@ -21986,7 +22196,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-linkedlist-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-binary-search-problem-1",
             "title": "CSES Problem Set - Binary Search Problem #1",
@@ -22426,7 +22641,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-binary-search-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-stack-queue-problem-1",
             "title": "CSES Problem Set - Stack & Queue Problem #1",
@@ -22866,7 +23086,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-stack-queue-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-trees-bst-problem-1",
             "title": "CSES Problem Set - Trees & BST Problem #1",
@@ -23306,7 +23531,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-trees-bst-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-graphs-bfsdfs-problem-1",
             "title": "CSES Problem Set - Graphs & BFS/DFS Problem #1",
@@ -23746,7 +23976,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-graphs-bfsdfs-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-dynamic-programming-problem-1",
             "title": "CSES Problem Set - Dynamic Programming Problem #1",
@@ -24186,7 +24421,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/cses-problem-set-dynamic-programming-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (48 Problems)",
+        "problems": [
           {
             "leetcode_slug": "cses-problem-set-greedy-bit-manipulation-problem-1",
             "title": "CSES Problem Set - Greedy & Bit Manipulation Problem #1",
@@ -24679,7 +24919,7 @@
     "total_problems_count": 300,
     "steps": [
       {
-        "step_name": "Complete AlgoMaster 300 Roadmap",
+        "step_name": "Arrays & Pointers (33 Problems)",
         "problems": [
           {
             "leetcode_slug": "algomaster-300-arrays-pointers-problem-1",
@@ -25010,7 +25250,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-arrays-pointers-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-strings-hashing-problem-1",
             "title": "AlgoMaster 300 - Strings & Hashing Problem #1",
@@ -25340,7 +25585,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-strings-hashing-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-linkedlist-problem-1",
             "title": "AlgoMaster 300 - LinkedList Problem #1",
@@ -25670,7 +25920,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-linkedlist-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-binary-search-problem-1",
             "title": "AlgoMaster 300 - Binary Search Problem #1",
@@ -26000,7 +26255,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-binary-search-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-stack-queue-problem-1",
             "title": "AlgoMaster 300 - Stack & Queue Problem #1",
@@ -26330,7 +26590,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-stack-queue-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-trees-bst-problem-1",
             "title": "AlgoMaster 300 - Trees & BST Problem #1",
@@ -26660,7 +26925,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-trees-bst-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-graphs-bfsdfs-problem-1",
             "title": "AlgoMaster 300 - Graphs & BFS/DFS Problem #1",
@@ -26990,7 +27260,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-graphs-bfsdfs-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (33 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-dynamic-programming-problem-1",
             "title": "AlgoMaster 300 - Dynamic Programming Problem #1",
@@ -27320,7 +27595,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-300-dynamic-programming-problem-33/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (36 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-300-greedy-bit-manipulation-problem-1",
             "title": "AlgoMaster 300 - Greedy & Bit Manipulation Problem #1",
@@ -27693,7 +27973,7 @@
     "total_problems_count": 250,
     "steps": [
       {
-        "step_name": "Complete Neetcode 250 Roadmap",
+        "step_name": "Arrays & Pointers (27 Problems)",
         "problems": [
           {
             "leetcode_slug": "neetcode-250-arrays-pointers-problem-1",
@@ -27964,7 +28244,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-arrays-pointers-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-strings-hashing-problem-1",
             "title": "Neetcode 250 - Strings & Hashing Problem #1",
@@ -28234,7 +28519,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-strings-hashing-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-linkedlist-problem-1",
             "title": "Neetcode 250 - LinkedList Problem #1",
@@ -28504,7 +28794,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-linkedlist-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-binary-search-problem-1",
             "title": "Neetcode 250 - Binary Search Problem #1",
@@ -28774,7 +29069,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-binary-search-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-stack-queue-problem-1",
             "title": "Neetcode 250 - Stack & Queue Problem #1",
@@ -29044,7 +29344,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-stack-queue-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-trees-bst-problem-1",
             "title": "Neetcode 250 - Trees & BST Problem #1",
@@ -29314,7 +29619,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-trees-bst-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-graphs-bfsdfs-problem-1",
             "title": "Neetcode 250 - Graphs & BFS/DFS Problem #1",
@@ -29584,7 +29894,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-graphs-bfsdfs-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (27 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-dynamic-programming-problem-1",
             "title": "Neetcode 250 - Dynamic Programming Problem #1",
@@ -29854,7 +30169,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/neetcode-250-dynamic-programming-problem-27/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (34 Problems)",
+        "problems": [
           {
             "leetcode_slug": "neetcode-250-greedy-bit-manipulation-problem-1",
             "title": "Neetcode 250 - Greedy & Bit Manipulation Problem #1",
@@ -30207,7 +30527,7 @@
     "total_problems_count": 79,
     "steps": [
       {
-        "step_name": "Complete Striver 79 Roadmap",
+        "step_name": "Arrays & Pointers (8 Problems)",
         "problems": [
           {
             "leetcode_slug": "striver-79-arrays-pointers-problem-1",
@@ -30288,7 +30608,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-arrays-pointers-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-strings-hashing-problem-1",
             "title": "Striver 79 - Strings & Hashing Problem #1",
@@ -30368,7 +30693,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/striver-79-strings-hashing-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-linkedlist-problem-1",
             "title": "Striver 79 - LinkedList Problem #1",
@@ -30448,7 +30778,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-linkedlist-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-binary-search-problem-1",
             "title": "Striver 79 - Binary Search Problem #1",
@@ -30528,7 +30863,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-binary-search-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-stack-queue-problem-1",
             "title": "Striver 79 - Stack & Queue Problem #1",
@@ -30608,7 +30948,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-stack-queue-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-trees-bst-problem-1",
             "title": "Striver 79 - Trees & BST Problem #1",
@@ -30688,7 +31033,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-trees-bst-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-graphs-bfsdfs-problem-1",
             "title": "Striver 79 - Graphs & BFS/DFS Problem #1",
@@ -30768,7 +31118,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/striver-79-graphs-bfsdfs-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-dynamic-programming-problem-1",
             "title": "Striver 79 - Dynamic Programming Problem #1",
@@ -30848,7 +31203,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/striver-79-dynamic-programming-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (15 Problems)",
+        "problems": [
           {
             "leetcode_slug": "striver-79-greedy-bit-manipulation-problem-1",
             "title": "Striver 79 - Greedy & Bit Manipulation Problem #1",
@@ -32307,7 +32667,7 @@
     "total_problems_count": 180,
     "steps": [
       {
-        "step_name": "Complete 20 Essential DSA Patterns by Kushal Vijay Roadmap",
+        "step_name": "Arrays & Pointers (20 Problems)",
         "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-arrays-pointers-problem-1",
@@ -32508,7 +32868,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-arrays-pointers-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-strings-hashing-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Strings & Hashing Problem #1",
@@ -32708,7 +33073,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-strings-hashing-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-linkedlist-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - LinkedList Problem #1",
@@ -32908,7 +33278,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-linkedlist-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-binary-search-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Binary Search Problem #1",
@@ -33108,7 +33483,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-binary-search-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-stack-queue-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Stack & Queue Problem #1",
@@ -33308,7 +33688,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-stack-queue-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-trees-bst-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Trees & BST Problem #1",
@@ -33508,7 +33893,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-trees-bst-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-graphs-bfsdfs-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Graphs & BFS/DFS Problem #1",
@@ -33708,7 +34098,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-graphs-bfsdfs-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-dynamic-programming-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Dynamic Programming Problem #1",
@@ -33908,7 +34303,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/20-essential-dsa-patterns-by-kushal-vijay-dynamic-programming-problem-20/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (20 Problems)",
+        "problems": [
           {
             "leetcode_slug": "20-essential-dsa-patterns-by-kushal-vijay-greedy-bit-manipulation-problem-1",
             "title": "20 Essential DSA Patterns by Kushal Vijay - Greedy & Bit Manipulation Problem #1",
@@ -34445,7 +34845,7 @@
     "total_problems_count": 100,
     "steps": [
       {
-        "step_name": "Complete 800-1299: A2OJ Ladder Roadmap",
+        "step_name": "Arrays & Pointers (11 Problems)",
         "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-arrays-pointers-problem-1",
@@ -34556,7 +34956,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-arrays-pointers-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-strings-hashing-problem-1",
             "title": "800-1299: A2OJ Ladder - Strings & Hashing Problem #1",
@@ -34666,7 +35071,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-strings-hashing-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-linkedlist-problem-1",
             "title": "800-1299: A2OJ Ladder - LinkedList Problem #1",
@@ -34776,7 +35186,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-linkedlist-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-binary-search-problem-1",
             "title": "800-1299: A2OJ Ladder - Binary Search Problem #1",
@@ -34886,7 +35301,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-binary-search-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-stack-queue-problem-1",
             "title": "800-1299: A2OJ Ladder - Stack & Queue Problem #1",
@@ -34996,7 +35416,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-stack-queue-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-trees-bst-problem-1",
             "title": "800-1299: A2OJ Ladder - Trees & BST Problem #1",
@@ -35106,7 +35531,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-trees-bst-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-graphs-bfsdfs-problem-1",
             "title": "800-1299: A2OJ Ladder - Graphs & BFS/DFS Problem #1",
@@ -35216,7 +35646,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-graphs-bfsdfs-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-dynamic-programming-problem-1",
             "title": "800-1299: A2OJ Ladder - Dynamic Programming Problem #1",
@@ -35326,7 +35761,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/800-1299-a2oj-ladder-dynamic-programming-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (12 Problems)",
+        "problems": [
           {
             "leetcode_slug": "800-1299-a2oj-ladder-greedy-bit-manipulation-problem-1",
             "title": "800-1299: A2OJ Ladder - Greedy & Bit Manipulation Problem #1",
@@ -35783,7 +36223,7 @@
     "total_problems_count": 150,
     "steps": [
       {
-        "step_name": "Complete AlgoMaster 150 Roadmap",
+        "step_name": "Arrays & Pointers (16 Problems)",
         "problems": [
           {
             "leetcode_slug": "algomaster-150-arrays-pointers-problem-1",
@@ -35944,7 +36384,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-arrays-pointers-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-strings-hashing-problem-1",
             "title": "AlgoMaster 150 - Strings & Hashing Problem #1",
@@ -36104,7 +36549,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-strings-hashing-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-linkedlist-problem-1",
             "title": "AlgoMaster 150 - LinkedList Problem #1",
@@ -36264,7 +36714,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-linkedlist-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-binary-search-problem-1",
             "title": "AlgoMaster 150 - Binary Search Problem #1",
@@ -36424,7 +36879,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-binary-search-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-stack-queue-problem-1",
             "title": "AlgoMaster 150 - Stack & Queue Problem #1",
@@ -36584,7 +37044,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-stack-queue-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-trees-bst-problem-1",
             "title": "AlgoMaster 150 - Trees & BST Problem #1",
@@ -36744,7 +37209,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-trees-bst-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-graphs-bfsdfs-problem-1",
             "title": "AlgoMaster 150 - Graphs & BFS/DFS Problem #1",
@@ -36904,7 +37374,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-graphs-bfsdfs-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-dynamic-programming-problem-1",
             "title": "AlgoMaster 150 - Dynamic Programming Problem #1",
@@ -37064,7 +37539,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-150-dynamic-programming-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (22 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-150-greedy-bit-manipulation-problem-1",
             "title": "AlgoMaster 150 - Greedy & Bit Manipulation Problem #1",
@@ -37297,7 +37777,7 @@
     "total_problems_count": 75,
     "steps": [
       {
-        "step_name": "Complete AlgoMaster 75 Roadmap",
+        "step_name": "Arrays & Pointers (8 Problems)",
         "problems": [
           {
             "leetcode_slug": "algomaster-75-arrays-pointers-problem-1",
@@ -37378,7 +37858,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-arrays-pointers-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-strings-hashing-problem-1",
             "title": "AlgoMaster 75 - Strings & Hashing Problem #1",
@@ -37458,7 +37943,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-strings-hashing-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-linkedlist-problem-1",
             "title": "AlgoMaster 75 - LinkedList Problem #1",
@@ -37538,7 +38028,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-linkedlist-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-binary-search-problem-1",
             "title": "AlgoMaster 75 - Binary Search Problem #1",
@@ -37618,7 +38113,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-binary-search-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-stack-queue-problem-1",
             "title": "AlgoMaster 75 - Stack & Queue Problem #1",
@@ -37698,7 +38198,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-stack-queue-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-trees-bst-problem-1",
             "title": "AlgoMaster 75 - Trees & BST Problem #1",
@@ -37778,7 +38283,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-trees-bst-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-graphs-bfsdfs-problem-1",
             "title": "AlgoMaster 75 - Graphs & BFS/DFS Problem #1",
@@ -37858,7 +38368,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-graphs-bfsdfs-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (8 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-dynamic-programming-problem-1",
             "title": "AlgoMaster 75 - Dynamic Programming Problem #1",
@@ -37938,7 +38453,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/algomaster-75-dynamic-programming-problem-8/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "algomaster-75-greedy-bit-manipulation-problem-1",
             "title": "AlgoMaster 75 - Greedy & Bit Manipulation Problem #1",
@@ -38061,7 +38581,7 @@
     "total_problems_count": 287,
     "steps": [
       {
-        "step_name": "Complete Arsh DSA Sheet Roadmap",
+        "step_name": "Arrays & Pointers (31 Problems)",
         "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-arrays-pointers-problem-1",
@@ -38372,7 +38892,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-arrays-pointers-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-strings-hashing-problem-1",
             "title": "Arsh DSA Sheet - Strings & Hashing Problem #1",
@@ -38682,7 +39207,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-strings-hashing-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-linkedlist-problem-1",
             "title": "Arsh DSA Sheet - LinkedList Problem #1",
@@ -38992,7 +39522,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-linkedlist-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-binary-search-problem-1",
             "title": "Arsh DSA Sheet - Binary Search Problem #1",
@@ -39302,7 +39837,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-binary-search-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-stack-queue-problem-1",
             "title": "Arsh DSA Sheet - Stack & Queue Problem #1",
@@ -39612,7 +40152,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-stack-queue-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-trees-bst-problem-1",
             "title": "Arsh DSA Sheet - Trees & BST Problem #1",
@@ -39922,7 +40467,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-trees-bst-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-graphs-bfsdfs-problem-1",
             "title": "Arsh DSA Sheet - Graphs & BFS/DFS Problem #1",
@@ -40232,7 +40782,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-graphs-bfsdfs-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-dynamic-programming-problem-1",
             "title": "Arsh DSA Sheet - Dynamic Programming Problem #1",
@@ -40542,7 +41097,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/arsh-dsa-sheet-dynamic-programming-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (39 Problems)",
+        "problems": [
           {
             "leetcode_slug": "arsh-dsa-sheet-greedy-bit-manipulation-problem-1",
             "title": "Arsh DSA Sheet - Greedy & Bit Manipulation Problem #1",
@@ -40945,7 +41505,7 @@
     "total_problems_count": 150,
     "steps": [
       {
-        "step_name": "Complete Atharva Patil’s 150 Sheet Roadmap",
+        "step_name": "Arrays & Pointers (16 Problems)",
         "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-arrays-pointers-problem-1",
@@ -41106,7 +41666,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-arrays-pointers-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-strings-hashing-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Strings & Hashing Problem #1",
@@ -41266,7 +41831,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-strings-hashing-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-linkedlist-problem-1",
             "title": "Atharva Patil’s 150 Sheet - LinkedList Problem #1",
@@ -41426,7 +41996,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-linkedlist-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-binary-search-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Binary Search Problem #1",
@@ -41586,7 +42161,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-binary-search-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-stack-queue-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Stack & Queue Problem #1",
@@ -41746,7 +42326,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-stack-queue-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-trees-bst-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Trees & BST Problem #1",
@@ -41906,7 +42491,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-trees-bst-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-graphs-bfsdfs-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Graphs & BFS/DFS Problem #1",
@@ -42066,7 +42656,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-graphs-bfsdfs-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-dynamic-programming-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Dynamic Programming Problem #1",
@@ -42226,7 +42821,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/atharva-patils-150-sheet-dynamic-programming-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (22 Problems)",
+        "problems": [
           {
             "leetcode_slug": "atharva-patils-150-sheet-greedy-bit-manipulation-problem-1",
             "title": "Atharva Patil’s 150 Sheet - Greedy & Bit Manipulation Problem #1",
@@ -42583,7 +43183,7 @@
     "total_problems_count": 67,
     "steps": [
       {
-        "step_name": "Complete DP Mastery Sheet Roadmap",
+        "step_name": "Arrays & Pointers (7 Problems)",
         "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-arrays-pointers-problem-1",
@@ -42654,7 +43254,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-arrays-pointers-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-strings-hashing-problem-1",
             "title": "DP Mastery Sheet - Strings & Hashing Problem #1",
@@ -42724,7 +43329,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-strings-hashing-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-linkedlist-problem-1",
             "title": "DP Mastery Sheet - LinkedList Problem #1",
@@ -42794,7 +43404,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-linkedlist-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-binary-search-problem-1",
             "title": "DP Mastery Sheet - Binary Search Problem #1",
@@ -42864,7 +43479,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-binary-search-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-stack-queue-problem-1",
             "title": "DP Mastery Sheet - Stack & Queue Problem #1",
@@ -42934,7 +43554,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-stack-queue-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-trees-bst-problem-1",
             "title": "DP Mastery Sheet - Trees & BST Problem #1",
@@ -43004,7 +43629,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-trees-bst-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-graphs-bfsdfs-problem-1",
             "title": "DP Mastery Sheet - Graphs & BFS/DFS Problem #1",
@@ -43074,7 +43704,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-graphs-bfsdfs-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-dynamic-programming-problem-1",
             "title": "DP Mastery Sheet - Dynamic Programming Problem #1",
@@ -43144,7 +43779,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dp-mastery-sheet-dynamic-programming-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dp-mastery-sheet-greedy-bit-manipulation-problem-1",
             "title": "DP Mastery Sheet - Greedy & Bit Manipulation Problem #1",
@@ -43267,7 +43907,7 @@
     "total_problems_count": 403,
     "steps": [
       {
-        "step_name": "Complete DSA by Shradha Didi & Aman Bhaiya Roadmap",
+        "step_name": "Arrays & Pointers (44 Problems)",
         "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-arrays-pointers-problem-1",
@@ -43708,7 +44348,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-arrays-pointers-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-strings-hashing-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Strings & Hashing Problem #1",
@@ -44148,7 +44793,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-strings-hashing-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-linkedlist-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - LinkedList Problem #1",
@@ -44588,7 +45238,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-linkedlist-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-binary-search-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Binary Search Problem #1",
@@ -45028,7 +45683,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-binary-search-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-stack-queue-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Stack & Queue Problem #1",
@@ -45468,7 +46128,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-stack-queue-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-trees-bst-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Trees & BST Problem #1",
@@ -45908,7 +46573,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-trees-bst-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-graphs-bfsdfs-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Graphs & BFS/DFS Problem #1",
@@ -46348,7 +47018,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-graphs-bfsdfs-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (44 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-dynamic-programming-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Dynamic Programming Problem #1",
@@ -46788,7 +47463,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/dsa-by-shradha-didi-aman-bhaiya-dynamic-programming-problem-44/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (51 Problems)",
+        "problems": [
           {
             "leetcode_slug": "dsa-by-shradha-didi-aman-bhaiya-greedy-bit-manipulation-problem-1",
             "title": "DSA by Shradha Didi & Aman Bhaiya - Greedy & Bit Manipulation Problem #1",
@@ -47311,7 +47991,7 @@
     "total_problems_count": 279,
     "steps": [
       {
-        "step_name": "Complete Fraz DSA Sheet Roadmap",
+        "step_name": "Arrays & Pointers (31 Problems)",
         "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-arrays-pointers-problem-1",
@@ -47622,7 +48302,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-arrays-pointers-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-strings-hashing-problem-1",
             "title": "Fraz DSA Sheet - Strings & Hashing Problem #1",
@@ -47932,7 +48617,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-strings-hashing-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-linkedlist-problem-1",
             "title": "Fraz DSA Sheet - LinkedList Problem #1",
@@ -48242,7 +48932,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-linkedlist-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-binary-search-problem-1",
             "title": "Fraz DSA Sheet - Binary Search Problem #1",
@@ -48552,7 +49247,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-binary-search-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-stack-queue-problem-1",
             "title": "Fraz DSA Sheet - Stack & Queue Problem #1",
@@ -48862,7 +49562,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-stack-queue-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-trees-bst-problem-1",
             "title": "Fraz DSA Sheet - Trees & BST Problem #1",
@@ -49172,7 +49877,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-trees-bst-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-graphs-bfsdfs-problem-1",
             "title": "Fraz DSA Sheet - Graphs & BFS/DFS Problem #1",
@@ -49482,7 +50192,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-graphs-bfsdfs-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-dynamic-programming-problem-1",
             "title": "Fraz DSA Sheet - Dynamic Programming Problem #1",
@@ -49792,7 +50507,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/fraz-dsa-sheet-dynamic-programming-problem-31/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (31 Problems)",
+        "problems": [
           {
             "leetcode_slug": "fraz-dsa-sheet-greedy-bit-manipulation-problem-1",
             "title": "Fraz DSA Sheet - Greedy & Bit Manipulation Problem #1",
@@ -50653,7 +51373,7 @@
     "total_problems_count": 100,
     "steps": [
       {
-        "step_name": "Complete Leetcode 100 Most Liked Questions Roadmap",
+        "step_name": "Arrays & Pointers (11 Problems)",
         "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-arrays-pointers-problem-1",
@@ -50764,7 +51484,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-arrays-pointers-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-strings-hashing-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Strings & Hashing Problem #1",
@@ -50874,7 +51599,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-strings-hashing-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-linkedlist-problem-1",
             "title": "Leetcode 100 Most Liked Questions - LinkedList Problem #1",
@@ -50984,7 +51714,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-linkedlist-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-binary-search-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Binary Search Problem #1",
@@ -51094,7 +51829,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-binary-search-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-stack-queue-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Stack & Queue Problem #1",
@@ -51204,7 +51944,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-stack-queue-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-trees-bst-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Trees & BST Problem #1",
@@ -51314,7 +52059,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-trees-bst-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-graphs-bfsdfs-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Graphs & BFS/DFS Problem #1",
@@ -51424,7 +52174,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-graphs-bfsdfs-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-dynamic-programming-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Dynamic Programming Problem #1",
@@ -51534,7 +52289,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/leetcode-100-most-liked-questions-dynamic-programming-problem-11/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (12 Problems)",
+        "problems": [
           {
             "leetcode_slug": "leetcode-100-most-liked-questions-greedy-bit-manipulation-problem-1",
             "title": "Leetcode 100 Most Liked Questions - Greedy & Bit Manipulation Problem #1",
@@ -51667,7 +52427,7 @@
     "total_problems_count": 70,
     "steps": [
       {
-        "step_name": "Complete Manasi Deshmane’s DSA Sheet Roadmap",
+        "step_name": "Arrays & Pointers (7 Problems)",
         "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-arrays-pointers-problem-1",
@@ -51738,7 +52498,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-arrays-pointers-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-strings-hashing-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Strings & Hashing Problem #1",
@@ -51808,7 +52573,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-strings-hashing-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-linkedlist-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - LinkedList Problem #1",
@@ -51878,7 +52648,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-linkedlist-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-binary-search-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Binary Search Problem #1",
@@ -51948,7 +52723,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-binary-search-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-stack-queue-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Stack & Queue Problem #1",
@@ -52018,7 +52798,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-stack-queue-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-trees-bst-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Trees & BST Problem #1",
@@ -52088,7 +52873,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-trees-bst-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-graphs-bfsdfs-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Graphs & BFS/DFS Problem #1",
@@ -52158,7 +52948,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-graphs-bfsdfs-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (7 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-dynamic-programming-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Dynamic Programming Problem #1",
@@ -52228,7 +53023,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/manasi-deshmanes-dsa-sheet-dynamic-programming-problem-7/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (14 Problems)",
+        "problems": [
           {
             "leetcode_slug": "manasi-deshmanes-dsa-sheet-greedy-bit-manipulation-problem-1",
             "title": "Manasi Deshmane’s DSA Sheet - Greedy & Bit Manipulation Problem #1",
@@ -52381,7 +53181,7 @@
     "total_problems_count": 151,
     "steps": [
       {
-        "step_name": "Complete Nishant’s 151 DSA Sheet Roadmap",
+        "step_name": "Arrays & Pointers (16 Problems)",
         "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-arrays-pointers-problem-1",
@@ -52542,7 +53342,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-arrays-pointers-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-strings-hashing-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Strings & Hashing Problem #1",
@@ -52702,7 +53507,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-strings-hashing-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-linkedlist-problem-1",
             "title": "Nishant’s 151 DSA Sheet - LinkedList Problem #1",
@@ -52862,7 +53672,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-linkedlist-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-binary-search-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Binary Search Problem #1",
@@ -53022,7 +53837,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-binary-search-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-stack-queue-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Stack & Queue Problem #1",
@@ -53182,7 +54002,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-stack-queue-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-trees-bst-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Trees & BST Problem #1",
@@ -53342,7 +54167,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-trees-bst-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-graphs-bfsdfs-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Graphs & BFS/DFS Problem #1",
@@ -53502,7 +54332,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-graphs-bfsdfs-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-dynamic-programming-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Dynamic Programming Problem #1",
@@ -53662,7 +54497,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/nishants-151-dsa-sheet-dynamic-programming-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (23 Problems)",
+        "problems": [
           {
             "leetcode_slug": "nishants-151-dsa-sheet-greedy-bit-manipulation-problem-1",
             "title": "Nishant’s 151 DSA Sheet - Greedy & Bit Manipulation Problem #1",
@@ -53905,7 +54745,7 @@
     "total_problems_count": 51,
     "steps": [
       {
-        "step_name": "Complete String Mastery Sheet Roadmap",
+        "step_name": "Arrays & Pointers (5 Problems)",
         "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-arrays-pointers-problem-1",
@@ -53956,7 +54796,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-arrays-pointers-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-strings-hashing-problem-1",
             "title": "String Mastery Sheet - Strings & Hashing Problem #1",
@@ -54006,7 +54851,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-strings-hashing-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-linkedlist-problem-1",
             "title": "String Mastery Sheet - LinkedList Problem #1",
@@ -54056,7 +54906,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-linkedlist-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-binary-search-problem-1",
             "title": "String Mastery Sheet - Binary Search Problem #1",
@@ -54106,7 +54961,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-binary-search-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-stack-queue-problem-1",
             "title": "String Mastery Sheet - Stack & Queue Problem #1",
@@ -54156,7 +55016,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-stack-queue-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-trees-bst-problem-1",
             "title": "String Mastery Sheet - Trees & BST Problem #1",
@@ -54206,7 +55071,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-trees-bst-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-graphs-bfsdfs-problem-1",
             "title": "String Mastery Sheet - Graphs & BFS/DFS Problem #1",
@@ -54256,7 +55126,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-graphs-bfsdfs-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (5 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-dynamic-programming-problem-1",
             "title": "String Mastery Sheet - Dynamic Programming Problem #1",
@@ -54306,7 +55181,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/string-mastery-sheet-dynamic-programming-problem-5/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (11 Problems)",
+        "problems": [
           {
             "leetcode_slug": "string-mastery-sheet-greedy-bit-manipulation-problem-1",
             "title": "String Mastery Sheet - Greedy & Bit Manipulation Problem #1",
@@ -54429,7 +55309,7 @@
     "total_problems_count": 150,
     "steps": [
       {
-        "step_name": "Complete Top Interview 150: Leetcode Roadmap",
+        "step_name": "Arrays & Pointers (16 Problems)",
         "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-arrays-pointers-problem-1",
@@ -54590,7 +55470,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-arrays-pointers-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Hashing (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-strings-hashing-problem-1",
             "title": "Top Interview 150: Leetcode - Strings & Hashing Problem #1",
@@ -54750,7 +55635,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/Ye4O_pW0_bQ",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-strings-hashing-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-linkedlist-problem-1",
             "title": "Top Interview 150: Leetcode - LinkedList Problem #1",
@@ -54910,7 +55800,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-linkedlist-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-binary-search-problem-1",
             "title": "Top Interview 150: Leetcode - Binary Search Problem #1",
@@ -55070,7 +55965,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-binary-search-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Stack & Queue (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-stack-queue-problem-1",
             "title": "Top Interview 150: Leetcode - Stack & Queue Problem #1",
@@ -55230,7 +56130,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-stack-queue-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Trees & BST (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-trees-bst-problem-1",
             "title": "Top Interview 150: Leetcode - Trees & BST Problem #1",
@@ -55390,7 +56295,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-trees-bst-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & BFS/DFS (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-graphs-bfsdfs-problem-1",
             "title": "Top Interview 150: Leetcode - Graphs & BFS/DFS Problem #1",
@@ -55550,7 +56460,12 @@
             ],
             "youtube_tutorial_url": "https://youtu.be/59waKscCHl4",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-graphs-bfsdfs-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming (16 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-dynamic-programming-problem-1",
             "title": "Top Interview 150: Leetcode - Dynamic Programming Problem #1",
@@ -55710,7 +56625,12 @@
             ],
             "youtube_tutorial_url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
             "leetcode_url": "https://leetcode.com/problems/top-interview-150-leetcode-dynamic-programming-problem-16/"
-          },
+          }
+        ]
+      },
+      {
+        "step_name": "Greedy & Bit Manipulation (22 Problems)",
+        "problems": [
           {
             "leetcode_slug": "top-interview-150-leetcode-greedy-bit-manipulation-problem-1",
             "title": "Top Interview 150: Leetcode - Greedy & Bit Manipulation Problem #1",

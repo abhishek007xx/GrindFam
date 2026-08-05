@@ -49,8 +49,8 @@ async function seedData() {
   console.log("==================================================");
 
   // 1. Read JSON Data Files
-  const companiesPath = path.join(rootDir, 'src', 'data', 'companies_data.json');
-  const sheetsPath = path.join(rootDir, 'src', 'data', 'sheets_data.json');
+  const companiesPath = path.join(rootDir, 'frontend', 'src', 'data', 'companies_data.json');
+  const sheetsPath = path.join(rootDir, 'frontend', 'src', 'data', 'sheets_data.json');
 
   if (!fs.existsSync(companiesPath) || !fs.existsSync(sheetsPath)) {
     console.error(`❌ Error: Data files missing. Expected ${companiesPath} and ${sheetsPath}`);
