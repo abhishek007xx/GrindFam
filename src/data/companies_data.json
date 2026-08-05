@@ -1,0 +1,4830 @@
+[
+  {
+    "company_name": "Amazon",
+    "slug": "amazon",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+    "roles": [
+      {
+        "role_name": "SDE-1 (Backend / Fullstack)",
+        "level": "New Grad & L4",
+        "guidelines": {
+          "interview_format": [
+            "Online Assessment (OA): 2 Coding Questions + Work Simulation + Behavioral",
+            "Technical Screen: 1 Coding Problem (Data Structures/Algorithms) + LP",
+            "Onsite (4 Rounds): 3 Coding & Algorithms rounds + 1 System/Object-Oriented Design round",
+            "Every round reserves 15-20 minutes for Amazon Leadership Principles (LP)"
+          ],
+          "key_topics_weightage": {
+            "Trees & Graphs (BFS/DFS)": "30%",
+            "Arrays & Hash Tables": "25%",
+            "Dynamic Programming & Greedy": "20%",
+            "System Design & OOD": "15%",
+            "Strings & Two Pointers": "10%"
+          },
+          "behavioral_focus": "Amazon 16 Leadership Principles (Customer Obsession, Ownership, Bias for Action, Dive Deep, Have Backbone; Disagree and Commit). Must use STAR format.",
+          "common_rejection_reasons": [
+            "Failing to provide concrete STAR examples for Leadership Principles",
+            "Inability to analyze and optimize Time/Space complexity",
+            "Ignoring boundary conditions and edge cases in Tree/Graph problems"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "two-sum",
+            "title": "Two Sum",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "fruit-into-baskets",
+            "title": "Fruit Into Baskets",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "reorganize-string",
+            "title": "Reorganize String",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Counting",
+              "Greedy",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-window-substring",
+            "title": "Minimum Window Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "subsets",
+            "title": "Subsets",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Bit Manipulation"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-k-sorted-lists",
+            "title": "Merge k Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Linked List",
+              "Merge Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-two-sorted-lists",
+            "title": "Merge Two Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "sort-colors",
+            "title": "Sort Colors",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "house-robber",
+            "title": "House Robber",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-window-maximum",
+            "title": "Sliding Window Maximum",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Heap (Priority Queue)",
+              "Monotonic Queue",
+              "Queue",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "SDE-2 (Mid Level)",
+        "level": "Mid L5",
+        "guidelines": {
+          "interview_format": [
+            "Technical Phone Screen: 1 Advanced DSA + LP",
+            "Onsite (4 Rounds): 2 DSA Coding + 1 System Design (HLD/LLD) + 1 Bar Raiser Round",
+            "Deep dive into scalability, fault tolerance, and trade-offs"
+          ],
+          "key_topics_weightage": {
+            "System Design & Distributed Systems": "35%",
+            "Graphs & Dynamic Programming": "30%",
+            "Design Data Structures (LRU, Trie)": "20%",
+            "Arrays & Hashing": "15%"
+          },
+          "behavioral_focus": "Ownership, Customer Obsession, Invent and Simplify, Delivering Results at scale.",
+          "common_rejection_reasons": [
+            "Weak System Design architecture and failure to handle high concurrency",
+            "Struggling to justify architectural trade-offs during Bar Raiser round"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "fruit-into-baskets",
+            "title": "Fruit Into Baskets",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "reorganize-string",
+            "title": "Reorganize String",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Counting",
+              "Greedy",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-window-substring",
+            "title": "Minimum Window Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "subsets",
+            "title": "Subsets",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Bit Manipulation"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-k-sorted-lists",
+            "title": "Merge k Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Linked List",
+              "Merge Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-two-sorted-lists",
+            "title": "Merge Two Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "sort-colors",
+            "title": "Sort Colors",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "house-robber",
+            "title": "House Robber",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-window-maximum",
+            "title": "Sliding Window Maximum",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Heap (Priority Queue)",
+              "Monotonic Queue",
+              "Queue",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "contains-duplicate",
+            "title": "Contains Duplicate",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-tree",
+            "title": "Lowest Common Ancestor of a Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "permutations",
+            "title": "Permutations",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Senior Software Engineer",
+        "level": "Senior L6",
+        "guidelines": {
+          "interview_format": [
+            "Onsite (5 Rounds): 2 High Level System Design + 1 System Architecture + 1 Coding + 1 Executive Leadership",
+            "Focus on multi-team architectural leadership and organizational impact"
+          ],
+          "key_topics_weightage": {
+            "High Level System Design & Architecture": "50%",
+            "Object-Oriented & Low Level Design": "25%",
+            "Complex Data Structures & Optimization": "25%"
+          },
+          "behavioral_focus": "Earn Trust, Think Big, Hire and Develop the Best, Strategic Vision.",
+          "common_rejection_reasons": [
+            "Lack of high-level system design depth and scalability strategies",
+            "Inadequate demonstration of cross-functional leadership"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "reorganize-string",
+            "title": "Reorganize String",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Counting",
+              "Greedy",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-window-substring",
+            "title": "Minimum Window Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "subsets",
+            "title": "Subsets",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Bit Manipulation"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-k-sorted-lists",
+            "title": "Merge k Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Linked List",
+              "Merge Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-two-sorted-lists",
+            "title": "Merge Two Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "sort-colors",
+            "title": "Sort Colors",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "house-robber",
+            "title": "House Robber",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-window-maximum",
+            "title": "Sliding Window Maximum",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Heap (Priority Queue)",
+              "Monotonic Queue",
+              "Queue",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "contains-duplicate",
+            "title": "Contains Duplicate",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-tree",
+            "title": "Lowest Common Ancestor of a Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "permutations",
+            "title": "Permutations",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "company_name": "Google",
+    "slug": "google",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    "roles": [
+      {
+        "role_name": "Software Engineer",
+        "level": "New Grad (L3)",
+        "guidelines": {
+          "interview_format": [
+            "Technical Phone Screen (45 min): 1-2 Algorithm & Data Structure problems",
+            "Onsite (4 Technical + 1 Behavioral/Googliness): 45 minutes each",
+            "Strict evaluation on optimal code, edge cases, and clean problem solving without boilerplate"
+          ],
+          "key_topics_weightage": {
+            "Graphs & Trees (BFS/DFS, Topological Sort, Dijkstra)": "35%",
+            "Dynamic Programming & Recursion": "25%",
+            "Arrays, Two Pointers & Binary Search": "25%",
+            "Strings & Tries": "15%"
+          },
+          "behavioral_focus": "Googliness & Leadership: Navigating ambiguity, ethical decision making, collaboration, and constructive feedback.",
+          "common_rejection_reasons": [
+            "Writing unoptimized or brute-force solutions without reaching optimal complexity",
+            "Poor communication of thought process while coding",
+            "Missing edge cases (empty input, integer overflow, disconnected graphs)"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "two-sum",
+            "title": "Two Sum",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-two-sorted-lists",
+            "title": "Merge Two Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-parentheses",
+            "title": "Valid Parentheses",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Stack",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "spiral-matrix",
+            "title": "Spiral Matrix",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Matrix",
+              "Simulation"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "n-queens",
+            "title": "N-Queens",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "first-missing-positive",
+            "title": "First Missing Positive",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "climbing-stairs",
+            "title": "Climbing Stairs",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "Math",
+              "Memoization"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "find-the-duplicate-number",
+            "title": "Find the Duplicate Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "missing-number",
+            "title": "Missing Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Hash Table",
+              "Math",
+              "Sorting"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Software Engineer",
+        "level": "Mid Level (L4)",
+        "guidelines": {
+          "interview_format": [
+            "Phone Screen: 1 Medium/Hard DSA Problem",
+            "Onsite (4 Rounds): 3 Advanced DSA Coding + 1 System Design (HLD/API Design) + Googliness",
+            "Emphasis on trade-off analysis and production-ready code quality"
+          ],
+          "key_topics_weightage": {
+            "Advanced Graph Algorithms & Dynamic Programming": "35%",
+            "System Design & Scalability": "30%",
+            "Data Structures Design & Heaps/Trees": "20%",
+            "Sliding Window & Hash Maps": "15%"
+          },
+          "behavioral_focus": "Thriving in ambiguity, peer leadership, technical ownership, and user empathy.",
+          "common_rejection_reasons": [
+            "Failing the System Design round on scalability or API boundaries",
+            "Slow coding speed preventing completion of 2 problems per round"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-two-sorted-lists",
+            "title": "Merge Two Sorted Lists",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-parentheses",
+            "title": "Valid Parentheses",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Stack",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "spiral-matrix",
+            "title": "Spiral Matrix",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Matrix",
+              "Simulation"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "n-queens",
+            "title": "N-Queens",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "first-missing-positive",
+            "title": "First Missing Positive",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "climbing-stairs",
+            "title": "Climbing Stairs",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "Math",
+              "Memoization"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "find-the-duplicate-number",
+            "title": "Find the Duplicate Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "missing-number",
+            "title": "Missing Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Hash Table",
+              "Math",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "fruit-into-baskets",
+            "title": "Fruit Into Baskets",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "generate-parentheses",
+            "title": "Generate Parentheses",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Backtracking",
+              "Dynamic Programming",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "reverse-linked-list",
+            "title": "Reverse Linked List",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 1,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-search",
+            "title": "Binary Search",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Senior Software Engineer",
+        "level": "Senior Level (L5)",
+        "guidelines": {
+          "interview_format": [
+            "Onsite (5 Rounds): 2 System Design + 2 Advanced Coding/Algorithms + 1 Leadership/Googliness",
+            "Expectations of mastery in distributed infrastructure and API design"
+          ],
+          "key_topics_weightage": {
+            "Distributed Systems & Scalable Architecture": "45%",
+            "Complex Algorithms & Optimization": "35%",
+            "System Design & Reliability": "20%"
+          },
+          "behavioral_focus": "Engineering excellence, team mentorship, strategic influence, handling project ambiguity.",
+          "common_rejection_reasons": [
+            "Superficial system design answers lacking deep dive into bottleneck resolution",
+            "Failure to demonstrate technical leadership"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-parentheses",
+            "title": "Valid Parentheses",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Stack",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "spiral-matrix",
+            "title": "Spiral Matrix",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Matrix",
+              "Simulation"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "n-queens",
+            "title": "N-Queens",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "first-missing-positive",
+            "title": "First Missing Positive",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "climbing-stairs",
+            "title": "Climbing Stairs",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "Math",
+              "Memoization"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "find-the-duplicate-number",
+            "title": "Find the Duplicate Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "missing-number",
+            "title": "Missing Number",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Bit Manipulation",
+              "Hash Table",
+              "Math",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "fruit-into-baskets",
+            "title": "Fruit Into Baskets",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "generate-parentheses",
+            "title": "Generate Parentheses",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Backtracking",
+              "Dynamic Programming",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "reverse-linked-list",
+            "title": "Reverse Linked List",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 1,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-search",
+            "title": "Binary Search",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "house-robber",
+            "title": "House Robber",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "company_name": "Meta",
+    "slug": "meta",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+    "roles": [
+      {
+        "role_name": "Software Engineer (Product / Infrastructure)",
+        "level": "New Grad (E3)",
+        "guidelines": {
+          "interview_format": [
+            "Technical Screen (45 min): 2 Coding Questions (Speed and accuracy are critical)",
+            "Onsite (4 Rounds): 2 Coding Rounds (2 problems each in 45 min) + 1 System/Architecture Round + 1 Behavioral/Culture Round",
+            "Must write bug-free code fast with optimal time/space complexity"
+          ],
+          "key_topics_weightage": {
+            "Binary Trees & BFS/DFS": "30%",
+            "Arrays & Two Pointers / Sliding Window": "30%",
+            "Strings & Recursion": "20%",
+            "Hash Tables & Heaps": "20%"
+          },
+          "behavioral_focus": "Meta Core Values: Move Fast, Focus on Long-Term Impact, Build Awesome Things, Be Direct and Respect Your Colleagues.",
+          "common_rejection_reasons": [
+            "Failing to solve BOTH coding questions within the 45-minute window",
+            "Syntax errors or unhandled boundary conditions in code",
+            "Overcomplicating straightforward algorithm requirements"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "two-sum",
+            "title": "Two Sum",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-right-side-view",
+            "title": "Binary Tree Right Side View",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-tree",
+            "title": "Lowest Common Ancestor of a Binary Tree",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-parentheses",
+            "title": "Valid Parentheses",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Stack",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "k-closest-points-to-origin",
+            "title": "K Closest Points to Origin",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Geometry",
+              "Heap (Priority Queue)",
+              "Math",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "palindromic-substrings",
+            "title": "Palindromic Substrings",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "title": "Kth Largest Element in an Array",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-maximum-path-sum",
+            "title": "Binary Tree Maximum Path Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Dynamic Programming",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 3,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-size-subarray-sum",
+            "title": "Minimum Size Subarray Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Prefix Sum",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "combinations",
+            "title": "Combinations",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "move-zeroes",
+            "title": "Move Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "find-peak-element",
+            "title": "Find Peak Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "set-matrix-zeroes",
+            "title": "Set Matrix Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Software Engineer",
+        "level": "Mid Level (E4)",
+        "guidelines": {
+          "interview_format": [
+            "Technical Screen: 2 Coding Problems",
+            "Onsite: 2 Coding Rounds + 1 Product Architecture / System Design Round + 1 Behavioral Round",
+            "High expectation for clean, executable-level code structure"
+          ],
+          "key_topics_weightage": {
+            "System Design & Product Architecture": "35%",
+            "Trees, Graphs & Dynamic Programming": "35%",
+            "Arrays, Hashing & String Manipulation": "30%"
+          },
+          "behavioral_focus": "Driving impact, taking initiative, executing quickly with quality.",
+          "common_rejection_reasons": [
+            "Inability to design practical APIs and database schemas in Product Architecture",
+            "Incomplete implementation of second coding question"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "k-closest-points-to-origin",
+            "title": "K Closest Points to Origin",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Geometry",
+              "Heap (Priority Queue)",
+              "Math",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "palindromic-substrings",
+            "title": "Palindromic Substrings",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "title": "Kth Largest Element in an Array",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-maximum-path-sum",
+            "title": "Binary Tree Maximum Path Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Dynamic Programming",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 3,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-size-subarray-sum",
+            "title": "Minimum Size Subarray Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Prefix Sum",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "combinations",
+            "title": "Combinations",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "move-zeroes",
+            "title": "Move Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "find-peak-element",
+            "title": "Find Peak Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "set-matrix-zeroes",
+            "title": "Set Matrix Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "first-missing-positive",
+            "title": "First Missing Positive",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "coin-change",
+            "title": "Coin Change",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "contains-duplicate",
+            "title": "Contains Duplicate",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "permutations",
+            "title": "Permutations",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Senior Software Engineer",
+        "level": "Senior Level (E5)",
+        "guidelines": {
+          "interview_format": [
+            "Onsite: 2 System Design Rounds (HLD) + 2 Coding Rounds + 1 Behavioral/Leadership Round",
+            "Evaluation centered around driving company-wide engineering solutions"
+          ],
+          "key_topics_weightage": {
+            "System Design & Large-Scale Systems": "50%",
+            "Advanced Data Structures & Algorithms": "30%",
+            "Behavioral & Engineering Leadership": "20%"
+          },
+          "behavioral_focus": "Cross-functional execution, mentorship, scaling engineering systems, bold bets.",
+          "common_rejection_reasons": [
+            "Shallow system design proposals for high-throughput messaging or caching",
+            "Lack of clear ownership in complex technical projects"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-maximum-path-sum",
+            "title": "Binary Tree Maximum Path Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Depth-First Search",
+              "Dynamic Programming",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 3,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "product-of-array-except-self",
+            "title": "Product of Array Except Self",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Prefix Sum"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-size-subarray-sum",
+            "title": "Minimum Size Subarray Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Prefix Sum",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "jump-game",
+            "title": "Jump Game",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Greedy"
+            ]
+          },
+          {
+            "leetcode_slug": "combinations",
+            "title": "Combinations",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Backtracking"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "move-zeroes",
+            "title": "Move Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "find-peak-element",
+            "title": "Find Peak Element",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "set-matrix-zeroes",
+            "title": "Set Matrix Zeroes",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "first-missing-positive",
+            "title": "First Missing Positive",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "coin-change",
+            "title": "Coin Change",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "contains-duplicate",
+            "title": "Contains Duplicate",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "permutations",
+            "title": "Permutations",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "company_name": "Microsoft",
+    "slug": "microsoft",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
+    "roles": [
+      {
+        "role_name": "Software Engineer",
+        "level": "New Grad (SDE-1 / L59-60)",
+        "guidelines": {
+          "interview_format": [
+            "Online Assessment: 2-3 Coding Problems",
+            "Onsite / Final Loop (3-4 Rounds): 45-60 min rounds combining Coding, Object-Oriented Design, and Behavioral",
+            "Strong emphasis on clean code, modular design, and collaboration"
+          ],
+          "key_topics_weightage": {
+            "Arrays & Strings": "30%",
+            "Trees & Linked Lists": "25%",
+            "Dynamic Programming & Math": "20%",
+            "Object-Oriented Design": "15%",
+            "Graphs & Sorting": "10%"
+          },
+          "behavioral_focus": "Growth Mindset, One Microsoft, Diversity & Inclusion, Customer Obsession.",
+          "common_rejection_reasons": [
+            "Failing to write modular, reusable code during whiteboarding/coding",
+            "Inability to explain runtime complexity and memory trade-offs clearly"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "two-sum",
+            "title": "Two Sum",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "add-two-numbers",
+            "title": "Add Two Numbers",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Linked List",
+              "Math",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "find-median-from-data-stream",
+            "title": "Find Median from Data Stream",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Data Stream",
+              "Design",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+            "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Tree",
+              "Divide and Conquer",
+              "Hash Table",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-average-subarray-i",
+            "title": "Maximum Average Subarray I",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "search-a-2d-matrix",
+            "title": "Search a 2D Matrix",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-window-maximum",
+            "title": "Sliding Window Maximum",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Heap (Priority Queue)",
+              "Monotonic Queue",
+              "Queue",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-window-substring",
+            "title": "Minimum Window Substring",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "title": "Kth Largest Element in an Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "subsets-ii",
+            "title": "Subsets II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Bit Manipulation"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-zigzag-level-order-traversal",
+            "title": "Binary Tree Zigzag Level Order Traversal",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "reorder-list",
+            "title": "Reorder List",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "word-break",
+            "title": "Word Break",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Hash Table",
+              "Memoization",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-list",
+            "title": "Rotate List",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Software Engineer 2",
+        "level": "Mid Level (SDE-2 / L61-62)",
+        "guidelines": {
+          "interview_format": [
+            "Phone Screen: 1 Coding + OOD",
+            "Onsite Loop (4 Rounds): 2 DSA Coding + 1 System Design (Azure/Cloud focus) + 1 As-If / AA Round",
+            "Focus on production readiness and cloud service architecture"
+          ],
+          "key_topics_weightage": {
+            "System Design & Cloud Architecture": "35%",
+            "Trees, Graphs & Dynamic Programming": "35%",
+            "Design Data Structures & Multithreading": "30%"
+          },
+          "behavioral_focus": "Customer impact, cross-team alignment, operational excellence.",
+          "common_rejection_reasons": [
+            "Weak System Design understanding for distributed storage or APIs",
+            "Failure to adapt solution when hints are provided"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "container-with-most-water",
+            "title": "Container With Most Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-subarray",
+            "title": "Maximum Subarray",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "find-median-from-data-stream",
+            "title": "Find Median from Data Stream",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Data Stream",
+              "Design",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+            "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Tree",
+              "Divide and Conquer",
+              "Hash Table",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "trapping-rain-water",
+            "title": "Trapping Rain Water",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Monotonic Stack",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "maximum-average-subarray-i",
+            "title": "Maximum Average Subarray I",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "search-a-2d-matrix",
+            "title": "Search a 2D Matrix",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-window-maximum",
+            "title": "Sliding Window Maximum",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Heap (Priority Queue)",
+              "Monotonic Queue",
+              "Queue",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "minimum-window-substring",
+            "title": "Minimum Window Substring",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "title": "Kth Largest Element in an Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "majority-element",
+            "title": "Majority Element",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "subsets-ii",
+            "title": "Subsets II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Bit Manipulation"
+            ]
+          },
+          {
+            "leetcode_slug": "binary-tree-zigzag-level-order-traversal",
+            "title": "Binary Tree Zigzag Level Order Traversal",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "title": "Search in Rotated Sorted Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "reorder-list",
+            "title": "Reorder List",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Recursion",
+              "Stack",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "word-break",
+            "title": "Word Break",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming",
+              "Hash Table",
+              "Memoization",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-list",
+            "title": "Rotate List",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Linked List",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-anagram",
+            "title": "Valid Anagram",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "unique-paths",
+            "title": "Unique Paths",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Combinatorics",
+              "Dynamic Programming",
+              "Math"
+            ]
+          },
+          {
+            "leetcode_slug": "climbing-stairs",
+            "title": "Climbing Stairs",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Dynamic Programming",
+              "Math",
+              "Memoization"
+            ]
+          },
+          {
+            "leetcode_slug": "palindrome-partitioning",
+            "title": "Palindrome Partitioning",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Backtracking",
+              "Dynamic Programming",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum-closest",
+            "title": "3Sum Closest",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "company_name": "Uber",
+    "slug": "uber",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.svg",
+    "roles": [
+      {
+        "role_name": "Software Engineer 1",
+        "level": "New Grad (L3)",
+        "guidelines": {
+          "interview_format": [
+            "Online CodeSignal / HackerRank Assessment",
+            "Technical Phone Screen: 1 Hard/Medium DSA Problem",
+            "Onsite (4 Rounds): 2 Coding (Algorithms + Heavy Data Structure implementation) + 1 Architecture/LLD + 1 Behavioral",
+            "Real-world problem context (e.g., geospatial graphs, routing, dispatch algorithms)"
+          ],
+          "key_topics_weightage": {
+            "Graphs & Dijkstra/Shortest Path": "35%",
+            "Heaps, Trees & Segment Trees": "25%",
+            "Dynamic Programming": "20%",
+            "Arrays & Hash Maps": "20%"
+          },
+          "behavioral_focus": "Go the Extra Mile, Stand for Safety, See the Big Picture, Act like an Owner.",
+          "common_rejection_reasons": [
+            "Struggling with graph traversal and shortest path implementations under pressure",
+            "Unoptimized space complexity in memory-intensive algorithms"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "alien-dictionary",
+            "title": "Alien Dictionary",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "String",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "squares-of-a-sorted-array",
+            "title": "Squares of a Sorted Array",
+            "frequency_score": 6,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "find-peak-element",
+            "title": "Find Peak Element",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Binary Search"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule-ii",
+            "title": "Course Schedule II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "find-median-from-data-stream",
+            "title": "Find Median from Data Stream",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Data Stream",
+              "Design",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "word-search-ii",
+            "title": "Word Search II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Matrix",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "word-search",
+            "title": "Word Search",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Depth-First Search",
+              "Matrix",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-smallest-element-in-a-bst",
+            "title": "Kth Smallest Element in a BST",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Search Tree",
+              "Binary Tree",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "construct-quad-tree",
+            "title": "Construct Quad Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "minesweeper",
+            "title": "Minesweeper",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "cherry-pickup",
+            "title": "Cherry Pickup",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "optimal-account-balancing",
+            "title": "Optimal Account Balancing",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "reconstruct-itinerary",
+            "title": "Reconstruct Itinerary",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "word-pattern-ii",
+            "title": "Word Pattern II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands-ii",
+            "title": "Number of Islands II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "set-intersection-size-at-least-two",
+            "title": "Set Intersection Size At Least Two",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "palindrome-permutation-ii",
+            "title": "Palindrome Permutation II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "interval-list-intersections",
+            "title": "Interval List Intersections",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "bomb-enemy",
+            "title": "Bomb Enemy",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-puzzle",
+            "title": "Sliding Puzzle",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "print-binary-tree",
+            "title": "Print Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "text-justification",
+            "title": "Text Justification",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-n-ary-tree",
+            "title": "Serialize and Deserialize N-ary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "tag-validator",
+            "title": "Tag Validator",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Software Engineer 2",
+        "level": "Mid Level (L4)",
+        "guidelines": {
+          "interview_format": [
+            "Phone Screen: 1 Algorithmic Problem",
+            "Onsite: 2 Coding Rounds + 1 High Level System Design (Real-time tracking, dispatch systems) + 1 Behavioral",
+            "Focus on low latency, real-time streaming, and high concurrency"
+          ],
+          "key_topics_weightage": {
+            "Real-Time System Design & Distributed Systems": "40%",
+            "Advanced Graphs & Concurrent Data Structures": "35%",
+            "Arrays & Dynamic Programming": "25%"
+          },
+          "behavioral_focus": "Customer obsession, technical speed with quality, resilience under scale.",
+          "common_rejection_reasons": [
+            "Inability to handle real-time streaming constraints (Kafka, WebSockets) in system design",
+            "Buggy edge case handling in concurrent graph operations"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "course-schedule-ii",
+            "title": "Course Schedule II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms-ii",
+            "title": "Meeting Rooms II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Greedy",
+              "Heap (Priority Queue)",
+              "Prefix Sum",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "title": "Serialize and Deserialize Binary Tree",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Design",
+              "String",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "find-median-from-data-stream",
+            "title": "Find Median from Data Stream",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Data Stream",
+              "Design",
+              "Heap (Priority Queue)",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "word-search-ii",
+            "title": "Word Search II",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Matrix",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "word-search",
+            "title": "Word Search",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Backtracking",
+              "Depth-First Search",
+              "Matrix",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "kth-smallest-element-in-a-bst",
+            "title": "Kth Smallest Element in a BST",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Search Tree",
+              "Binary Tree",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "construct-quad-tree",
+            "title": "Construct Quad Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "minesweeper",
+            "title": "Minesweeper",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "cherry-pickup",
+            "title": "Cherry Pickup",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "optimal-account-balancing",
+            "title": "Optimal Account Balancing",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "reconstruct-itinerary",
+            "title": "Reconstruct Itinerary",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "word-pattern-ii",
+            "title": "Word Pattern II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "number-of-islands-ii",
+            "title": "Number of Islands II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "set-intersection-size-at-least-two",
+            "title": "Set Intersection Size At Least Two",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "palindrome-permutation-ii",
+            "title": "Palindrome Permutation II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "interval-list-intersections",
+            "title": "Interval List Intersections",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "bomb-enemy",
+            "title": "Bomb Enemy",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "sliding-puzzle",
+            "title": "Sliding Puzzle",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "print-binary-tree",
+            "title": "Print Binary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "text-justification",
+            "title": "Text Justification",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "serialize-and-deserialize-n-ary-tree",
+            "title": "Serialize and Deserialize N-ary Tree",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "tag-validator",
+            "title": "Tag Validator",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "basic-calculator-ii",
+            "title": "Basic Calculator II",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "basic-calculator-iii",
+            "title": "Basic Calculator III",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "lru-cache",
+            "title": "LRU Cache",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "flatten-nested-list-iterator",
+            "title": "Flatten Nested List Iterator",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "reaching-points",
+            "title": "Reaching Points",
+            "frequency_score": 1,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "company_name": "Apple",
+    "slug": "apple",
+    "logo_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+    "roles": [
+      {
+        "role_name": "Software Engineer",
+        "level": "New Grad / ICT2",
+        "guidelines": {
+          "interview_format": [
+            "Recruiter & Technical Phone Screen (45 min)",
+            "Onsite Loop (4-5 Rounds): Team-specific technical interviews (Coding, CS Fundamentals, OS/Memory Management, Behavioral)",
+            "Apple interviews are heavily team-dependent with strong emphasis on perfection and low-level detail"
+          ],
+          "key_topics_weightage": {
+            "Arrays, Strings & Pointers": "30%",
+            "Trees & Bit Manipulation": "25%",
+            "Linked Lists & Data Structure Design": "25%",
+            "CS Fundamentals & OS concepts": "20%"
+          },
+          "behavioral_focus": "Attention to detail, passion for user privacy & quality, collaboration, craftsmanship.",
+          "common_rejection_reasons": [
+            "Lacking deep comprehension of core CS fundamentals (memory, pointers, caching)",
+            "Careless syntax errors or inability to write clean, maintainable code"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "number-of-islands",
+            "title": "Number of Islands",
+            "frequency_score": 10,
+            "topic_tags": [
+              "Array",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Matrix",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "reverse-linked-list",
+            "title": "Reverse Linked List",
+            "frequency_score": 8,
+            "topic_tags": [
+              "Linked List",
+              "Recursion"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-intervals",
+            "title": "Merge Intervals",
+            "frequency_score": 7,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "two-sum",
+            "title": "Two Sum",
+            "frequency_score": 6,
+            "topic_tags": [
+              "Array",
+              "Hash Table"
+            ]
+          },
+          {
+            "leetcode_slug": "group-anagrams",
+            "title": "Group Anagrams",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Sorting",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "spiral-matrix",
+            "title": "Spiral Matrix",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Matrix",
+              "Simulation"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule-ii",
+            "title": "Course Schedule II",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms",
+            "title": "Meeting Rooms",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-k-sorted-lists",
+            "title": "Merge k Sorted Lists",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Linked List",
+              "Merge Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "task-scheduler",
+            "title": "Task Scheduler",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Greedy",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock-with-cooldown",
+            "title": "Best Time to Buy and Sell Stock with Cooldown",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "subarray-product-less-than-k",
+            "title": "Subarray Product Less Than K",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Prefix Sum",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 3,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "sort-colors",
+            "title": "Sort Colors",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "all-nodes-distance-k-in-binary-tree",
+            "title": "All Nodes Distance K in Binary Tree",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Hash Table",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "path-sum",
+            "title": "Path Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "implement-trie-prefix-tree",
+            "title": "Implement Trie (Prefix Tree)",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Design",
+              "Hash Table",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "partition-equal-subset-sum",
+            "title": "Partition Equal Subset Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "odd-even-linked-list",
+            "title": "Odd Even Linked List",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Linked List"
+            ]
+          }
+        ]
+      },
+      {
+        "role_name": "Software Engineer 2",
+        "level": "Mid Level / ICT3",
+        "guidelines": {
+          "interview_format": [
+            "Phone Screen: 1 Technical Coding Problem",
+            "Onsite Loop (5 Rounds): 3 Technical Coding & CS Architecture + 1 System Design + 1 Hiring Manager Round",
+            "Focus on robust API design, performance optimization, and privacy"
+          ],
+          "key_topics_weightage": {
+            "System Design & Local/Cloud Storage": "35%",
+            "Trees, Graphs & Dynamic Programming": "35%",
+            "Arrays, Hashing & Memory Efficiency": "30%"
+          },
+          "behavioral_focus": "Craftsmanship, cross-functional collaboration, discretion, excellence.",
+          "common_rejection_reasons": [
+            "Failure to account for low-memory constraints or hardware optimization",
+            "Unclear architectural boundaries in System Design"
+          ]
+        },
+        "problems": [
+          {
+            "leetcode_slug": "spiral-matrix",
+            "title": "Spiral Matrix",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Matrix",
+              "Simulation"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "title": "Longest Substring Without Repeating Characters",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-image",
+            "title": "Rotate Image",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Matrix"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "title": "Best Time to Buy and Sell Stock",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule",
+            "title": "Course Schedule",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "course-schedule-ii",
+            "title": "Course Schedule II",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Graph Theory",
+              "Topological Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "meeting-rooms",
+            "title": "Meeting Rooms",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "title": "Median of Two Sorted Arrays",
+            "frequency_score": 5,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Divide and Conquer"
+            ]
+          },
+          {
+            "leetcode_slug": "merge-k-sorted-lists",
+            "title": "Merge k Sorted Lists",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Divide and Conquer",
+              "Heap (Priority Queue)",
+              "Linked List",
+              "Merge Sort"
+            ]
+          },
+          {
+            "leetcode_slug": "task-scheduler",
+            "title": "Task Scheduler",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Counting",
+              "Greedy",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "best-time-to-buy-and-sell-stock-with-cooldown",
+            "title": "Best Time to Buy and Sell Stock with Cooldown",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "subarray-product-less-than-k",
+            "title": "Subarray Product Less Than K",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Binary Search",
+              "Prefix Sum",
+              "Sliding Window"
+            ]
+          },
+          {
+            "leetcode_slug": "rotate-array",
+            "title": "Rotate Array",
+            "frequency_score": 4,
+            "topic_tags": [
+              "Array",
+              "Math",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "3sum",
+            "title": "3Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-palindromic-substring",
+            "title": "Longest Palindromic Substring",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Dynamic Programming",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "valid-palindrome",
+            "title": "Valid Palindrome",
+            "frequency_score": 3,
+            "topic_tags": [
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "letter-combinations-of-a-phone-number",
+            "title": "Letter Combinations of a Phone Number",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Backtracking",
+              "Hash Table",
+              "String"
+            ]
+          },
+          {
+            "leetcode_slug": "sort-colors",
+            "title": "Sort Colors",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Sorting",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "longest-consecutive-sequence",
+            "title": "Longest Consecutive Sequence",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Hash Table",
+              "Union-Find"
+            ]
+          },
+          {
+            "leetcode_slug": "all-nodes-distance-k-in-binary-tree",
+            "title": "All Nodes Distance K in Binary Tree",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Hash Table",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "top-k-frequent-elements",
+            "title": "Top K Frequent Elements",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Bucket Sort",
+              "Counting",
+              "Divide and Conquer",
+              "Hash Table",
+              "Heap (Priority Queue)",
+              "Quickselect",
+              "Sorting"
+            ]
+          },
+          {
+            "leetcode_slug": "path-sum",
+            "title": "Path Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Binary Tree",
+              "Breadth-First Search",
+              "Depth-First Search",
+              "Tree"
+            ]
+          },
+          {
+            "leetcode_slug": "implement-trie-prefix-tree",
+            "title": "Implement Trie (Prefix Tree)",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Design",
+              "Hash Table",
+              "String",
+              "Trie"
+            ]
+          },
+          {
+            "leetcode_slug": "partition-equal-subset-sum",
+            "title": "Partition Equal Subset Sum",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Array",
+              "Dynamic Programming"
+            ]
+          },
+          {
+            "leetcode_slug": "odd-even-linked-list",
+            "title": "Odd Even Linked List",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Linked List"
+            ]
+          },
+          {
+            "leetcode_slug": "permutation-in-string",
+            "title": "Permutation in String",
+            "frequency_score": 3,
+            "topic_tags": [
+              "Hash Table",
+              "Sliding Window",
+              "String",
+              "Two Pointers"
+            ]
+          },
+          {
+            "leetcode_slug": "peeking-iterator",
+            "title": "Peeking Iterator",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "lru-cache",
+            "title": "LRU Cache",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "find-in-mountain-array",
+            "title": "Find in Mountain Array",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          },
+          {
+            "leetcode_slug": "perfect-rectangle",
+            "title": "Perfect Rectangle",
+            "frequency_score": 2,
+            "topic_tags": [
+              "Algorithms"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
