@@ -146,8 +146,18 @@ async function seedData() {
     }
   }
 
-  console.log(`📌 Upserting ${companyProblemsToUpsert.length} company problems...`);
-  await chunkUpsert('problems', companyProblemsToUpsert, 'source_type,source_id,leetcode_slug');
+  // Deduplicate company problems
+  const uniqueCompanyProbsMap = new Map();
+  for (const p of companyProblemsToUpsert) {
+    const key = `${p.source_type}:${p.source_id}:${p.leetcode_slug}`;
+    if (!uniqueCompanyProbsMap.has(key)) {
+      uniqueCompanyProbsMap.set(key, p);
+    }
+  }
+  const deduplicatedCompanyProblems = Array.from(uniqueCompanyProbsMap.values());
+
+  console.log(`📌 Upserting ${deduplicatedCompanyProblems.length} company problems...`);
+  await chunkUpsert('problems', deduplicatedCompanyProblems, 'source_type,source_id,leetcode_slug');
 
   // -------------------------------------------------------------------------
   // 3. Seed Sheets & Sheet Problems
@@ -197,8 +207,18 @@ async function seedData() {
     }
   }
 
-  console.log(`📌 Upserting ${sheetProblemsToUpsert.length} sheet problems...`);
-  await chunkUpsert('problems', sheetProblemsToUpsert, 'source_type,source_id,leetcode_slug');
+  // Deduplicate sheet problems
+  const uniqueSheetProbsMap = new Map();
+  for (const p of sheetProblemsToUpsert) {
+    const key = `${p.source_type}:${p.source_id}:${p.leetcode_slug}`;
+    if (!uniqueSheetProbsMap.has(key)) {
+      uniqueSheetProbsMap.set(key, p);
+    }
+  }
+  const deduplicatedSheetProblems = Array.from(uniqueSheetProbsMap.values());
+
+  console.log(`📌 Upserting ${deduplicatedSheetProblems.length} sheet problems...`);
+  await chunkUpsert('problems', deduplicatedSheetProblems, 'source_type,source_id,leetcode_slug');
 
   console.log("\n==================================================");
   console.log("🎉 Supabase Data Seeding Completed Successfully!");
