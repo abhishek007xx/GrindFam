@@ -23,7 +23,12 @@ const getInitials = (name = '') => {
   return name.slice(0, 2).toUpperCase();
 };
 
-const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, removingId }) => {
+const LeaderboardTable = ({
+  leaderboard = [],
+  dailyTarget = 5,
+  onRemoveFriend,
+  removingId
+}) => {
   const [viewMode, setViewMode] = useState('today'); // 'today' | 'allTime'
 
   // Sort leaderboard based on viewMode

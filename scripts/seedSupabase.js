@@ -217,6 +217,12 @@ async function seedData() {
   }
   const deduplicatedSheetProblems = Array.from(uniqueSheetProbsMap.values());
 
+  // Purge outdated sheet problems for active sheets before inserting fresh ones
+  const activeSheetIds = Array.from(sheetMap.values());
+  if (activeSheetIds.length > 0) {
+    await supabase.from('problems').delete().eq('source_type', 'sheet').in('source_id', activeSheetIds);
+  }
+
   console.log(`📌 Upserting ${deduplicatedSheetProblems.length} sheet problems...`);
   await chunkUpsert('problems', deduplicatedSheetProblems, 'source_type,source_id,leetcode_slug');
 
