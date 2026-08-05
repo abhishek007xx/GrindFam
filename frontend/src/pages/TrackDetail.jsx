@@ -23,6 +23,7 @@ export function TrackDetail() {
   const [company, setCompany] = useState(null);
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeRoleIdx, setActiveRoleIdx] = useState(1);
 
   // Filters & Search State
   const [searchQuery, setSearchQuery] = useState('');
@@ -232,6 +233,46 @@ export function TrackDetail() {
                         </span>
                       </div>
                       <p className="text-xs text-[#8b949e] mt-1">Official Interview Guidelines & DSA Frequency Roadmap</p>
+                      
+                      {/* Role Selector Tabs */}
+                      <div className="flex items-center gap-2 mt-3 flex-wrap">
+                        {['SDE Intern / Entry Level', 'SDE-1 & High Frequency', 'SDE-2 / Senior'].map((roleLabel, rIdx) => {
+                          const isActive = activeRoleIdx === rIdx;
+                          return (
+                            <button
+                              key={roleLabel}
+                              onClick={() => {
+                                setActiveRoleIdx(rIdx);
+                                const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
+                                const selectedRoleObj = compObj.roles[rIdx] || compObj.roles[0];
+                                setCompanyTrack({
+                                  id: trackId,
+                                  role: selectedRoleObj.role_name,
+                                  level: selectedRoleObj.level,
+                                  guidelines: selectedRoleObj.guidelines || {}
+                                });
+                                const localProbs = (selectedRoleObj.problems || []).map((p, idx) => ({
+                                  id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
+                                  title: p.title,
+                                  leetcode_slug: p.leetcode_slug,
+                                  difficulty: p.difficulty || "Medium",
+                                  frequency_score: p.frequency_score || 5,
+                                  topic_tags: p.topic_tags || [],
+                                  step_name: selectedRoleObj.role_name
+                                }));
+                                setProblems(localProbs);
+                              }}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                                isActive
+                                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                  : 'bg-[#161b22] text-[#8b949e] hover:text-white hover:bg-[#21262d] border border-[#30363d]'
+                              }`}
+                            >
+                              {roleLabel}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 

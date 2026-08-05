@@ -98,10 +98,8 @@ export function SheetDetail() {
 
           setProblems(problemsData || []);
 
+          // Collapse all categories by default so topics are closed initially
           const initialOpen = {};
-          problemsData?.forEach(p => {
-            initialOpen[p.step_name || 'General'] = true;
-          });
           setOpenCategories(initialOpen);
 
           if (user && problemsData && problemsData.length > 0) {
@@ -139,7 +137,6 @@ export function SheetDetail() {
           const localProbs = [];
           const initialOpen = {};
           (sObj.steps || []).forEach((step, sIdx) => {
-            initialOpen[step.step_name] = true;
             (step.problems || []).forEach((p, pIdx) => {
               localProbs.push({
                 id: `local-prob-${sObj.slug}-${sIdx}-${p.leetcode_slug}`,
