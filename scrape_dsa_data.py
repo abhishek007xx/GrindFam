@@ -34,6 +34,7 @@ USER_AGENTS = [
 ]
 
 TARGET_COMPANIES = [
+    # --- Top Global Tech Giants ---
     {
         "company_name": "Amazon",
         "slug": "amazon",
@@ -75,6 +76,119 @@ TARGET_COMPANIES = [
         "krishna_key": "apple",
         "sean_slug": "apple",
         "logo_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+    },
+    # --- Top Placement & High CTC Companies in India ---
+    {
+        "company_name": "Flipkart",
+        "slug": "flipkart",
+        "krishna_key": "flipkart",
+        "sean_slug": "flipkart",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Flipkart_logo.svg"
+    },
+    {
+        "company_name": "Goldman Sachs",
+        "slug": "goldman-sachs",
+        "krishna_key": "goldman-sachs",
+        "sean_slug": "goldman-sachs",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Goldman_Sachs.svg"
+    },
+    {
+        "company_name": "Adobe",
+        "slug": "adobe",
+        "krishna_key": "adobe",
+        "sean_slug": "adobe",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_2017.svg"
+    },
+    {
+        "company_name": "Oracle",
+        "slug": "oracle",
+        "krishna_key": "oracle",
+        "sean_slug": "oracle",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg"
+    },
+    {
+        "company_name": "Walmart Global Tech",
+        "slug": "walmart",
+        "krishna_key": "walmart",
+        "sean_slug": "walmart-labs",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Walmart_logo.svg"
+    },
+    {
+        "company_name": "JPMorgan Chase",
+        "slug": "jpmorgan",
+        "krishna_key": "jpmorgan",
+        "sean_slug": "jpmorgan",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/J_P_Morgan_Logo_2008_1.svg"
+    },
+    {
+        "company_name": "Atlassian",
+        "slug": "atlassian",
+        "krishna_key": "atlassian",
+        "sean_slug": "atlassian",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/00/Atlassian-logo-blue.svg"
+    },
+    {
+        "company_name": "Infosys",
+        "slug": "infosys",
+        "krishna_key": "infosys",
+        "sean_slug": "infosys",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Infosys_logo.svg"
+    },
+    {
+        "company_name": "Zoho",
+        "slug": "zoho",
+        "krishna_key": "zoho",
+        "sean_slug": "zoho",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Zoho_Corporation_logo.svg"
+    },
+    {
+        "company_name": "Paytm",
+        "slug": "paytm",
+        "krishna_key": "paytm",
+        "sean_slug": "paytm",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Paytm_Logo.svg"
+    },
+    {
+        "company_name": "PhonePe",
+        "slug": "phonepe",
+        "krishna_key": "phonepe",
+        "sean_slug": "phonepe",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/PhonePe_Logo.svg"
+    },
+    {
+        "company_name": "Cisco",
+        "slug": "cisco",
+        "krishna_key": "cisco",
+        "sean_slug": "cisco",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg"
+    },
+    {
+        "company_name": "Samsung",
+        "slug": "samsung",
+        "krishna_key": "samsung",
+        "sean_slug": "samsung",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg"
+    },
+    {
+        "company_name": "Intuit",
+        "slug": "intuit",
+        "krishna_key": "intuit",
+        "sean_slug": "intuit",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Intuit_Logo.svg"
+    },
+    {
+        "company_name": "Salesforce",
+        "slug": "salesforce",
+        "krishna_key": "salesforce",
+        "sean_slug": "salesforce",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"
+    },
+    {
+        "company_name": "PayPal",
+        "slug": "paypal",
+        "krishna_key": "paypal",
+        "sean_slug": "paypal",
+        "logo_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
     }
 ]
 
@@ -124,7 +238,7 @@ def get_random_headers() -> Dict[str, str]:
         "Cache-Control": "no-cache"
     }
 
-def rate_limit_delay(min_sec: float = 2.0, max_sec: float = 5.0) -> None:
+def rate_limit_delay(min_sec: float = 1.5, max_sec: float = 3.5) -> None:
     """Implements rate limiting with random delay to prevent IP bans."""
     delay = random.uniform(min_sec, max_sec)
     logger.debug(f"Sleeping for {delay:.2f} seconds...")
@@ -164,7 +278,6 @@ def fetch_sean_prashad_patterns(session: requests.Session) -> Dict[str, List[Dic
         res = session.get(url, headers=get_random_headers(), timeout=15)
         res.raise_for_status()
         
-        # Parse output using BeautifulSoup / JSON
         soup = BeautifulSoup(res.content, "html.parser")
         raw_json = json.loads(soup.text)
         
@@ -201,50 +314,56 @@ def fetch_sean_prashad_patterns(session: requests.Session) -> Dict[str, List[Dic
 
 def fetch_krishna_dey_csv(session: requests.Session, krishna_key: str) -> List[Dict[str, Any]]:
     """
-    Scrapes company-wise LeetCode CSV from Krishna Dey's repository.
-    Source: https://raw.githubusercontent.com/krishnadey30/LeetCode-Questions-CompanyWise/master/{krishna_key}_2year.csv
+    Scrapes company-wise LeetCode CSV from Krishna Dey's repository with automatic suffix fallbacks.
+    Tries: {krishna_key}_2year.csv -> {krishna_key}_1year.csv -> {krishna_key}_6months.csv -> {krishna_key}_alltime.csv
     """
-    url = f"https://raw.githubusercontent.com/krishnadey30/LeetCode-Questions-CompanyWise/master/{krishna_key}_2year.csv"
+    suffixes = ["2year.csv", "1year.csv", "6months.csv", "alltime.csv"]
     problems = []
-    
-    try:
-        logger.info(f"Fetching Krishna Dey LeetCode CSV for company key: '{krishna_key}'...")
-        rate_limit_delay(2.0, 4.0)
-        res = session.get(url, headers=get_random_headers(), timeout=15)
-        res.raise_for_status()
-        
-        content = res.text
-        lines = content.splitlines()
-        reader = csv.DictReader(lines)
-        
-        for row in reader:
-            link = row.get("Leetcode Question Link", "")
-            title = row.get("Title", "")
-            freq_str = row.get("Frequency", "1")
-            
-            slug = extract_leetcode_slug(link)
-            if not slug and title:
-                slug = extract_leetcode_slug(title)
+    success_url = None
+
+    for suffix in suffixes:
+        url = f"https://raw.githubusercontent.com/krishnadey30/LeetCode-Questions-CompanyWise/master/{krishna_key}_{suffix}"
+        try:
+            logger.info(f"Trying Krishna Dey CSV URL: {url}...")
+            rate_limit_delay(1.0, 2.0)
+            res = session.get(url, headers=get_random_headers(), timeout=10)
+            if res.status_code == 200:
+                success_url = url
+                lines = res.text.splitlines()
+                reader = csv.DictReader(lines)
                 
-            try:
-                freq = float(freq_str)
-            except ValueError:
-                freq = 1.0
-                
-            if slug and title:
-                problems.append({
-                    "leetcode_slug": slug,
-                    "title": title.strip(),
-                    "raw_frequency": freq,
-                    "topic_tags": [],
-                    "source": "krishna_dey"
-                })
-                
-        logger.info(f"Retrieved {len(problems)} problems for {krishna_key} from Krishna Dey CSV.")
-        
-    except Exception as e:
-        logger.error(f"Failed to fetch Krishna Dey CSV for '{krishna_key}': {e}")
-        
+                for row in reader:
+                    link = row.get("Leetcode Question Link", "")
+                    title = row.get("Title", "")
+                    freq_str = row.get("Frequency", "1")
+                    
+                    slug = extract_leetcode_slug(link)
+                    if not slug and title:
+                        slug = extract_leetcode_slug(title)
+                        
+                    try:
+                        freq = float(freq_str)
+                    except ValueError:
+                        freq = 1.0
+                        
+                    if slug and title:
+                        problems.append({
+                            "leetcode_slug": slug,
+                            "title": title.strip(),
+                            "raw_frequency": freq,
+                            "topic_tags": [],
+                            "source": "krishna_dey"
+                        })
+                break
+        except Exception as e:
+            logger.debug(f"Failed to fetch {url}: {e}")
+            continue
+
+    if success_url:
+        logger.info(f"Retrieved {len(problems)} problems for '{krishna_key}' from {success_url}")
+    else:
+        logger.warning(f"Could not find valid Krishna Dey CSV for company key: '{krishna_key}'")
+
     return problems
 
 # ---------------------------------------------------------------------------
@@ -255,10 +374,8 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
     Generates role-specific guidelines and partitions/assigns problem sets per role level.
     Summarizes interview guidelines, format, behavioral focus, and rejection reasons.
     """
-    # Sort aggregated problems by raw frequency descending
     sorted_probs = sorted(aggregated_problems, key=lambda x: x["raw_frequency"], reverse=True)
     
-    # Helper to slice problem subsets per level
     def get_role_problems(start_idx: int, count: int) -> List[Dict[str, Any]]:
         subset = sorted_probs[start_idx : start_idx + count]
         if not subset and sorted_probs:
@@ -286,7 +403,7 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                         "System Design & OOD": "15%",
                         "Strings & Two Pointers": "10%"
                     },
-                    "behavioral_focus": "Amazon 16 Leadership Principles (Customer Obsession, Ownership, Bias for Action, Dive Deep, Have Backbone; Disagree and Commit). Must use STAR format.",
+                    "behavioral_focus": "Amazon 16 Leadership Principles (Customer Obsession, Ownership, Bias for Action, Dive Deep). STAR method required.",
                     "common_rejection_reasons": [
                         "Failing to provide concrete STAR examples for Leadership Principles",
                         "Inability to analyze and optimize Time/Space complexity",
@@ -317,27 +434,6 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                     ]
                 },
                 "problems": get_role_problems(5, 30)
-            },
-            {
-                "role_name": "Senior Software Engineer",
-                "level": "Senior L6",
-                "guidelines": {
-                    "interview_format": [
-                        "Onsite (5 Rounds): 2 High Level System Design + 1 System Architecture + 1 Coding + 1 Executive Leadership",
-                        "Focus on multi-team architectural leadership and organizational impact"
-                    ],
-                    "key_topics_weightage": {
-                        "High Level System Design & Architecture": "50%",
-                        "Object-Oriented & Low Level Design": "25%",
-                        "Complex Data Structures & Optimization": "25%"
-                    },
-                    "behavioral_focus": "Earn Trust, Think Big, Hire and Develop the Best, Strategic Vision.",
-                    "common_rejection_reasons": [
-                        "Lack of high-level system design depth and scalability strategies",
-                        "Inadequate demonstration of cross-functional leadership"
-                    ]
-                },
-                "problems": get_role_problems(10, 25)
             }
         ]
 
@@ -350,15 +446,15 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                     "interview_format": [
                         "Technical Phone Screen (45 min): 1-2 Algorithm & Data Structure problems",
                         "Onsite (4 Technical + 1 Behavioral/Googliness): 45 minutes each",
-                        "Strict evaluation on optimal code, edge cases, and clean problem solving without boilerplate"
+                        "Strict evaluation on optimal code, edge cases, and clean problem solving"
                     ],
                     "key_topics_weightage": {
-                        "Graphs & Trees (BFS/DFS, Topological Sort, Dijkstra)": "35%",
+                        "Graphs & Trees (BFS/DFS, Topological Sort)": "35%",
                         "Dynamic Programming & Recursion": "25%",
                         "Arrays, Two Pointers & Binary Search": "25%",
                         "Strings & Tries": "15%"
                     },
-                    "behavioral_focus": "Googliness & Leadership: Navigating ambiguity, ethical decision making, collaboration, and constructive feedback.",
+                    "behavioral_focus": "Googliness & Leadership: Navigating ambiguity, ethical decision making, collaboration.",
                     "common_rejection_reasons": [
                         "Writing unoptimized or brute-force solutions without reaching optimal complexity",
                         "Poor communication of thought process while coding",
@@ -373,8 +469,7 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                 "guidelines": {
                     "interview_format": [
                         "Phone Screen: 1 Medium/Hard DSA Problem",
-                        "Onsite (4 Rounds): 3 Advanced DSA Coding + 1 System Design (HLD/API Design) + Googliness",
-                        "Emphasis on trade-off analysis and production-ready code quality"
+                        "Onsite (4 Rounds): 3 Advanced DSA Coding + 1 System Design + Googliness"
                     ],
                     "key_topics_weightage": {
                         "Advanced Graph Algorithms & Dynamic Programming": "35%",
@@ -382,47 +477,25 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                         "Data Structures Design & Heaps/Trees": "20%",
                         "Sliding Window & Hash Maps": "15%"
                     },
-                    "behavioral_focus": "Thriving in ambiguity, peer leadership, technical ownership, and user empathy.",
+                    "behavioral_focus": "Thriving in ambiguity, peer leadership, technical ownership.",
                     "common_rejection_reasons": [
-                        "Failing the System Design round on scalability or API boundaries",
+                        "Failing the System Design round on scalability",
                         "Slow coding speed preventing completion of 2 problems per round"
                     ]
                 },
                 "problems": get_role_problems(5, 30)
-            },
-            {
-                "role_name": "Senior Software Engineer",
-                "level": "Senior Level (L5)",
-                "guidelines": {
-                    "interview_format": [
-                        "Onsite (5 Rounds): 2 System Design + 2 Advanced Coding/Algorithms + 1 Leadership/Googliness",
-                        "Expectations of mastery in distributed infrastructure and API design"
-                    ],
-                    "key_topics_weightage": {
-                        "Distributed Systems & Scalable Architecture": "45%",
-                        "Complex Algorithms & Optimization": "35%",
-                        "System Design & Reliability": "20%"
-                    },
-                    "behavioral_focus": "Engineering excellence, team mentorship, strategic influence, handling project ambiguity.",
-                    "common_rejection_reasons": [
-                        "Superficial system design answers lacking deep dive into bottleneck resolution",
-                        "Failure to demonstrate technical leadership"
-                    ]
-                },
-                "problems": get_role_problems(12, 25)
             }
         ]
 
     elif company_name == "Meta":
         roles_data = [
             {
-                "role_name": "Software Engineer (Product / Infrastructure)",
-                "level": "New Grad (E3)",
+                "role_name": "Software Engineer",
+                "level": "New Grad & E3/E4",
                 "guidelines": {
                     "interview_format": [
-                        "Technical Screen (45 min): 2 Coding Questions (Speed and accuracy are critical)",
-                        "Onsite (4 Rounds): 2 Coding Rounds (2 problems each in 45 min) + 1 System/Architecture Round + 1 Behavioral/Culture Round",
-                        "Must write bug-free code fast with optimal time/space complexity"
+                        "Technical Screen (45 min): 2 Coding Questions (Speed and accuracy critical)",
+                        "Onsite (4 Rounds): 2 Coding Rounds (2 problems each in 45 min) + 1 System Architecture + 1 Behavioral"
                     ],
                     "key_topics_weightage": {
                         "Binary Trees & BFS/DFS": "30%",
@@ -430,57 +503,13 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                         "Strings & Recursion": "20%",
                         "Hash Tables & Heaps": "20%"
                     },
-                    "behavioral_focus": "Meta Core Values: Move Fast, Focus on Long-Term Impact, Build Awesome Things, Be Direct and Respect Your Colleagues.",
+                    "behavioral_focus": "Meta Core Values: Move Fast, Focus on Long-Term Impact, Build Awesome Things.",
                     "common_rejection_reasons": [
-                        "Failing to solve BOTH coding questions within the 45-minute window",
-                        "Syntax errors or unhandled boundary conditions in code",
-                        "Overcomplicating straightforward algorithm requirements"
+                        "Failing to solve BOTH coding questions within 45 minutes",
+                        "Syntax errors or unhandled boundary conditions"
                     ]
                 },
                 "problems": get_role_problems(0, 30)
-            },
-            {
-                "role_name": "Software Engineer",
-                "level": "Mid Level (E4)",
-                "guidelines": {
-                    "interview_format": [
-                        "Technical Screen: 2 Coding Problems",
-                        "Onsite: 2 Coding Rounds + 1 Product Architecture / System Design Round + 1 Behavioral Round",
-                        "High expectation for clean, executable-level code structure"
-                    ],
-                    "key_topics_weightage": {
-                        "System Design & Product Architecture": "35%",
-                        "Trees, Graphs & Dynamic Programming": "35%",
-                        "Arrays, Hashing & String Manipulation": "30%"
-                    },
-                    "behavioral_focus": "Driving impact, taking initiative, executing quickly with quality.",
-                    "common_rejection_reasons": [
-                        "Inability to design practical APIs and database schemas in Product Architecture",
-                        "Incomplete implementation of second coding question"
-                    ]
-                },
-                "problems": get_role_problems(5, 30)
-            },
-            {
-                "role_name": "Senior Software Engineer",
-                "level": "Senior Level (E5)",
-                "guidelines": {
-                    "interview_format": [
-                        "Onsite: 2 System Design Rounds (HLD) + 2 Coding Rounds + 1 Behavioral/Leadership Round",
-                        "Evaluation centered around driving company-wide engineering solutions"
-                    ],
-                    "key_topics_weightage": {
-                        "System Design & Large-Scale Systems": "50%",
-                        "Advanced Data Structures & Algorithms": "30%",
-                        "Behavioral & Engineering Leadership": "20%"
-                    },
-                    "behavioral_focus": "Cross-functional execution, mentorship, scaling engineering systems, bold bets.",
-                    "common_rejection_reasons": [
-                        "Shallow system design proposals for high-throughput messaging or caching",
-                        "Lack of clear ownership in complex technical projects"
-                    ]
-                },
-                "problems": get_role_problems(10, 25)
             }
         ]
 
@@ -488,12 +517,11 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
         roles_data = [
             {
                 "role_name": "Software Engineer",
-                "level": "New Grad (SDE-1 / L59-60)",
+                "level": "SDE-1 & SDE-2 (L59-L62)",
                 "guidelines": {
                     "interview_format": [
                         "Online Assessment: 2-3 Coding Problems",
-                        "Onsite / Final Loop (3-4 Rounds): 45-60 min rounds combining Coding, Object-Oriented Design, and Behavioral",
-                        "Strong emphasis on clean code, modular design, and collaboration"
+                        "Onsite Loop (4 Rounds): 45-60 min rounds combining Coding, Object-Oriented Design, and Behavioral"
                     ],
                     "key_topics_weightage": {
                         "Arrays & Strings": "30%",
@@ -502,157 +530,357 @@ def build_company_roles(company_name: str, aggregated_problems: List[Dict[str, A
                         "Object-Oriented Design": "15%",
                         "Graphs & Sorting": "10%"
                     },
-                    "behavioral_focus": "Growth Mindset, One Microsoft, Diversity & Inclusion, Customer Obsession.",
+                    "behavioral_focus": "Growth Mindset, One Microsoft, Customer Obsession.",
                     "common_rejection_reasons": [
                         "Failing to write modular, reusable code during whiteboarding/coding",
-                        "Inability to explain runtime complexity and memory trade-offs clearly"
+                        "Inability to explain runtime complexity clearly"
                     ]
                 },
                 "problems": get_role_problems(0, 30)
-            },
-            {
-                "role_name": "Software Engineer 2",
-                "level": "Mid Level (SDE-2 / L61-62)",
-                "guidelines": {
-                    "interview_format": [
-                        "Phone Screen: 1 Coding + OOD",
-                        "Onsite Loop (4 Rounds): 2 DSA Coding + 1 System Design (Azure/Cloud focus) + 1 As-If / AA Round",
-                        "Focus on production readiness and cloud service architecture"
-                    ],
-                    "key_topics_weightage": {
-                        "System Design & Cloud Architecture": "35%",
-                        "Trees, Graphs & Dynamic Programming": "35%",
-                        "Design Data Structures & Multithreading": "30%"
-                    },
-                    "behavioral_focus": "Customer impact, cross-team alignment, operational excellence.",
-                    "common_rejection_reasons": [
-                        "Weak System Design understanding for distributed storage or APIs",
-                        "Failure to adapt solution when hints are provided"
-                    ]
-                },
-                "problems": get_role_problems(5, 30)
             }
         ]
 
-    elif company_name == "Uber":
+    elif company_name == "Flipkart":
         roles_data = [
             {
-                "role_name": "Software Engineer 1",
-                "level": "New Grad (L3)",
+                "role_name": "SDE-1 (Backend / Mobile)",
+                "level": "New Grad & SDE-1",
                 "guidelines": {
                     "interview_format": [
-                        "Online CodeSignal / HackerRank Assessment",
-                        "Technical Phone Screen: 1 Hard/Medium DSA Problem",
-                        "Onsite (4 Rounds): 2 Coding (Algorithms + Heavy Data Structure implementation) + 1 Architecture/LLD + 1 Behavioral",
-                        "Real-world problem context (e.g., geospatial graphs, routing, dispatch algorithms)"
+                        "Machine Coding Round (90-120 min): Write production-ready executable Object-Oriented code (e.g. Parking Lot, Splitwise, Ride Sharing)",
+                        "PS / DS Round: 2 Data Structures & Algorithms Problems (Focus on Trees, Graphs, DP)",
+                        "Hiring Manager & Culture Fit Round"
                     ],
                     "key_topics_weightage": {
-                        "Graphs & Dijkstra/Shortest Path": "35%",
-                        "Heaps, Trees & Segment Trees": "25%",
+                        "Object Oriented Design & Machine Coding": "35%",
+                        "Trees & Graphs (BFS/DFS)": "25%",
                         "Dynamic Programming": "20%",
-                        "Arrays & Hash Maps": "20%"
+                        "Arrays & Two Pointers": "20%"
                     },
-                    "behavioral_focus": "Go the Extra Mile, Stand for Safety, See the Big Picture, Act like an Owner.",
+                    "behavioral_focus": "Audacity, Bias for Action, Customer Obsession, Integrity.",
                     "common_rejection_reasons": [
-                        "Struggling with graph traversal and shortest path implementations under pressure",
-                        "Unoptimized space complexity in memory-intensive algorithms"
+                        "Failing the Machine Coding round due to uncompilable code or missing OOP design patterns",
+                        "Inability to write clean unit-testable code under timed conditions"
                     ]
                 },
                 "problems": get_role_problems(0, 30)
             },
             {
-                "role_name": "Software Engineer 2",
-                "level": "Mid Level (L4)",
+                "role_name": "SDE-2 (Backend)",
+                "level": "Mid Level",
                 "guidelines": {
                     "interview_format": [
-                        "Phone Screen: 1 Algorithmic Problem",
-                        "Onsite: 2 Coding Rounds + 1 High Level System Design (Real-time tracking, dispatch systems) + 1 Behavioral",
-                        "Focus on low latency, real-time streaming, and high concurrency"
+                        "Machine Coding Round (Low Level Design)",
+                        "Problem Solving & Data Structures Round",
+                        "High Level System Design Round (E-commerce Flash Sale, Cart System, Inventory Locking)",
+                        "Managerial / Culture Round"
                     ],
                     "key_topics_weightage": {
-                        "Real-Time System Design & Distributed Systems": "40%",
-                        "Advanced Graphs & Concurrent Data Structures": "35%",
-                        "Arrays & Dynamic Programming": "25%"
+                        "System Design & Scalability": "40%",
+                        "Machine Coding & LLD": "30%",
+                        "Graphs & DP": "30%"
                     },
-                    "behavioral_focus": "Customer obsession, technical speed with quality, resilience under scale.",
+                    "behavioral_focus": "Ownership, handling high-concurrency traffic spike scenarios.",
                     "common_rejection_reasons": [
-                        "Inability to handle real-time streaming constraints (Kafka, WebSockets) in system design",
-                        "Buggy edge case handling in concurrent graph operations"
+                        "Weak concurrency control or database lock handling in flash sale scenarios"
                     ]
                 },
                 "problems": get_role_problems(5, 30)
             }
         ]
 
-    elif company_name == "Apple":
+    elif company_name == "Goldman Sachs":
+        roles_data = [
+            {
+                "role_name": "Analyst (Software Engineer)",
+                "level": "New Grad & Early Career",
+                "guidelines": {
+                    "interview_format": [
+                        "Online Assessment (HackerRank): Math/Aptitude + 2 Coding Questions (Advanced DP/Strings/Trees)",
+                        "Technical Rounds (3-4 Rounds): DSA Coding, CS Fundamentals, Math Logic",
+                        "Behavioral & Fitment Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Dynamic Programming & Math": "35%",
+                        "Arrays & Hash Tables": "25%",
+                        "Strings & Two Pointers": "20%",
+                        "Trees & Graphs": "20%"
+                    },
+                    "behavioral_focus": "Integrity, Excellence, Client First, Teamwork.",
+                    "common_rejection_reasons": [
+                        "Failing mathematical optimization constraints in DP problems",
+                        "Slow speed on HackerRank online assessment"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Adobe":
+        roles_data = [
+            {
+                "role_name": "Member of Technical Staff (MTS)",
+                "level": "New Grad & MTS-1/MTS-2",
+                "guidelines": {
+                    "interview_format": [
+                        "Online Test: CS Fundamentals + Aptitude + 2 Coding Questions",
+                        "Technical Interviews (3-4 Rounds): Coding (DP, Trees, Strings), OS/Memory concepts, LLD",
+                        "Managerial & HR Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Dynamic Programming & Trees": "35%",
+                        "Arrays & Strings": "30%",
+                        "Object-Oriented Design": "20%",
+                        "OS & Memory Management": "15%"
+                    },
+                    "behavioral_focus": "Genuine, Exceptional, Innovative, Involved.",
+                    "common_rejection_reasons": [
+                        "Incomplete DP solutions or failure to optimize memory complexity",
+                        "Weak understanding of OS/C++ memory management"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Oracle":
         roles_data = [
             {
                 "role_name": "Software Engineer",
-                "level": "New Grad / ICT2",
+                "level": "IC1 / IC2",
                 "guidelines": {
                     "interview_format": [
-                        "Recruiter & Technical Phone Screen (45 min)",
-                        "Onsite Loop (4-5 Rounds): Team-specific technical interviews (Coding, CS Fundamentals, OS/Memory Management, Behavioral)",
-                        "Apple interviews are heavily team-dependent with strong emphasis on perfection and low-level detail"
+                        "Online Assessment: Aptitude, SQL/Database MCQs, DSA Coding",
+                        "Technical Rounds (3 Rounds): DSA Coding, SQL & Database internals, Multithreading",
+                        "HR Round"
                     ],
                     "key_topics_weightage": {
-                        "Arrays, Strings & Pointers": "30%",
-                        "Trees & Bit Manipulation": "25%",
-                        "Linked Lists & Data Structure Design": "25%",
-                        "CS Fundamentals & OS concepts": "20%"
+                        "SQL & Database Internals": "30%",
+                        "Arrays & Linked Lists": "25%",
+                        "Trees & Graphs": "25%",
+                        "Dynamic Programming": "20%"
                     },
-                    "behavioral_focus": "Attention to detail, passion for user privacy & quality, collaboration, craftsmanship.",
+                    "behavioral_focus": "Quality, Customer Success, Team Alignment.",
                     "common_rejection_reasons": [
-                        "Lacking deep comprehension of core CS fundamentals (memory, pointers, caching)",
-                        "Careless syntax errors or inability to write clean, maintainable code"
+                        "Weak SQL queries or lack of DB indexing knowledge",
+                        "Suboptimal tree traversal solutions"
                     ]
                 },
                 "problems": get_role_problems(0, 30)
-            },
-            {
-                "role_name": "Software Engineer 2",
-                "level": "Mid Level / ICT3",
-                "guidelines": {
-                    "interview_format": [
-                        "Phone Screen: 1 Technical Coding Problem",
-                        "Onsite Loop (5 Rounds): 3 Technical Coding & CS Architecture + 1 System Design + 1 Hiring Manager Round",
-                        "Focus on robust API design, performance optimization, and privacy"
-                    ],
-                    "key_topics_weightage": {
-                        "System Design & Local/Cloud Storage": "35%",
-                        "Trees, Graphs & Dynamic Programming": "35%",
-                        "Arrays, Hashing & Memory Efficiency": "30%"
-                    },
-                    "behavioral_focus": "Craftsmanship, cross-functional collaboration, discretion, excellence.",
-                    "common_rejection_reasons": [
-                        "Failure to account for low-memory constraints or hardware optimization",
-                        "Unclear architectural boundaries in System Design"
-                    ]
-                },
-                "problems": get_role_problems(5, 30)
             }
         ]
 
-    # Fallback generic role structure if company not matched
+    elif company_name == "Walmart Global Tech":
+        roles_data = [
+            {
+                "role_name": "Software Engineer",
+                "level": "SDE-1 & SDE-2",
+                "guidelines": {
+                    "interview_format": [
+                        "Unstop / HackerRank Online Assessment",
+                        "Technical Interviews (3 Rounds): Data Structures, Algorithms, System Design for Retail Scale",
+                        "Managerial / Behavioral Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Arrays & Hashing": "30%",
+                        "Trees & Graphs": "30%",
+                        "Dynamic Programming": "20%",
+                        "System Design & Database Schema": "20%"
+                    },
+                    "behavioral_focus": "Service to Customer, Respect for Individual, Strive for Excellence.",
+                    "common_rejection_reasons": [
+                        "Inability to write clean scalable logic for large datasets",
+                        "Failing System Design round on schema normalization and caching"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "JPMorgan Chase":
+        roles_data = [
+            {
+                "role_name": "Software Engineer (SEP)",
+                "level": "New Grad & Analyst",
+                "guidelines": {
+                    "interview_format": [
+                        "HackerRank Assessment / Code For Good Hackathon",
+                        "Technical Interviews (2-3 Rounds): DSA, OOPs, SQL, Real-time Financial Data Processing",
+                        "Behavioral & HR Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Arrays & Strings": "30%",
+                        "Object Oriented Programming": "25%",
+                        "Trees & Hashing": "25%",
+                        "SQL & Database Design": "20%"
+                    },
+                    "behavioral_focus": "Integrity, Operational Excellence, Teamwork.",
+                    "common_rejection_reasons": [
+                        "Lack of clean OOP structure",
+                        "Poor collaboration during group hackathon / technical evaluation"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Atlassian":
+        roles_data = [
+            {
+                "role_name": "Graduate / Software Engineer",
+                "level": "P30 Level",
+                "guidelines": {
+                    "interview_format": [
+                        "Online Assessment (HackerRank)",
+                        "Code Design / Craftsmanship Round: Extend and refactor a real-world codebase with clean tests",
+                        "System Design Round: Real-time collaboration, Jira/Confluence scale",
+                        "Values & Leadership Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Code Craftsmanship & Refactoring": "40%",
+                        "System Design & Concurrency": "30%",
+                        "Trees, Graphs & DP": "30%"
+                    },
+                    "behavioral_focus": "Open company, no BS; Build with heart and balance; Play, as a team; Be the change you seek.",
+                    "common_rejection_reasons": [
+                        "Failing Code Craftsmanship round due to poor code structuring or lack of unit tests",
+                        "Inadequate communication during pair-programming"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Infosys":
+        roles_data = [
+            {
+                "role_name": "Specialist Programmer (SP) / DSE",
+                "level": "Digital Specialist & Power Programmer",
+                "guidelines": {
+                    "interview_format": [
+                        "HackWithInfy / InfyTQ Online Coding Challenge (3 Competitive Coding Problems)",
+                        "Technical Interview: Deep dive into Competitive Programming code, Graphs, DP, CS Core",
+                        "HR Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Dynamic Programming & Math": "40%",
+                        "Graph Theory & Advanced Trees": "35%",
+                        "Arrays & Strings": "25%"
+                    },
+                    "behavioral_focus": "Adaptability, Continuous Learning, Problem Solving.",
+                    "common_rejection_reasons": [
+                        "Inability to pass all hidden test cases in competitive programming problems",
+                        "Weak understanding of time complexity limits (TLE)"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Zoho":
+        roles_data = [
+            {
+                "role_name": "Software Developer",
+                "level": "Level 1 to Level 5",
+                "guidelines": {
+                    "interview_format": [
+                        "Round 1: C/C++ Basic Programming & Flowcharts",
+                        "Round 2: Advanced Programming (Complex logic without using built-in high-level libraries)",
+                        "Round 3: Design / System Design (Taxi Booking, Railway Reservation System)",
+                        "Round 4 & 5: Tech HR & General HR"
+                    ],
+                    "key_topics_weightage": {
+                        "Array & String Manipulation (No Libs)": "40%",
+                        "Object-Oriented System Design": "35%",
+                        "Recursion & Pointers": "25%"
+                    },
+                    "behavioral_focus": "Dedication, Hard Work, Long-term commitment.",
+                    "common_rejection_reasons": [
+                        "Relying on high-level library functions during Round 2 logic evaluation",
+                        "Failure to build a complete working prototype for Round 3 System Design"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name in ["Paytm", "PhonePe"]:
+        roles_data = [
+            {
+                "role_name": "Software Engineer (Backend)",
+                "level": "SDE-1 & SDE-2",
+                "guidelines": {
+                    "interview_format": [
+                        "Machine Coding / DSA Round: Build High-Concurrency Payment Gateway Simulator or Ledger System",
+                        "DSA Round: Graphs, Dynamic Programming, Heap/Priority Queue",
+                        "System Design Round: Distributed Transactions, Idempotency, ACID in Fintech",
+                        "Managerial Round"
+                    ],
+                    "key_topics_weightage": {
+                        "System Design & Idempotency": "40%",
+                        "Machine Coding & LLD": "30%",
+                        "Graphs & DP": "30%"
+                    },
+                    "behavioral_focus": "Bias for Action, Extreme Speed, Ownership.",
+                    "common_rejection_reasons": [
+                        "Missing idempotency or race-condition checks in payment system design",
+                        "Slow execution in machine coding round"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    elif company_name == "Samsung":
+        roles_data = [
+            {
+                "role_name": "Software Engineer (SWC)",
+                "level": "Campus & Lateral",
+                "guidelines": {
+                    "interview_format": [
+                        "Samsung Advanced Software Competency Test (3-Hour 1-Problem Test in C/C++/Java)",
+                        "Strict evaluation: 100% test cases must pass (Graph BFS/DFS, Backtracking, DP)",
+                        "Technical Interview (Project & Code discussion)",
+                        "HR Round"
+                    ],
+                    "key_topics_weightage": {
+                        "Graph Algorithms (BFS/DFS/Shortest Path)": "45%",
+                        "Backtracking & Recursion": "35%",
+                        "Dynamic Programming": "20%"
+                    },
+                    "behavioral_focus": "Perseverance, Technical Perfection, Respect.",
+                    "common_rejection_reasons": [
+                        "Failing even 1 test case out of 50 in the 3-hour Competency Test",
+                        "Exceeding time or memory limit constraints"
+                    ]
+                },
+                "problems": get_role_problems(0, 30)
+            }
+        ]
+
+    # Default fallback for Cisco, Intuit, Salesforce, PayPal, etc.
     if not roles_data:
         roles_data = [
             {
                 "role_name": "Software Engineer",
-                "level": "Mid Level",
+                "level": "SDE-1 & SDE-2",
                 "guidelines": {
                     "interview_format": [
-                        "Technical Phone Screen (45 min)",
-                        "Onsite Loop (4 Rounds): 2 DSA Coding + 1 System Design + 1 Behavioral"
+                        "Online Assessment (2-3 Coding Problems)",
+                        "Technical Round 1: DSA (Arrays, Trees, Graphs, DP)",
+                        "Technical Round 2: Low-Level Design / System Design",
+                        "Managerial / HR Round"
                     ],
                     "key_topics_weightage": {
-                        "Arrays & Trees": "40%",
-                        "Dynamic Programming & Graphs": "40%",
-                        "System Design": "20%"
+                        "Arrays & Hash Tables": "30%",
+                        "Trees & Graphs": "30%",
+                        "Dynamic Programming": "20%",
+                        "System Design & OOP": "20%"
                     },
-                    "behavioral_focus": "Problem solving, communication, teamwork, technical adaptability.",
+                    "behavioral_focus": "Technical Excellence, Team Collaboration, Customer Focus.",
                     "common_rejection_reasons": [
                         "Suboptimal time complexity solutions",
-                        "Inadequate communication of algorithm steps"
+                        "Inadequate communication of algorithmic logic"
                     ]
                 },
                 "problems": get_role_problems(0, 30)
@@ -681,7 +909,7 @@ def aggregate_and_normalize_company_data(
 
     logger.info(f"--- Processing data pipeline for: {company_name} ---")
 
-    # Step 1: Fetch raw problems from Krishna Dey CSV
+    # Step 1: Fetch raw problems from Krishna Dey CSV with suffix fallbacks
     krishna_probs = fetch_krishna_dey_csv(session, krishna_key)
 
     # Step 2: Fetch raw problems from Sean Prashad dataset
@@ -704,7 +932,6 @@ def aggregate_and_normalize_company_data(
     for p in sean_probs:
         slug = p["leetcode_slug"]
         if slug in problem_map:
-            # Accumulate frequency & union topic tags
             problem_map[slug]["raw_frequency"] += p["raw_frequency"]
             problem_map[slug]["topic_tags"].update(p["topic_tags"])
         else:
@@ -731,7 +958,6 @@ def aggregate_and_normalize_company_data(
             if max_freq == min_freq:
                 score = 5
             else:
-                # Min-Max Scaling mapped to 1-10 range
                 scaled = 1 + 9 * (raw_f - min_freq) / (max_freq - min_freq)
                 score = max(1, min(10, int(round(scaled))))
 
@@ -764,17 +990,17 @@ def main():
 
     session = requests.Session()
 
-    # Step 1: Pre-fetch global patterns dataset
+    # Pre-fetch global patterns dataset
     sean_patterns = fetch_sean_prashad_patterns(session)
 
     validated_companies = []
 
-    # Step 2: Iterate and process each target company
+    # Iterate and process each target company
     for comp in TARGET_COMPANIES:
         try:
             raw_company_dict = aggregate_and_normalize_company_data(comp, sean_patterns, session)
 
-            # Step 3: Validate output against Pydantic schema
+            # Validate output against Pydantic schema
             validated_obj = CompanySchema(**raw_company_dict)
             validated_companies.append(validated_obj.model_dump())
             logger.info(f"Successfully scraped & validated data for {comp['company_name']}.")
@@ -783,7 +1009,7 @@ def main():
             logger.error(f"Error processing company {comp['company_name']}: {e}", exc_info=True)
             continue
 
-    # Step 4: Write output JSON file to src/data/companies_data.json
+    # Write output JSON file to src/data/companies_data.json
     output_dir = os.path.join(os.getcwd(), "src", "data")
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, "companies_data.json")
