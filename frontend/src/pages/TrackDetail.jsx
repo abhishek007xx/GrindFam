@@ -11,7 +11,7 @@ import NotesModal from '../components/NotesModal';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   AlertTriangle, Target, MessageSquare, Award, Search,
-  CheckCircle, RotateCcw, BookOpen, Flame
+  CheckCircle, RotateCcw, BookOpen, Flame, Sparkles
 } from 'lucide-react';
 
 export function TrackDetail() {
