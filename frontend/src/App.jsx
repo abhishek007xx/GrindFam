@@ -6,6 +6,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import CompaniesGrid from './pages/CompaniesGrid';
 import TrackDetail from './pages/TrackDetail';
+import SheetsExplorer from './pages/SheetsExplorer';
+import SheetDetail from './pages/SheetDetail';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -87,6 +89,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <TrackDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sheets"
+            element={
+              <ProtectedRoute>
+                <SheetsExplorer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sheet/:sheetSlug"
+            element={
+              <ProtectedRoute>
+                <SheetDetail />
               </ProtectedRoute>
             }
           />

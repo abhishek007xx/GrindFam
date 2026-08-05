@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  LayoutDashboard, Building2, Trophy, Users, UserPlus, Pencil,
+  LayoutDashboard, Building2, FileCode2, Trophy, Users, UserPlus, Pencil,
   Activity, Settings, LogOut, Flame, Shield
 } from 'lucide-react';
 
@@ -16,6 +16,7 @@ const getInitials = (name = '') => {
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
   { id: 'companies', label: 'Company Tracks', icon: Building2, path: '/companies' },
+  { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
   { id: 'squadOptions', label: 'Squad Options', icon: Shield, path: null },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'friends', label: 'Friends', icon: Users, path: '/', scrollTo: 'leaderboard-section' },
