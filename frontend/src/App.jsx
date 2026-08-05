@@ -4,6 +4,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CompaniesGrid from './pages/CompaniesGrid';
+import TrackDetail from './pages/TrackDetail';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -69,6 +71,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/companies"
+            element={
+              <ProtectedRoute>
+                <CompaniesGrid />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/company/:companySlug/:trackId"
+            element={
+              <ProtectedRoute>
+                <TrackDetail />
               </ProtectedRoute>
             }
           />

@@ -1,7 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  LayoutDashboard, Trophy, Users, UserPlus, Pencil,
+  LayoutDashboard, Building2, Trophy, Users, UserPlus, Pencil,
   Activity, Settings, LogOut, Flame, Shield
 } from 'lucide-react';
 
@@ -13,44 +14,51 @@ const getInitials = (name = '') => {
 };
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, scrollTo: null },
-  { id: 'squadOptions', label: 'Squad Options', icon: Shield, scrollTo: null },
-  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, scrollTo: 'leaderboard-section' },
-  { id: 'friends', label: 'Friends', icon: Users, scrollTo: 'leaderboard-section' },
-  { id: 'addFriend', label: 'Add Friend', icon: UserPlus, scrollTo: 'add-friend-section' },
-  { id: 'editTarget', label: 'Edit Target', icon: Pencil, scrollTo: null },
-  { id: 'activity', label: 'Activity', icon: Activity, scrollTo: 'activity-section' },
-  { id: 'settings', label: 'Settings', icon: Settings, scrollTo: null },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+  { id: 'companies', label: 'Company Tracks', icon: Building2, path: '/companies' },
+  { id: 'squadOptions', label: 'Squad Options', icon: Shield, path: null },
+  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
+  { id: 'friends', label: 'Friends', icon: Users, path: '/', scrollTo: 'leaderboard-section' },
+  { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/', scrollTo: 'add-friend-section' },
+  { id: 'editTarget', label: 'Edit Target', icon: Pencil, path: null },
+  { id: 'activity', label: 'Activity', icon: Activity, path: '/', scrollTo: 'activity-section' },
+  { id: 'settings', label: 'Settings', icon: Settings, path: null },
 ];
 
 const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpenSquadModal, platformTotal = 0 }) => {
+  const navigate = useNavigate();
   const { profile, user, signOut } = useAuth();
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const initials = getInitials(name);
 
   // Dynamic level & XP from platformTotal
   const level = Math.max(1, Math.floor(platformTotal / 10) + 1);
-  const xpInLevel = (platformTotal % 10) * 50; // each problem = 50 XP
-  const xpMax = 500; // 10 problems per level × 50 XP
+  const xpInLevel = (platformTotal % 10) * 50;
+  const xpMax = 500;
   const xpPercent = Math.min(100, Math.round((xpInLevel / xpMax) * 100));
 
-  const handleClick = (id) => {
-    if (id === 'editTarget') {
+  const handleClick = (item) => {
+    if (item.id === 'editTarget') {
       onEditTarget?.();
       return;
     }
-    if (id === 'squadOptions') {
+    if (item.id === 'squadOptions') {
       onOpenSquadModal?.();
       return;
     }
 
-    onNavigate?.(id);
+    if (item.path && item.path !== window.location.pathname) {
+      navigate(item.path);
+    } else {
+      onNavigate?.(item.id);
+    }
 
-    const item = navItems.find((n) => n.id === id);
-    if (item?.scrollTo) {
-      const el = document.getElementById(item.scrollTo);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else if (id === 'dashboard') {
+    if (item.scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(item.scrollTo);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } else if (item.id === 'dashboard') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -58,7 +66,7 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[240px] bg-[#0d1117] border-r border-[#21262d] flex flex-col z-40 overflow-y-auto">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-[#21262d]">
+      <div className="px-5 py-5 border-b border-[#21262d] cursor-pointer" onClick={() => navigate('/')}>
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 flex items-center justify-center">
             <span className="text-[#22c55e] font-black text-sm">&lt;&gt;</span>
@@ -77,8 +85,8 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
         {navItems.map((item) => (
           <div
             key={item.id}
-            onClick={() => handleClick(item.id)}
-            className={`sidebar-nav-item ${activeSection === item.id ? 'active' : ''}`}
+            onClick={() => handleClick(item)}
+            className={`sidebar-nav-item cursor-pointer ${activeSection === item.id ? 'active' : ''}`}
           >
             <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
             <span>{item.label}</span>
