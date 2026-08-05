@@ -181,7 +181,90 @@ const removeFriend = async (req, res) => {
   }
 };
 
+/**
+ * GET /api/friends
+ * Returns all friends for logged-in user with profile and solved stats
+ */
+const getFriendsList = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Get all friend_ids for logged in user
+    const { data: friendRows, error: friendError } = await supabase
+      .from('friends')
+      .select('friend_id, created_at')
+      .eq('user_id', userId);
+
+    if (friendError) {
+      console.error('Error fetching friends list:', friendError);
+      return res.status(500).json({ error: 'Failed to fetch friends.' });
+    }
+
+    if (!friendRows || friendRows.length === 0) {
+      return res.json({ friends: [] });
+    }
+
+    const friendIds = friendRows.map(f => f.friend_id);
+
+    // Fetch profiles for these friends
+    const { data: profiles, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .in('id', friendIds);
+
+    if (profileError) {
+      console.error('Error fetching friend profiles:', profileError);
+      return res.status(500).json({ error: 'Failed to fetch friend profiles.' });
+    }
+
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    // Fetch today's activity stats for friends
+    const friendsWithStats = await Promise.all(
+      (profiles || []).map(async (profile) => {
+        let todayCount = 0;
+        let platformTotal = 0;
+
+        try {
+          const { data: todayRow } = await supabase
+            .from('daily_activity')
+            .select('solved_count')
+            .eq('user_id', profile.id)
+            .eq('activity_date', todayDate)
+            .maybeSingle();
+
+          if (todayRow) todayCount = todayRow.solved_count || 0;
+
+          const { data: activityRows } = await supabase
+            .from('daily_activity')
+            .select('solved_count')
+            .eq('user_id', profile.id);
+
+          if (activityRows) {
+            platformTotal = activityRows.reduce((sum, r) => sum + (r.solved_count || 0), 0);
+          }
+        } catch (_) {}
+
+        return {
+          id: profile.id,
+          name: profile.name || profile.leetcode_username || 'Friend',
+          leetcodeUsername: profile.leetcode_username,
+          email: profile.email,
+          todayCount,
+          platformTotal
+        };
+      })
+    );
+
+    return res.json({ friends: friendsWithStats });
+  } catch (error) {
+    console.error('Error in getFriendsList:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   addFriend,
-  removeFriend
+  removeFriend,
+  getFriendsList
 };

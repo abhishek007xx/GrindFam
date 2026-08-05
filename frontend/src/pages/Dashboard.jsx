@@ -13,6 +13,7 @@ import WeeklyProgress from '../components/WeeklyProgress';
 import RecentActivity from '../components/RecentActivity';
 import ProgressChart, { MotivationalCard } from '../components/ProgressChart';
 import AddFriend from '../components/AddFriend';
+import FriendsList from '../components/FriendsList';
 import EditTargetModal from '../components/EditTargetModal';
 import SquadManagerModal from '../components/SquadManagerModal';
 import ContributionHeatmap from '../components/ContributionHeatmap';
@@ -112,6 +113,7 @@ const Dashboard = () => {
     stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
     leaderboard: []
   });
+  const [socialTab, setSocialTab] = useState('leaderboard'); // 'leaderboard' | 'squad' | 'friends'
   const [weeklyData, setWeeklyData] = useState([]);
   const [removingId, setRemovingId] = useState(null);
 
@@ -137,6 +139,17 @@ const Dashboard = () => {
   }, [token]);
 
   useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
+
+  // Handle 1-click Join Squad from URL params (?joinSquad=CODE)
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const joinCode = urlParams.get('joinSquad');
+    if (joinCode && token) {
+      handleJoinSquad(joinCode).then(() => {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }).catch(console.error);
+    }
+  }, [token]);
 
   // ─── Existing handlers (unchanged) ───
   const handleCopySquadCode = () => {
@@ -286,37 +299,150 @@ const Dashboard = () => {
                 onEditTarget={() => setIsEditModalOpen(true)}
               />
 
-              {/* Leaderboard + Right Sidebar */}
-              <div className="grid-dashboard-main mb-6" id="leaderboard-section">
-                {/* Left: Leaderboard */}
-                <LeaderboardTable
-                  leaderboard={dashboardData.leaderboard}
-                  dailyTarget={dailyTarget}
-                  onRemoveFriend={handleRemoveFriend}
-                  removingId={removingId}
-                />
-                {/* Right: Weekly Progress + Recent Activity */}
-                <div className="flex flex-col gap-4">
-                  <WeeklyProgress
-                    yourTodayCount={yourTodayCount}
-                    dailyTarget={dailyTarget}
-                    platformTotal={yourPlatformTotal}
-                    weeklyData={weeklyData}
-                  />
-                  <RecentActivity leaderboard={dashboardData.leaderboard} />
+              {/* 🏆 Social Category Hub Navigation */}
+              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2 bg-[#0d1117] p-1.5 rounded-xl border border-[#21262d]">
+                  <button
+                    onClick={() => setSocialTab('leaderboard')}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                      socialTab === 'leaderboard'
+                        ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                        : 'text-[#8b949e] hover:text-white'
+                    }`}
+                  >
+                    <span>🏆 Leaderboard</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSocialTab('squad')}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                      socialTab === 'squad'
+                        ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                        : 'text-[#8b949e] hover:text-white'
+                    }`}
+                  >
+                    <span>🛡️ Squad Hub</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSocialTab('friends')}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                      socialTab === 'friends'
+                        ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                        : 'text-[#8b949e] hover:text-white'
+                    }`}
+                  >
+                    <span>👥 Friends ({dashboardData.stats?.totalFriends || 0})</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsSquadModalOpen(true)}
+                    className="px-3.5 py-2 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-white text-xs font-bold flex items-center gap-1.5 transition-all"
+                  >
+                    <Shield className="w-4 h-4 text-[#22c55e]" /> Squad Options
+                  </button>
                 </div>
               </div>
 
-              {/* Bottom Row: Progress Chart + Motivational + Add Friend */}
-              <div className="grid-dashboard-main mb-6">
-                {/* Left: Progress Chart */}
-                <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} weeklyData={weeklyData} />
-                {/* Right: Motivational + Add Friend */}
-                <div className="flex flex-col gap-4">
-                  <MotivationalCard yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} />
+              {/* Active Tab View */}
+              {socialTab === 'leaderboard' && (
+                <div className="grid-dashboard-main mb-6" id="leaderboard-section">
+                  {/* Left: Leaderboard */}
+                  <LeaderboardTable
+                    leaderboard={dashboardData.leaderboard}
+                    dailyTarget={dailyTarget}
+                    onRemoveFriend={handleRemoveFriend}
+                    removingId={removingId}
+                  />
+                  {/* Right: Weekly Progress + Recent Activity */}
+                  <div className="flex flex-col gap-4">
+                    <WeeklyProgress
+                      yourTodayCount={yourTodayCount}
+                      dailyTarget={dailyTarget}
+                      platformTotal={yourPlatformTotal}
+                      weeklyData={weeklyData}
+                    />
+                    <RecentActivity leaderboard={dashboardData.leaderboard} />
+                  </div>
+                </div>
+              )}
+
+              {socialTab === 'squad' && (
+                <div className="space-y-6 mb-6">
+                  {/* Squad Info Card */}
+                  <div className="dash-card p-6 border border-[#22c55e]/30 bg-gradient-to-br from-[#161b22] to-[#0d1117] relative overflow-hidden">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Shield className="w-5 h-5 text-[#22c55e]" />
+                          <span className="text-xs font-extrabold uppercase text-[#22c55e] tracking-wider">Your Active Squad</span>
+                        </div>
+                        <h2 className="text-2xl font-black text-white">{dashboardData.squadInfo?.name || "Your Squad"}</h2>
+                        <p className="text-xs text-[#8b949e] mt-1">
+                          Squad Code: <span className="font-mono text-[#22c55e] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={handleCopySquadCode}
+                          className="px-4 py-2.5 rounded-xl bg-[#21262d] hover:bg-[#30363d] text-white text-xs font-bold flex items-center gap-2 border border-[#30363d] transition-all"
+                        >
+                          {copiedCode ? <Check className="w-4 h-4 text-[#22c55e]" /> : <Copy className="w-4 h-4" />}
+                          <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
+                        </button>
+
+                        <button
+                          onClick={() => setIsSquadModalOpen(true)}
+                          className="px-4 py-2.5 rounded-xl bg-[#22c55e] hover:bg-[#1ea34d] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#22c55e]/20 transition-all"
+                        >
+                          <Users className="w-4 h-4" /> Manage Squad
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <LeaderboardTable
+                    leaderboard={dashboardData.leaderboard}
+                    dailyTarget={dailyTarget}
+                    onRemoveFriend={handleRemoveFriend}
+                    removingId={removingId}
+                  />
+                </div>
+              )}
+
+              {socialTab === 'friends' && (
+                <div className="space-y-6 mb-6">
+                  <FriendsList
+                    token={token}
+                    onRemoveFriend={handleRemoveFriend}
+                    removingId={removingId}
+                    onOpenAddFriend={() => {
+                      const el = document.getElementById('add-friend-section');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  />
+
                   <div id="add-friend-section">
                     <AddFriend onAddFriend={handleAddFriend} />
                   </div>
+                </div>
+              )}
+
+              {/* Bottom Row: Progress Chart + Motivational */}
+              <div className="grid-dashboard-main mb-6">
+                {/* Left: Progress Chart */}
+                <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} weeklyData={weeklyData} />
+                {/* Right: Motivational */}
+                <div className="flex flex-col gap-4">
+                  <MotivationalCard yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} />
+                  {socialTab !== 'friends' && (
+                    <div id="add-friend-section">
+                      <AddFriend onAddFriend={handleAddFriend} />
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -7,6 +7,7 @@ const SquadManagerModal = ({ isOpen, onClose, squadInfo, onCreateSquad, onJoinSq
   const [squadCodeInput, setSquadCodeInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
   const [message, setMessage] = useState(null);
 
   if (!isOpen) return null;
@@ -110,20 +111,40 @@ const SquadManagerModal = ({ isOpen, onClose, squadInfo, onCreateSquad, onJoinSq
             <h3 className="text-base font-extrabold text-white">{squadInfo.name}</h3>
 
             {/* Squad Code Box */}
-            <div className="mt-3 flex items-center justify-between p-2.5 rounded-lg bg-[#0d1117] border border-[#21262d]">
-              <div className="flex items-center gap-2">
-                <Hash className="w-4 h-4 text-[#6e7681]" />
-                <span className="text-xs text-[#8b949e]">Squad ID / Code:</span>
-                <span className="font-mono text-sm font-bold text-[#22c55e]">{squadInfo.code || squadInfo.id}</span>
+            <div className="mt-3 space-y-2">
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0d1117] border border-[#21262d]">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Hash className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
+                  <span className="text-xs text-[#8b949e]">Squad Code:</span>
+                  <span className="font-mono text-sm font-bold text-[#22c55e] truncate">{squadInfo.code || squadInfo.id}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="px-2.5 py-1 bg-[#21262d] hover:bg-[#30363d] text-white rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors flex-shrink-0"
+                >
+                  {copied ? <Check className="w-3.5 h-3.5 text-[#22c55e]" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={handleCopyCode}
-                className="px-2.5 py-1 bg-[#21262d] hover:bg-[#30363d] text-white rounded-md text-xs font-semibold flex items-center gap-1 transition-colors"
-              >
-                {copied ? <Check className="w-3.5 h-3.5 text-[#22c55e]" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? 'Copied!' : 'Copy Code'}</span>
-              </button>
+
+              <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#0d1117] border border-[#21262d]">
+                <span className="text-xs text-[#8b949e]">Invite Link:</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const code = squadInfo.code || squadInfo.id;
+                    const url = `${window.location.origin}/?joinSquad=${code}`;
+                    navigator.clipboard.writeText(url);
+                    setCopiedLink(true);
+                    setTimeout(() => setCopiedLink(false), 2000);
+                  }}
+                  className="px-2.5 py-1 bg-[#22c55e]/15 hover:bg-[#22c55e]/25 text-[#22c55e] border border-[#22c55e]/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                >
+                  {copiedLink ? <Check className="w-3.5 h-3.5 text-[#22c55e]" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedLink ? 'Link Copied!' : 'Copy Invite Link'}</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

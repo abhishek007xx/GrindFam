@@ -150,18 +150,42 @@ const getDashboardData = async (req, res) => {
         }
 
 
-        // Fetch sum of all solved counts on GrindFam for this user
+        // Fetch activity history for user to calculate streak & platformTotal
         let platformTotal = 0;
+        let streak = 0;
         try {
           const { data: activityRows } = await supabase
             .from('daily_activity')
-            .select('solved_count')
-            .eq('user_id', profile.id);
+            .select('activity_date, solved_count')
+            .eq('user_id', profile.id)
+            .gt('solved_count', 0);
 
           if (activityRows && activityRows.length > 0) {
             platformTotal = activityRows.reduce((sum, row) => sum + (row.solved_count || 0), 0);
+            
+            // Calculate streak
+            const dates = activityRows.map(r => r.activity_date);
+            const sortedDates = Array.from(new Set(dates)).sort().reverse();
+            const todayStr = todayDate;
+            const yesterdayDate = new Date();
+            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+            const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
+
+            if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
+              let checkDate = new Date(sortedDates[0]);
+              for (const dStr of sortedDates) {
+                const expected = checkDate.toISOString().split('T')[0];
+                if (dStr === expected) {
+                  streak++;
+                  checkDate.setDate(checkDate.getDate() - 1);
+                } else {
+                  break;
+                }
+              }
+            }
           } else {
             platformTotal = todayCount;
+            if (todayCount > 0) streak = 1;
           }
         } catch (sumErr) {
           console.error(`Error fetching platform total for ${profile.id}:`, sumErr);
@@ -170,13 +194,14 @@ const getDashboardData = async (req, res) => {
 
         return {
           id: profile.id,
-          name: profile.name,
+          name: profile.name || profile.leetcode_username || 'Grinder',
           leetcodeUsername: profile.leetcode_username,
           isSelf: profile.isSelf,
           relationshipId: profile.relationshipId,
           platformTotal, // Total solved on GrindFam
           todayCount,    // Full today count (even if > 5)
           targetHit,
+          streak,
           error: lcData.error
         };
       })
@@ -190,16 +215,28 @@ const getDashboardData = async (req, res) => {
       return b.platformTotal - a.platformTotal;
     });
 
-    // Calculate rank
-    const leaderboard = leaderboardData.map((item, index) => ({
-      ...item,
-      rank: index + 1
-    }));
+    // Calculate rank and assign MVP badges
+    const leaderboard = leaderboardData.map((item, index) => {
+      let badge = null;
+      if (index === 0 && item.todayCount > 0) badge = '👑 Leaderboard MVP';
+      else if (item.streak >= 3) badge = `🔥 ${item.streak} Day Streak`;
+      else if (item.targetHit) badge = '🎯 Target Smashed';
 
-    // Summary stats
-    const selfData = leaderboard.find((u) => u.isSelf) || { todayCount: 0, targetHit: false, platformTotal: 0 };
+      return {
+        ...item,
+        rank: index + 1,
+        badge
+      };
+    });
+
+    // Summary stats & Squad aggregates
+    const selfData = leaderboard.find((u) => u.isSelf) || { todayCount: 0, targetHit: false, platformTotal: 0, streak: 0 };
     const totalFriends = Math.max(0, allProfiles.length - 1);
     const hitTargetTodayCount = leaderboard.filter((u) => u.targetHit).length;
+    const squadTodaySolved = leaderboard.reduce((sum, u) => sum + u.todayCount, 0);
+    const squadCompletionRate = leaderboard.length > 0
+      ? Math.round((hitTargetTodayCount / leaderboard.length) * 100)
+      : 0;
 
     return res.json({
       dailyTarget,
@@ -208,7 +245,10 @@ const getDashboardData = async (req, res) => {
         id: activeSquad.id,
         name: activeSquad.name,
         code: activeSquad.code,
-        createdBy: activeSquad.created_by
+        createdBy: activeSquad.created_by,
+        memberCount: leaderboard.length,
+        squadTodaySolved,
+        squadCompletionRate
       } : null,
       stats: {
         dailyTarget,
@@ -216,7 +256,10 @@ const getDashboardData = async (req, res) => {
         hitTargetTodayCount,
         yourTodayCount: selfData.todayCount,
         yourTargetHit: selfData.targetHit,
-        yourPlatformTotal: selfData.platformTotal
+        yourPlatformTotal: selfData.platformTotal,
+        yourStreak: selfData.streak,
+        squadTodaySolved,
+        squadCompletionRate
       },
       leaderboard
     });
