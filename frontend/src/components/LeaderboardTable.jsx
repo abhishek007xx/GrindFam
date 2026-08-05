@@ -57,30 +57,29 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
 
     if (isOverachieved) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-500/12 text-orange-400 border border-orange-500/25 text-xs font-semibold">
-          <Flame className="w-3.5 h-3.5" /> Overachieved
-          <span className="text-orange-300 font-bold ml-0.5">+{user.todayCount - dailyTarget}</span>
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-orange-500/12 text-orange-400 border border-orange-500/25 text-[10px] font-semibold whitespace-nowrap">
+          <Flame className="w-3 h-3" /> +{user.todayCount - dailyTarget}
         </span>
       );
     }
     if (isTargetHit) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#22c55e]/12 text-[#22c55e] border border-[#22c55e]/25 text-xs font-semibold">
-          <CheckCircle2 className="w-3.5 h-3.5" /> Hit Target
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#22c55e]/12 text-[#22c55e] border border-[#22c55e]/25 text-[10px] font-semibold whitespace-nowrap">
+          <CheckCircle2 className="w-3 h-3" /> Done
         </span>
       );
     }
     const percent = Math.round((user.todayCount / dailyTarget) * 100);
-    if (percent >= 60) return <span className="text-xs text-[#8b949e] font-medium">On Track</span>;
-    return <span className="text-xs text-[#6e7681] font-medium">Keep Going</span>;
+    if (percent >= 60) return <span className="text-[10px] text-[#8b949e] font-medium">On Track</span>;
+    return <span className="text-[10px] text-[#6e7681] font-medium">Keep Going</span>;
   };
 
   return (
     <div className="dash-card overflow-hidden">
       {/* Header with View Mode Filter */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-[#21262d]">
+      <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-b border-[#21262d]">
         <div className="flex items-center gap-2">
-          <Trophy className="w-4.5 h-4.5 text-yellow-500" />
+          <Trophy className="w-4 h-4 text-yellow-500" />
           <h2 className="text-[15px] font-bold text-white">Squad Leaderboard</h2>
         </div>
 
@@ -95,7 +94,7 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
             }`}
           >
             <Calendar className="w-3 h-3" />
-            <span>Today</span>
+            <span className="hidden sm:inline">Today</span>
           </button>
 
           <button
@@ -107,18 +106,18 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
             }`}
           >
             <Globe className="w-3 h-3" />
-            <span>All-Time</span>
+            <span className="hidden sm:inline">All-Time</span>
           </button>
         </div>
       </div>
 
-      {/* Table Header */}
-      <div className="grid grid-cols-[50px_1fr_110px_1fr_110px_120px] items-center px-5 py-2.5 text-[11px] font-semibold text-[#6e7681] uppercase tracking-wider border-b border-[#21262d]/60">
+      {/* Table Header — Responsive: hide Progress & All-Time on small screens */}
+      <div className="grid grid-cols-[40px_1fr_70px_90px] sm:grid-cols-[50px_1fr_90px_1fr_100px_110px] items-center px-4 sm:px-5 py-2.5 text-[10px] sm:text-[11px] font-semibold text-[#6e7681] uppercase tracking-wider border-b border-[#21262d]/60">
         <span>Rank</span>
         <span>Member</span>
-        <span className={`text-center ${viewMode === 'today' ? 'text-[#22c55e] font-bold' : ''}`}>Today's Solved</span>
-        <span className="text-center">Progress</span>
-        <span className={`text-center ${viewMode === 'allTime' ? 'text-[#22c55e] font-bold' : ''}`}>All-Time Total</span>
+        <span className={`text-center ${viewMode === 'today' ? 'text-[#22c55e] font-bold' : ''}`}>Today</span>
+        <span className="hidden sm:block text-center">Progress</span>
+        <span className={`hidden sm:block text-center ${viewMode === 'allTime' ? 'text-[#22c55e] font-bold' : ''}`}>All-Time</span>
         <span className="text-center">Status</span>
       </div>
 
@@ -142,21 +141,21 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
             return (
               <div
                 key={user.id}
-                className={`grid grid-cols-[50px_1fr_110px_1fr_110px_120px] items-center px-5 py-3.5 transition-colors ${rowBg}`}
+                className={`grid grid-cols-[40px_1fr_70px_90px] sm:grid-cols-[50px_1fr_90px_1fr_100px_110px] items-center px-4 sm:px-5 py-3 sm:py-3.5 transition-colors ${rowBg}`}
               >
                 {/* Rank */}
                 <div>{getRankDisplay(user.displayRank)}</div>
 
                 {/* Member */}
-                <div className="flex items-center gap-2.5">
-                  <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[11px] border border-white/15 flex-shrink-0`}>
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                  <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[10px] sm:text-[11px] border border-white/15 flex-shrink-0`}>
                     {initials}
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-semibold text-[#e6edf3]">{user.name}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-[#e6edf3] truncate">{user.name}</span>
                       {user.isSelf && (
-                        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30">(You)</span>
+                        <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30 flex-shrink-0">(You)</span>
                       )}
                     </div>
                   </div>
@@ -169,8 +168,8 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
                   </span>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="px-2">
+                {/* Progress Bar — hidden on mobile */}
+                <div className="hidden sm:block px-2">
                   <div className="flex items-center gap-2.5">
                     <span className={`text-xs font-bold min-w-[36px] ${isTargetHit ? 'text-[#22c55e]' : 'text-[#8b949e]'}`}>
                       {progressPercent}%
@@ -189,15 +188,15 @@ const LeaderboardTable = ({ leaderboard = [], dailyTarget = 5, onRemoveFriend, r
                   </div>
                 </div>
 
-                {/* All-Time Total */}
-                <div className="text-center">
+                {/* All-Time Total — hidden on mobile */}
+                <div className="hidden sm:block text-center">
                   <span className={`text-sm font-bold ${viewMode === 'allTime' ? 'text-[#22c55e]' : 'text-white'}`}>
                     {user.error ? '—' : (user.platformTotal || 0)}
                   </span>
                 </div>
 
                 {/* Status */}
-                <div className="text-center">
+                <div className="text-center flex items-center justify-center">
                   {getStatusBadge(user)}
                 </div>
               </div>

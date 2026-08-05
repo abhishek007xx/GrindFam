@@ -19,8 +19,8 @@ const EditTargetModal = ({ isOpen, currentTarget = 5, onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="w-full max-w-md bg-[#161b22] p-7 rounded-2xl border border-[#30363d] shadow-2xl relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+      <div className="w-full max-w-md bg-[#161b22] p-7 rounded-2xl border border-[#30363d] shadow-2xl shadow-black/40 relative animate-scaleIn" onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} className="absolute top-4 right-4 p-1.5 rounded-lg text-[#8b949e] hover:text-white hover:bg-white/5 transition-all hover:rotate-90 duration-200">
           <X className="w-5 h-5" />
         </button>

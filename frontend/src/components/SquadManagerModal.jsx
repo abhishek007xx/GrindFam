@@ -69,8 +69,8 @@ const SquadManagerModal = ({ isOpen, onClose, squadInfo, onCreateSquad, onJoinSq
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-md dash-card p-6 border border-[#30363d] rounded-2xl shadow-2xl bg-[#0d1117]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+      <div className="relative w-full max-w-md dash-card p-6 border border-[#30363d] rounded-2xl shadow-2xl shadow-black/40 bg-[#0d1117] animate-scaleIn" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-[#21262d]">
           <div className="flex items-center gap-3">

@@ -125,16 +125,16 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   return (
-    <div className="dash-card p-6" id="activity-section">
+    <div className="dash-card p-4 sm:p-6" id="activity-section">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/25 text-[#22c55e]">
+          <div className="p-2 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/25 text-[#22c55e] flex-shrink-0">
             <GitCommit className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              All-Time Contribution Progress
+          <div className="min-w-0">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
+              <span>All-Time Contribution Progress</span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30">
                 GitHub Style
               </span>
@@ -145,11 +145,11 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#22c55e]" />}
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#22c55e] flex-shrink-0" />}
       </div>
 
       {/* Heatmap Grid */}
-      <div className="overflow-x-auto pb-2">
+      <div className="overflow-x-auto pb-2 -mx-1 px-1">
         <div className="min-w-[750px]">
           {/* Month labels row */}
           <div className="flex ml-8 mb-1.5" style={{ gap: `${cellGap}px` }}>
@@ -219,8 +219,8 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
         </div>
       </div>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#21262d]">
+      {/* Stats Row — Responsive */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#21262d]">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-[#22c55e]" />

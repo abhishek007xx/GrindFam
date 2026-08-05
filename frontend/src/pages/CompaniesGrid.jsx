@@ -105,13 +105,13 @@ export function CompaniesGrid() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d11] text-[#e6edf3] font-sans">
+    <div className="page-shell">
       <Sidebar activeSection="companies" />
 
-      <div className="pl-[240px]">
+      <div className="page-content">
         <Navbar />
 
-        <main className="p-8 max-w-7xl mx-auto space-y-8">
+        <main className="page-main-constrained space-y-8 animate-fadeIn">
           {/* Header Banner */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900/40 via-purple-900/20 to-[#0d1117] border border-[#30363d] p-8 shadow-2xl">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">

@@ -23,8 +23,8 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#161b22] p-8 rounded-2xl border border-[#30363d] shadow-2xl">
+    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4 auth-bg">
+      <div className="w-full max-w-md bg-[#161b22] p-8 rounded-2xl border border-[#30363d] shadow-2xl shadow-black/40 relative z-10 animate-fadeSlideUp">
         <div className="text-center mb-7">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 mb-4">
             <span className="text-[#22c55e] font-black text-lg">&lt;&gt;</span>

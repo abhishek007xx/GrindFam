@@ -305,13 +305,11 @@ const Dashboard = () => {
         }
 
         // If no resume tracks yet, suggest popular ones from local data
-        if (resumeTracks.length === 0) {
           resumeTracks = [
-            { name: "Strivers A2Z DSA Sheet", slug: '/sheet/strivers-a2z', icon: 'sheet', creator: 'Striver', total: 462, solved: 0, percentage: 0 },
-            { name: "NeetCode 150", slug: '/sheet/neetcode-150', icon: 'sheet', creator: 'NeetCode', total: 150, solved: 0, percentage: 0 },
+            { name: "Striver's A2Z DSA Course Sheet", slug: '/sheet/striver-s-a2z-dsa-course-sheet', icon: 'sheet', creator: 'Striver', total: 499, solved: 0, percentage: 0 },
+            { name: "NeetCode 150", slug: '/sheet/neetcode-150', icon: 'sheet', creator: 'NeetCode', total: 304, solved: 0, percentage: 0 },
             { name: "Google Interview Prep", slug: '/companies', icon: 'company', total: 0, solved: 0, percentage: 0 }
           ];
-        }
 
         setDsaStats({
           totalSolved: solvedEntries.length,
@@ -414,7 +412,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex">
+    <div className="page-shell">
       {/* Left Sidebar */}
       <Sidebar
         activeSection={activeSection}
@@ -425,7 +423,7 @@ const Dashboard = () => {
       />
 
       {/* Main Content */}
-      <div className="flex-1 ml-[240px] flex flex-col min-h-screen">
+      <div className="page-content">
         {/* Top Navbar */}
         <Navbar
           onRefresh={() => fetchDashboard(true)}
@@ -434,7 +432,7 @@ const Dashboard = () => {
         />
 
         {/* Main Scrollable Area */}
-        <main className="flex-1 p-6 overflow-y-auto animate-fadeIn">
+        <main className="page-main animate-fadeIn">
 
           {/* Greeting & Squad Banner */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -499,7 +497,7 @@ const Dashboard = () => {
             className="mb-6"
           >
             {/* DSA Stats Row */}
-            <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <motion.div variants={itemVariants} className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               {/* Overall Completion */}
               <div className="relative overflow-hidden bg-gradient-to-br from-emerald-950/30 via-[#161b22] to-[#161b22] border border-emerald-500/20 rounded-2xl p-5 flex items-center gap-5 shadow-xl">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -translate-y-8 translate-x-8 blur-2xl" />
@@ -552,7 +550,7 @@ const Dashboard = () => {
             </motion.div>
 
             {/* Resume Learning + Revision Queue Row */}
-            <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 mb-6">
+            <motion.div variants={itemVariants} className="grid-dashboard-dsa mb-6">
               {/* Resume Learning */}
               <div className="bg-[#161b22] border border-[#30363d] rounded-2xl overflow-hidden shadow-xl">
                 <div className="px-6 py-4 border-b border-[#21262d] flex items-center justify-between">
@@ -747,7 +745,7 @@ const Dashboard = () => {
               />
 
               {/* Leaderboard + Right Sidebar */}
-              <div className="grid grid-cols-[1fr_320px] gap-4 mb-6" id="leaderboard-section">
+              <div className="grid-dashboard-main mb-6" id="leaderboard-section">
                 {/* Left: Leaderboard */}
                 <LeaderboardTable
                   leaderboard={dashboardData.leaderboard}
@@ -768,7 +766,7 @@ const Dashboard = () => {
               </div>
 
               {/* Bottom Row: Progress Chart + Motivational + Add Friend */}
-              <div className="grid grid-cols-[1fr_320px] gap-4 mb-6">
+              <div className="grid-dashboard-main mb-6">
                 {/* Left: Progress Chart */}
                 <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} weeklyData={weeklyData} />
                 {/* Right: Motivational + Add Friend */}

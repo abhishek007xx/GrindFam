@@ -228,13 +228,13 @@ export function TopicProblems() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d11] text-[#e6edf3] font-sans pb-16">
+    <div className="page-shell pb-16">
       <Sidebar activeSection="topics" />
 
-      <div className="pl-[240px]">
+      <div className="page-content">
         <Navbar />
 
-        <main className="p-8 max-w-7xl mx-auto space-y-8">
+        <main className="page-main-constrained space-y-8 animate-fadeIn">
           {/* Back Navigation */}
           <button
             onClick={() => navigate(-1)}
@@ -385,10 +385,10 @@ export function TopicProblems() {
               className="bg-[#0d1117] border border-[#30363d] rounded-2xl overflow-hidden shadow-lg"
             >
               {/* Table Header */}
-              <div className="grid grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-5 py-3 bg-[#161b22]/70 border-b border-[#21262d] text-[10px] font-bold text-[#6e7681] uppercase tracking-widest">
+              <div className="grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3 bg-[#161b22]/70 border-b border-[#21262d] text-[10px] font-bold text-[#6e7681] uppercase tracking-widest">
                 <span></span>
                 <span>Problem</span>
-                <span>Source</span>
+                <span className="hidden sm:block">Source</span>
                 <span>Difficulty</span>
                 <span>Status</span>
                 <span></span>
@@ -407,7 +407,7 @@ export function TopicProblems() {
                     <motion.div
                       key={prob.id}
                       variants={rowVariants}
-                      className={`grid grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-5 py-3.5 items-center transition-colors hover:bg-[#161b22]/50 ${
+                      className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#161b22]/50 ${
                         isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''
                       }`}
                     >
@@ -456,8 +456,8 @@ export function TopicProblems() {
                         <ExternalLink className="w-3 h-3 text-[#6e7681] flex-shrink-0" />
                       </a>
 
-                      {/* Source */}
-                      <div className="flex items-center gap-1.5 min-w-0">
+                      {/* Source — hidden on mobile */}
+                      <div className="hidden sm:flex items-center gap-1.5 min-w-0">
                         {prob.source_type === 'company'
                           ? <Building2 className="w-3 h-3 text-indigo-400 flex-shrink-0" />
                           : <FileCode2 className="w-3 h-3 text-emerald-400 flex-shrink-0" />

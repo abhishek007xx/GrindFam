@@ -25,16 +25,16 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
         <h3 className="text-sm font-bold text-white">Your Progress This Week</h3>
       </div>
 
-      <div className="p-5 flex gap-6">
+      <div className="p-5 flex flex-col sm:flex-row gap-6">
         {/* Bar Chart Area */}
-        <div className="flex-1">
-          <div className="relative h-32">
+        <div className="flex-1 min-w-0">
+          <div className="relative h-36">
             {/* Y-axis labels */}
-            <div className="absolute left-0 top-0 bottom-5 flex flex-col justify-between text-[10px] text-[#6e7681] font-medium w-5">
+            <div className="absolute left-0 top-0 bottom-5 flex flex-col justify-between text-[10px] text-[#6e7681] font-medium w-8">
               <span>{maxVal}</span><span>{Math.round(maxVal / 2)}</span><span>0</span>
             </div>
             {/* Chart Area */}
-            <div className="ml-6 h-full flex items-end justify-between gap-1">
+            <div className="ml-10 h-full flex items-end justify-between gap-1.5">
               {days.map((day, i) => {
                 const val = weekData[i];
                 const height = maxVal > 0 ? (val / maxVal) * 100 : 0;
@@ -44,7 +44,7 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
                     <span className="text-[10px] font-bold text-[#8b949e]">{val}</span>
                     <div className="w-full flex items-end relative" style={{ height: '75%' }}>
                       <div
-                        className="w-full rounded-t-md"
+                        className="w-full rounded-t-md transition-all duration-500"
                         style={{
                           height: val > 0 ? `${Math.max(height, 8)}%` : '3px',
                           background: val > 0
@@ -69,9 +69,9 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
         </div>
 
         {/* Donut + Stats */}
-        <div className="flex flex-col items-center justify-center gap-3 w-40 flex-shrink-0">
+        <div className="flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-3 sm:w-40 flex-shrink-0">
           {/* Donut */}
-          <div className="relative w-24 h-24">
+          <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0">
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
               <circle cx="50" cy="50" r={radius} fill="none" stroke="#21262d" strokeWidth="8" />
               <circle
@@ -84,18 +84,18 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-2xl font-black text-white leading-tight">{solved}</span>
+              <span className="text-xl sm:text-2xl font-black text-white leading-tight">{solved}</span>
               <span className="text-[10px] text-[#8b949e] font-medium">Today</span>
             </div>
           </div>
           {/* Legend */}
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e] flex-shrink-0"></span>
               <span className="text-[#e6edf3] font-medium">{solved} Solved</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#21262d]"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#21262d] flex-shrink-0"></span>
               <span className="text-[#8b949e] font-medium">{remaining} Remaining</span>
             </div>
             <p className="text-[10px] text-[#6e7681] pt-1">Daily Target: {dailyTarget}</p>

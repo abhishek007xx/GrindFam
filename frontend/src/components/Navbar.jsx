@@ -223,9 +223,12 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
   };
 
   return (
-    <header className="h-14 bg-[#0d1117] border-b border-[#21262d] flex items-center justify-between px-6 sticky top-0 z-30">
+    <header className="h-14 bg-[#0d1117] border-b border-[#21262d] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
+      {/* ─── Left spacer for mobile hamburger ─── */}
+      <div className="w-10 lg:hidden" />
+
       {/* ─── Global Search Bar ─── */}
-      <div className="relative" ref={searchRef}>
+      <div className="relative flex-1 max-w-md" ref={searchRef}>
         <div className="relative flex items-center">
           <Search className="absolute left-3 w-3.5 h-3.5 text-[#6e7681] pointer-events-none" />
           <input
@@ -235,7 +238,7 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
             onChange={handleSearchChange}
             onFocus={() => setIsSearchOpen(true)}
             placeholder="Search problems, topics..."
-            className="w-72 pl-9 pr-16 py-1.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-emerald-500/50 focus:bg-[#0d1117] transition-all"
+            className="w-full pl-9 pr-16 py-1.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-emerald-500/50 focus:bg-[#0d1117] transition-all"
           />
           {searchQuery ? (
             <button
@@ -245,7 +248,7 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
               <X className="w-3.5 h-3.5 text-[#6e7681]" />
             </button>
           ) : (
-            <span className="absolute right-2 px-1.5 py-0.5 bg-[#21262d] border border-[#30363d] rounded text-[9px] text-[#6e7681] font-mono">
+            <span className="absolute right-2 px-1.5 py-0.5 bg-[#21262d] border border-[#30363d] rounded text-[9px] text-[#6e7681] font-mono hidden sm:inline-block">
               Ctrl+K
             </span>
           )}
@@ -259,7 +262,7 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.15 }}
-              className="absolute top-full left-0 mt-1.5 w-[420px] bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50"
+              className="absolute top-full left-0 mt-1.5 w-full min-w-[320px] max-w-[420px] bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50"
             >
               {searchLoading ? (
                 <div className="flex items-center justify-center py-6 gap-2">
@@ -348,19 +351,19 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
       </div>
 
       {/* ─── Right Section ─── */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-3 ml-3">
         {/* Streak Badge */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-semibold">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-semibold">
           <Flame className="w-3.5 h-3.5 text-orange-500" />
           <span className={streakDays > 0 ? 'text-orange-400' : 'text-[#6e7681]'}>
-            {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak Yet'}
+            {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak'}
           </span>
         </div>
 
-        {/* Date */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-medium text-[#8b949e]">
+        {/* Date — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-medium text-[#8b949e]">
           <Calendar className="w-3.5 h-3.5" />
-          <span>{dateStr} (UTC)</span>
+          <span>{dateStr}</span>
         </div>
 
         {/* Notification Bell */}
@@ -368,13 +371,13 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           <Bell className="w-4 h-4" />
         </button>
 
-        {/* User Avatar */}
+        {/* User Avatar — simplified on mobile */}
         <div className="flex items-center gap-2 pl-2 border-l border-[#21262d]">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-[11px] border border-white/20">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
             {initials}
           </div>
-          <span className="text-sm font-medium text-[#e6edf3]">{name}</span>
-          <ChevronDown className="w-3.5 h-3.5 text-[#8b949e]" />
+          <span className="text-sm font-medium text-[#e6edf3] hidden sm:inline">{name}</span>
+          <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] hidden sm:inline" />
         </div>
       </div>
     </header>

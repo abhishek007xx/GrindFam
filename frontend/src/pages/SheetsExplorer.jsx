@@ -96,34 +96,31 @@ export function SheetsExplorer() {
         activeSheets.sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setSheets(activeSheets);
 
-        // Compute progress stats
-        const { data: problemsData } = await supabase
-          .from('problems')
-          .select('id, source_id')
-          .eq('source_type', 'sheet');
+        // Compute user solved progress per sheet
+        const stats = {};
+        const solvedMap = {};
 
-        let userProgressMap = new Set();
-        if (user && problemsData && problemsData.length > 0) {
-          const problemIds = problemsData.map(p => p.id);
+        if (user) {
           const { data: progressData } = await supabase
             .from('user_progress')
-            .select('problem_id')
+            .select('problem_id, problems(source_id)')
             .eq('user_id', user.id)
-            .eq('status', 'solved')
-            .in('problem_id', problemIds);
+            .eq('status', 'solved');
 
           if (progressData) {
-            userProgressMap = new Set(progressData.map(p => p.problem_id));
+            progressData.forEach(item => {
+              const srcId = item.problems?.source_id;
+              if (srcId) {
+                solvedMap[srcId] = (solvedMap[srcId] || 0) + 1;
+              }
+            });
           }
         }
 
-        const stats = {};
         activeSheets.forEach(s => {
-          const sheetProblems = problemsData?.filter(p => p.source_id === s.id) || [];
-          const total = sheetProblems.length || s.total_problems || 0;
-          const solved = sheetProblems.filter(p => userProgressMap.has(p.id)).length;
+          const total = s.total_problems || 0;
+          const solved = solvedMap[s.id] || 0;
           const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
-
           stats[s.id] = { total, solved, percentage };
         });
 
@@ -168,13 +165,13 @@ export function SheetsExplorer() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d11] text-[#e6edf3] font-sans">
+    <div className="page-shell">
       <Sidebar activeSection="sheets" />
 
-      <div className="pl-[240px]">
+      <div className="page-content">
         <Navbar />
 
-        <main className="p-8 max-w-7xl mx-auto space-y-8">
+        <main className="page-main-constrained space-y-8 animate-fadeIn">
           {/* Header Banner */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950/40 via-teal-900/20 to-[#0d1117] border border-[#30363d] p-8 shadow-2xl">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">

@@ -13,59 +13,56 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget }) => {
   const donutFill = donutCircumference * (1 - progressPercent / 100);
 
   return (
-    <div className="flex gap-4 mb-6">
-      {/* 4 Stats Cards */}
-      <div className="flex-1 grid grid-cols-4 gap-4">
-        {/* Squad Members */}
-        <div className="dash-card dash-card-hover p-5">
-          <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center mb-3">
-            <Users className="w-5 h-5 text-blue-400" />
-          </div>
-          <h3 className="text-3xl font-extrabold text-white">{totalSquadSize}</h3>
-          <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Squad Members</p>
-          <p className="text-[10px] text-[#6e7681] mt-0.5">All active</p>
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      {/* Squad Members */}
+      <div className="dash-card dash-card-hover p-5">
+        <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center mb-3">
+          <Users className="w-5 h-5 text-blue-400" />
         </div>
+        <h3 className="text-3xl font-extrabold text-white">{totalSquadSize}</h3>
+        <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Squad Members</p>
+        <p className="text-[10px] text-[#6e7681] mt-0.5">All active</p>
+      </div>
 
-        {/* Hit Target Today */}
-        <div className="dash-card dash-card-hover p-5">
-          <div className="w-9 h-9 rounded-xl bg-[#22c55e]/10 flex items-center justify-center mb-3">
-            <CheckCircle2 className="w-5 h-5 text-[#22c55e]" />
-          </div>
-          <h3 className="text-3xl font-extrabold text-white">
-            {hitTargetTodayCount}<span className="text-lg text-[#8b949e] font-bold">/{totalSquadSize}</span>
-          </h3>
-          <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Hit Target Today</p>
-          <p className="text-[10px] text-[#6e7681] mt-0.5">
-            {hitTargetTodayCount === totalSquadSize ? 'Crushed it! 💪' : `${totalSquadSize - hitTargetTodayCount} pending`}
-          </p>
+      {/* Hit Target Today */}
+      <div className="dash-card dash-card-hover p-5">
+        <div className="w-9 h-9 rounded-xl bg-[#22c55e]/10 flex items-center justify-center mb-3">
+          <CheckCircle2 className="w-5 h-5 text-[#22c55e]" />
         </div>
+        <h3 className="text-3xl font-extrabold text-white">
+          {hitTargetTodayCount}<span className="text-lg text-[#8b949e] font-bold">/{totalSquadSize}</span>
+        </h3>
+        <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Hit Target Today</p>
+        <p className="text-[10px] text-[#6e7681] mt-0.5">
+          {hitTargetTodayCount === totalSquadSize ? 'Crushed it! 💪' : `${totalSquadSize - hitTargetTodayCount} pending`}
+        </p>
+      </div>
 
-        {/* Your Today's Count */}
-        <div className="dash-card dash-card-hover p-5">
-          <div className="w-9 h-9 rounded-xl bg-orange-500/10 flex items-center justify-center mb-3">
-            <Flame className="w-5 h-5 text-orange-400" />
-          </div>
-          <h3 className="text-3xl font-extrabold text-white">{yourTodayCount}</h3>
-          <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Your Today's Count</p>
-          <p className="text-[10px] text-[#6e7681] mt-0.5">
-            {yourTargetHit ? 'Target done! 🔥' : yourTodayCount === 0 ? 'Not started yet' : 'Keep going! 💪'}
-          </p>
+      {/* Your Today's Count */}
+      <div className="dash-card dash-card-hover p-5">
+        <div className="w-9 h-9 rounded-xl bg-orange-500/10 flex items-center justify-center mb-3">
+          <Flame className="w-5 h-5 text-orange-400" />
         </div>
+        <h3 className="text-3xl font-extrabold text-white">{yourTodayCount}</h3>
+        <p className="text-xs font-semibold text-[#8b949e] mt-0.5">Your Today's Count</p>
+        <p className="text-[10px] text-[#6e7681] mt-0.5">
+          {yourTargetHit ? 'Target done! 🔥' : yourTodayCount === 0 ? 'Not started yet' : 'Keep going! 💪'}
+        </p>
+      </div>
 
-        {/* GrindFam Total */}
-        <div className="dash-card dash-card-hover p-5">
-          <div className="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center mb-3">
-            <TrendingUp className="w-5 h-5 text-purple-400" />
-          </div>
-          <h3 className="text-3xl font-extrabold text-white">{yourPlatformTotal || 0}</h3>
-          <p className="text-xs font-semibold text-[#8b949e] mt-0.5">GrindFam Total</p>
-          <p className="text-[10px] text-[#6e7681] mt-0.5">Since joining</p>
+      {/* GrindFam Total */}
+      <div className="dash-card dash-card-hover p-5">
+        <div className="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center mb-3">
+          <TrendingUp className="w-5 h-5 text-purple-400" />
         </div>
+        <h3 className="text-3xl font-extrabold text-white">{yourPlatformTotal || 0}</h3>
+        <p className="text-xs font-semibold text-[#8b949e] mt-0.5">GrindFam Total</p>
+        <p className="text-[10px] text-[#6e7681] mt-0.5">Since joining</p>
       </div>
 
       {/* Daily Target Card */}
-      <div className="dash-card dash-card-hover p-5 w-[220px] flex-shrink-0 flex items-center gap-4">
-        <div className="flex-1">
+      <div className="dash-card dash-card-hover p-5 col-span-2 lg:col-span-1 flex items-center gap-4">
+        <div className="flex-1 min-w-0">
           <p className="text-xs font-semibold text-[#8b949e] mb-1">Daily Target</p>
           <h3 className="text-4xl font-black text-white">{target}</h3>
           <p className="text-[10px] text-[#6e7681] mb-3">problems per day</p>
