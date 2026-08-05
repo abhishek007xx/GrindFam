@@ -227,9 +227,16 @@ export function CompaniesGrid() {
                         </div>
                       </div>
 
-                      <div>
-                        <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
-                          {comp.name}
+                      <div
+                        onClick={() => {
+                          const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
+                          navigate(`/company/${comp.slug}/${firstTrackId}`);
+                        }}
+                        className="cursor-pointer group/title"
+                      >
+                        <h3 className="text-lg font-bold text-white group-hover/title:text-indigo-400 transition-colors flex items-center justify-between">
+                          <span>{comp.name}</span>
+                          <ArrowRight className="w-4 h-4 text-[#6e7681] group-hover/title:text-indigo-400 group-hover/title:translate-x-1 transition-all" />
                         </h3>
                         <p className="text-xs text-[#8b949e] font-mono mt-0.5">/{comp.slug}</p>
                       </div>

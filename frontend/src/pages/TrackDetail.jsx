@@ -233,46 +233,6 @@ export function TrackDetail() {
                         </span>
                       </div>
                       <p className="text-xs text-[#8b949e] mt-1">Official Interview Guidelines & DSA Frequency Roadmap</p>
-                      
-                      {/* Role Selector Tabs */}
-                      <div className="flex items-center gap-2 mt-3 flex-wrap">
-                        {['SDE Intern / Entry Level', 'SDE-1 & High Frequency', 'SDE-2 / Senior'].map((roleLabel, rIdx) => {
-                          const isActive = activeRoleIdx === rIdx;
-                          return (
-                            <button
-                              key={roleLabel}
-                              onClick={() => {
-                                setActiveRoleIdx(rIdx);
-                                const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
-                                const selectedRoleObj = compObj.roles[rIdx] || compObj.roles[0];
-                                setCompanyTrack({
-                                  id: trackId,
-                                  role: selectedRoleObj.role_name,
-                                  level: selectedRoleObj.level,
-                                  guidelines: selectedRoleObj.guidelines || {}
-                                });
-                                const localProbs = (selectedRoleObj.problems || []).map((p, idx) => ({
-                                  id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
-                                  title: p.title,
-                                  leetcode_slug: p.leetcode_slug,
-                                  difficulty: p.difficulty || "Medium",
-                                  frequency_score: p.frequency_score || 5,
-                                  topic_tags: p.topic_tags || [],
-                                  step_name: selectedRoleObj.role_name
-                                }));
-                                setProblems(localProbs);
-                              }}
-                              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
-                                isActive
-                                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                                  : 'bg-[#161b22] text-[#8b949e] hover:text-white hover:bg-[#21262d] border border-[#30363d]'
-                              }`}
-                            >
-                              {roleLabel}
-                            </button>
-                          );
-                        })}
-                      </div>
                     </div>
                   </div>
 
@@ -296,6 +256,104 @@ export function TrackDetail() {
                         <span className="text-amber-400 font-semibold">{revisionCount} Needs Revision</span>
                       )}
                     </div>
+                  </div>
+                </div>
+
+                {/* PROMINENT TRACK SELECTION OPTIONS SECTION */}
+                <div className="space-y-3 pt-4 border-t border-[#21262d]">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-[#8b949e] flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>Select Role Track Options:</span>
+                    </span>
+                    <span className="text-[11px] text-indigo-400 font-semibold">3 Specialized Tracks Available</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[
+                      {
+                        title: 'SDE Intern / Entry Level',
+                        badge: 'Internship Track',
+                        desc: 'Foundational Warmups, Speed, & Core Algorithms',
+                        icon: Sparkles,
+                        color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-400'
+                      },
+                      {
+                        title: 'SDE-1 & High Frequency',
+                        badge: 'Primary Coding Round',
+                        desc: 'High Frequency Interview Questions & Problem Patterns',
+                        icon: Flame,
+                        color: 'from-indigo-500/20 to-purple-500/10 border-indigo-500/40 text-indigo-400'
+                      },
+                      {
+                        title: 'SDE-2 / Senior Track',
+                        badge: 'Advanced Track',
+                        desc: 'Advanced DP, Complex Graphs & System Design',
+                        icon: Award,
+                        color: 'from-purple-500/20 to-pink-500/10 border-purple-500/40 text-purple-400'
+                      }
+                    ].map((trackOpt, rIdx) => {
+                      const isActive = activeRoleIdx === rIdx;
+                      const IconComp = trackOpt.icon;
+                      const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
+                      const roleObj = compObj.roles[rIdx] || compObj.roles[0];
+                      const pCount = roleObj.problems ? roleObj.problems.length : 0;
+
+                      return (
+                        <div
+                          key={trackOpt.title}
+                          onClick={() => {
+                            setActiveRoleIdx(rIdx);
+                            setCompanyTrack({
+                              id: trackId,
+                              role: roleObj.role_name,
+                              level: roleObj.level,
+                              guidelines: roleObj.guidelines || {}
+                            });
+                            const localProbs = (roleObj.problems || []).map((p, idx) => ({
+                              id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
+                              title: p.title,
+                              leetcode_slug: p.leetcode_slug,
+                              difficulty: p.difficulty || "Medium",
+                              frequency_score: p.frequency_score || 5,
+                              topic_tags: p.topic_tags || [],
+                              step_name: roleObj.role_name
+                            }));
+                            setProblems(localProbs);
+                          }}
+                          className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group ${
+                            isActive
+                              ? `bg-gradient-to-br ${trackOpt.color} shadow-xl ring-2 ring-indigo-500/50 scale-[1.02]`
+                              : 'bg-[#161b22]/80 hover:bg-[#1c2128] border-[#30363d] opacity-80 hover:opacity-100'
+                          }`}
+                        >
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0d1117]/60 border border-[#30363d] ${isActive ? 'text-white' : 'text-[#8b949e]'}`}>
+                                {trackOpt.badge}
+                              </span>
+                              <IconComp className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#6e7681]'}`} />
+                            </div>
+
+                            <div>
+                              <h4 className={`text-sm font-bold ${isActive ? 'text-white' : 'text-[#e6edf3] group-hover:text-white'}`}>
+                                {trackOpt.title}
+                              </h4>
+                              <p className="text-[11px] text-[#8b949e] mt-1 leading-snug">
+                                {trackOpt.desc}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="pt-3 mt-3 border-t border-[#30363d]/50 flex items-center justify-between text-xs">
+                            <span className="text-[#8b949e] font-mono text-[11px]">{pCount} Curated Problems</span>
+                            <span className={`font-semibold flex items-center gap-1 ${isActive ? 'text-white' : 'text-indigo-400 group-hover:translate-x-0.5 transition-transform'}`}>
+                              {isActive ? 'Active Track' : 'Select Track'} →
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
