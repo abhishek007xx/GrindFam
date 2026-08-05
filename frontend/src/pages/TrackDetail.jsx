@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { companiesData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
 import { useTrackStore } from '../store/useTrackStore';
 import Navbar from '../components/Navbar';
@@ -9,8 +10,8 @@ import Sidebar from '../components/Sidebar';
 import NotesModal from '../components/NotesModal';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
-  AlertTriangle, Target, MessageSquare, Award, Flame, Search,
-  Filter, CheckCircle2, RotateCcw, Clock, Sparkles, BookOpen
+  AlertTriangle, Target, MessageSquare, Award, Search,
+  CheckCircle, RotateCcw, BookOpen, Flame
 } from 'lucide-react';
 
 export function TrackDetail() {
@@ -39,52 +40,101 @@ export function TrackDetail() {
       try {
         setLoading(true);
 
-        // 1. Fetch Track details
+        // 1. Try fetching from Supabase
         const { data: trackData, error: trackErr } = await supabase
           .from('company_tracks')
           .select('*, companies(*)')
           .eq('id', trackId)
           .single();
 
-        if (trackErr) throw trackErr;
+        if (!trackErr && trackData) {
+          setCompanyTrack(trackData);
+          setCompany(trackData.companies);
 
-        setCompanyTrack(trackData);
-        setCompany(trackData.companies);
+          const { data: problemsData, error: probErr } = await supabase
+            .from('problems')
+            .select('*')
+            .eq('source_id', trackId)
+            .eq('source_type', 'company')
+            .order('frequency_score', { ascending: false });
 
-        // 2. Fetch Problems for this track
-        const { data: problemsData, error: probErr } = await supabase
-          .from('problems')
-          .select('*')
-          .eq('source_id', trackId)
-          .eq('source_type', 'company')
-          .order('frequency_score', { ascending: false });
+          if (!probErr) setProblems(problemsData || []);
 
-        if (probErr) throw probErr;
-        setProblems(problemsData || []);
+          if (user && problemsData && problemsData.length > 0) {
+            const problemIds = problemsData.map(p => p.id);
+            const { data: userProgress } = await supabase
+              .from('user_progress')
+              .select('problem_id, status, solved_at, personal_notes')
+              .eq('user_id', user.id)
+              .in('problem_id', problemIds);
 
-        // 3. Fetch User Progress from Supabase
-        if (user && problemsData && problemsData.length > 0) {
-          const problemIds = problemsData.map(p => p.id);
-          const { data: userProgress, error: progErr } = await supabase
-            .from('user_progress')
-            .select('problem_id, status, solved_at, personal_notes')
-            .eq('user_id', user.id)
-            .in('problem_id', problemIds);
-
-          if (progErr) throw progErr;
-
-          const map = {};
-          userProgress?.forEach(item => {
-            map[item.problem_id] = {
-              status: item.status,
-              solved_at: item.solved_at,
-              personal_notes: item.personal_notes
-            };
+            if (userProgress) {
+              const map = {};
+              userProgress.forEach(item => {
+                map[item.problem_id] = {
+                  status: item.status,
+                  solved_at: item.solved_at,
+                  personal_notes: item.personal_notes
+                };
+              });
+              setProgressMap(map);
+            }
+          }
+        } else {
+          // Fallback to local dataset
+          console.warn('Supabase track query failed or empty. Loading local track fallback.');
+          const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
+          setCompany({
+            id: `local-${compObj.slug}`,
+            name: compObj.company_name,
+            slug: compObj.slug,
+            logo_url: compObj.logo_url
           });
-          setProgressMap(map);
+
+          // Match role or first role
+          const roleObj = compObj.roles.find(r => trackId.includes(r.role_name) || trackId.includes(compObj.slug)) || compObj.roles[0];
+          setCompanyTrack({
+            id: trackId,
+            role: roleObj.role_name,
+            level: roleObj.level,
+            guidelines: roleObj.guidelines || {}
+          });
+
+          const localProbs = (roleObj.problems || []).map((p, idx) => ({
+            id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+            title: p.title,
+            leetcode_slug: p.leetcode_slug,
+            difficulty: p.difficulty || "Medium",
+            frequency_score: p.frequency_score || 5,
+            topic_tags: p.topic_tags || [],
+            step_name: roleObj.role_name
+          }));
+          setProblems(localProbs);
         }
       } catch (err) {
-        console.error('Error fetching track detail:', err);
+        console.warn('Error connecting to Supabase. Loading local track fallback.', err);
+        const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
+        setCompany({
+          id: `local-${compObj.slug}`,
+          name: compObj.company_name,
+          slug: compObj.slug,
+          logo_url: compObj.logo_url
+        });
+        const roleObj = compObj.roles[0];
+        setCompanyTrack({
+          id: trackId,
+          role: roleObj.role_name,
+          level: roleObj.level,
+          guidelines: roleObj.guidelines || {}
+        });
+        setProblems((roleObj.problems || []).map((p, idx) => ({
+          id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+          title: p.title,
+          leetcode_slug: p.leetcode_slug,
+          difficulty: p.difficulty || "Medium",
+          frequency_score: p.frequency_score || 5,
+          topic_tags: p.topic_tags || []
+        })));
       } finally {
         setLoading(false);
       }
@@ -93,7 +143,7 @@ export function TrackDetail() {
     if (trackId) {
       fetchTrackAndProblems();
     }
-  }, [trackId, user, setProgressMap]);
+  }, [trackId, companySlug, user, setProgressMap]);
 
   // Derived Statistics
   const totalProblems = problems.length;
@@ -153,15 +203,23 @@ export function TrackDetail() {
             <>
               {/* TOP SECTION: Requirement Card */}
               <div className="relative bg-[#0d1117]/90 backdrop-blur border border-[#30363d] rounded-3xl p-8 shadow-2xl space-y-8">
-                {/* Header Info */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-[#161b22] border border-[#30363d] p-3 flex items-center justify-center flex-shrink-0">
+                    <div className="w-16 h-16 rounded-2xl bg-[#161b22] border border-[#30363d] p-3 flex items-center justify-center flex-shrink-0 overflow-hidden">
                       {company?.logo_url ? (
-                        <img src={company.logo_url} alt={company.name} className="w-full h-full object-contain" />
-                      ) : (
-                        <span className="font-bold text-indigo-400 text-xl">{company?.name?.slice(0, 2)}</span>
-                      )}
+                        <img
+                          src={company.logo_url}
+                          alt={company.name}
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            if (e.currentTarget.nextSibling) {
+                              e.currentTarget.nextSibling.style.display = 'flex';
+                            }
+                          }}
+                        />
+                      ) : null}
+                      <span className="font-bold text-indigo-400 text-xl hidden">{company?.name?.slice(0, 2)}</span>
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -296,7 +354,6 @@ export function TrackDetail() {
                 </div>
 
                 <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-                  {/* Difficulty Filters */}
                   <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
                     {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
                       <button
@@ -313,7 +370,6 @@ export function TrackDetail() {
                     ))}
                   </div>
 
-                  {/* Status Filters */}
                   <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
                     {['ALL', 'SOLVED', 'REVISION', 'UNSOLVED'].map(st => (
                       <button
@@ -366,7 +422,6 @@ export function TrackDetail() {
                             isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
                           }`}
                         >
-                          {/* Left: Checkbox & Problem Title */}
                           <div className="flex items-center gap-4 min-w-0">
                             <button
                               onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
@@ -395,7 +450,6 @@ export function TrackDetail() {
                                 <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] opacity-0 group-hover:opacity-100 hover:text-indigo-400 transition-opacity flex-shrink-0" />
                               </a>
 
-                              {/* Topic Tags */}
                               <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                 {prob.topic_tags?.map(tag => (
                                   <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#161b22] border border-[#30363d] text-[#8b949e]">
@@ -406,17 +460,14 @@ export function TrackDetail() {
                             </div>
                           </div>
 
-                          {/* Right: Badges & Actions */}
                           <div className="flex items-center gap-3 flex-shrink-0">
-                            {/* Frequency Pill */}
                             {prob.frequency_score && (
-                              <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-bold text-amber-400" title="Frequency Score (1-10)">
+                              <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-bold text-amber-400">
                                 <Flame className="w-3 h-3 text-amber-500" />
                                 <span>{prob.frequency_score}/10</span>
                               </div>
                             )}
 
-                            {/* Difficulty Badge */}
                             <span
                               className={`px-3 py-1 rounded-full text-xs font-bold ${
                                 prob.difficulty === 'Easy'
@@ -429,7 +480,6 @@ export function TrackDetail() {
                               {prob.difficulty}
                             </span>
 
-                            {/* Notes Button */}
                             <button
                               onClick={() => setActiveNotesProblem(prob)}
                               className={`p-2 rounded-xl border transition-all ${

@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { companiesData } from '../lib/dataFallback';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { Building2, Search, ArrowRight, Briefcase, Award, Layers, Sparkles } from 'lucide-react';
+import { Building2, Search, ArrowRight, Sparkles, Layers } from 'lucide-react';
 
 export function CompaniesGrid() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export function CompaniesGrid() {
     async function fetchCompanies() {
       try {
         setLoading(true);
-        // Fetch companies with nested company_tracks
+        // Try fetching from Supabase
         const { data, error } = await supabase
           .from('companies')
           .select(`
@@ -31,10 +32,40 @@ export function CompaniesGrid() {
           `)
           .order('name');
 
-        if (error) throw error;
-        setCompanies(data || []);
+        if (error || !data || data.length === 0) {
+          console.warn('Supabase empty or unreachable. Using local dataset fallback.');
+          // Map local JSON data
+          const fallbackList = companiesData.map((c, cIdx) => ({
+            id: `local-comp-${c.slug}`,
+            name: c.company_name,
+            slug: c.slug,
+            logo_url: c.logo_url,
+            company_tracks: c.roles.map((r, rIdx) => ({
+              id: `${c.slug}-track-${rIdx}`,
+              role: r.role_name,
+              level: r.level,
+              roadmap: { problems_count: r.problems ? r.problems.length : 0 }
+            }))
+          }));
+          setCompanies(fallbackList);
+        } else {
+          setCompanies(data);
+        }
       } catch (err) {
-        console.error('Error fetching companies:', err);
+        console.warn('Error connecting to Supabase. Loading fallback companies dataset.', err);
+        const fallbackList = companiesData.map((c, cIdx) => ({
+          id: `local-comp-${c.slug}`,
+          name: c.company_name,
+          slug: c.slug,
+          logo_url: c.logo_url,
+          company_tracks: c.roles.map((r, rIdx) => ({
+            id: `${c.slug}-track-${rIdx}`,
+            role: r.role_name,
+            level: r.level,
+            roadmap: { problems_count: r.problems ? r.problems.length : 0 }
+          }))
+        }));
+        setCompanies(fallbackList);
       } finally {
         setLoading(false);
       }
@@ -56,7 +87,7 @@ export function CompaniesGrid() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.06
+        staggerChildren: 0.05
       }
     }
   };
@@ -102,7 +133,7 @@ export function CompaniesGrid() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search companies by name or slug..."
-                className="w-full pl-10 pr-4 py-2.5 bg-[#161b22] border border-[#30363d] rounded-xl text-sm text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#161b22] border border-[#30363d] rounded-xl text-sm text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50"
               />
             </div>
 
@@ -127,11 +158,7 @@ export function CompaniesGrid() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-                <div key={n} className="h-64 rounded-2xl bg-[#161b22]/50 border border-[#30363d] animate-pulse p-6 space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5" />
-                  <div className="h-6 w-3/4 bg-white/5 rounded-lg" />
-                  <div className="h-4 w-1/2 bg-white/5 rounded-lg" />
-                </div>
+                <div key={n} className="h-64 rounded-2xl bg-[#161b22]/50 border border-[#30363d] animate-pulse p-6 space-y-4" />
               ))}
             </div>
           ) : filteredCompanies.length === 0 ? (
@@ -153,7 +180,6 @@ export function CompaniesGrid() {
                   variants={cardVariants}
                   className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col justify-between"
                 >
-                  {/* Top Section */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="w-12 h-12 rounded-2xl bg-[#161b22] border border-[#30363d] p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
@@ -164,7 +190,9 @@ export function CompaniesGrid() {
                             className="w-full h-full object-contain filter drop-shadow-sm"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none';
-                              e.currentTarget.nextSibling.style.display = 'flex';
+                              if (e.currentTarget.nextSibling) {
+                                e.currentTarget.nextSibling.style.display = 'flex';
+                              }
                             }}
                           />
                         ) : null}

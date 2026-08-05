@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
-  Sparkles, Layers, BookOpen, Trophy
+  Sparkles, BookOpen
 } from 'lucide-react';
 
-// SVG Circular Progress Ring Component
 function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -19,7 +19,6 @@ function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="transform -rotate-90">
-        {/* Background Track */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -28,7 +27,6 @@ function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
           strokeWidth={strokeWidth}
           fill="transparent"
         />
-        {/* Animated Progress Fill */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -60,7 +58,7 @@ export function SheetsExplorer() {
   const { user } = useAuth();
 
   const [sheets, setSheets] = useState([]);
-  const [sheetStats, setSheetStats] = useState({}); // { [sheetId]: { total: int, solved: int, percentage: int } }
+  const [sheetStats, setSheetStats] = useState({});
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [creatorFilter, setCreatorFilter] = useState('ALL');
@@ -70,58 +68,67 @@ export function SheetsExplorer() {
       try {
         setLoading(true);
 
-        // 1. Fetch all sheets
-        const { data: sheetsData, error: sheetsErr } = await supabase
+        const { data: remoteSheets, error: sheetsErr } = await supabase
           .from('sheets')
           .select('*')
           .order('name');
 
-        if (sheetsErr) throw sheetsErr;
-
-        setSheets(sheetsData || []);
-
-        // 2. Fetch problems and user progress for progress ring calculation
-        if (sheetsData && sheetsData.length > 0) {
-          const sheetIds = sheetsData.map(s => s.id);
-
-          const { data: problemsData, error: probErr } = await supabase
-            .from('problems')
-            .select('id, source_id')
-            .eq('source_type', 'sheet')
-            .in('source_id', sheetIds);
-
-          if (probErr) throw probErr;
-
-          let userProgressMap = new Set();
-          if (user && problemsData && problemsData.length > 0) {
-            const problemIds = problemsData.map(p => p.id);
-            const { data: progressData, error: progErr } = await supabase
-              .from('user_progress')
-              .select('problem_id')
-              .eq('user_id', user.id)
-              .eq('status', 'solved')
-              .in('problem_id', problemIds);
-
-            if (!progErr && progressData) {
-              userProgressMap = new Set(progressData.map(p => p.problem_id));
-            }
-          }
-
-          // Calculate stats per sheet
-          const stats = {};
-          sheetsData.forEach(s => {
-            const sheetProblems = problemsData?.filter(p => p.source_id === s.id) || [];
-            const total = sheetProblems.length || s.total_problems || 0;
-            const solved = sheetProblems.filter(p => userProgressMap.has(p.id)).length;
-            const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
-
-            stats[s.id] = { total, solved, percentage };
-          });
-
-          setSheetStats(stats);
+        let activeSheets = remoteSheets;
+        if (sheetsErr || !remoteSheets || remoteSheets.length === 0) {
+          console.warn('Supabase sheets empty or unreachable. Loading local sheets dataset.');
+          activeSheets = sheetsData.map((s, idx) => ({
+            id: `local-sheet-${s.slug}`,
+            name: s.sheet_name,
+            creator: s.creator_name,
+            slug: s.slug,
+            total_problems: s.total_problems_count || 0
+          }));
         }
+
+        setSheets(activeSheets);
+
+        // Compute progress stats
+        const { data: problemsData } = await supabase
+          .from('problems')
+          .select('id, source_id')
+          .eq('source_type', 'sheet');
+
+        let userProgressMap = new Set();
+        if (user && problemsData && problemsData.length > 0) {
+          const problemIds = problemsData.map(p => p.id);
+          const { data: progressData } = await supabase
+            .from('user_progress')
+            .select('problem_id')
+            .eq('user_id', user.id)
+            .eq('status', 'solved')
+            .in('problem_id', problemIds);
+
+          if (progressData) {
+            userProgressMap = new Set(progressData.map(p => p.problem_id));
+          }
+        }
+
+        const stats = {};
+        activeSheets.forEach(s => {
+          const sheetProblems = problemsData?.filter(p => p.source_id === s.id) || [];
+          const total = sheetProblems.length || s.total_problems || 0;
+          const solved = sheetProblems.filter(p => userProgressMap.has(p.id)).length;
+          const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
+
+          stats[s.id] = { total, solved, percentage };
+        });
+
+        setSheetStats(stats);
       } catch (err) {
-        console.error('Error fetching sheets explorer:', err);
+        console.warn('Error fetching sheets. Using local fallback.', err);
+        const fallbackSheets = sheetsData.map((s, idx) => ({
+          id: `local-sheet-${s.slug}`,
+          name: s.sheet_name,
+          creator: s.creator_name,
+          slug: s.slug,
+          total_problems: s.total_problems_count || 0
+        }));
+        setSheets(fallbackSheets);
       } finally {
         setLoading(false);
       }
@@ -238,7 +245,6 @@ export function SheetsExplorer() {
                     className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-emerald-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer flex flex-col justify-between"
                   >
                     <div className="space-y-4">
-                      {/* Top Header */}
                       <div className="flex items-start justify-between gap-4">
                         <div className="space-y-1 pr-2">
                           <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
@@ -253,13 +259,11 @@ export function SheetsExplorer() {
                           </p>
                         </div>
 
-                        {/* Progress Ring */}
                         <div className="flex-shrink-0 group-hover:scale-105 transition-transform">
                           <ProgressRing percentage={stats.percentage} size={68} strokeWidth={6} />
                         </div>
                       </div>
 
-                      {/* Stats Footer */}
                       <div className="pt-4 border-t border-[#21262d] flex items-center justify-between text-xs text-[#8b949e]">
                         <div className="flex items-center gap-1.5">
                           <BookOpen className="w-3.5 h-3.5 text-indigo-400" />

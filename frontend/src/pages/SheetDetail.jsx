@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
 import { useTrackStore } from '../store/useTrackStore';
 import Navbar from '../components/Navbar';
@@ -11,10 +12,9 @@ import YouTubeModal from '../components/YouTubeModal';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   Youtube, ChevronDown, ChevronUp, Search, CheckCircle,
-  BookOpen, RotateCcw, User, Sparkles, Check
+  RotateCcw, User, Sparkles, Check
 } from 'lucide-react';
 
-// Progress Ring Component
 function ProgressRing({ percentage, size = 80, strokeWidth = 8 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -65,19 +65,14 @@ export function SheetDetail() {
   const [sheet, setSheet] = useState(null);
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Accordion open/close state per step category
   const [openCategories, setOpenCategories] = useState({});
 
-  // Search & Filters
   const [searchQuery, setSearchQuery] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState('ALL');
 
-  // Modals state
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
   const [activeYouTubeVideo, setActiveYouTubeVideo] = useState(null);
 
-  // Zustand Store
   const { progressMap, setProgressMap, toggleStatusOptimistic, saveNotesOptimistic } = useTrackStore();
 
   useEffect(() => {
@@ -85,58 +80,114 @@ export function SheetDetail() {
       try {
         setLoading(true);
 
-        // 1. Fetch Sheet metadata
         const { data: sheetData, error: sheetErr } = await supabase
           .from('sheets')
           .select('*')
           .eq('slug', sheetSlug)
           .single();
 
-        if (sheetErr) throw sheetErr;
-        setSheet(sheetData);
+        if (!sheetErr && sheetData) {
+          setSheet(sheetData);
 
-        // 2. Fetch Problems linked to this sheet
-        const { data: problemsData, error: probErr } = await supabase
-          .from('problems')
-          .select('*')
-          .eq('source_id', sheetData.id)
-          .eq('source_type', 'sheet')
-          .order('id');
+          const { data: problemsData } = await supabase
+            .from('problems')
+            .select('*')
+            .eq('source_id', sheetData.id)
+            .eq('source_type', 'sheet')
+            .order('id');
 
-        if (probErr) throw probErr;
-        setProblems(problemsData || []);
+          setProblems(problemsData || []);
 
-        // Initialize all categories as expanded by default
-        const initialOpen = {};
-        problemsData?.forEach(p => {
-          const cat = p.step_name || 'General';
-          initialOpen[cat] = true;
-        });
-        setOpenCategories(initialOpen);
+          const initialOpen = {};
+          problemsData?.forEach(p => {
+            initialOpen[p.step_name || 'General'] = true;
+          });
+          setOpenCategories(initialOpen);
 
-        // 3. Fetch User Progress from Supabase
-        if (user && problemsData && problemsData.length > 0) {
-          const problemIds = problemsData.map(p => p.id);
-          const { data: userProgress, error: progErr } = await supabase
-            .from('user_progress')
-            .select('problem_id, status, solved_at, personal_notes')
-            .eq('user_id', user.id)
-            .in('problem_id', problemIds);
+          if (user && problemsData && problemsData.length > 0) {
+            const problemIds = problemsData.map(p => p.id);
+            const { data: userProgress } = await supabase
+              .from('user_progress')
+              .select('problem_id, status, solved_at, personal_notes')
+              .eq('user_id', user.id)
+              .in('problem_id', problemIds);
 
-          if (!progErr && userProgress) {
-            const map = {};
-            userProgress.forEach(item => {
-              map[item.problem_id] = {
-                status: item.status,
-                solved_at: item.solved_at,
-                personal_notes: item.personal_notes
-              };
-            });
-            setProgressMap(map);
+            if (userProgress) {
+              const map = {};
+              userProgress.forEach(item => {
+                map[item.problem_id] = {
+                  status: item.status,
+                  solved_at: item.solved_at,
+                  personal_notes: item.personal_notes
+                };
+              });
+              setProgressMap(map);
+            }
           }
+        } else {
+          // Fallback to local dataset
+          console.warn('Supabase sheet query failed or empty. Loading local sheet fallback.');
+          const sObj = sheetsData.find(s => s.slug === sheetSlug) || sheetsData[0];
+          setSheet({
+            id: `local-sheet-${sObj.slug}`,
+            name: sObj.sheet_name,
+            creator: sObj.creator_name,
+            slug: sObj.slug,
+            total_problems: sObj.total_problems_count || 0
+          });
+
+          const localProbs = [];
+          const initialOpen = {};
+          (sObj.steps || []).forEach((step, sIdx) => {
+            initialOpen[step.step_name] = true;
+            (step.problems || []).forEach((p, pIdx) => {
+              localProbs.push({
+                id: `local-prob-${sObj.slug}-${sIdx}-${p.leetcode_slug}`,
+                title: p.title,
+                leetcode_url: p.leetcode_url,
+                leetcode_slug: p.leetcode_slug,
+                difficulty: p.difficulty || "Medium",
+                youtube_tutorial_url: p.youtube_tutorial_url,
+                topic_tags: p.topic_tags || [],
+                step_name: step.step_name
+              });
+            });
+          });
+
+          setProblems(localProbs);
+          setOpenCategories(initialOpen);
         }
       } catch (err) {
-        console.error('Error fetching sheet detail:', err);
+        console.warn('Error connecting to Supabase. Loading local sheet fallback.', err);
+        const sObj = sheetsData.find(s => s.slug === sheetSlug) || sheetsData[0];
+        setSheet({
+          id: `local-sheet-${sObj.slug}`,
+          name: sObj.sheet_name,
+          creator: sObj.creator_name,
+          slug: sObj.slug,
+          total_problems: sObj.total_problems_count || 0
+        });
+
+        const localProbs = [];
+        const initialOpen = {};
+        (sObj.steps || []).forEach((step, sIdx) => {
+          initialOpen[step.step_name] = true;
+          (step.problems || []).forEach((p, pIdx) => {
+            localProbs.push({
+              id: `local-prob-${sObj.slug}-${sIdx}-${p.leetcode_slug}`,
+              title: p.title,
+              leetcode_url: p.leetcode_url,
+              leetcode_slug: p.leetcode_slug,
+              difficulty: p.difficulty || "Medium",
+              youtube_tutorial_url: p.youtube_tutorial_url,
+              topic_tags: p.topic_tags || [],
+              step_name: step.step_name
+            });
+          });
+        });
+
+        setProblems(localProbs);
+        setOpenCategories(initialOpen);
       } finally {
         setLoading(false);
       }
@@ -166,7 +217,6 @@ export function SheetDetail() {
       const cat = p.step_name || 'General Category';
       if (!map[cat]) map[cat] = [];
 
-      // Filter by search & difficulty
       const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             p.leetcode_slug.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesDiff = difficultyFilter === 'ALL' || p.difficulty.toUpperCase() === difficultyFilter.toUpperCase();
@@ -209,7 +259,7 @@ export function SheetDetail() {
             </div>
           ) : (
             <>
-              {/* TOP HEADER: Sheet Info & Progress Ring */}
+              {/* TOP HEADER */}
               <div className="relative bg-[#0d1117]/90 backdrop-blur border border-[#30363d] rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl text-center md:text-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
@@ -314,7 +364,6 @@ export function SheetDetail() {
                             </span>
                           </div>
 
-                          {/* Category Progress Bar */}
                           <div className="flex items-center gap-3">
                             <div className="w-24 bg-[#0d1117] h-2 rounded-full overflow-hidden border border-[#30363d] hidden sm:block">
                               <div
@@ -328,7 +377,7 @@ export function SheetDetail() {
                           </div>
                         </div>
 
-                        {/* Accordion Body / Problem Checklist */}
+                        {/* Accordion Body */}
                         {isOpen && (
                           <div className="divide-y divide-[#21262d]">
                             {catProblems.map((prob) => {
@@ -337,7 +386,7 @@ export function SheetDetail() {
                               const isSolved = status === 'solved';
                               const isRevision = status === 'revision_needed';
                               const hasNotes = Boolean(userState.personal_notes && userState.personal_notes.trim());
-                              const leetcodeUrl = `https://leetcode.com/problems/${prob.leetcode_slug}/`;
+                              const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
 
                               return (
                                 <div
@@ -346,9 +395,7 @@ export function SheetDetail() {
                                     isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
                                   }`}
                                 >
-                                  {/* Left: Checkbox & Problem Title */}
                                   <div className="flex items-center gap-4 min-w-0">
-                                    {/* Animated Checkbox */}
                                     <button
                                       onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
                                       className="focus:outline-none flex-shrink-0 transition-transform active:scale-90"
@@ -385,7 +432,6 @@ export function SheetDetail() {
                                       </AnimatePresence>
                                     </button>
 
-                                    {/* Title & Slug Link */}
                                     <div className="min-w-0">
                                       <a
                                         href={leetcodeUrl}
@@ -403,7 +449,6 @@ export function SheetDetail() {
                                         <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] hover:text-emerald-400 transition-colors flex-shrink-0" />
                                       </a>
 
-                                      {/* Tags */}
                                       <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                         {prob.topic_tags?.map(tag => (
                                           <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#161b22] border border-[#30363d] text-[#8b949e]">
@@ -414,9 +459,7 @@ export function SheetDetail() {
                                     </div>
                                   </div>
 
-                                  {/* Right: Actions & Badges */}
                                   <div className="flex items-center gap-3 flex-shrink-0">
-                                    {/* WATCH CONCEPT TUTORIAL BUTTON */}
                                     {prob.youtube_tutorial_url && (
                                       <button
                                         onClick={() => setActiveYouTubeVideo({ url: prob.youtube_tutorial_url, title: prob.title })}
@@ -428,7 +471,6 @@ export function SheetDetail() {
                                       </button>
                                     )}
 
-                                    {/* Difficulty Badge */}
                                     <span
                                       className={`px-3 py-1 rounded-full text-xs font-bold ${
                                         prob.difficulty === 'Easy'
@@ -441,7 +483,6 @@ export function SheetDetail() {
                                       {prob.difficulty}
                                     </span>
 
-                                    {/* Notes Button */}
                                     <button
                                       onClick={() => setActiveNotesProblem(prob)}
                                       className={`p-2 rounded-xl border transition-all ${
