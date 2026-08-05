@@ -22,11 +22,7 @@ import {
   Target, TrendingUp, Zap, Clock, ChevronRight, ExternalLink, Sparkles
 } from 'lucide-react';
 
-const getApiBaseUrl = () => {
-  const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
-  return envUrl.endsWith('/api') ? envUrl : `${envUrl.replace(/\/$/, '')}/api`;
-};
-const API_BASE_URL = getApiBaseUrl();
+import { API_BASE_URL } from '../config/api';
 
 // ── Progress Ring Component ──
 function ProgressRing({ percentage, size = 80, strokeWidth = 8, label }) {
