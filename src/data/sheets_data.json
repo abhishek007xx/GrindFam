@@ -1,0 +1,2015 @@
+[
+  {
+    "sheet_name": "Striver's A2Z DSA Sheet",
+    "creator_name": "Raj Vikramaditya (Striver)",
+    "slug": "strivers-a2z",
+    "total_problems_count": 105,
+    "steps": [
+      {
+        "step_name": "Step 1: Learn the Basics",
+        "problems": [
+          {
+            "title": "User Input / Output & Data Types",
+            "leetcode_url": "https://leetcode.com/problems/find-words-that-can-be-formed-by-characters/",
+            "leetcode_slug": "find-words-that-can-be-formed-by-characters",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/0bHoB39fzeE"
+          },
+          {
+            "title": "If Else statements & Switch Case",
+            "leetcode_url": "https://leetcode.com/problems/calculate-money-in-leetcode-bank/",
+            "leetcode_slug": "calculate-money-in-leetcode-bank",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/0bHoB39fzeE"
+          },
+          {
+            "title": "For loops & While loops",
+            "leetcode_url": "https://leetcode.com/problems/fibonacci-number/",
+            "leetcode_slug": "fibonacci-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/vYquumk4nWw"
+          },
+          {
+            "title": "Count Digits in a Number",
+            "leetcode_url": "https://leetcode.com/problems/subtract-the-product-and-sum-of-digits-of-an-integer/",
+            "leetcode_slug": "subtract-the-product-and-sum-of-digits-of-an-integer",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "Reverse a Number",
+            "leetcode_url": "https://leetcode.com/problems/reverse-integer/",
+            "leetcode_slug": "reverse-integer",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "Check Palindrome",
+            "leetcode_url": "https://leetcode.com/problems/palindrome-number/",
+            "leetcode_slug": "palindrome-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "GCD or HCF",
+            "leetcode_url": "https://leetcode.com/problems/find-greatest-common-divisor-of-array/",
+            "leetcode_slug": "find-greatest-common-divisor-of-array",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "Armstrong Numbers",
+            "leetcode_url": "https://leetcode.com/problems/armstrong-number/",
+            "leetcode_slug": "armstrong-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "Print all Divisors",
+            "leetcode_url": "https://leetcode.com/problems/three-consecutive-odds/",
+            "leetcode_slug": "three-consecutive-odds",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          },
+          {
+            "title": "Check for Prime Number",
+            "leetcode_url": "https://leetcode.com/problems/count-primes/",
+            "leetcode_slug": "count-primes",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/1xNbjMdbjug"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 2: Learn Important Sorting Techniques",
+        "problems": [
+          {
+            "title": "Selection Sort",
+            "leetcode_url": "https://leetcode.com/problems/sort-an-array/",
+            "leetcode_slug": "sort-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/HGk_ypEuS24"
+          },
+          {
+            "title": "Bubble Sort",
+            "leetcode_url": "https://leetcode.com/problems/sort-an-array/",
+            "leetcode_slug": "sort-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/HGk_ypEuS24"
+          },
+          {
+            "title": "Insertion Sort",
+            "leetcode_url": "https://leetcode.com/problems/insertion-sort-list/",
+            "leetcode_slug": "insertion-sort-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/HGk_ypEuS24"
+          },
+          {
+            "title": "Merge Sort",
+            "leetcode_url": "https://leetcode.com/problems/sort-an-array/",
+            "leetcode_slug": "sort-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/ogjf7ORKfd8"
+          },
+          {
+            "title": "Quick Sort",
+            "leetcode_url": "https://leetcode.com/problems/sort-an-array/",
+            "leetcode_slug": "sort-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/WIrA4YexLRQ"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 3: Solve Problems on Arrays [Easy -> Medium -> Hard]",
+        "problems": [
+          {
+            "title": "Largest Element in an Array",
+            "leetcode_url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/37E9ckMDdTk"
+          },
+          {
+            "title": "Second Largest Element in an Array",
+            "leetcode_url": "https://leetcode.com/problems/second-largest-digit-in-a-string/",
+            "leetcode_slug": "second-largest-digit-in-a-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/37E9ckMDdTk"
+          },
+          {
+            "title": "Check if Array is Sorted and Rotated",
+            "leetcode_url": "https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/",
+            "leetcode_slug": "check-if-array-is-sorted-and-rotated",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/37E9ckMDdTk"
+          },
+          {
+            "title": "Remove Duplicates from Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/",
+            "leetcode_slug": "remove-duplicates-from-sorted-array",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Fm_p9lJ4Z_8"
+          },
+          {
+            "title": "Left Rotate an Array by One",
+            "leetcode_url": "https://leetcode.com/problems/rotate-array/",
+            "leetcode_slug": "rotate-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/wvcQg43_V8U"
+          },
+          {
+            "title": "Move Zeroes to End",
+            "leetcode_url": "https://leetcode.com/problems/move-zeroes/",
+            "leetcode_slug": "move-zeroes",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/wvcQg43_V8U"
+          },
+          {
+            "title": "Linear Search",
+            "leetcode_url": "https://leetcode.com/problems/search-insert-position/",
+            "leetcode_slug": "search-insert-position",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/wvcQg43_V8U"
+          },
+          {
+            "title": "Find Missing Number in Array",
+            "leetcode_url": "https://leetcode.com/problems/missing-number/",
+            "leetcode_slug": "missing-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/bYWLJb3vCWY"
+          },
+          {
+            "title": "Max Consecutive Ones",
+            "leetcode_url": "https://leetcode.com/problems/max-consecutive-ones/",
+            "leetcode_slug": "max-consecutive-ones",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/bYWLJb3vCWY"
+          },
+          {
+            "title": "Single Number",
+            "leetcode_url": "https://leetcode.com/problems/single-number/",
+            "leetcode_slug": "single-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/bYWLJb3vCWY"
+          },
+          {
+            "title": "Two Sum",
+            "leetcode_url": "https://leetcode.com/problems/two-sum/",
+            "leetcode_slug": "two-sum",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/UXDSeD9mN-k"
+          },
+          {
+            "title": "Sort Array of 0s 1s 2s (Dutch National Flag)",
+            "leetcode_url": "https://leetcode.com/problems/sort-colors/",
+            "leetcode_slug": "sort-colors",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/tp8JIuCXBaU"
+          },
+          {
+            "title": "Majority Element (>N/2 times)",
+            "leetcode_url": "https://leetcode.com/problems/majority-element/",
+            "leetcode_slug": "majority-element",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/np_c448Oact"
+          },
+          {
+            "title": "Maximum Subarray Sum (Kadane's Algorithm)",
+            "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
+            "leetcode_slug": "maximum-subarray",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/AHZpyENo7k4"
+          },
+          {
+            "title": "Best Time to Buy and Sell Stock",
+            "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/eMSfBgbiEbc"
+          },
+          {
+            "title": "Rearrange Array Elements by Sign",
+            "leetcode_url": "https://leetcode.com/problems/rearrange-array-elements-by-sign/",
+            "leetcode_slug": "rearrange-array-elements-by-sign",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/h4aBagy4Uok"
+          },
+          {
+            "title": "Next Permutation",
+            "leetcode_url": "https://leetcode.com/problems/next-permutation/",
+            "leetcode_slug": "next-permutation",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/JDOXKqF60RQ"
+          },
+          {
+            "title": "Leaders in an Array",
+            "leetcode_url": "https://leetcode.com/problems/replace-elements-with-greatest-element-on-right-side/",
+            "leetcode_slug": "replace-elements-with-greatest-element-on-right-side",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/cCwJmA06Wyc"
+          },
+          {
+            "title": "Longest Consecutive Sequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-consecutive-sequence/",
+            "leetcode_slug": "longest-consecutive-sequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/qgizvmgeyUM"
+          },
+          {
+            "title": "Set Matrix Zeroes",
+            "leetcode_url": "https://leetcode.com/problems/set-matrix-zeroes/",
+            "leetcode_slug": "set-matrix-zeroes",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/N0MgLvceX7M"
+          },
+          {
+            "title": "Rotate Image / Matrix by 90 degrees",
+            "leetcode_url": "https://leetcode.com/problems/rotate-image/",
+            "leetcode_slug": "rotate-image",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/Y72QeX0Efxw"
+          },
+          {
+            "title": "Spiral Matrix Traversal",
+            "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
+            "leetcode_slug": "spiral-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/3Zv-s9UUr0w"
+          },
+          {
+            "title": "Pascal's Triangle",
+            "leetcode_url": "https://leetcode.com/problems/pascals-triangle/",
+            "leetcode_slug": "pascals-triangle",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/6JYIGeeoBwA"
+          },
+          {
+            "title": "Majority Element II (>N/3 times)",
+            "leetcode_url": "https://leetcode.com/problems/majority-element-ii/",
+            "leetcode_slug": "majority-element-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/vwZx13XYnto"
+          },
+          {
+            "title": "3Sum",
+            "leetcode_url": "https://leetcode.com/problems/3sum/",
+            "leetcode_slug": "3sum",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/dhFhUgt4GIk"
+          },
+          {
+            "title": "4Sum",
+            "leetcode_url": "https://leetcode.com/problems/4sum/",
+            "leetcode_slug": "4sum",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/eD95WRfh81c"
+          },
+          {
+            "title": "Subarray with Given XOR",
+            "leetcode_url": "https://leetcode.com/problems/subarray-sums-divisible-by-k/",
+            "leetcode_slug": "subarray-sums-divisible-by-k",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/eZr-6p0B7ME"
+          },
+          {
+            "title": "Merge Overlapping Intervals",
+            "leetcode_url": "https://leetcode.com/problems/merge-intervals/",
+            "leetcode_slug": "merge-intervals",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/IexN60k62vk"
+          },
+          {
+            "title": "Merge Two Sorted Arrays Without Extra Space",
+            "leetcode_url": "https://leetcode.com/problems/merge-sorted-array/",
+            "leetcode_slug": "merge-sorted-array",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/n7uwj04E0I4"
+          },
+          {
+            "title": "Find Missing and Repeating Number",
+            "leetcode_url": "https://leetcode.com/problems/find-the-duplicate-number/",
+            "leetcode_slug": "find-the-duplicate-number",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/5nMGY4VUoRY"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 4: Binary Search [1D, 2D Arrays, Search Space]",
+        "problems": [
+          {
+            "title": "Binary Search to Find X in Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/binary-search/",
+            "leetcode_slug": "binary-search",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/MHf6awe89xw"
+          },
+          {
+            "title": "Implement Lower Bound & Upper Bound",
+            "leetcode_url": "https://leetcode.com/problems/search-insert-position/",
+            "leetcode_slug": "search-insert-position",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/6zhGS7oj51Q"
+          },
+          {
+            "title": "Search Insert Position",
+            "leetcode_url": "https://leetcode.com/problems/search-insert-position/",
+            "leetcode_slug": "search-insert-position",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/6zhGS7oj51Q"
+          },
+          {
+            "title": "Find First and Last Position of Element in Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/",
+            "leetcode_slug": "find-first-and-last-position-of-element-in-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/hjR1IYVt9lM"
+          },
+          {
+            "title": "Search in Rotated Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/r3pHE8uMCU8"
+          },
+          {
+            "title": "Search in Rotated Sorted Array II (Duplicates)",
+            "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array-ii/",
+            "leetcode_slug": "search-in-rotated-sorted-array-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/w2G2W8l__pc"
+          },
+          {
+            "title": "Find Minimum in Rotated Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+            "leetcode_slug": "find-minimum-in-rotated-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/nhEMXDTYinE"
+          },
+          {
+            "title": "Find Peak Element",
+            "leetcode_url": "https://leetcode.com/problems/find-peak-element/",
+            "leetcode_slug": "find-peak-element",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/cXxmbGr686g"
+          },
+          {
+            "title": "Square Root of a Number",
+            "leetcode_url": "https://leetcode.com/problems/sqrtx/",
+            "leetcode_slug": "sqrtx",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Bsv3FPUX_50"
+          },
+          {
+            "title": "Koko Eating Bananas",
+            "leetcode_url": "https://leetcode.com/problems/koko-eating-bananas/",
+            "leetcode_slug": "koko-eating-bananas",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/U2SozAs9RzA"
+          },
+          {
+            "title": "Minimum Days to Make m Bouquets",
+            "leetcode_url": "https://leetcode.com/problems/minimum-number-of-days-to-make-m-bouquets/",
+            "leetcode_slug": "minimum-number-of-days-to-make-m-bouquets",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/TXAuxeYBTdg"
+          },
+          {
+            "title": "Capacity To Ship Packages Within D Days",
+            "leetcode_url": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/",
+            "leetcode_slug": "capacity-to-ship-packages-within-d-days",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/1w4-rXA05Lw"
+          },
+          {
+            "title": "Aggressive Cows / Book Allocation",
+            "leetcode_url": "https://leetcode.com/problems/split-array-largest-sum/",
+            "leetcode_slug": "split-array-largest-sum",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/Z0zw4Mh15IA"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 5: Strings [Basic & Medium]",
+        "problems": [
+          {
+            "title": "Remove Outermost Parentheses",
+            "leetcode_url": "https://leetcode.com/problems/remove-outermost-parentheses/",
+            "leetcode_slug": "remove-outermost-parentheses",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Reverse Words in a String",
+            "leetcode_url": "https://leetcode.com/problems/reverse-words-in-a-string/",
+            "leetcode_slug": "reverse-words-in-a-string",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/vhnRAaJybpA"
+          },
+          {
+            "title": "Largest Odd Number in String",
+            "leetcode_url": "https://leetcode.com/problems/largest-odd-number-in-string/",
+            "leetcode_slug": "largest-odd-number-in-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Longest Common Prefix",
+            "leetcode_url": "https://leetcode.com/problems/longest-common-prefix/",
+            "leetcode_slug": "longest-common-prefix",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Isomorphic Strings",
+            "leetcode_url": "https://leetcode.com/problems/isomorphic-strings/",
+            "leetcode_slug": "isomorphic-strings",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/7yF-U1hLEqU"
+          },
+          {
+            "title": "Check if One String is Rotation of Another",
+            "leetcode_url": "https://leetcode.com/problems/rotate-string/",
+            "leetcode_slug": "rotate-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Valid Anagram",
+            "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+            "leetcode_slug": "valid-anagram",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Sort Characters By Frequency",
+            "leetcode_url": "https://leetcode.com/problems/sort-characters-by-frequency/",
+            "leetcode_slug": "sort-characters-by-frequency",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Maximum Nesting Depth of Parentheses",
+            "leetcode_url": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/",
+            "leetcode_slug": "maximum-nesting-depth-of-the-parentheses",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/aR-_dI2w-4s"
+          },
+          {
+            "title": "Roman to Integer",
+            "leetcode_url": "https://leetcode.com/problems/roman-to-integer/",
+            "leetcode_slug": "roman-to-integer",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/3jdxYj3DD98"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 6: Learn LinkedList [Single LL, Double LL, Medium, Hard]",
+        "problems": [
+          {
+            "title": "Introduction to Linked List",
+            "leetcode_url": "https://leetcode.com/problems/delete-node-in-a-linked-list/",
+            "leetcode_slug": "delete-node-in-a-linked-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/Nq7ok-OyEpg"
+          },
+          {
+            "title": "Insert / Delete Node in Linked List",
+            "leetcode_url": "https://leetcode.com/problems/remove-linked-list-elements/",
+            "leetcode_slug": "remove-linked-list-elements",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Va4vN0w6b64"
+          },
+          {
+            "title": "Reverse a Linked List",
+            "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+            "leetcode_slug": "reverse-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/D2vI2DNJGd8"
+          },
+          {
+            "title": "Middle of a Linked List",
+            "leetcode_url": "https://leetcode.com/problems/middle-of-the-linked-list/",
+            "leetcode_slug": "middle-of-the-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/7lQXYvEIeLg"
+          },
+          {
+            "title": "Detect a Loop in Linked List",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
+            "leetcode_slug": "linked-list-cycle",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/wiOo4DC5GGA"
+          },
+          {
+            "title": "Find Starting Point of Loop in Linked List",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle-ii/",
+            "leetcode_slug": "linked-list-cycle-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/2Kd0KKmmHFc"
+          },
+          {
+            "title": "Check if Linked List is Palindrome",
+            "leetcode_url": "https://leetcode.com/problems/palindrome-linked-list/",
+            "leetcode_slug": "palindrome-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/lRY_G-u_8jk"
+          },
+          {
+            "title": "Remove Nth Node From End of List",
+            "leetcode_url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+            "leetcode_slug": "remove-nth-node-from-end-of-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/3kMKYQ2wZBU"
+          },
+          {
+            "title": "Delete Middle Node of Linked List",
+            "leetcode_url": "https://leetcode.com/problems/delete-the-middle-node-of-a-linked-list/",
+            "leetcode_slug": "delete-the-middle-node-of-a-linked-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/ePpV-_pfOeI"
+          },
+          {
+            "title": "Add Two Numbers in Linked List",
+            "leetcode_url": "https://leetcode.com/problems/add-two-numbers/",
+            "leetcode_slug": "add-two-numbers",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/XmRrGzR6udg"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 13: Binary Trees [Traversals, Medium & Hard]",
+        "problems": [
+          {
+            "title": "Binary Tree Inorder Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
+            "leetcode_slug": "binary-tree-inorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Z_UP8WL7jL8"
+          },
+          {
+            "title": "Binary Tree Preorder Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-preorder-traversal/",
+            "leetcode_slug": "binary-tree-preorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/rl-18N-Tkhw"
+          },
+          {
+            "title": "Binary Tree Postorder Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-postorder-traversal/",
+            "leetcode_slug": "binary-tree-postorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/2YBhNLoi5wQ"
+          },
+          {
+            "title": "Binary Tree Level Order Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+            "leetcode_slug": "binary-tree-level-order-traversal",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/EoAsWbO7sqg"
+          },
+          {
+            "title": "Maximum Depth of Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+            "leetcode_slug": "maximum-depth-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/eD3tmO66a4g"
+          },
+          {
+            "title": "Balanced Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/balanced-binary-tree/",
+            "leetcode_slug": "balanced-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Yt50Jfbd8Po"
+          },
+          {
+            "title": "Diameter of Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/diameter-of-binary-tree/",
+            "leetcode_slug": "diameter-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Rezetez59Nk"
+          },
+          {
+            "title": "Maximum Path Sum in Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+            "leetcode_slug": "binary-tree-maximum-path-sum",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/WszrfSwMz58"
+          },
+          {
+            "title": "Lowest Common Ancestor of a Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/",
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/_-QHfMDde90"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 15: Graphs [Concepts & Problems]",
+        "problems": [
+          {
+            "title": "Breadth First Search (BFS)",
+            "leetcode_url": "https://leetcode.com/problems/number-of-provinces/",
+            "leetcode_slug": "number-of-provinces",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/-vtN445y2nQ"
+          },
+          {
+            "title": "Depth First Search (DFS)",
+            "leetcode_url": "https://leetcode.com/problems/number-of-provinces/",
+            "leetcode_slug": "number-of-provinces",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/Qzf1a--rhp8"
+          },
+          {
+            "title": "Number of Islands",
+            "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
+            "leetcode_slug": "number-of-islands",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/muncqlKJ80s"
+          },
+          {
+            "title": "Rotting Oranges",
+            "leetcode_url": "https://leetcode.com/problems/rotting-oranges/",
+            "leetcode_slug": "rotting-oranges",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/yf3oUhkvqTE"
+          },
+          {
+            "title": "0/1 Matrix (Bfs Distance)",
+            "leetcode_url": "https://leetcode.com/problems/01-matrix/",
+            "leetcode_slug": "01-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/edXdVZwCAX0"
+          },
+          {
+            "title": "Surrounded Regions (Replace O's with X's)",
+            "leetcode_url": "https://leetcode.com/problems/surrounded-regions/",
+            "leetcode_slug": "surrounded-regions",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/BtdgAys4yMk"
+          },
+          {
+            "title": "Word Ladder I",
+            "leetcode_url": "https://leetcode.com/problems/word-ladder/",
+            "leetcode_slug": "word-ladder",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/tRPda0lAKLg"
+          },
+          {
+            "title": "Dijkstra's Algorithm Shortest Path",
+            "leetcode_url": "https://leetcode.com/problems/network-delay-time/",
+            "leetcode_slug": "network-delay-time",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/V6H1qAeB-l4"
+          }
+        ]
+      },
+      {
+        "step_name": "Step 16: Dynamic Programming [Patterns & Problems]",
+        "problems": [
+          {
+            "title": "Climbing Stairs",
+            "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
+            "leetcode_slug": "climbing-stairs",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Y0lT9Fck7qI"
+          },
+          {
+            "title": "Frog Jump",
+            "leetcode_url": "https://leetcode.com/problems/frog-jump/",
+            "leetcode_slug": "frog-jump",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/EgG3jsGoPvQ"
+          },
+          {
+            "title": "House Robber",
+            "leetcode_url": "https://leetcode.com/problems/house-robber/",
+            "leetcode_slug": "house-robber",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/GrMBfJNk_VQ"
+          },
+          {
+            "title": "House Robber II",
+            "leetcode_url": "https://leetcode.com/problems/house-robber-ii/",
+            "leetcode_slug": "house-robber-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/3WaxQMELskw"
+          },
+          {
+            "title": "Ninja's Training / 2D DP",
+            "leetcode_url": "https://leetcode.com/problems/triangle/",
+            "leetcode_slug": "triangle",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/AE39gJYurog"
+          },
+          {
+            "title": "Subset Sum Equal to Target",
+            "leetcode_url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+            "leetcode_slug": "partition-equal-subset-sum",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/fWX9xDmIzRI"
+          },
+          {
+            "title": "Coin Change",
+            "leetcode_url": "https://leetcode.com/problems/coin-change/",
+            "leetcode_slug": "coin-change",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/myPeWb3Y6GE"
+          },
+          {
+            "title": "Longest Common Subsequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-common-subsequence/",
+            "leetcode_slug": "longest-common-subsequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/NPZn9jBrX8U"
+          },
+          {
+            "title": "Longest Increasing Subsequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+            "leetcode_slug": "longest-increasing-subsequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/on2hhemJ620"
+          },
+          {
+            "title": "Edit Distance",
+            "leetcode_url": "https://leetcode.com/problems/edit-distance/",
+            "leetcode_slug": "edit-distance",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/fJaKO8FbDdo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sheet_name": "Love Babbar 450 DSA Sheet",
+    "creator_name": "Love Babbar (CodeHelp)",
+    "slug": "love-babbar-450",
+    "total_problems_count": 61,
+    "steps": [
+      {
+        "step_name": "Arrays",
+        "problems": [
+          {
+            "title": "Reverse the Array",
+            "leetcode_url": "https://leetcode.com/problems/reverse-string/",
+            "leetcode_slug": "reverse-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Reverse+the+Array+DSA+solution"
+          },
+          {
+            "title": "Find the Maximum and Minimum Element in an Array",
+            "leetcode_url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+the+Maximum+and+Minimum+Element+in+an+Array+DSA+solution"
+          },
+          {
+            "title": "Find the 'Kth' Max and Min Element of an Array",
+            "leetcode_url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+the+%27Kth%27+Max+and+Min+Element+of+an+Array+DSA+solution"
+          },
+          {
+            "title": "Given an array which consists of only 0, 1 and 2. Sort the array",
+            "leetcode_url": "https://leetcode.com/problems/sort-colors/",
+            "leetcode_slug": "sort-colors",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Given+an+array+which+consists+of+only+0%2C+1+and+2.+Sort+the+array+DSA+solution"
+          },
+          {
+            "title": "Move all negative numbers to one side of array",
+            "leetcode_url": "https://leetcode.com/problems/move-zeroes/",
+            "leetcode_slug": "move-zeroes",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Move+all+negative+numbers+to+one+side+of+array+DSA+solution"
+          },
+          {
+            "title": "Find the Union and Intersection of two sorted arrays",
+            "leetcode_url": "https://leetcode.com/problems/intersection-of-two-arrays/",
+            "leetcode_slug": "intersection-of-two-arrays",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+the+Union+and+Intersection+of+two+sorted+arrays+DSA+solution"
+          },
+          {
+            "title": "Write a program to cyclically rotate an array by one",
+            "leetcode_url": "https://leetcode.com/problems/rotate-array/",
+            "leetcode_slug": "rotate-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Write+a+program+to+cyclically+rotate+an+array+by+one+DSA+solution"
+          },
+          {
+            "title": "Find Largest sum contiguous Subarray (Kadane's Algorithm)",
+            "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
+            "leetcode_slug": "maximum-subarray",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+Largest+sum+contiguous+Subarray+%28Kadane%27s+Algorithm%29+DSA+solution"
+          },
+          {
+            "title": "Minimize the Maximum Difference between Heights",
+            "leetcode_url": "https://leetcode.com/problems/minimize-maximum-difference-of-pairs/",
+            "leetcode_slug": "minimize-maximum-difference-of-pairs",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Minimize+the+Maximum+Difference+between+Heights+DSA+solution"
+          },
+          {
+            "title": "Minimum number of Jumps to reach end",
+            "leetcode_url": "https://leetcode.com/problems/jump-game-ii/",
+            "leetcode_slug": "jump-game-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Minimum+number+of+Jumps+to+reach+end+DSA+solution"
+          },
+          {
+            "title": "Find duplicate in an array of N+1 Integers",
+            "leetcode_url": "https://leetcode.com/problems/find-the-duplicate-number/",
+            "leetcode_slug": "find-the-duplicate-number",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+duplicate+in+an+array+of+N%2B1+Integers+DSA+solution"
+          },
+          {
+            "title": "Merge 2 sorted arrays without using extra space",
+            "leetcode_url": "https://leetcode.com/problems/merge-sorted-array/",
+            "leetcode_slug": "merge-sorted-array",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Merge+2+sorted+arrays+without+using+extra+space+DSA+solution"
+          },
+          {
+            "title": "Kadane's Algorithm",
+            "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
+            "leetcode_slug": "maximum-subarray",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Kadane%27s+Algorithm+DSA+solution"
+          },
+          {
+            "title": "Merge Intervals",
+            "leetcode_url": "https://leetcode.com/problems/merge-intervals/",
+            "leetcode_slug": "merge-intervals",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Merge+Intervals+DSA+solution"
+          },
+          {
+            "title": "Next Permutation",
+            "leetcode_url": "https://leetcode.com/problems/next-permutation/",
+            "leetcode_slug": "next-permutation",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Next+Permutation+DSA+solution"
+          },
+          {
+            "title": "Count Inversions",
+            "leetcode_url": "https://leetcode.com/problems/create-sorted-array-through-instructions/",
+            "leetcode_slug": "create-sorted-array-through-instructions",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Count+Inversions+DSA+solution"
+          },
+          {
+            "title": "Best Time to Buy and Sell Stock",
+            "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Best+Time+to+Buy+and+Sell+Stock+DSA+solution"
+          },
+          {
+            "title": "Find all pairs on integer array whose sum is equal to K",
+            "leetcode_url": "https://leetcode.com/problems/two-sum/",
+            "leetcode_slug": "two-sum",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+all+pairs+on+integer+array+whose+sum+is+equal+to+K+DSA+solution"
+          },
+          {
+            "title": "Find common elements In 3 sorted arrays",
+            "leetcode_url": "https://leetcode.com/problems/intersection-of-three-sorted-arrays/",
+            "leetcode_slug": "intersection-of-three-sorted-arrays",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+common+elements+In+3+sorted+arrays+DSA+solution"
+          },
+          {
+            "title": "Trapping Rain Water",
+            "leetcode_url": "https://leetcode.com/problems/trapping-rain-water/",
+            "leetcode_slug": "trapping-rain-water",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Trapping+Rain+Water+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Matrix",
+        "problems": [
+          {
+            "title": "Spiral Traversal on a Matrix",
+            "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
+            "leetcode_slug": "spiral-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Spiral+Traversal+on+a+Matrix+DSA+solution"
+          },
+          {
+            "title": "Search an Element in a Matrix",
+            "leetcode_url": "https://leetcode.com/problems/search-a-2d-matrix/",
+            "leetcode_slug": "search-a-2d-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Search+an+Element+in+a+Matrix+DSA+solution"
+          },
+          {
+            "title": "Find Median in a Row Wise Sorted Matrix",
+            "leetcode_url": "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/",
+            "leetcode_slug": "kth-smallest-element-in-a-sorted-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+Median+in+a+Row+Wise+Sorted+Matrix+DSA+solution"
+          },
+          {
+            "title": "Find Row with Maximum Number of 1s",
+            "leetcode_url": "https://leetcode.com/problems/row-with-maximum-ones/",
+            "leetcode_slug": "row-with-maximum-ones",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+Row+with+Maximum+Number+of+1s+DSA+solution"
+          },
+          {
+            "title": "Rotate Matrix by 90 Degrees",
+            "leetcode_url": "https://leetcode.com/problems/rotate-image/",
+            "leetcode_slug": "rotate-image",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Rotate+Matrix+by+90+Degrees+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Strings",
+        "problems": [
+          {
+            "title": "Reverse a String",
+            "leetcode_url": "https://leetcode.com/problems/reverse-string/",
+            "leetcode_slug": "reverse-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Reverse+a+String+DSA+solution"
+          },
+          {
+            "title": "Check whether a String is Palindrome or not",
+            "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
+            "leetcode_slug": "valid-palindrome",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Check+whether+a+String+is+Palindrome+or+not+DSA+solution"
+          },
+          {
+            "title": "Find Duplicate Characters in a String",
+            "leetcode_url": "https://leetcode.com/problems/first-unique-character-in-a-string/",
+            "leetcode_slug": "first-unique-character-in-a-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+Duplicate+Characters+in+a+String+DSA+solution"
+          },
+          {
+            "title": "Why Strings are Immutable in Java?",
+            "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+            "leetcode_slug": "valid-anagram",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Why+Strings+are+Immutable+in+Java%3F+DSA+solution"
+          },
+          {
+            "title": "Write a Code to check whether one String is a rotation of another",
+            "leetcode_url": "https://leetcode.com/problems/rotate-string/",
+            "leetcode_slug": "rotate-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Write+a+Code+to+check+whether+one+String+is+a+rotation+of+another+DSA+solution"
+          },
+          {
+            "title": "Count and Say Problem",
+            "leetcode_url": "https://leetcode.com/problems/count-and-say/",
+            "leetcode_slug": "count-and-say",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Count+and+Say+Problem+DSA+solution"
+          },
+          {
+            "title": "Longest Palindromic Substring",
+            "leetcode_url": "https://leetcode.com/problems/longest-palindromic-substring/",
+            "leetcode_slug": "longest-palindromic-substring",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Longest+Palindromic+Substring+DSA+solution"
+          },
+          {
+            "title": "Longest Recurring Subsequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-common-subsequence/",
+            "leetcode_slug": "longest-common-subsequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Longest+Recurring+Subsequence+DSA+solution"
+          },
+          {
+            "title": "Print all Subsequences of a String",
+            "leetcode_url": "https://leetcode.com/problems/subsets/",
+            "leetcode_slug": "subsets",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Print+all+Subsequences+of+a+String+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "LinkedList",
+        "problems": [
+          {
+            "title": "Write a Program to reverse the Linked List (Both Iterative and Recursive)",
+            "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+            "leetcode_slug": "reverse-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Write+a+Program+to+reverse+the+Linked+List+%28Both+Iterative+and+Recursive%29+DSA+solution"
+          },
+          {
+            "title": "Reverse a Linked List in groups of Given Size",
+            "leetcode_url": "https://leetcode.com/problems/reverse-nodes-in-k-group/",
+            "leetcode_slug": "reverse-nodes-in-k-group",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Reverse+a+Linked+List+in+groups+of+Given+Size+DSA+solution"
+          },
+          {
+            "title": "Detect Loop in a Linked List",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
+            "leetcode_slug": "linked-list-cycle",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Detect+Loop+in+a+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Delete Loop in a Linked List",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle-ii/",
+            "leetcode_slug": "linked-list-cycle-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Delete+Loop+in+a+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Find Starting Node of the Loop in Linked List",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle-ii/",
+            "leetcode_slug": "linked-list-cycle-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Find+Starting+Node+of+the+Loop+in+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Remove Duplicates in a Sorted Linked List",
+            "leetcode_url": "https://leetcode.com/problems/remove-duplicates-from-sorted-list/",
+            "leetcode_slug": "remove-duplicates-from-sorted-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Remove+Duplicates+in+a+Sorted+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Remove Duplicates in an Unsorted Linked List",
+            "leetcode_url": "https://leetcode.com/problems/remove-duplicates-from-an-unsorted-linked-list/",
+            "leetcode_slug": "remove-duplicates-from-an-unsorted-linked-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Remove+Duplicates+in+an+Unsorted+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Add Two Numbers Represented by Linked List",
+            "leetcode_url": "https://leetcode.com/problems/add-two-numbers/",
+            "leetcode_slug": "add-two-numbers",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Add+Two+Numbers+Represented+by+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Intersection Point of Two Linked Lists",
+            "leetcode_url": "https://leetcode.com/problems/intersection-of-two-linked-lists/",
+            "leetcode_slug": "intersection-of-two-linked-lists",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Intersection+Point+of+Two+Linked+Lists+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Trees & BST",
+        "problems": [
+          {
+            "title": "Level Order Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+            "leetcode_slug": "binary-tree-level-order-traversal",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Level+Order+Traversal+DSA+solution"
+          },
+          {
+            "title": "Reverse Level Order Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal-ii/",
+            "leetcode_slug": "binary-tree-level-order-traversal-ii",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Reverse+Level+Order+Traversal+DSA+solution"
+          },
+          {
+            "title": "Height of a Tree",
+            "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+            "leetcode_slug": "maximum-depth-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Height+of+a+Tree+DSA+solution"
+          },
+          {
+            "title": "Diameter of a Tree",
+            "leetcode_url": "https://leetcode.com/problems/diameter-of-binary-tree/",
+            "leetcode_slug": "diameter-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Diameter+of+a+Tree+DSA+solution"
+          },
+          {
+            "title": "Invert / Mirror of a Tree",
+            "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
+            "leetcode_slug": "invert-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Invert+%2F+Mirror+of+a+Tree+DSA+solution"
+          },
+          {
+            "title": "Inorder Traversal Iterative and Recursive",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-inorder-traversal/",
+            "leetcode_slug": "binary-tree-inorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Inorder+Traversal+Iterative+and+Recursive+DSA+solution"
+          },
+          {
+            "title": "Preorder Traversal Iterative and Recursive",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-preorder-traversal/",
+            "leetcode_slug": "binary-tree-preorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Preorder+Traversal+Iterative+and+Recursive+DSA+solution"
+          },
+          {
+            "title": "Postorder Traversal Iterative and Recursive",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-postorder-traversal/",
+            "leetcode_slug": "binary-tree-postorder-traversal",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Postorder+Traversal+Iterative+and+Recursive+DSA+solution"
+          },
+          {
+            "title": "Left View of a Tree",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-right-side-view/",
+            "leetcode_slug": "binary-tree-right-side-view",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Left+View+of+a+Tree+DSA+solution"
+          },
+          {
+            "title": "Right View of a Tree",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-right-side-view/",
+            "leetcode_slug": "binary-tree-right-side-view",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Right+View+of+a+Tree+DSA+solution"
+          },
+          {
+            "title": "Lowest Common Ancestor in a BST",
+            "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-search-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Lowest+Common+Ancestor+in+a+BST+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Dynamic Programming & Greedy",
+        "problems": [
+          {
+            "title": "Coin Change Problem",
+            "leetcode_url": "https://leetcode.com/problems/coin-change/",
+            "leetcode_slug": "coin-change",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Coin+Change+Problem+DSA+solution"
+          },
+          {
+            "title": "1 Knapsack Problem",
+            "leetcode_url": "https://leetcode.com/problems/partition-equal-subset-sum/",
+            "leetcode_slug": "partition-equal-subset-sum",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+1+Knapsack+Problem+DSA+solution"
+          },
+          {
+            "title": "Longest Common Subsequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-common-subsequence/",
+            "leetcode_slug": "longest-common-subsequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Longest+Common+Subsequence+DSA+solution"
+          },
+          {
+            "title": "Longest Increasing Subsequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+            "leetcode_slug": "longest-increasing-subsequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Longest+Increasing+Subsequence+DSA+solution"
+          },
+          {
+            "title": "Edit Distance",
+            "leetcode_url": "https://leetcode.com/problems/edit-distance/",
+            "leetcode_slug": "edit-distance",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Edit+Distance+DSA+solution"
+          },
+          {
+            "title": "Job Sequencing Problem",
+            "leetcode_url": "https://leetcode.com/problems/maximum-profit-in-job-scheduling/",
+            "leetcode_slug": "maximum-profit-in-job-scheduling",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+Job+Sequencing+Problem+DSA+solution"
+          },
+          {
+            "title": "N Meetings in One Room",
+            "leetcode_url": "https://leetcode.com/problems/non-overlapping-intervals/",
+            "leetcode_slug": "non-overlapping-intervals",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Love+Babbar+N+Meetings+in+One+Room+DSA+solution"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sheet_name": "NeetCode 150 / Blind 75",
+    "creator_name": "Navdeep Singh (NeetCode)",
+    "slug": "neetcode-150",
+    "total_problems_count": 67,
+    "steps": [
+      {
+        "step_name": "Arrays & Hashing",
+        "problems": [
+          {
+            "title": "Contains Duplicate",
+            "leetcode_url": "https://leetcode.com/problems/contains-duplicate/",
+            "leetcode_slug": "contains-duplicate",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/3OamzN90kPg"
+          },
+          {
+            "title": "Valid Anagram",
+            "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+            "leetcode_slug": "valid-anagram",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/9UtInBqnCgA"
+          },
+          {
+            "title": "Two Sum",
+            "leetcode_url": "https://leetcode.com/problems/two-sum/",
+            "leetcode_slug": "two-sum",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/KLlXCFG5TnA"
+          },
+          {
+            "title": "Group Anagrams",
+            "leetcode_url": "https://leetcode.com/problems/group-anagrams/",
+            "leetcode_slug": "group-anagrams",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/vzdNOK2oDA4"
+          },
+          {
+            "title": "Top K Frequent Elements",
+            "leetcode_url": "https://leetcode.com/problems/top-k-frequent-elements/",
+            "leetcode_slug": "top-k-frequent-elements",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/YPTqKIgVk-k"
+          },
+          {
+            "title": "Product of Array Except Self",
+            "leetcode_url": "https://leetcode.com/problems/product-of-array-except-self/",
+            "leetcode_slug": "product-of-array-except-self",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/bNvIQI2wAjk"
+          },
+          {
+            "title": "Valid Sudoku",
+            "leetcode_url": "https://leetcode.com/problems/valid-sudoku/",
+            "leetcode_slug": "valid-sudoku",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/TjFXEUCMqI8"
+          },
+          {
+            "title": "Encode and Decode Strings",
+            "leetcode_url": "https://leetcode.com/problems/encode-and-decode-strings/",
+            "leetcode_slug": "encode-and-decode-strings",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/B1k_sxOSgv8"
+          },
+          {
+            "title": "Longest Consecutive Sequence",
+            "leetcode_url": "https://leetcode.com/problems/longest-consecutive-sequence/",
+            "leetcode_slug": "longest-consecutive-sequence",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/P6RZZMu_maU"
+          }
+        ]
+      },
+      {
+        "step_name": "Two Pointers",
+        "problems": [
+          {
+            "title": "Valid Palindrome",
+            "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
+            "leetcode_slug": "valid-palindrome",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/jJXJ16kPFWg"
+          },
+          {
+            "title": "Two Sum II Input Array Is Sorted",
+            "leetcode_url": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+            "leetcode_slug": "two-sum-ii-input-array-is-sorted",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/cQ1Oz4ckceM"
+          },
+          {
+            "title": "3Sum",
+            "leetcode_url": "https://leetcode.com/problems/3sum/",
+            "leetcode_slug": "3sum",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/jzZsG8n2R9A"
+          },
+          {
+            "title": "Container With Most Water",
+            "leetcode_url": "https://leetcode.com/problems/container-with-most-water/",
+            "leetcode_slug": "container-with-most-water",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/UuiTKBwPgAo"
+          },
+          {
+            "title": "Trapping Rain Water",
+            "leetcode_url": "https://leetcode.com/problems/trapping-rain-water/",
+            "leetcode_slug": "trapping-rain-water",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/ZI2z5pq0TqA"
+          }
+        ]
+      },
+      {
+        "step_name": "Sliding Window",
+        "problems": [
+          {
+            "title": "Best Time to Buy and Sell Stock",
+            "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/1pkOgXD63yU"
+          },
+          {
+            "title": "Longest Substring Without Repeating Characters",
+            "leetcode_url": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+            "leetcode_slug": "longest-substring-without-repeating-characters",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/wiGpQwVHdE0"
+          },
+          {
+            "title": "Longest Repeating Character Replacement",
+            "leetcode_url": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+            "leetcode_slug": "longest-repeating-character-replacement",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/gqXU1UyA8pk"
+          },
+          {
+            "title": "Permutation in String",
+            "leetcode_url": "https://leetcode.com/problems/permutation-in-string/",
+            "leetcode_slug": "permutation-in-string",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/UbyhdeMBVLY"
+          },
+          {
+            "title": "Minimum Window Substring",
+            "leetcode_url": "https://leetcode.com/problems/minimum-window-substring/",
+            "leetcode_slug": "minimum-window-substring",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/jSto0O4AJbM"
+          },
+          {
+            "title": "Sliding Window Maximum",
+            "leetcode_url": "https://leetcode.com/problems/sliding-window-maximum/",
+            "leetcode_slug": "sliding-window-maximum",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/DfljaUwZsOk"
+          }
+        ]
+      },
+      {
+        "step_name": "Stack",
+        "problems": [
+          {
+            "title": "Valid Parentheses",
+            "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
+            "leetcode_slug": "valid-parentheses",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/WTzjTskDFMg"
+          },
+          {
+            "title": "Min Stack",
+            "leetcode_url": "https://leetcode.com/problems/min-stack/",
+            "leetcode_slug": "min-stack",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/qkLl7nAwDPo"
+          },
+          {
+            "title": "Evaluate Reverse Polish Notation",
+            "leetcode_url": "https://leetcode.com/problems/evaluate-reverse-polish-notation/",
+            "leetcode_slug": "evaluate-reverse-polish-notation",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/iu0082c4Hko"
+          },
+          {
+            "title": "Generate Parentheses",
+            "leetcode_url": "https://leetcode.com/problems/generate-parentheses/",
+            "leetcode_slug": "generate-parentheses",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/s9fokUqJ76A"
+          },
+          {
+            "title": "Daily Temperatures",
+            "leetcode_url": "https://leetcode.com/problems/daily-temperatures/",
+            "leetcode_slug": "daily-temperatures",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/cTBiBSnjO3c"
+          },
+          {
+            "title": "Car Fleet",
+            "leetcode_url": "https://leetcode.com/problems/car-fleet/",
+            "leetcode_slug": "car-fleet",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/Pr6T-3yB9RM"
+          },
+          {
+            "title": "Largest Rectangle in Histogram",
+            "leetcode_url": "https://leetcode.com/problems/largest-rectangle-in-histogram/",
+            "leetcode_slug": "largest-rectangle-in-histogram",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/zx5SwJIo66s"
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Search",
+        "problems": [
+          {
+            "title": "Binary Search",
+            "leetcode_url": "https://leetcode.com/problems/binary-search/",
+            "leetcode_slug": "binary-search",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/s4DPM8ct1pI"
+          },
+          {
+            "title": "Search a 2D Matrix",
+            "leetcode_url": "https://leetcode.com/problems/search-a-2d-matrix/",
+            "leetcode_slug": "search-a-2d-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/Ber2pi2de0U"
+          },
+          {
+            "title": "Koko Eating Bananas",
+            "leetcode_url": "https://leetcode.com/problems/koko-eating-bananas/",
+            "leetcode_slug": "koko-eating-bananas",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/U2SozAs9RzA"
+          },
+          {
+            "title": "Find Minimum in Rotated Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/",
+            "leetcode_slug": "find-minimum-in-rotated-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/nIVW4P8b1VA"
+          },
+          {
+            "title": "Search in Rotated Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/U8XENwh8Oy8"
+          },
+          {
+            "title": "Time Based Key-Value Store",
+            "leetcode_url": "https://leetcode.com/problems/time-based-key-value-store/",
+            "leetcode_slug": "time-based-key-value-store",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/fu2cD_6E8Hw"
+          },
+          {
+            "title": "Median of Two Sorted Arrays",
+            "leetcode_url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+            "leetcode_slug": "median-of-two-sorted-arrays",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/q6IEA26hvXc"
+          }
+        ]
+      },
+      {
+        "step_name": "Linked List",
+        "problems": [
+          {
+            "title": "Reverse Linked List",
+            "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+            "leetcode_slug": "reverse-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/G0_I-ZF0S38"
+          },
+          {
+            "title": "Merge Two Sorted Lists",
+            "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+            "leetcode_slug": "merge-two-sorted-lists",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/XIdigk956u0"
+          },
+          {
+            "title": "Reorder List",
+            "leetcode_url": "https://leetcode.com/problems/reorder-list/",
+            "leetcode_slug": "reorder-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/S5bfdUTrKLM"
+          },
+          {
+            "title": "Remove Nth Node From End of List",
+            "leetcode_url": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/",
+            "leetcode_slug": "remove-nth-node-from-end-of-list",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/XVuQxVej6y8"
+          },
+          {
+            "title": "Copy List with Random Pointer",
+            "leetcode_url": "https://leetcode.com/problems/copy-list-with-random-pointer/",
+            "leetcode_slug": "copy-list-with-random-pointer",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/5Y2EiZST97Y"
+          },
+          {
+            "title": "Add Two Numbers",
+            "leetcode_url": "https://leetcode.com/problems/add-two-numbers/",
+            "leetcode_slug": "add-two-numbers",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/wgFPrzTjm7s"
+          },
+          {
+            "title": "Linked List Cycle",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
+            "leetcode_slug": "linked-list-cycle",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/gBTe7lFR3vc"
+          },
+          {
+            "title": "Find the Duplicate Number",
+            "leetcode_url": "https://leetcode.com/problems/find-the-duplicate-number/",
+            "leetcode_slug": "find-the-duplicate-number",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/wjYnzkAhnto"
+          },
+          {
+            "title": "LRU Cache",
+            "leetcode_url": "https://leetcode.com/problems/lru-cache/",
+            "leetcode_slug": "lru-cache",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/7ABLGi4g3Y0"
+          }
+        ]
+      },
+      {
+        "step_name": "Trees",
+        "problems": [
+          {
+            "title": "Invert Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
+            "leetcode_slug": "invert-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/OnSn2XEQ4MY"
+          },
+          {
+            "title": "Maximum Depth of Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+            "leetcode_slug": "maximum-depth-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/hTM3phVI6YQ"
+          },
+          {
+            "title": "Diameter of Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/diameter-of-binary-tree/",
+            "leetcode_slug": "diameter-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/bkxqA8Rfv04"
+          },
+          {
+            "title": "Balanced Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/balanced-binary-tree/",
+            "leetcode_slug": "balanced-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/QfJsauHjaGE"
+          },
+          {
+            "title": "Same Tree",
+            "leetcode_url": "https://leetcode.com/problems/same-tree/",
+            "leetcode_slug": "same-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/vRbbc-gM4pU"
+          },
+          {
+            "title": "Subtree of Another Tree",
+            "leetcode_url": "https://leetcode.com/problems/subtree-of-another-tree/",
+            "leetcode_slug": "subtree-of-another-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/E36O5SWp-LE"
+          },
+          {
+            "title": "Lowest Common Ancestor of a Binary Search Tree",
+            "leetcode_url": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/",
+            "leetcode_slug": "lowest-common-ancestor-of-a-binary-search-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/gs2LMfuOR9k"
+          },
+          {
+            "title": "Binary Tree Level Order Traversal",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-level-order-traversal/",
+            "leetcode_slug": "binary-tree-level-order-traversal",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/6ZnyEApgFYg"
+          },
+          {
+            "title": "Binary Tree Right Side View",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-right-side-view/",
+            "leetcode_slug": "binary-tree-right-side-view",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/d4zLyf32e3I"
+          },
+          {
+            "title": "Count Good Nodes in Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/count-good-nodes-in-binary-tree/",
+            "leetcode_slug": "count-good-nodes-in-binary-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/7cp5imvDhc4"
+          },
+          {
+            "title": "Validate Binary Search Tree",
+            "leetcode_url": "https://leetcode.com/problems/validate-binary-search-tree/",
+            "leetcode_slug": "validate-binary-search-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/s6ATEkipzow"
+          },
+          {
+            "title": "Kth Smallest Element in a BST",
+            "leetcode_url": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/",
+            "leetcode_slug": "kth-smallest-element-in-a-bst",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/5LUXSvszSNU"
+          },
+          {
+            "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+            "leetcode_url": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/",
+            "leetcode_slug": "construct-binary-tree-from-preorder-and-inorder-traversal",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/ihj4IQGZ2zc"
+          },
+          {
+            "title": "Binary Tree Maximum Path Sum",
+            "leetcode_url": "https://leetcode.com/problems/binary-tree-maximum-path-sum/",
+            "leetcode_slug": "binary-tree-maximum-path-sum",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/Hr5cWUk8UhY"
+          },
+          {
+            "title": "Serialize and Deserialize Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/",
+            "leetcode_slug": "serialize-and-deserialize-binary-tree",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://youtu.be/u4JAi2JJhTY"
+          }
+        ]
+      },
+      {
+        "step_name": "Graphs & Dynamic Programming",
+        "problems": [
+          {
+            "title": "Number of Islands",
+            "leetcode_url": "https://leetcode.com/problems/number-of-islands/",
+            "leetcode_slug": "number-of-islands",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/pV2kpPD66nE"
+          },
+          {
+            "title": "Clone Graph",
+            "leetcode_url": "https://leetcode.com/problems/clone-graph/",
+            "leetcode_slug": "clone-graph",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/mQeF6bN8hMk"
+          },
+          {
+            "title": "Max Area of Island",
+            "leetcode_url": "https://leetcode.com/problems/max-area-of-island/",
+            "leetcode_slug": "max-area-of-island",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/iJGr1OtmH0c"
+          },
+          {
+            "title": "Pacific Atlantic Water Flow",
+            "leetcode_url": "https://leetcode.com/problems/pacific-atlantic-water-flow/",
+            "leetcode_slug": "pacific-atlantic-water-flow",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/s-nq1nrm4z8"
+          },
+          {
+            "title": "Course Schedule",
+            "leetcode_url": "https://leetcode.com/problems/course-schedule/",
+            "leetcode_slug": "course-schedule",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/EgI5nU9etnU"
+          },
+          {
+            "title": "Climbing Stairs",
+            "leetcode_url": "https://leetcode.com/problems/climbing-stairs/",
+            "leetcode_slug": "climbing-stairs",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://youtu.be/Y0lT9Fck7qI"
+          },
+          {
+            "title": "House Robber",
+            "leetcode_url": "https://leetcode.com/problems/house-robber/",
+            "leetcode_slug": "house-robber",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/73r3KWiEvyk"
+          },
+          {
+            "title": "Longest Palindromic Substring",
+            "leetcode_url": "https://leetcode.com/problems/longest-palindromic-substring/",
+            "leetcode_slug": "longest-palindromic-substring",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/XYQecbcd6_c"
+          },
+          {
+            "title": "Coin Change",
+            "leetcode_url": "https://leetcode.com/problems/coin-change/",
+            "leetcode_slug": "coin-change",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://youtu.be/H9bfqozjoqs"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sheet_name": "Apna College Alpha DSA Sheet",
+    "creator_name": "Shradha Khapra (Apna College)",
+    "slug": "apna-college-alpha",
+    "total_problems_count": 30,
+    "steps": [
+      {
+        "step_name": "Arrays & 2D Arrays",
+        "problems": [
+          {
+            "title": "Maximum and Minimum Element in Array",
+            "leetcode_url": "https://leetcode.com/problems/kth-largest-element-in-an-array/",
+            "leetcode_slug": "kth-largest-element-in-an-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Maximum+and+Minimum+Element+in+Array+DSA+solution"
+          },
+          {
+            "title": "Reverse the Array",
+            "leetcode_url": "https://leetcode.com/problems/reverse-string/",
+            "leetcode_slug": "reverse-string",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Reverse+the+Array+DSA+solution"
+          },
+          {
+            "title": "Contains Duplicate",
+            "leetcode_url": "https://leetcode.com/problems/contains-duplicate/",
+            "leetcode_slug": "contains-duplicate",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Contains+Duplicate+DSA+solution"
+          },
+          {
+            "title": "Maximum Subarray Sum (Kadane's Algorithm)",
+            "leetcode_url": "https://leetcode.com/problems/maximum-subarray/",
+            "leetcode_slug": "maximum-subarray",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Maximum+Subarray+Sum+%28Kadane%27s+Algorithm%29+DSA+solution"
+          },
+          {
+            "title": "Trapping Rain Water",
+            "leetcode_url": "https://leetcode.com/problems/trapping-rain-water/",
+            "leetcode_slug": "trapping-rain-water",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Trapping+Rain+Water+DSA+solution"
+          },
+          {
+            "title": "Best Time to Buy and Sell Stock",
+            "leetcode_url": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/",
+            "leetcode_slug": "best-time-to-buy-and-sell-stock",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Best+Time+to+Buy+and+Sell+Stock+DSA+solution"
+          },
+          {
+            "title": "Search in Rotated Sorted Array",
+            "leetcode_url": "https://leetcode.com/problems/search-in-rotated-sorted-array/",
+            "leetcode_slug": "search-in-rotated-sorted-array",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Search+in+Rotated+Sorted+Array+DSA+solution"
+          },
+          {
+            "title": "Diagonal Traverse Matrix",
+            "leetcode_url": "https://leetcode.com/problems/diagonal-traverse/",
+            "leetcode_slug": "diagonal-traverse",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Diagonal+Traverse+Matrix+DSA+solution"
+          },
+          {
+            "title": "Spiral Matrix",
+            "leetcode_url": "https://leetcode.com/problems/spiral-matrix/",
+            "leetcode_slug": "spiral-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Spiral+Matrix+DSA+solution"
+          },
+          {
+            "title": "Search a 2D Matrix",
+            "leetcode_url": "https://leetcode.com/problems/search-a-2d-matrix/",
+            "leetcode_slug": "search-a-2d-matrix",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Search+a+2D+Matrix+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Strings & Bit Manipulation",
+        "problems": [
+          {
+            "title": "Valid Anagram",
+            "leetcode_url": "https://leetcode.com/problems/valid-anagram/",
+            "leetcode_slug": "valid-anagram",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Valid+Anagram+DSA+solution"
+          },
+          {
+            "title": "Valid Palindrome",
+            "leetcode_url": "https://leetcode.com/problems/valid-palindrome/",
+            "leetcode_slug": "valid-palindrome",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Valid+Palindrome+DSA+solution"
+          },
+          {
+            "title": "Longest Common Prefix",
+            "leetcode_url": "https://leetcode.com/problems/longest-common-prefix/",
+            "leetcode_slug": "longest-common-prefix",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Longest+Common+Prefix+DSA+solution"
+          },
+          {
+            "title": "Single Number",
+            "leetcode_url": "https://leetcode.com/problems/single-number/",
+            "leetcode_slug": "single-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Single+Number+DSA+solution"
+          },
+          {
+            "title": "Number of 1 Bits",
+            "leetcode_url": "https://leetcode.com/problems/number-of-1-bits/",
+            "leetcode_slug": "number-of-1-bits",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Number+of+1+Bits+DSA+solution"
+          },
+          {
+            "title": "Counting Bits",
+            "leetcode_url": "https://leetcode.com/problems/counting-bits/",
+            "leetcode_slug": "counting-bits",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Counting+Bits+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Recursion & Backtracking",
+        "problems": [
+          {
+            "title": "Fibonacci Number",
+            "leetcode_url": "https://leetcode.com/problems/fibonacci-number/",
+            "leetcode_slug": "fibonacci-number",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Fibonacci+Number+DSA+solution"
+          },
+          {
+            "title": "Subsets",
+            "leetcode_url": "https://leetcode.com/problems/subsets/",
+            "leetcode_slug": "subsets",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Subsets+DSA+solution"
+          },
+          {
+            "title": "Permutations",
+            "leetcode_url": "https://leetcode.com/problems/permutations/",
+            "leetcode_slug": "permutations",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Permutations+DSA+solution"
+          },
+          {
+            "title": "N-Queens",
+            "leetcode_url": "https://leetcode.com/problems/n-queens/",
+            "leetcode_slug": "n-queens",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+N-Queens+DSA+solution"
+          },
+          {
+            "title": "Sudoku Solver",
+            "leetcode_url": "https://leetcode.com/problems/sudoku-solver/",
+            "leetcode_slug": "sudoku-solver",
+            "difficulty": "Hard",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Sudoku+Solver+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Linked Lists, Stacks & Queues",
+        "problems": [
+          {
+            "title": "Reverse Linked List",
+            "leetcode_url": "https://leetcode.com/problems/reverse-linked-list/",
+            "leetcode_slug": "reverse-linked-list",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Reverse+Linked+List+DSA+solution"
+          },
+          {
+            "title": "Linked List Cycle",
+            "leetcode_url": "https://leetcode.com/problems/linked-list-cycle/",
+            "leetcode_slug": "linked-list-cycle",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Linked+List+Cycle+DSA+solution"
+          },
+          {
+            "title": "Merge Two Sorted Lists",
+            "leetcode_url": "https://leetcode.com/problems/merge-two-sorted-lists/",
+            "leetcode_slug": "merge-two-sorted-lists",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Merge+Two+Sorted+Lists+DSA+solution"
+          },
+          {
+            "title": "Valid Parentheses",
+            "leetcode_url": "https://leetcode.com/problems/valid-parentheses/",
+            "leetcode_slug": "valid-parentheses",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Valid+Parentheses+DSA+solution"
+          },
+          {
+            "title": "Implement Queue using Stacks",
+            "leetcode_url": "https://leetcode.com/problems/implement-queue-using-stacks/",
+            "leetcode_slug": "implement-queue-using-stacks",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Implement+Queue+using+Stacks+DSA+solution"
+          }
+        ]
+      },
+      {
+        "step_name": "Binary Trees & BST",
+        "problems": [
+          {
+            "title": "Maximum Depth of Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/maximum-depth-of-binary-tree/",
+            "leetcode_slug": "maximum-depth-of-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Maximum+Depth+of+Binary+Tree+DSA+solution"
+          },
+          {
+            "title": "Invert Binary Tree",
+            "leetcode_url": "https://leetcode.com/problems/invert-binary-tree/",
+            "leetcode_slug": "invert-binary-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Invert+Binary+Tree+DSA+solution"
+          },
+          {
+            "title": "Subtree of Another Tree",
+            "leetcode_url": "https://leetcode.com/problems/subtree-of-another-tree/",
+            "leetcode_slug": "subtree-of-another-tree",
+            "difficulty": "Easy",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Subtree+of+Another+Tree+DSA+solution"
+          },
+          {
+            "title": "Validate Binary Search Tree",
+            "leetcode_url": "https://leetcode.com/problems/validate-binary-search-tree/",
+            "leetcode_slug": "validate-binary-search-tree",
+            "difficulty": "Medium",
+            "youtube_tutorial_url": "https://www.youtube.com/results?search_query=Apna+College+Validate+Binary+Search+Tree+DSA+solution"
+          }
+        ]
+      }
+    ]
+  }
+]
