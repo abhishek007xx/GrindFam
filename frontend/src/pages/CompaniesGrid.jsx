@@ -188,7 +188,11 @@ export function CompaniesGrid() {
                   <motion.div
                     key={comp.id}
                     variants={cardVariants}
-                    className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col justify-between"
+                    onClick={() => {
+                      const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
+                      navigate(`/company/${comp.slug}/${firstTrackId}`);
+                    }}
+                    className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 cursor-pointer flex flex-col justify-between"
                   >
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
@@ -222,56 +226,25 @@ export function CompaniesGrid() {
                           )}
                           <span className="px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-semibold text-[#8b949e] flex items-center gap-1">
                             <Layers className="w-3 h-3 text-indigo-400" />
-                            {comp.company_tracks?.length || 0} Tracks
+                            {comp.company_tracks?.length || 3} Tracks
                           </span>
                         </div>
                       </div>
 
-                      <div
-                        onClick={() => {
-                          const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
-                          navigate(`/company/${comp.slug}/${firstTrackId}`);
-                        }}
-                        className="cursor-pointer group/title"
-                      >
-                        <h3 className="text-lg font-bold text-white group-hover/title:text-indigo-400 transition-colors flex items-center justify-between">
+                      <div>
+                        <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors flex items-center justify-between">
                           <span>{comp.name}</span>
-                          <ArrowRight className="w-4 h-4 text-[#6e7681] group-hover/title:text-indigo-400 group-hover/title:translate-x-1 transition-all" />
+                          <ArrowRight className="w-4 h-4 text-[#6e7681] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
                         </h3>
                         <p className="text-xs text-[#8b949e] font-mono mt-0.5">/{comp.slug}</p>
                       </div>
+                    </div>
 
-                      {/* Roles List */}
-                      <div className="space-y-2 pt-2 border-t border-[#21262d]">
-                        <span className="text-[11px] font-semibold text-[#6e7681] uppercase tracking-wider block">
-                          Available Tracks:
-                        </span>
-
-                        <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
-                          {comp.company_tracks && comp.company_tracks.length > 0 ? (
-                            comp.company_tracks.map(track => (
-                              <div
-                                key={track.id}
-                                onClick={() => navigate(`/company/${comp.slug}/${track.id}`)}
-                                className="p-2.5 rounded-xl bg-[#161b22] hover:bg-indigo-600/10 border border-[#30363d] hover:border-indigo-500/40 cursor-pointer transition-all flex items-center justify-between group/track"
-                              >
-                                <div className="min-w-0 pr-2">
-                                  <p className="text-xs font-semibold text-[#e6edf3] group-hover/track:text-indigo-400 truncate">
-                                    {track.role}
-                                  </p>
-                                  <p className="text-[10px] text-[#8b949e]">
-                                    {track.level}
-                                  </p>
-                                </div>
-
-                                <ArrowRight className="w-3.5 h-3.5 text-[#6e7681] group-hover/track:text-indigo-400 group-hover/track:translate-x-0.5 transition-all flex-shrink-0" />
-                              </div>
-                            ))
-                          ) : (
-                            <p className="text-xs text-[#6e7681] italic">General Track</p>
-                          )}
-                        </div>
-                      </div>
+                    <div className="pt-4 mt-4 border-t border-[#21262d] flex items-center justify-between text-xs">
+                      <span className="text-[#8b949e] text-[11px]">SDE Intern, SDE-1 & SDE-2</span>
+                      <span className="font-semibold text-indigo-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+                        Explore Tracks →
+                      </span>
                     </div>
                   </motion.div>
                 );
