@@ -195,22 +195,60 @@ export function SheetDetail() {
     }
   }, [sheetSlug, user, setProgressMap]);
 
+  // Master step & problem ordering maps matching source JSON
+  const sourceSheetObj = useMemo(() => {
+    return sheetsData.find(s => s.slug === sheetSlug) || null;
+  }, [sheetSlug]);
+
+  const stepOrderMap = useMemo(() => {
+    const map = new Map();
+    if (sourceSheetObj && sourceSheetObj.steps) {
+      sourceSheetObj.steps.forEach((st, idx) => {
+        map.set(st.step_name, idx);
+      });
+    }
+    return map;
+  }, [sourceSheetObj]);
+
+  const problemOrderMap = useMemo(() => {
+    const map = new Map();
+    if (sourceSheetObj && sourceSheetObj.steps) {
+      let idx = 0;
+      sourceSheetObj.steps.forEach(st => {
+        (st.problems || []).forEach(p => {
+          map.set(p.leetcode_slug, idx++);
+        });
+      });
+    }
+    return map;
+  }, [sourceSheetObj]);
+
+  // Sort raw problems according to master problemOrderMap
+  const sortedProblems = useMemo(() => {
+    if (!problems || problems.length === 0) return [];
+    return [...problems].sort((a, b) => {
+      const posA = problemOrderMap.has(a.leetcode_slug) ? problemOrderMap.get(a.leetcode_slug) : 99999;
+      const posB = problemOrderMap.has(b.leetcode_slug) ? problemOrderMap.get(b.leetcode_slug) : 99999;
+      return posA - posB;
+    });
+  }, [problems, problemOrderMap]);
+
   // Derived Overall Statistics
-  const totalProblems = problems.length;
+  const totalProblems = sortedProblems.length;
   const solvedCount = useMemo(() => {
-    return problems.filter(p => progressMap[p.id]?.status === 'solved').length;
-  }, [problems, progressMap]);
+    return sortedProblems.filter(p => progressMap[p.id]?.status === 'solved').length;
+  }, [sortedProblems, progressMap]);
 
   const revisionCount = useMemo(() => {
-    return problems.filter(p => progressMap[p.id]?.status === 'revision_needed').length;
-  }, [problems, progressMap]);
+    return sortedProblems.filter(p => progressMap[p.id]?.status === 'revision_needed').length;
+  }, [sortedProblems, progressMap]);
 
   const completionPercentage = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
   // Group Problems by Category / Step
   const groupedProblems = useMemo(() => {
     const map = {};
-    problems.forEach(p => {
+    sortedProblems.forEach(p => {
       const cat = p.step_name || 'General Category';
       if (!map[cat]) map[cat] = [];
 
@@ -223,23 +261,49 @@ export function SheetDetail() {
       }
     });
     return map;
-  }, [problems, searchQuery, difficultyFilter]);
+  }, [sortedProblems, searchQuery, difficultyFilter]);
+
+  // Category names sorted in exact sequential source order (Step 1, Step 2, Step 3...)
+  const sortedCategoryNames = useMemo(() => {
+    const cats = Object.keys(groupedProblems);
+    return cats.sort((a, b) => {
+      const idxA = stepOrderMap.has(a) ? stepOrderMap.get(a) : 99999;
+      const idxB = stepOrderMap.has(b) ? stepOrderMap.get(b) : 99999;
+      if (idxA !== idxB) return idxA - idxB;
+
+      // Numerical Step X extraction fallback ("Step 1", "Step 2", etc.)
+      const numA = parseInt((a.match(/Step\s*(\d+)/i) || [])[1] || '999', 10);
+      const numB = parseInt((b.match(/Step\s*(\d+)/i) || [])[1] || '999', 10);
+      if (numA !== numB) return numA - numB;
+
+      return a.localeCompare(b);
+    });
+  }, [groupedProblems, stepOrderMap]);
 
   const toggleCategory = (catName) => {
     setOpenCategories(prev => ({
       ...prev,
-      [catName]: !prev[catName]
+      [catName]: !(prev[catName] ?? false)
     }));
   };
 
+  const toggleExpandAll = () => {
+    const currentlyAnyOpen = sortedCategoryNames.some(cat => openCategories[cat] === true);
+    const newOpen = {};
+    sortedCategoryNames.forEach(cat => {
+      newOpen[cat] = !currentlyAnyOpen;
+    });
+    setOpenCategories(newOpen);
+  };
+
   return (
-    <div className="min-h-screen bg-[#090d11] text-[#e6edf3] font-sans pb-16">
+    <div className="page-shell pb-16">
       <Sidebar activeSection="sheets" />
 
-      <div className="pl-[240px]">
+      <div className="page-content">
         <Navbar />
 
-        <main className="p-8 max-w-7xl mx-auto space-y-8">
+        <main className="page-main-constrained space-y-8 animate-fadeIn">
           {/* Back Navigation */}
           <button
             onClick={() => navigate('/sheets')}
@@ -307,32 +371,53 @@ export function SheetDetail() {
                   />
                 </div>
 
-                <div className="flex items-center gap-1.5 bg-[#161b22] p-1 rounded-xl border border-[#30363d] w-full sm:w-auto">
-                  {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
-                    <button
-                      key={diff}
-                      onClick={() => setDifficultyFilter(diff)}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                        difficultyFilter === diff
-                          ? 'bg-emerald-600 text-white shadow'
-                          : 'text-[#8b949e] hover:text-white'
-                      }`}
-                    >
-                      {diff}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+                  {/* Expand / Collapse All Toggle */}
+                  <button
+                    onClick={toggleExpandAll}
+                    className="px-3 py-1.5 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-xs font-semibold text-[#8b949e] hover:text-white transition-all flex items-center gap-1.5"
+                  >
+                    {sortedCategoryNames.some(cat => openCategories[cat] === true) ? (
+                      <>
+                        <ChevronUp className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Collapse All</span>
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="w-3.5 h-3.5 text-[#8b949e]" />
+                        <span>Expand All</span>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="flex items-center gap-1.5 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
+                    {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
+                      <button
+                        key={diff}
+                        onClick={() => setDifficultyFilter(diff)}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                          difficultyFilter === diff
+                            ? 'bg-emerald-600 text-white shadow'
+                            : 'text-[#8b949e] hover:text-white'
+                        }`}
+                      >
+                        {diff}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              {/* ACCORDION CATEGORY LIST */}
+              {/* ACCORDION CATEGORY LIST — CLOSED BY DEFAULT, SEQUENTIALLY ORDERED */}
               <div className="space-y-4">
-                {Object.keys(groupedProblems).length === 0 ? (
+                {sortedCategoryNames.length === 0 ? (
                   <div className="p-12 text-center bg-[#0d1117] border border-[#30363d] rounded-3xl text-[#6e7681]">
                     <p className="text-sm font-medium">No matching problems found.</p>
                   </div>
                 ) : (
-                  Object.entries(groupedProblems).map(([catName, catProblems]) => {
-                    const isOpen = openCategories[catName] ?? true;
+                  sortedCategoryNames.map((catName) => {
+                    const catProblems = groupedProblems[catName];
+                    const isOpen = openCategories[catName] ?? false; // CLOSED BY DEFAULT
                     const catTotal = catProblems.length;
                     const catSolved = catProblems.filter(p => progressMap[p.id]?.status === 'solved').length;
                     const catPercentage = catTotal > 0 ? Math.round((catSolved / catTotal) * 100) : 0;

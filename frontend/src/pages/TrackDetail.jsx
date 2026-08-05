@@ -179,13 +179,13 @@ export function TrackDetail() {
   const guidelines = companyTrack?.guidelines || {};
 
   return (
-    <div className="min-h-screen bg-[#090d11] text-[#e6edf3] font-sans pb-16">
+    <div className="page-shell pb-16">
       <Sidebar activeSection="companies" />
 
-      <div className="pl-[240px]">
+      <div className="page-content">
         <Navbar />
 
-        <main className="p-8 max-w-7xl mx-auto space-y-8">
+        <main className="page-main-constrained space-y-8 animate-fadeIn">
           {/* Back Navigation */}
           <button
             onClick={() => navigate('/companies')}
