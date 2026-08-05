@@ -1009,8 +1009,8 @@ def main():
             logger.error(f"Error processing company {comp['company_name']}: {e}", exc_info=True)
             continue
 
-    # Write output JSON file to src/data/companies_data.json
-    output_dir = os.path.join(os.getcwd(), "src", "data")
+    # Write output JSON file to frontend/src/data/companies_data.json
+    output_dir = os.path.join(os.getcwd(), "frontend", "src", "data")
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, "companies_data.json")
 

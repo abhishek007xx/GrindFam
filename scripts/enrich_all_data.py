@@ -331,17 +331,10 @@ for c in formatted_companies[:15]:
     print(f" Rank {c['popularity_rank']}: {c['company_name']} - {total_p} problems")
 
 # Save outputs
-os.makedirs("src/data", exist_ok=True)
 os.makedirs("frontend/src/data", exist_ok=True)
-
-with open("src/data/sheets_data.json", "w", encoding="utf-8") as f:
-    json.dump(formatted_sheets, f, indent=2)
 
 with open("frontend/src/data/sheets_data.json", "w", encoding="utf-8") as f:
     json.dump(formatted_sheets, f, indent=2)
-
-with open("src/data/companies_data.json", "w", encoding="utf-8") as f:
-    json.dump(formatted_companies, f, indent=2)
 
 with open("frontend/src/data/companies_data.json", "w", encoding="utf-8") as f:
     json.dump(formatted_companies, f, indent=2)

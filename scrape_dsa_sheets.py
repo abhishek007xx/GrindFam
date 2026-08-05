@@ -739,8 +739,8 @@ def main():
     except Exception as e:
         logger.error(f"Error scraping Apna College Alpha Sheet: {e}", exc_info=True)
 
-    # Save final output to src/data/sheets_data.json
-    output_dir = os.path.join(os.getcwd(), "src", "data")
+    # Save final output to frontend/src/data/sheets_data.json
+    output_dir = os.path.join(os.getcwd(), "frontend", "src", "data")
     os.makedirs(output_dir, exist_ok=True)
     output_file = os.path.join(output_dir, "sheets_data.json")
 
