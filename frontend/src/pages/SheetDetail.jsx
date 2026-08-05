@@ -204,7 +204,7 @@ export function SheetDetail() {
     const map = new Map();
     if (sourceSheetObj && sourceSheetObj.steps) {
       sourceSheetObj.steps.forEach((st, idx) => {
-        map.set(st.step_name, idx);
+        map.set((st.step_name || '').trim().toLowerCase(), idx);
       });
     }
     return map;
@@ -216,7 +216,9 @@ export function SheetDetail() {
       let idx = 0;
       sourceSheetObj.steps.forEach(st => {
         (st.problems || []).forEach(p => {
-          map.set(p.leetcode_slug, idx++);
+          if (p.leetcode_slug) {
+            map.set(p.leetcode_slug.trim().toLowerCase(), idx++);
+          }
         });
       });
     }
@@ -227,8 +229,10 @@ export function SheetDetail() {
   const sortedProblems = useMemo(() => {
     if (!problems || problems.length === 0) return [];
     return [...problems].sort((a, b) => {
-      const posA = problemOrderMap.has(a.leetcode_slug) ? problemOrderMap.get(a.leetcode_slug) : 99999;
-      const posB = problemOrderMap.has(b.leetcode_slug) ? problemOrderMap.get(b.leetcode_slug) : 99999;
+      const keyA = (a.leetcode_slug || '').trim().toLowerCase();
+      const keyB = (b.leetcode_slug || '').trim().toLowerCase();
+      const posA = problemOrderMap.has(keyA) ? problemOrderMap.get(keyA) : 99999;
+      const posB = problemOrderMap.has(keyB) ? problemOrderMap.get(keyB) : 99999;
       return posA - posB;
     });
   }, [problems, problemOrderMap]);
@@ -267,8 +271,11 @@ export function SheetDetail() {
   const sortedCategoryNames = useMemo(() => {
     const cats = Object.keys(groupedProblems);
     return cats.sort((a, b) => {
-      const idxA = stepOrderMap.has(a) ? stepOrderMap.get(a) : 99999;
-      const idxB = stepOrderMap.has(b) ? stepOrderMap.get(b) : 99999;
+      const keyA = (a || '').trim().toLowerCase();
+      const keyB = (b || '').trim().toLowerCase();
+      
+      const idxA = stepOrderMap.has(keyA) ? stepOrderMap.get(keyA) : 99999;
+      const idxB = stepOrderMap.has(keyB) ? stepOrderMap.get(keyB) : 99999;
       if (idxA !== idxB) return idxA - idxB;
 
       // Numerical Step X extraction fallback ("Step 1", "Step 2", etc.)

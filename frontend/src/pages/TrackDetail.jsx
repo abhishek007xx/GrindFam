@@ -11,7 +11,7 @@ import NotesModal from '../components/NotesModal';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   AlertTriangle, Target, MessageSquare, Award, Search,
-  CheckCircle, RotateCcw, BookOpen, Flame, Sparkles
+  CheckCircle, RotateCcw, BookOpen, Flame, Sparkles, ChevronDown, ChevronUp, Youtube
 } from 'lucide-react';
 
 export function TrackDetail() {
@@ -32,6 +32,9 @@ export function TrackDetail() {
 
   // Notes Modal State
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
+  
+  // Accordion State
+  const [openCategories, setOpenCategories] = useState({});
 
   // Zustand Store
   const { progressMap, setProgressMap, toggleStatusOptimistic, saveNotesOptimistic } = useTrackStore();
@@ -175,6 +178,83 @@ export function TrackDetail() {
       return matchesSearch && matchesDifficulty && matchesStatus;
     });
   }, [problems, searchQuery, difficultyFilter, statusFilter, progressMap]);
+
+  const sourceCompanyObj = useMemo(() => {
+    return companiesData.find(c => c.slug === companySlug) || null;
+  }, [companySlug]);
+
+  const activeRoleObj = useMemo(() => {
+    if (!sourceCompanyObj || !sourceCompanyObj.roles) return null;
+    return sourceCompanyObj.roles[activeRoleIdx] || sourceCompanyObj.roles[0];
+  }, [sourceCompanyObj, activeRoleIdx]);
+
+  const topicOrderMap = useMemo(() => {
+    const map = new Map();
+    if (activeRoleObj && activeRoleObj.problems) {
+      let idx = 0;
+      activeRoleObj.problems.forEach(p => {
+        const cat = (p.topic_tags && p.topic_tags.length > 0) ? p.topic_tags[0] : 'General Category';
+        if (!map.has(cat)) map.set(cat, idx++);
+      });
+    }
+    return map;
+  }, [activeRoleObj]);
+
+  const problemOrderMap = useMemo(() => {
+    const map = new Map();
+    if (activeRoleObj && activeRoleObj.problems) {
+      activeRoleObj.problems.forEach((p, idx) => {
+        if (!map.has(p.leetcode_slug)) map.set(p.leetcode_slug, idx);
+      });
+    }
+    return map;
+  }, [activeRoleObj]);
+
+  // Sort filtered problems by master map
+  const sortedFilteredProblems = useMemo(() => {
+    return [...filteredProblems].sort((a, b) => {
+      const posA = problemOrderMap.has(a.leetcode_slug) ? problemOrderMap.get(a.leetcode_slug) : 99999;
+      const posB = problemOrderMap.has(b.leetcode_slug) ? problemOrderMap.get(b.leetcode_slug) : 99999;
+      return posA - posB;
+    });
+  }, [filteredProblems, problemOrderMap]);
+
+  // Group by topic_tags[0]
+  const groupedProblems = useMemo(() => {
+    const map = {};
+    sortedFilteredProblems.forEach(p => {
+      const cat = (p.topic_tags && p.topic_tags.length > 0) ? p.topic_tags[0] : 'General Category';
+      if (!map[cat]) map[cat] = [];
+      map[cat].push(p);
+    });
+    return map;
+  }, [sortedFilteredProblems]);
+
+  const sortedCategoryNames = useMemo(() => {
+    const cats = Object.keys(groupedProblems);
+    return cats.sort((a, b) => {
+      const idxA = topicOrderMap.has(a) ? topicOrderMap.get(a) : 99999;
+      const idxB = topicOrderMap.has(b) ? topicOrderMap.get(b) : 99999;
+      if (idxA !== idxB) return idxA - idxB;
+      return a.localeCompare(b);
+    });
+  }, [groupedProblems, topicOrderMap]);
+
+  const toggleCategory = (catName) => {
+    setOpenCategories(prev => ({
+      ...prev,
+      [catName]: !(prev[catName] ?? false)
+    }));
+  };
+
+  const toggleExpandAll = () => {
+    const currentlyAnyOpen = sortedCategoryNames.some(cat => openCategories[cat] === true);
+    const newOpen = {};
+    sortedCategoryNames.forEach(cat => {
+      newOpen[cat] = !currentlyAnyOpen;
+    });
+    setOpenCategories(newOpen);
+  };
 
   const guidelines = companyTrack?.guidelines || {};
 
@@ -452,13 +532,30 @@ export function TrackDetail() {
                   />
                 </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-                  <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                  <button
+                    onClick={toggleExpandAll}
+                    className="w-full sm:w-auto px-3 py-1.5 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-xs font-semibold text-[#8b949e] hover:text-white transition-all flex items-center justify-center gap-1.5"
+                  >
+                    {sortedCategoryNames.some(cat => openCategories[cat] === true) ? (
+                      <>
+                        <ChevronUp className="w-3.5 h-3.5 text-indigo-400" />
+                        <span>Collapse All</span>
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown className="w-3.5 h-3.5 text-[#8b949e]" />
+                        <span>Expand All</span>
+                      </>
+                    )}
+                  </button>
+
+                  <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d] w-full sm:w-auto">
                     {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
                       <button
                         key={diff}
                         onClick={() => setDifficultyFilter(diff)}
-                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${
                           difficultyFilter === diff
                             ? 'bg-indigo-600 text-white shadow'
                             : 'text-[#8b949e] hover:text-white'
@@ -469,12 +566,12 @@ export function TrackDetail() {
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
+                  <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d] w-full sm:w-auto">
                     {['ALL', 'SOLVED', 'REVISION', 'UNSOLVED'].map(st => (
                       <button
                         key={st}
                         onClick={() => setStatusFilter(st)}
-                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all ${
+                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${
                           statusFilter === st
                             ? 'bg-indigo-600 text-white shadow'
                             : 'text-[#8b949e] hover:text-white'
@@ -488,114 +585,154 @@ export function TrackDetail() {
               </div>
 
               {/* BOTTOM SECTION: Problem Checklist */}
-              <div className="bg-[#0d1117] border border-[#30363d] rounded-3xl overflow-hidden shadow-2xl">
-                <div className="px-6 py-4 border-b border-[#21262d] bg-[#161b22]/50 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="w-4 h-4 text-indigo-400" />
-                    <h3 className="text-sm font-bold text-white">Problem Set Checklist</h3>
-                    <span className="px-2 py-0.5 rounded-full bg-[#30363d] text-xs font-semibold text-[#8b949e]">
-                      {filteredProblems.length} Problems
-                    </span>
+              <div className="space-y-4">
+                {sortedCategoryNames.length === 0 ? (
+                  <div className="p-12 text-center bg-[#0d1117] border border-[#30363d] rounded-3xl text-[#6e7681]">
+                    <p className="text-sm font-medium">No matching problems found.</p>
                   </div>
-                </div>
+                ) : (
+                  sortedCategoryNames.map((catName) => {
+                    const catProblems = groupedProblems[catName];
+                    const isOpen = openCategories[catName] ?? false; // CLOSED BY DEFAULT
+                    const catTotal = catProblems.length;
+                    const catSolved = catProblems.filter(p => progressMap[p.id]?.status === 'solved').length;
+                    const catPercentage = catTotal > 0 ? Math.round((catSolved / catTotal) * 100) : 0;
 
-                <div className="divide-y divide-[#21262d]">
-                  {filteredProblems.length === 0 ? (
-                    <div className="p-12 text-center text-[#6e7681]">
-                      <p className="text-sm font-medium">No matching problems found for your filters.</p>
-                    </div>
-                  ) : (
-                    filteredProblems.map((prob) => {
-                      const userState = progressMap[prob.id] || {};
-                      const status = userState.status || 'not_started';
-                      const isSolved = status === 'solved';
-                      const isRevision = status === 'revision_needed';
-                      const hasNotes = Boolean(userState.personal_notes && userState.personal_notes.trim());
-
-                      const leetcodeUrl = `https://leetcode.com/problems/${prob.leetcode_slug}/`;
-
-                      return (
+                    return (
+                      <div
+                        key={catName}
+                        className="bg-[#0d1117] border border-[#30363d] rounded-2xl overflow-hidden shadow-lg transition-all"
+                      >
+                        {/* Accordion Header */}
                         <div
-                          key={prob.id}
-                          className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#161b22]/60 ${
-                            isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
-                          }`}
+                          onClick={() => toggleCategory(catName)}
+                          className="px-6 py-4 bg-[#161b22]/70 hover:bg-[#161b22] border-b border-[#21262d] flex items-center justify-between cursor-pointer transition-colors"
                         >
-                          <div className="flex items-center gap-4 min-w-0">
-                            <button
-                              onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
-                              className="focus:outline-none flex-shrink-0 transition-transform active:scale-95"
-                              title="Click to toggle status: Solved -> Needs Revision -> Not Started"
-                            >
-                              {isSolved ? (
-                                <CheckSquare className="w-5 h-5 text-emerald-400" />
-                              ) : isRevision ? (
-                                <RotateCcw className="w-5 h-5 text-amber-400" />
-                              ) : (
-                                <Square className="w-5 h-5 text-[#484f58] hover:text-white" />
-                              )}
-                            </button>
-
-                            <div className="min-w-0">
-                              <a
-                                href={leetcodeUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate ${
-                                  isSolved ? 'text-emerald-400 line-through' : isRevision ? 'text-amber-300' : 'text-white'
-                                }`}
-                              >
-                                <span>{prob.title}</span>
-                                <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] opacity-0 group-hover:opacity-100 hover:text-indigo-400 transition-opacity flex-shrink-0" />
-                              </a>
-
-                              <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                                {prob.topic_tags?.map(tag => (
-                                  <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#161b22] border border-[#30363d] text-[#8b949e]">
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
+                          <div className="flex items-center gap-3">
+                            {isOpen ? (
+                              <ChevronUp className="w-4 h-4 text-indigo-400" />
+                            ) : (
+                              <ChevronDown className="w-4 h-4 text-[#8b949e]" />
+                            )}
+                            <h3 className="text-sm font-bold text-white tracking-wide">
+                              {catName}
+                            </h3>
+                            <span className="px-2.5 py-0.5 rounded-full bg-[#0d1117] border border-[#30363d] text-[11px] font-mono text-[#8b949e]">
+                              {catSolved}/{catTotal} Solved
+                            </span>
                           </div>
 
-                          <div className="flex items-center gap-3 flex-shrink-0">
-                            {prob.frequency_score && (
-                              <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-bold text-amber-400">
-                                <Flame className="w-3 h-3 text-amber-500" />
-                                <span>{prob.frequency_score}/10</span>
-                              </div>
-                            )}
-
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                prob.difficulty === 'Easy'
-                                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                  : prob.difficulty === 'Medium'
-                                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                                  : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                              }`}
-                            >
-                              {prob.difficulty}
+                          <div className="flex items-center gap-3">
+                            <div className="w-24 bg-[#0d1117] h-2 rounded-full overflow-hidden border border-[#30363d] hidden sm:block">
+                              <div
+                                className="bg-indigo-500 h-full rounded-full transition-all duration-500"
+                                style={{ width: `${catPercentage}%` }}
+                              />
+                            </div>
+                            <span className="text-xs font-bold text-indigo-400 font-mono">
+                              {catPercentage}%
                             </span>
-
-                            <button
-                              onClick={() => setActiveNotesProblem(prob)}
-                              className={`p-2 rounded-xl border transition-all ${
-                                hasNotes
-                                  ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
-                                  : 'bg-[#161b22] border-[#30363d] text-[#8b949e] hover:text-white hover:border-[#484f58]'
-                              }`}
-                              title={hasNotes ? 'View/Edit Notes' : 'Add Personal Notes'}
-                            >
-                              <FileText className="w-4 h-4" />
-                            </button>
                           </div>
                         </div>
-                      );
-                    })
-                  )}
-                </div>
+
+                        {/* Accordion Body */}
+                        {isOpen && (
+                          <div className="divide-y divide-[#21262d]">
+                            {catProblems.map((prob) => {
+                              const userState = progressMap[prob.id] || {};
+                              const status = userState.status || 'not_started';
+                              const isSolved = status === 'solved';
+                              const isRevision = status === 'revision_needed';
+                              const hasNotes = Boolean(userState.personal_notes && userState.personal_notes.trim());
+
+                              const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
+
+                              return (
+                                <div
+                                  key={prob.id}
+                                  className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#161b22]/60 ${
+                                    isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
+                                  }`}
+                                >
+                                  <div className="flex items-center gap-4 min-w-0">
+                                    <button
+                                      onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
+                                      className="focus:outline-none flex-shrink-0 transition-transform active:scale-95"
+                                      title="Click to toggle status: Solved -> Needs Revision -> Not Started"
+                                    >
+                                      {isSolved ? (
+                                        <CheckSquare className="w-5 h-5 text-emerald-400" />
+                                      ) : isRevision ? (
+                                        <RotateCcw className="w-5 h-5 text-amber-400" />
+                                      ) : (
+                                        <Square className="w-5 h-5 text-[#484f58] hover:text-white" />
+                                      )}
+                                    </button>
+
+                                    <div className="min-w-0">
+                                      <a
+                                        href={leetcodeUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate ${
+                                          isSolved ? 'text-emerald-400 line-through' : isRevision ? 'text-amber-300' : 'text-white'
+                                        }`}
+                                      >
+                                        <span>{prob.title}</span>
+                                        <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] opacity-0 group-hover:opacity-100 hover:text-indigo-400 transition-opacity flex-shrink-0" />
+                                      </a>
+
+                                      <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                                        {prob.topic_tags?.map(tag => (
+                                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#161b22] border border-[#30363d] text-[#8b949e]">
+                                            {tag}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="flex items-center gap-3 flex-shrink-0">
+                                    {prob.frequency_score && (
+                                      <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-bold text-amber-400">
+                                        <Flame className="w-3 h-3 text-amber-500" />
+                                        <span>{prob.frequency_score}/10</span>
+                                      </div>
+                                    )}
+
+                                    <span
+                                      className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                        prob.difficulty === 'Easy'
+                                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                          : prob.difficulty === 'Medium'
+                                          ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                          : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                      }`}
+                                    >
+                                      {prob.difficulty}
+                                    </span>
+
+                                    <button
+                                      onClick={() => setActiveNotesProblem(prob)}
+                                      className={`p-2 rounded-xl border transition-all ${
+                                        hasNotes
+                                          ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
+                                          : 'bg-[#161b22] border-[#30363d] text-[#8b949e] hover:text-white hover:border-[#484f58]'
+                                      }`}
+                                      title={hasNotes ? 'View/Edit Notes' : 'Add Personal Notes'}
+                                    >
+                                      <FileText className="w-4 h-4" />
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </>
           )}
