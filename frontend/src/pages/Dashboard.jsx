@@ -206,10 +206,7 @@ const Dashboard = () => {
     setActiveSection(section);
   };
 
-  // ── Derived DSA values ──
-  const overallPercentage = dsaStats.totalProblems > 0
-    ? Math.round((dsaStats.totalSolved / dsaStats.totalProblems) * 100)
-    : 0;
+
 
   const containerVariants = {
     hidden: { opacity: 0 },

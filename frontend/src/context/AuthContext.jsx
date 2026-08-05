@@ -21,13 +21,20 @@ export const AuthProvider = ({ children }) => {
       if (error) {
         console.error('Error fetching user profile:', error.message);
       } else if (data) {
-        // If profile exists but email is not populated, update it
-        if (!data.email && userEmail) {
-          await supabase
-            .from('profiles')
-            .update({ email: userEmail.toLowerCase() })
-            .eq('id', userId);
-          data.email = userEmail.toLowerCase();
+        // If profile exists and user email provided, attempt safe sync
+        if (data.email === undefined) {
+          // email column does not exist on profile schema, attach from auth user
+          data.email = userEmail ? userEmail.toLowerCase() : null;
+        } else if (!data.email && userEmail) {
+          try {
+            const { error: updateErr } = await supabase
+              .from('profiles')
+              .update({ email: userEmail.toLowerCase() })
+              .eq('id', userId);
+            if (!updateErr) {
+              data.email = userEmail.toLowerCase();
+            }
+          } catch (_) {}
         }
         setProfile(data);
       }
@@ -81,19 +88,18 @@ export const AuthProvider = ({ children }) => {
 
     // Upsert into `profiles` table
     if (data?.user) {
+      const payload = {
+        id: data.user.id,
+        name: name,
+        leetcode_username: leetcodeUsername
+      };
       const { error: profileError } = await supabase
         .from('profiles')
-        .upsert([
-          {
-            id: data.user.id,
-            name: name,
-            leetcode_username: leetcodeUsername,
-            email: email ? email.toLowerCase() : null
-          }
-        ]);
+        .upsert([{ ...payload, email: email ? email.toLowerCase() : null }]);
 
       if (profileError) {
-        console.error('Error upserting user profile:', profileError);
+        // Retry without email column if schema doesn't have email column
+        await supabase.from('profiles').upsert([payload]);
       }
 
       await fetchProfile(data.user.id, email);
