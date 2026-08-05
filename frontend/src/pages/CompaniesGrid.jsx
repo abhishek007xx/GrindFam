@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { Building2, Search, ArrowRight, Sparkles, Layers } from 'lucide-react';
+import { Building2, Search, ArrowRight, Sparkles, Layers, Flame } from 'lucide-react';
 
 export function CompaniesGrid() {
   const navigate = useNavigate();
@@ -18,7 +18,6 @@ export function CompaniesGrid() {
     async function fetchCompanies() {
       try {
         setLoading(true);
-        // Try fetching from Supabase
         const { data, error } = await supabase
           .from('companies')
           .select(`
@@ -32,14 +31,14 @@ export function CompaniesGrid() {
           `)
           .order('name');
 
+        let activeCompanies = data;
         if (error || !data || data.length === 0) {
-          console.warn('Supabase empty or unreachable. Using local dataset fallback.');
-          // Map local JSON data
-          const fallbackList = companiesData.map((c, cIdx) => ({
+          activeCompanies = companiesData.map((c, cIdx) => ({
             id: `local-comp-${c.slug}`,
             name: c.company_name,
             slug: c.slug,
             logo_url: c.logo_url,
+            popularity_rank: c.popularity_rank ?? cIdx,
             company_tracks: c.roles.map((r, rIdx) => ({
               id: `${c.slug}-track-${rIdx}`,
               role: r.role_name,
@@ -47,24 +46,32 @@ export function CompaniesGrid() {
               roadmap: { problems_count: r.problems ? r.problems.length : 0 }
             }))
           }));
-          setCompanies(fallbackList);
         } else {
-          setCompanies(data);
+          const localMap = new Map(companiesData.map(c => [c.slug, c.popularity_rank]));
+          activeCompanies = activeCompanies.map(c => ({
+            ...c,
+            popularity_rank: localMap.get(c.slug) ?? 999
+          }));
         }
+
+        // Sort by Popularity Rank Ascending
+        activeCompanies.sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
+        setCompanies(activeCompanies);
       } catch (err) {
-        console.warn('Error connecting to Supabase. Loading fallback companies dataset.', err);
+        console.warn('Error fetching companies. Loading popularity ranked fallback dataset.', err);
         const fallbackList = companiesData.map((c, cIdx) => ({
           id: `local-comp-${c.slug}`,
           name: c.company_name,
           slug: c.slug,
           logo_url: c.logo_url,
+          popularity_rank: c.popularity_rank ?? cIdx,
           company_tracks: c.roles.map((r, rIdx) => ({
             id: `${c.slug}-track-${rIdx}`,
             role: r.role_name,
             level: r.level,
             roadmap: { problems_count: r.problems ? r.problems.length : 0 }
           }))
-        }));
+        })).sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setCompanies(fallbackList);
       } finally {
         setLoading(false);
@@ -113,13 +120,13 @@ export function CompaniesGrid() {
             <div className="relative z-10 max-w-2xl space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Targeted Interview Prep</span>
+                <span>Ranked by Hiring Popularity</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                 Company DSA Tracks
               </h1>
               <p className="text-sm text-[#8b949e] leading-relaxed">
-                Curated problem sets and exact interview guidelines for top tech companies & Indian placement recruiters. Practice role-specific DSA roadmaps tailored to SDE-1, SDE-2, and Senior roles.
+                Top interview kits ranked by popularity: Google, Amazon, Microsoft, Meta, Apple, Uber, Netflix, Swiggy, Zomato, Flipkart, Razorpay, PhonePe & 90+ tech companies.
               </p>
             </div>
           </div>
@@ -174,82 +181,94 @@ export function CompaniesGrid() {
               animate="visible"
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
             >
-              {filteredCompanies.map(comp => (
-                <motion.div
-                  key={comp.id}
-                  variants={cardVariants}
-                  className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col justify-between"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-2xl bg-[#161b22] border border-[#30363d] p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
-                        {comp.logo_url ? (
-                          <img
-                            src={comp.logo_url}
-                            alt={comp.name}
-                            className="w-full h-full object-contain filter drop-shadow-sm"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                              if (e.currentTarget.nextSibling) {
-                                e.currentTarget.nextSibling.style.display = 'flex';
-                              }
-                            }}
-                          />
-                        ) : null}
-                        <div
-                          className="w-full h-full items-center justify-center font-bold text-indigo-400 text-lg hidden"
-                        >
-                          {comp.name.slice(0, 2).toUpperCase()}
+              {filteredCompanies.map((comp, idx) => {
+                const isTopCompany = idx < 5;
+
+                return (
+                  <motion.div
+                    key={comp.id}
+                    variants={cardVariants}
+                    className="group relative bg-[#0d1117]/80 backdrop-blur border border-[#30363d] hover:border-indigo-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/10 flex flex-col justify-between"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="w-12 h-12 rounded-2xl bg-[#161b22] border border-[#30363d] p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+                          {comp.logo_url ? (
+                            <img
+                              src={comp.logo_url}
+                              alt={comp.name}
+                              className="w-full h-full object-contain filter drop-shadow-sm"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.nextSibling) {
+                                  e.currentTarget.nextSibling.style.display = 'flex';
+                                }
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className="w-full h-full items-center justify-center font-bold text-indigo-400 text-lg hidden"
+                          >
+                            {comp.name.slice(0, 2).toUpperCase()}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1.5">
+                          {isTopCompany && (
+                            <span className="px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px] font-bold flex items-center gap-1">
+                              <Flame className="w-3 h-3 text-amber-500" />
+                              Top Tech
+                            </span>
+                          )}
+                          <span className="px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-semibold text-[#8b949e] flex items-center gap-1">
+                            <Layers className="w-3 h-3 text-indigo-400" />
+                            {comp.company_tracks?.length || 0} Tracks
+                          </span>
                         </div>
                       </div>
 
-                      <span className="px-2.5 py-1 rounded-full bg-[#161b22] border border-[#30363d] text-[11px] font-semibold text-[#8b949e] flex items-center gap-1">
-                        <Layers className="w-3 h-3 text-indigo-400" />
-                        {comp.company_tracks?.length || 0} Tracks
-                      </span>
-                    </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
+                          {comp.name}
+                        </h3>
+                        <p className="text-xs text-[#8b949e] font-mono mt-0.5">/{comp.slug}</p>
+                      </div>
 
-                    <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">
-                        {comp.name}
-                      </h3>
-                      <p className="text-xs text-[#8b949e] font-mono mt-0.5">/{comp.slug}</p>
-                    </div>
+                      {/* Roles List */}
+                      <div className="space-y-2 pt-2 border-t border-[#21262d]">
+                        <span className="text-[11px] font-semibold text-[#6e7681] uppercase tracking-wider block">
+                          Available Tracks:
+                        </span>
 
-                    {/* Roles List */}
-                    <div className="space-y-2 pt-2 border-t border-[#21262d]">
-                      <span className="text-[11px] font-semibold text-[#6e7681] uppercase tracking-wider block">
-                        Available Tracks:
-                      </span>
+                        <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
+                          {comp.company_tracks && comp.company_tracks.length > 0 ? (
+                            comp.company_tracks.map(track => (
+                              <div
+                                key={track.id}
+                                onClick={() => navigate(`/company/${comp.slug}/${track.id}`)}
+                                className="p-2.5 rounded-xl bg-[#161b22] hover:bg-indigo-600/10 border border-[#30363d] hover:border-indigo-500/40 cursor-pointer transition-all flex items-center justify-between group/track"
+                              >
+                                <div className="min-w-0 pr-2">
+                                  <p className="text-xs font-semibold text-[#e6edf3] group-hover/track:text-indigo-400 truncate">
+                                    {track.role}
+                                  </p>
+                                  <p className="text-[10px] text-[#8b949e]">
+                                    {track.level}
+                                  </p>
+                                </div>
 
-                      <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
-                        {comp.company_tracks && comp.company_tracks.length > 0 ? (
-                          comp.company_tracks.map(track => (
-                            <div
-                              key={track.id}
-                              onClick={() => navigate(`/company/${comp.slug}/${track.id}`)}
-                              className="p-2.5 rounded-xl bg-[#161b22] hover:bg-indigo-600/10 border border-[#30363d] hover:border-indigo-500/40 cursor-pointer transition-all flex items-center justify-between group/track"
-                            >
-                              <div className="min-w-0 pr-2">
-                                <p className="text-xs font-semibold text-[#e6edf3] group-hover/track:text-indigo-400 truncate">
-                                  {track.role}
-                                </p>
-                                <p className="text-[10px] text-[#8b949e]">
-                                  {track.level}
-                                </p>
+                                <ArrowRight className="w-3.5 h-3.5 text-[#6e7681] group-hover/track:text-indigo-400 group-hover/track:translate-x-0.5 transition-all flex-shrink-0" />
                               </div>
-
-                              <ArrowRight className="w-3.5 h-3.5 text-[#6e7681] group-hover/track:text-indigo-400 group-hover/track:translate-x-0.5 transition-all flex-shrink-0" />
-                            </div>
-                          ))
-                        ) : (
-                          <p className="text-xs text-[#6e7681] italic">General Track</p>
-                        )}
+                            ))
+                          ) : (
+                            <p className="text-xs text-[#6e7681] italic">General Track</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </motion.div>
           )}
         </main>
