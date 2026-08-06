@@ -12,6 +12,7 @@ import TrackDetail from './pages/TrackDetail';
 import SheetsExplorer from './pages/SheetsExplorer';
 import SheetDetail from './pages/SheetDetail';
 import TopicProblems from './pages/TopicProblems';
+import LandingPage from './pages/LandingPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -45,10 +46,25 @@ const PublicRoute = ({ children }) => {
   }
 
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;
+};
+
+// Smart Home Component: Shows Dashboard if logged in, LandingPage if guest
+const HomeOrLanding = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return user ? <Dashboard /> : <LandingPage />;
 };
 
 function App() {
@@ -56,6 +72,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          <Route path="/landing" element={<LandingPage />} />
           <Route
             path="/login"
             element={
@@ -84,14 +101,16 @@ function App() {
             path="/reset-password"
             element={<ResetPassword />}
           />
+          <Route path="/" element={<HomeOrLanding />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/companies"
             element={

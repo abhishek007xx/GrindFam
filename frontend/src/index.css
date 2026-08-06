@@ -319,3 +319,59 @@
   33% { transform: translate(20px, -30px); }
   66% { transform: translate(-15px, 20px); }
 }
+
+/* ═══════════════════════════════════════════════════════════════ */
+/*  Landing Page Custom Utilities                                 */
+/* ═══════════════════════════════════════════════════════════════ */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.glow-hover {
+    transition: all 0.3s ease;
+}
+.glow-hover:hover {
+    box-shadow: 0 0 20px rgba(255, 138, 61, 0.3);
+    border-color: rgba(255, 138, 61, 0.5);
+    transform: translateY(-2px);
+}
+.aurora-bg {
+    background: radial-gradient(circle at 50% 0%, rgba(255, 107, 0, 0.15) 0%, transparent 70%);
+}
+.marquee-container {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: 2rem;
+}
+.marquee-content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    min-width: 100%;
+    gap: 2rem;
+    animation: scrollMarquee 20s linear infinite;
+}
+@keyframes scrollMarquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - 2rem)); }
+}
+.kinetic-bar {
+    position: relative;
+    overflow: hidden;
+}
+.kinetic-bar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    animation: shimmerKinetic 2s infinite;
+}
+@keyframes shimmerKinetic {
+    100% { transform: translateX(100%); }
+}
+
