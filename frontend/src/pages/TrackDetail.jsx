@@ -10,6 +10,7 @@ import Sidebar from '../components/Sidebar';
 import NotesModal from '../components/NotesModal';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
+import { getProblemsForRoleTrack } from '../lib/roleProblemSets';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   AlertTriangle, Target, MessageSquare, Award, Search,
@@ -106,16 +107,18 @@ export function TrackDetail() {
             guidelines: roleObj.guidelines || {}
           });
 
-          const localProbs = (roleObj.problems || []).map((p, idx) => ({
-            id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
-            title: p.title,
-            leetcode_slug: p.leetcode_slug,
-            difficulty: p.difficulty || "Medium",
-            frequency_score: p.frequency_score || 5,
-            topic_tags: p.topic_tags || [],
-            step_name: roleObj.role_name
-          }));
-          setProblems(localProbs);
+          const rawProbs = roleObj.problems && roleObj.problems.length > 0
+            ? roleObj.problems.map((p, idx) => ({
+                id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+                title: p.title,
+                leetcode_slug: p.leetcode_slug,
+                difficulty: p.difficulty || "Medium",
+                frequency_score: p.frequency_score || 5,
+                topic_tags: p.topic_tags || [],
+                step_name: roleObj.role_name
+              }))
+            : getProblemsForRoleTrack(0, compObj.company_name);
+          setProblems(rawProbs);
         }
       } catch (err) {
         console.warn('Error connecting to Supabase. Loading local track fallback.', err);
@@ -133,14 +136,17 @@ export function TrackDetail() {
           level: roleObj.level,
           guidelines: roleObj.guidelines || {}
         });
-        setProblems((roleObj.problems || []).map((p, idx) => ({
-          id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
-          title: p.title,
-          leetcode_slug: p.leetcode_slug,
-          difficulty: p.difficulty || "Medium",
-          frequency_score: p.frequency_score || 5,
-          topic_tags: p.topic_tags || []
-        })));
+        const rawProbs = roleObj.problems && roleObj.problems.length > 0
+          ? roleObj.problems.map((p, idx) => ({
+              id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+              title: p.title,
+              leetcode_slug: p.leetcode_slug,
+              difficulty: p.difficulty || "Medium",
+              frequency_score: p.frequency_score || 5,
+              topic_tags: p.topic_tags || []
+            }))
+          : getProblemsForRoleTrack(0, compObj.company_name);
+        setProblems(rawProbs);
       } finally {
         setLoading(false);
       }
@@ -388,20 +394,24 @@ export function TrackDetail() {
                             setActiveRoleIdx(rIdx);
                             setCompanyTrack({
                               id: trackId,
-                              role: roleObj.role_name,
-                              level: roleObj.level,
+                              role: trackOpt.title,
+                              level: trackOpt.badge,
                               guidelines: roleObj.guidelines || {}
                             });
-                            const localProbs = (roleObj.problems || []).map((p, idx) => ({
-                              id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
-                              title: p.title,
-                              leetcode_slug: p.leetcode_slug,
-                              difficulty: p.difficulty || "Medium",
-                              frequency_score: p.frequency_score || 5,
-                              topic_tags: p.topic_tags || [],
-                              step_name: roleObj.role_name
-                            }));
-                            setProblems(localProbs);
+                            // Fetch distinct, authentic problem set for this role track
+                            const roleProbs = getProblemsForRoleTrack(rIdx, compObj.company_name);
+                            const mergedProbs = (roleObj.problems && roleObj.problems.length > 0)
+                              ? roleObj.problems.map((p, idx) => ({
+                                  id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
+                                  title: p.title,
+                                  leetcode_slug: p.leetcode_slug,
+                                  difficulty: p.difficulty || "Medium",
+                                  frequency_score: p.frequency_score || 5,
+                                  topic_tags: p.topic_tags || [],
+                                  step_name: trackOpt.title
+                                }))
+                              : roleProbs;
+                            setProblems(mergedProbs);
                           }}
                           className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group ${
                             isActive
