@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SettingsModal from './SettingsModal';
 import {
-  LayoutDashboard, Building2, FileCode2, Hash, Trophy, Users, UserPlus, Pencil,
+  LayoutDashboard, Building2, FileCode2, Map, Hash, Trophy, Users, UserPlus, Pencil,
   Activity, Settings, LogOut, Flame, Shield, Menu, X
 } from 'lucide-react';
 
@@ -17,6 +17,7 @@ const getInitials = (name = '') => {
 const mainNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
   { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
+  { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmaps' },
   { id: 'topics', label: 'Topics', icon: Hash, path: '/topics/Array' },
 ];
 

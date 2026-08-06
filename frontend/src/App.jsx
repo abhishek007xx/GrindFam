@@ -11,6 +11,8 @@ import CompaniesGrid from './pages/CompaniesGrid';
 import TrackDetail from './pages/TrackDetail';
 import SheetsExplorer from './pages/SheetsExplorer';
 import SheetDetail from './pages/SheetDetail';
+import RoadmapsExplorer from './pages/RoadmapsExplorer';
+import RoadmapDetail from './pages/RoadmapDetail';
 import TopicProblems from './pages/TopicProblems';
 import LandingPage from './pages/LandingPage';
 
@@ -126,6 +128,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <SheetDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmaps"
+            element={
+              <ProtectedRoute>
+                <RoadmapsExplorer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roadmap/:roadmapId"
+            element={
+              <ProtectedRoute>
+                <RoadmapDetail />
               </ProtectedRoute>
             }
           />
