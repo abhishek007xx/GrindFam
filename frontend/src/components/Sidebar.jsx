@@ -16,7 +16,6 @@ const getInitials = (name = '') => {
 
 const mainNavItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
-  { id: 'companies', label: 'Company Tracks', icon: Building2, path: '/companies' },
   { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
   { id: 'topics', label: 'Topics', icon: Hash, path: '/topics/Array' },
 ];

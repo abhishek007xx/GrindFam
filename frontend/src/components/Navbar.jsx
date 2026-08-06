@@ -137,30 +137,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           });
         });
 
-        // Search companies data
-        companiesData.forEach(company => {
-          (company.roles || []).forEach(role => {
-            (role.problems || []).forEach(prob => {
-              if (
-                prob.title.toLowerCase().includes(q) ||
-                prob.leetcode_slug.toLowerCase().includes(q) ||
-                (prob.topic_tags || []).some(t => t.toLowerCase().includes(q))
-              ) {
-                localResults.push({
-                  id: `local-${company.slug}-${prob.leetcode_slug}`,
-                  title: prob.title,
-                  difficulty: prob.difficulty || 'Medium',
-                  leetcode_slug: prob.leetcode_slug,
-                  leetcode_url: prob.leetcode_url,
-                  source_type: 'company',
-                  source_name: company.company_name,
-                  topic_tags: prob.topic_tags || []
-                });
-              }
-            });
-          });
-        });
-
         // Deduplicate by leetcode_slug
         const seen = new Set();
         results = localResults.filter(r => {
