@@ -1,0 +1,3089 @@
+[
+  {
+    "id": "official-postgresql-dba",
+    "category": "Role Roadmap",
+    "title": "PostgreSQL DBA",
+    "creator": "roadmap.sh (Official)",
+    "description": "Step by step guide to becoming a modern PostgreSQL DB Administrator in @currentYear@",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Relational Database Fundamentals & Concepts",
+        "subtitle": "RDBMS Core, ACID, MVCC & Relational Model",
+        "description": "Comprehensive module covering Relational Database Fundamentals & Concepts. Study key concepts: What are Relational Databases?, RDBMS Benefits and Limitations, PostgreSQL vs NoSQL Databases, PostgreSQL vs Other RDBMS.",
+        "topics": [
+          "What are Relational Databases?",
+          "RDBMS Benefits and Limitations",
+          "PostgreSQL vs NoSQL Databases",
+          "PostgreSQL vs Other RDBMS",
+          "Basic RDBMS Concepts (Databases, Schemas, Tables, Columns, Rows)",
+          "ACID Compliance",
+          "MVCC (Multi-Version Concurrency Control)",
+          "Transactions & Isolation Levels",
+          "Relational Model & Keys"
+        ],
+        "submodules": [
+          {
+            "name": "What are Relational Databases?",
+            "status": "pending"
+          },
+          {
+            "name": "RDBMS Benefits and Limitations",
+            "status": "pending"
+          },
+          {
+            "name": "PostgreSQL vs NoSQL Databases",
+            "status": "pending"
+          },
+          {
+            "name": "PostgreSQL vs Other RDBMS",
+            "status": "pending"
+          },
+          {
+            "name": "Basic RDBMS Concepts (Databases, Schemas, Tables, Columns, Rows)",
+            "status": "pending"
+          },
+          {
+            "name": "ACID Compliance",
+            "status": "pending"
+          },
+          {
+            "name": "MVCC (Multi-Version Concurrency Control)",
+            "status": "pending"
+          },
+          {
+            "name": "Transactions & Isolation Levels",
+            "status": "pending"
+          },
+          {
+            "name": "Relational Model & Keys",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-1-foundations",
+          "postgresql-dba-1-advanced"
+        ],
+        "icon": "database",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 2,
+        "title": "PostgreSQL Architecture & Storage Internals",
+        "subtitle": "Process Model, Shared Buffers, WAL & Heap Files",
+        "description": "Comprehensive module covering PostgreSQL Architecture & Storage Internals. Study key concepts: PostgreSQL Process Architecture (Postmaster, Writer, Checkpointer), Shared Buffers Memory Architecture, Write-Ahead Logging (WAL) & WAL Writer, Heap Storage Pages & Tuples.",
+        "topics": [
+          "PostgreSQL Process Architecture (Postmaster, Writer, Checkpointer)",
+          "Shared Buffers Memory Architecture",
+          "Write-Ahead Logging (WAL) & WAL Writer",
+          "Heap Storage Pages & Tuples",
+          "Autovacuum & Background Workers",
+          "Tablespaces & Database Directory Layout"
+        ],
+        "submodules": [
+          {
+            "name": "PostgreSQL Process Architecture (Postmaster, Writer, Checkpointer)",
+            "status": "pending"
+          },
+          {
+            "name": "Shared Buffers Memory Architecture",
+            "status": "pending"
+          },
+          {
+            "name": "Write-Ahead Logging (WAL) & WAL Writer",
+            "status": "pending"
+          },
+          {
+            "name": "Heap Storage Pages & Tuples",
+            "status": "pending"
+          },
+          {
+            "name": "Autovacuum & Background Workers",
+            "status": "pending"
+          },
+          {
+            "name": "Tablespaces & Database Directory Layout",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-2-foundations",
+          "postgresql-dba-2-advanced"
+        ],
+        "icon": "tool",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 3,
+        "title": "SQL Execution & Advanced Queries",
+        "subtitle": "DDL, DML, Window Functions, CTEs & JSONB",
+        "description": "Comprehensive module covering SQL Execution & Advanced Queries. Study key concepts: Data Definition Language (DDL) & Integrity Constraints, Data Manipulation Language (DML) & Complex Joins, Window Functions (ROW_NUMBER, RANK, DENSE_RANK), Common Table Expressions (CTEs) & Recursive Queries.",
+        "topics": [
+          "Data Definition Language (DDL) & Integrity Constraints",
+          "Data Manipulation Language (DML) & Complex Joins",
+          "Window Functions (ROW_NUMBER, RANK, DENSE_RANK)",
+          "Common Table Expressions (CTEs) & Recursive Queries",
+          "JSONB & Semi-Structured Data Operations"
+        ],
+        "submodules": [
+          {
+            "name": "Data Definition Language (DDL) & Integrity Constraints",
+            "status": "pending"
+          },
+          {
+            "name": "Data Manipulation Language (DML) & Complex Joins",
+            "status": "pending"
+          },
+          {
+            "name": "Window Functions (ROW_NUMBER, RANK, DENSE_RANK)",
+            "status": "pending"
+          },
+          {
+            "name": "Common Table Expressions (CTEs) & Recursive Queries",
+            "status": "pending"
+          },
+          {
+            "name": "JSONB & Semi-Structured Data Operations",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-3-foundations",
+          "postgresql-dba-3-advanced"
+        ],
+        "icon": "code",
+        "color": "purple",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Query Optimization & Performance Tuning",
+        "subtitle": "EXPLAIN ANALYZE, Indexing & Work Memory",
+        "description": "Comprehensive module covering Query Optimization & Performance Tuning. Study key concepts: EXPLAIN & EXPLAIN ANALYZE Execution Plans, B-Tree Indexes & Primary Keys, GIN & GiST Indexes for Search/JSONB, Partial Indexes & Expression Indexes.",
+        "topics": [
+          "EXPLAIN & EXPLAIN ANALYZE Execution Plans",
+          "B-Tree Indexes & Primary Keys",
+          "GIN & GiST Indexes for Search/JSONB",
+          "Partial Indexes & Expression Indexes",
+          "BRIN Indexes for Time Series",
+          "Memory Configuration (work_mem, maintenance_work_mem)"
+        ],
+        "submodules": [
+          {
+            "name": "EXPLAIN & EXPLAIN ANALYZE Execution Plans",
+            "status": "pending"
+          },
+          {
+            "name": "B-Tree Indexes & Primary Keys",
+            "status": "pending"
+          },
+          {
+            "name": "GIN & GiST Indexes for Search/JSONB",
+            "status": "pending"
+          },
+          {
+            "name": "Partial Indexes & Expression Indexes",
+            "status": "pending"
+          },
+          {
+            "name": "BRIN Indexes for Time Series",
+            "status": "pending"
+          },
+          {
+            "name": "Memory Configuration (work_mem, maintenance_work_mem)",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-4-foundations",
+          "postgresql-dba-4-advanced"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Maintenance & Autovacuum Management",
+        "subtitle": "Vacuuming, Bloat Cleanup & Statistics",
+        "description": "Comprehensive module covering Maintenance & Autovacuum Management. Study key concepts: VACUUM & VACUUM FULL Operations, Autovacuum Configuration & Tuning, Transaction ID (XID) Wraparound Prevention, Database & Index Bloat Management.",
+        "topics": [
+          "VACUUM & VACUUM FULL Operations",
+          "Autovacuum Configuration & Tuning",
+          "Transaction ID (XID) Wraparound Prevention",
+          "Database & Index Bloat Management",
+          "ANALYZE & Query Planner Statistics (pg_statistic)"
+        ],
+        "submodules": [
+          {
+            "name": "VACUUM & VACUUM FULL Operations",
+            "status": "pending"
+          },
+          {
+            "name": "Autovacuum Configuration & Tuning",
+            "status": "pending"
+          },
+          {
+            "name": "Transaction ID (XID) Wraparound Prevention",
+            "status": "pending"
+          },
+          {
+            "name": "Database & Index Bloat Management",
+            "status": "pending"
+          },
+          {
+            "name": "ANALYZE & Query Planner Statistics (pg_statistic)",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-5-foundations",
+          "postgresql-dba-5-advanced"
+        ],
+        "icon": "tool",
+        "color": "teal",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 6,
+        "title": "High Availability, Replication & Connection Pooling",
+        "subtitle": "Streaming Replication, PgBouncer & Failover",
+        "description": "Comprehensive module covering High Availability, Replication & Connection Pooling. Study key concepts: Physical Streaming Replication (Primary / Standby), Logical Replication & Pub/Sub Model, PgBouncer Connection Pooling (Session vs Transaction Mode), High Availability & Automated Failover (Patroni / Stolon).",
+        "topics": [
+          "Physical Streaming Replication (Primary / Standby)",
+          "Logical Replication & Pub/Sub Model",
+          "PgBouncer Connection Pooling (Session vs Transaction Mode)",
+          "High Availability & Automated Failover (Patroni / Stolon)"
+        ],
+        "submodules": [
+          {
+            "name": "Physical Streaming Replication (Primary / Standby)",
+            "status": "pending"
+          },
+          {
+            "name": "Logical Replication & Pub/Sub Model",
+            "status": "pending"
+          },
+          {
+            "name": "PgBouncer Connection Pooling (Session vs Transaction Mode)",
+            "status": "pending"
+          },
+          {
+            "name": "High Availability & Automated Failover (Patroni / Stolon)",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-6-foundations",
+          "postgresql-dba-6-advanced"
+        ],
+        "icon": "cloud",
+        "color": "green",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 7,
+        "title": "Backup, Point-In-Time Recovery & Security",
+        "subtitle": "pg_basebackup, PITR, pg_hba.conf & RBAC",
+        "description": "Comprehensive module covering Backup, Point-In-Time Recovery & Security. Study key concepts: Physical Backups (pg_basebackup, WAL-G, pgBackRest), Point-In-Time Recovery (PITR) Execution Drill, Client Authentication (pg_hba.conf & SSL/TLS), Role-Based Access Control (RBAC) & Column Encryption.",
+        "topics": [
+          "Physical Backups (pg_basebackup, WAL-G, pgBackRest)",
+          "Point-In-Time Recovery (PITR) Execution Drill",
+          "Client Authentication (pg_hba.conf & SSL/TLS)",
+          "Role-Based Access Control (RBAC) & Column Encryption",
+          "pgaudit Audit Logging"
+        ],
+        "submodules": [
+          {
+            "name": "Physical Backups (pg_basebackup, WAL-G, pgBackRest)",
+            "status": "pending"
+          },
+          {
+            "name": "Point-In-Time Recovery (PITR) Execution Drill",
+            "status": "pending"
+          },
+          {
+            "name": "Client Authentication (pg_hba.conf & SSL/TLS)",
+            "status": "pending"
+          },
+          {
+            "name": "Role-Based Access Control (RBAC) & Column Encryption",
+            "status": "pending"
+          },
+          {
+            "name": "pgaudit Audit Logging",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-7-foundations",
+          "postgresql-dba-7-advanced"
+        ],
+        "icon": "shield",
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      },
+      {
+        "stepNumber": 8,
+        "title": "Database Monitoring, Alerting & Operations",
+        "subtitle": "pg_stat_statements, Prometheus & Grafana",
+        "description": "Comprehensive module covering Database Monitoring, Alerting & Operations. Study key concepts: Query Performance Tracking (pg_stat_statements), Locks, Deadlocks & Lock Monitoring (pg_locks), Prometheus PostgreSQL Exporter Integration, Grafana Dashboards for DB Metrics & Alerting.",
+        "topics": [
+          "Query Performance Tracking (pg_stat_statements)",
+          "Locks, Deadlocks & Lock Monitoring (pg_locks)",
+          "Prometheus PostgreSQL Exporter Integration",
+          "Grafana Dashboards for DB Metrics & Alerting"
+        ],
+        "submodules": [
+          {
+            "name": "Query Performance Tracking (pg_stat_statements)",
+            "status": "pending"
+          },
+          {
+            "name": "Locks, Deadlocks & Lock Monitoring (pg_locks)",
+            "status": "pending"
+          },
+          {
+            "name": "Prometheus PostgreSQL Exporter Integration",
+            "status": "pending"
+          },
+          {
+            "name": "Grafana Dashboards for DB Metrics & Alerting",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "postgresql-dba-8-foundations",
+          "postgresql-dba-8-advanced"
+        ],
+        "icon": "award",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+      }
+    ]
+  },
+  {
+    "id": "official-frontend",
+    "category": "Role Roadmap",
+    "title": "Frontend Developer",
+    "creator": "roadmap.sh (Official)",
+    "description": "Step by step guide to becoming a modern frontend developer in @currentYear@",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Visit Beginner Friendly Version",
+        "subtitle": "Master Visit Beginner Friendly Version & Core Concepts",
+        "description": "Comprehensive module covering Visit Beginner Friendly Version. Study key concepts: Visit Beginner Friendly Version, Front-end, How does the internet work?, What is HTTP?.",
+        "topics": [
+          "Visit Beginner Friendly Version",
+          "Front-end",
+          "How does the internet work?",
+          "What is HTTP?",
+          "What is Domain Name?",
+          "What is hosting?",
+          "Internet",
+          "DNS and how it works?",
+          "HTML, CSS and JavaScript are the backbone of web development. Make sure to practice by building lots of projects.",
+          "Browsers and how they work?",
+          "HTML",
+          "CSS",
+          "Beginner Project Ideas",
+          "JavaScript",
+          "yarn",
+          "npm",
+          "pnpm",
+          "Bun",
+          "Version Control",
+          "Git",
+          "VCS Hosting",
+          "Package Managers"
+        ],
+        "submodules": [
+          {
+            "name": "Visit Beginner Friendly Version",
+            "status": "pending"
+          },
+          {
+            "name": "Front-end",
+            "status": "pending"
+          },
+          {
+            "name": "How does the internet work?",
+            "status": "pending"
+          },
+          {
+            "name": "What is HTTP?",
+            "status": "pending"
+          },
+          {
+            "name": "What is Domain Name?",
+            "status": "pending"
+          },
+          {
+            "name": "What is hosting?",
+            "status": "pending"
+          },
+          {
+            "name": "Internet",
+            "status": "pending"
+          },
+          {
+            "name": "DNS and how it works?",
+            "status": "pending"
+          },
+          {
+            "name": "HTML, CSS and JavaScript are the backbone of web development. Make sure to practice by building lots of projects.",
+            "status": "pending"
+          },
+          {
+            "name": "Browsers and how they work?",
+            "status": "pending"
+          },
+          {
+            "name": "HTML",
+            "status": "pending"
+          },
+          {
+            "name": "CSS",
+            "status": "pending"
+          },
+          {
+            "name": "Beginner Project Ideas",
+            "status": "pending"
+          },
+          {
+            "name": "JavaScript",
+            "status": "pending"
+          },
+          {
+            "name": "yarn",
+            "status": "pending"
+          },
+          {
+            "name": "npm",
+            "status": "pending"
+          },
+          {
+            "name": "pnpm",
+            "status": "pending"
+          },
+          {
+            "name": "Bun",
+            "status": "pending"
+          },
+          {
+            "name": "Version Control",
+            "status": "pending"
+          },
+          {
+            "name": "Git",
+            "status": "pending"
+          },
+          {
+            "name": "VCS Hosting",
+            "status": "pending"
+          },
+          {
+            "name": "Package Managers",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-1-foundations",
+          "frontend-1-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 2,
+        "title": "GitHub",
+        "subtitle": "Master GitHub & Core Concepts",
+        "description": "Comprehensive module covering GitHub. Study key concepts: GitHub, GitLab, At this point, you should be able to build modern vanilla JS frontend applications., React.",
+        "topics": [
+          "GitHub",
+          "GitLab",
+          "At this point, you should be able to build modern vanilla JS frontend applications.",
+          "React",
+          "CSS Frameworks",
+          "Vue.js",
+          "Intermediate Project Ideas",
+          "Tailwind",
+          "Angular",
+          "Svelte",
+          "Learn a Framework",
+          "Solid JS",
+          "AI in Development",
+          "Claude Code",
+          "Learn the Basics",
+          "Cursor",
+          "AI Assisted Coding",
+          "Copilot",
+          "How LLMs work",
+          "Antigravity",
+          "AI vs Traditional Coding",
+          "Prompt Engineering"
+        ],
+        "submodules": [
+          {
+            "name": "GitHub",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab",
+            "status": "pending"
+          },
+          {
+            "name": "At this point, you should be able to build modern vanilla JS frontend applications.",
+            "status": "pending"
+          },
+          {
+            "name": "React",
+            "status": "pending"
+          },
+          {
+            "name": "CSS Frameworks",
+            "status": "pending"
+          },
+          {
+            "name": "Vue.js",
+            "status": "pending"
+          },
+          {
+            "name": "Intermediate Project Ideas",
+            "status": "pending"
+          },
+          {
+            "name": "Tailwind",
+            "status": "pending"
+          },
+          {
+            "name": "Angular",
+            "status": "pending"
+          },
+          {
+            "name": "Svelte",
+            "status": "pending"
+          },
+          {
+            "name": "Learn a Framework",
+            "status": "pending"
+          },
+          {
+            "name": "Solid JS",
+            "status": "pending"
+          },
+          {
+            "name": "AI in Development",
+            "status": "pending"
+          },
+          {
+            "name": "Claude Code",
+            "status": "pending"
+          },
+          {
+            "name": "Learn the Basics",
+            "status": "pending"
+          },
+          {
+            "name": "Cursor",
+            "status": "pending"
+          },
+          {
+            "name": "AI Assisted Coding",
+            "status": "pending"
+          },
+          {
+            "name": "Copilot",
+            "status": "pending"
+          },
+          {
+            "name": "How LLMs work",
+            "status": "pending"
+          },
+          {
+            "name": "Antigravity",
+            "status": "pending"
+          },
+          {
+            "name": "AI vs Traditional Coding",
+            "status": "pending"
+          },
+          {
+            "name": "Prompt Engineering",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-2-foundations",
+          "frontend-2-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Prompting Techniques",
+        "subtitle": "Master Prompting Techniques & Core Concepts",
+        "description": "Comprehensive module covering Prompting Techniques. Study key concepts: Prompting Techniques, Applications, AI Agents Roadmap, Agents.",
+        "topics": [
+          "Prompting Techniques",
+          "Applications",
+          "AI Agents Roadmap",
+          "Agents",
+          "Code Reviews",
+          "MCP",
+          "Refactoring",
+          "Gemini",
+          "Skills",
+          "Docs Generation",
+          "OpenAI",
+          "Anthropic",
+          "Implementing AI",
+          "Advanced Frontend",
+          "Linters & Formatters",
+          "Module Bundlers",
+          "Auth Strategies",
+          "Vite",
+          "Biome",
+          "esbuild",
+          "SWC",
+          "Prettier"
+        ],
+        "submodules": [
+          {
+            "name": "Prompting Techniques",
+            "status": "pending"
+          },
+          {
+            "name": "Applications",
+            "status": "pending"
+          },
+          {
+            "name": "AI Agents Roadmap",
+            "status": "pending"
+          },
+          {
+            "name": "Agents",
+            "status": "pending"
+          },
+          {
+            "name": "Code Reviews",
+            "status": "pending"
+          },
+          {
+            "name": "MCP",
+            "status": "pending"
+          },
+          {
+            "name": "Refactoring",
+            "status": "pending"
+          },
+          {
+            "name": "Gemini",
+            "status": "pending"
+          },
+          {
+            "name": "Skills",
+            "status": "pending"
+          },
+          {
+            "name": "Docs Generation",
+            "status": "pending"
+          },
+          {
+            "name": "OpenAI",
+            "status": "pending"
+          },
+          {
+            "name": "Anthropic",
+            "status": "pending"
+          },
+          {
+            "name": "Implementing AI",
+            "status": "pending"
+          },
+          {
+            "name": "Advanced Frontend",
+            "status": "pending"
+          },
+          {
+            "name": "Linters & Formatters",
+            "status": "pending"
+          },
+          {
+            "name": "Module Bundlers",
+            "status": "pending"
+          },
+          {
+            "name": "Auth Strategies",
+            "status": "pending"
+          },
+          {
+            "name": "Vite",
+            "status": "pending"
+          },
+          {
+            "name": "Biome",
+            "status": "pending"
+          },
+          {
+            "name": "esbuild",
+            "status": "pending"
+          },
+          {
+            "name": "SWC",
+            "status": "pending"
+          },
+          {
+            "name": "Prettier",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-3-foundations",
+          "frontend-3-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Rollup",
+        "subtitle": "Master Rollup & Core Concepts",
+        "description": "Comprehensive module covering Rollup. Study key concepts: Rollup, Rolldown, ESLint, Parcel.",
+        "topics": [
+          "Rollup",
+          "Rolldown",
+          "ESLint",
+          "Parcel",
+          "CORS",
+          "At this point you should have the expertise of an intermediate level frontend developer. Keep practicing and sharpening your skills.",
+          "Testing",
+          "HTTPS",
+          "horizontal node",
+          "CSP",
+          "Vitest",
+          "Advanced Project Ideas",
+          "OWASP Risks",
+          "Playwright",
+          "Cypress",
+          "Web Security",
+          "Web APIs",
+          "Jest",
+          "GitHub Pages",
+          "Next.js",
+          "Vercel",
+          "Netlify"
+        ],
+        "submodules": [
+          {
+            "name": "Rollup",
+            "status": "pending"
+          },
+          {
+            "name": "Rolldown",
+            "status": "pending"
+          },
+          {
+            "name": "ESLint",
+            "status": "pending"
+          },
+          {
+            "name": "Parcel",
+            "status": "pending"
+          },
+          {
+            "name": "CORS",
+            "status": "pending"
+          },
+          {
+            "name": "At this point you should have the expertise of an intermediate level frontend developer. Keep practicing and sharpening your skills.",
+            "status": "pending"
+          },
+          {
+            "name": "Testing",
+            "status": "pending"
+          },
+          {
+            "name": "HTTPS",
+            "status": "pending"
+          },
+          {
+            "name": "horizontal node",
+            "status": "pending"
+          },
+          {
+            "name": "CSP",
+            "status": "pending"
+          },
+          {
+            "name": "Vitest",
+            "status": "pending"
+          },
+          {
+            "name": "Advanced Project Ideas",
+            "status": "pending"
+          },
+          {
+            "name": "OWASP Risks",
+            "status": "pending"
+          },
+          {
+            "name": "Playwright",
+            "status": "pending"
+          },
+          {
+            "name": "Cypress",
+            "status": "pending"
+          },
+          {
+            "name": "Web Security",
+            "status": "pending"
+          },
+          {
+            "name": "Web APIs",
+            "status": "pending"
+          },
+          {
+            "name": "Jest",
+            "status": "pending"
+          },
+          {
+            "name": "GitHub Pages",
+            "status": "pending"
+          },
+          {
+            "name": "Next.js",
+            "status": "pending"
+          },
+          {
+            "name": "Vercel",
+            "status": "pending"
+          },
+          {
+            "name": "Netlify",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-4-foundations",
+          "frontend-4-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Nuxt.js",
+        "subtitle": "Master Nuxt.js & Core Concepts",
+        "description": "Comprehensive module covering Nuxt.js. Study key concepts: Nuxt.js, Tanstack Start, SSR, Cloudflare.",
+        "topics": [
+          "Nuxt.js",
+          "Tanstack Start",
+          "SSR",
+          "Cloudflare",
+          "SvelteKit",
+          "Railway",
+          "Render",
+          "react-router",
+          "Type Checkers",
+          "SSG",
+          "Deployment",
+          "TypeScript",
+          "Astro",
+          "Design Systems",
+          "Lighthouse",
+          "Vuepress",
+          "DevTools Usage",
+          "Eleventy",
+          "Performance",
+          "Service Workers",
+          "Cache-Control",
+          "Streamed Responses"
+        ],
+        "submodules": [
+          {
+            "name": "Nuxt.js",
+            "status": "pending"
+          },
+          {
+            "name": "Tanstack Start",
+            "status": "pending"
+          },
+          {
+            "name": "SSR",
+            "status": "pending"
+          },
+          {
+            "name": "Cloudflare",
+            "status": "pending"
+          },
+          {
+            "name": "SvelteKit",
+            "status": "pending"
+          },
+          {
+            "name": "Railway",
+            "status": "pending"
+          },
+          {
+            "name": "Render",
+            "status": "pending"
+          },
+          {
+            "name": "react-router",
+            "status": "pending"
+          },
+          {
+            "name": "Type Checkers",
+            "status": "pending"
+          },
+          {
+            "name": "SSG",
+            "status": "pending"
+          },
+          {
+            "name": "Deployment",
+            "status": "pending"
+          },
+          {
+            "name": "TypeScript",
+            "status": "pending"
+          },
+          {
+            "name": "Astro",
+            "status": "pending"
+          },
+          {
+            "name": "Design Systems",
+            "status": "pending"
+          },
+          {
+            "name": "Lighthouse",
+            "status": "pending"
+          },
+          {
+            "name": "Vuepress",
+            "status": "pending"
+          },
+          {
+            "name": "DevTools Usage",
+            "status": "pending"
+          },
+          {
+            "name": "Eleventy",
+            "status": "pending"
+          },
+          {
+            "name": "Performance",
+            "status": "pending"
+          },
+          {
+            "name": "Service Workers",
+            "status": "pending"
+          },
+          {
+            "name": "Cache-Control",
+            "status": "pending"
+          },
+          {
+            "name": "Streamed Responses",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-5-foundations",
+          "frontend-5-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 6,
+        "title": "Web Components",
+        "subtitle": "Master Web Components & Core Concepts",
+        "description": "Comprehensive module covering Web Components. Study key concepts: Web Components, GraphQL, Accessibility, Apollo.",
+        "topics": [
+          "Web Components",
+          "GraphQL",
+          "Accessibility",
+          "Apollo",
+          "HTML Templates",
+          "PWAs",
+          "Relay Modern",
+          "Custom Elements",
+          "Shadow DOM",
+          "Mobile Apps",
+          "Desktop Apps",
+          "Electron",
+          "vertical node",
+          "Tauri",
+          "React Native",
+          "Flutter",
+          "Ionic",
+          "Continue Learning with following relevant tracks",
+          "Nodejs",
+          "Fullstack",
+          "Backend",
+          "Design System"
+        ],
+        "submodules": [
+          {
+            "name": "Web Components",
+            "status": "pending"
+          },
+          {
+            "name": "GraphQL",
+            "status": "pending"
+          },
+          {
+            "name": "Accessibility",
+            "status": "pending"
+          },
+          {
+            "name": "Apollo",
+            "status": "pending"
+          },
+          {
+            "name": "HTML Templates",
+            "status": "pending"
+          },
+          {
+            "name": "PWAs",
+            "status": "pending"
+          },
+          {
+            "name": "Relay Modern",
+            "status": "pending"
+          },
+          {
+            "name": "Custom Elements",
+            "status": "pending"
+          },
+          {
+            "name": "Shadow DOM",
+            "status": "pending"
+          },
+          {
+            "name": "Mobile Apps",
+            "status": "pending"
+          },
+          {
+            "name": "Desktop Apps",
+            "status": "pending"
+          },
+          {
+            "name": "Electron",
+            "status": "pending"
+          },
+          {
+            "name": "vertical node",
+            "status": "pending"
+          },
+          {
+            "name": "Tauri",
+            "status": "pending"
+          },
+          {
+            "name": "React Native",
+            "status": "pending"
+          },
+          {
+            "name": "Flutter",
+            "status": "pending"
+          },
+          {
+            "name": "Ionic",
+            "status": "pending"
+          },
+          {
+            "name": "Continue Learning with following relevant tracks",
+            "status": "pending"
+          },
+          {
+            "name": "Nodejs",
+            "status": "pending"
+          },
+          {
+            "name": "Fullstack",
+            "status": "pending"
+          },
+          {
+            "name": "Backend",
+            "status": "pending"
+          },
+          {
+            "name": "Design System",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "frontend-6-foundations",
+          "frontend-6-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      }
+    ]
+  },
+  {
+    "id": "official-backend",
+    "category": "Role Roadmap",
+    "title": "Backend Developer",
+    "creator": "roadmap.sh (Official)",
+    "description": "Step by step guide to becoming a modern backend developer in @currentYear@",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Visit Beginner Friendly Version",
+        "subtitle": "Master Visit Beginner Friendly Version & Core Concepts",
+        "description": "Comprehensive module covering Visit Beginner Friendly Version. Study key concepts: Visit Beginner Friendly Version, Backend, How does the internet work?, Go.",
+        "topics": [
+          "Visit Beginner Friendly Version",
+          "Backend",
+          "How does the internet work?",
+          "Go",
+          "JavaScript",
+          "What is HTTP?",
+          "Python",
+          "Ruby",
+          "What is Domain Name?",
+          "Introduction",
+          "Java",
+          "C#",
+          "What is hosting?",
+          "Frontend Basics",
+          "Rust",
+          "PHP",
+          "DNS and how it works?",
+          "HTML",
+          "CSS",
+          "Browsers and how they work?",
+          "Pick a Backend Language",
+          "Learn one language and build lots of projects before moving on",
+          "Git",
+          "Version Control Systems",
+          "Beginner Project Ideas",
+          "GitHub",
+          "GitLab",
+          "Repo Hosting Services",
+          "Migrations",
+          "API Styles",
+          "MySQL"
+        ],
+        "submodules": [
+          {
+            "name": "Visit Beginner Friendly Version",
+            "status": "pending"
+          },
+          {
+            "name": "Backend",
+            "status": "pending"
+          },
+          {
+            "name": "How does the internet work?",
+            "status": "pending"
+          },
+          {
+            "name": "Go",
+            "status": "pending"
+          },
+          {
+            "name": "JavaScript",
+            "status": "pending"
+          },
+          {
+            "name": "What is HTTP?",
+            "status": "pending"
+          },
+          {
+            "name": "Python",
+            "status": "pending"
+          },
+          {
+            "name": "Ruby",
+            "status": "pending"
+          },
+          {
+            "name": "What is Domain Name?",
+            "status": "pending"
+          },
+          {
+            "name": "Introduction",
+            "status": "pending"
+          },
+          {
+            "name": "Java",
+            "status": "pending"
+          },
+          {
+            "name": "C#",
+            "status": "pending"
+          },
+          {
+            "name": "What is hosting?",
+            "status": "pending"
+          },
+          {
+            "name": "Frontend Basics",
+            "status": "pending"
+          },
+          {
+            "name": "Rust",
+            "status": "pending"
+          },
+          {
+            "name": "PHP",
+            "status": "pending"
+          },
+          {
+            "name": "DNS and how it works?",
+            "status": "pending"
+          },
+          {
+            "name": "HTML",
+            "status": "pending"
+          },
+          {
+            "name": "CSS",
+            "status": "pending"
+          },
+          {
+            "name": "Browsers and how they work?",
+            "status": "pending"
+          },
+          {
+            "name": "Pick a Backend Language",
+            "status": "pending"
+          },
+          {
+            "name": "Learn one language and build lots of projects before moving on",
+            "status": "pending"
+          },
+          {
+            "name": "Git",
+            "status": "pending"
+          },
+          {
+            "name": "Version Control Systems",
+            "status": "pending"
+          },
+          {
+            "name": "Beginner Project Ideas",
+            "status": "pending"
+          },
+          {
+            "name": "GitHub",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab",
+            "status": "pending"
+          },
+          {
+            "name": "Repo Hosting Services",
+            "status": "pending"
+          },
+          {
+            "name": "Migrations",
+            "status": "pending"
+          },
+          {
+            "name": "API Styles",
+            "status": "pending"
+          },
+          {
+            "name": "MySQL",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-1-foundations",
+          "backend-1-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 2,
+        "title": "JSON APIs",
+        "subtitle": "Master JSON APIs & Core Concepts",
+        "description": "Comprehensive module covering JSON APIs. Study key concepts: JSON APIs, REST, Relational Databases, MariaDB.",
+        "topics": [
+          "JSON APIs",
+          "REST",
+          "Relational Databases",
+          "MariaDB",
+          "SQLite",
+          "SOAP",
+          "gRPC",
+          "MS SQL",
+          "Oracle",
+          "N+1 Problem",
+          "GraphQL",
+          "Open API Specs",
+          "Learn about APIs",
+          "At this point, you should know enough to get a job. Gain hands-on practice by building projects.",
+          "Authentication",
+          "JWT",
+          "OAuth",
+          "Intermediate Project Ideas",
+          "Caching",
+          "Basic Authentication",
+          "Server Side",
+          "Nginx",
+          "Apache",
+          "Token Authentication",
+          "Redis",
+          "Caddy",
+          "MS IIS",
+          "Cookie Based Auth",
+          "Memcached",
+          "OpenID",
+          "SAML"
+        ],
+        "submodules": [
+          {
+            "name": "JSON APIs",
+            "status": "pending"
+          },
+          {
+            "name": "REST",
+            "status": "pending"
+          },
+          {
+            "name": "Relational Databases",
+            "status": "pending"
+          },
+          {
+            "name": "MariaDB",
+            "status": "pending"
+          },
+          {
+            "name": "SQLite",
+            "status": "pending"
+          },
+          {
+            "name": "SOAP",
+            "status": "pending"
+          },
+          {
+            "name": "gRPC",
+            "status": "pending"
+          },
+          {
+            "name": "MS SQL",
+            "status": "pending"
+          },
+          {
+            "name": "Oracle",
+            "status": "pending"
+          },
+          {
+            "name": "N+1 Problem",
+            "status": "pending"
+          },
+          {
+            "name": "GraphQL",
+            "status": "pending"
+          },
+          {
+            "name": "Open API Specs",
+            "status": "pending"
+          },
+          {
+            "name": "Learn about APIs",
+            "status": "pending"
+          },
+          {
+            "name": "At this point, you should know enough to get a job. Gain hands-on practice by building projects.",
+            "status": "pending"
+          },
+          {
+            "name": "Authentication",
+            "status": "pending"
+          },
+          {
+            "name": "JWT",
+            "status": "pending"
+          },
+          {
+            "name": "OAuth",
+            "status": "pending"
+          },
+          {
+            "name": "Intermediate Project Ideas",
+            "status": "pending"
+          },
+          {
+            "name": "Caching",
+            "status": "pending"
+          },
+          {
+            "name": "Basic Authentication",
+            "status": "pending"
+          },
+          {
+            "name": "Server Side",
+            "status": "pending"
+          },
+          {
+            "name": "Nginx",
+            "status": "pending"
+          },
+          {
+            "name": "Apache",
+            "status": "pending"
+          },
+          {
+            "name": "Token Authentication",
+            "status": "pending"
+          },
+          {
+            "name": "Redis",
+            "status": "pending"
+          },
+          {
+            "name": "Caddy",
+            "status": "pending"
+          },
+          {
+            "name": "MS IIS",
+            "status": "pending"
+          },
+          {
+            "name": "Cookie Based Auth",
+            "status": "pending"
+          },
+          {
+            "name": "Memcached",
+            "status": "pending"
+          },
+          {
+            "name": "OpenID",
+            "status": "pending"
+          },
+          {
+            "name": "SAML",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-2-foundations",
+          "backend-2-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 3,
+        "title": "HTTP Caching",
+        "subtitle": "Master HTTP Caching & Core Concepts",
+        "description": "Comprehensive module covering HTTP Caching. Study key concepts: HTTP Caching, Learn about Web Servers, Web Security, Hashing Algorithms.",
+        "topics": [
+          "HTTP Caching",
+          "Learn about Web Servers",
+          "Web Security",
+          "Hashing Algorithms",
+          "How LLMs work",
+          "AI in Development",
+          "MD5",
+          "SHA",
+          "AI vs Traditional Coding",
+          "scrypt",
+          "bcrypt",
+          "Embeddings",
+          "Learn the Basics",
+          "RAGs",
+          "Vectors",
+          "OWASP Risks",
+          "HTTPS",
+          "SSL/TLS",
+          "CORS",
+          "Claude Code",
+          "Cursor",
+          "Server Security",
+          "CSP",
+          "Copilot",
+          "Antigravity",
+          "API Security Best Practices",
+          "Prompt Engineering Roadmap",
+          "AI Assisted Coding",
+          "Applications",
+          "horizontal node",
+          "Prompting Techniques"
+        ],
+        "submodules": [
+          {
+            "name": "HTTP Caching",
+            "status": "pending"
+          },
+          {
+            "name": "Learn about Web Servers",
+            "status": "pending"
+          },
+          {
+            "name": "Web Security",
+            "status": "pending"
+          },
+          {
+            "name": "Hashing Algorithms",
+            "status": "pending"
+          },
+          {
+            "name": "How LLMs work",
+            "status": "pending"
+          },
+          {
+            "name": "AI in Development",
+            "status": "pending"
+          },
+          {
+            "name": "MD5",
+            "status": "pending"
+          },
+          {
+            "name": "SHA",
+            "status": "pending"
+          },
+          {
+            "name": "AI vs Traditional Coding",
+            "status": "pending"
+          },
+          {
+            "name": "scrypt",
+            "status": "pending"
+          },
+          {
+            "name": "bcrypt",
+            "status": "pending"
+          },
+          {
+            "name": "Embeddings",
+            "status": "pending"
+          },
+          {
+            "name": "Learn the Basics",
+            "status": "pending"
+          },
+          {
+            "name": "RAGs",
+            "status": "pending"
+          },
+          {
+            "name": "Vectors",
+            "status": "pending"
+          },
+          {
+            "name": "OWASP Risks",
+            "status": "pending"
+          },
+          {
+            "name": "HTTPS",
+            "status": "pending"
+          },
+          {
+            "name": "SSL/TLS",
+            "status": "pending"
+          },
+          {
+            "name": "CORS",
+            "status": "pending"
+          },
+          {
+            "name": "Claude Code",
+            "status": "pending"
+          },
+          {
+            "name": "Cursor",
+            "status": "pending"
+          },
+          {
+            "name": "Server Security",
+            "status": "pending"
+          },
+          {
+            "name": "CSP",
+            "status": "pending"
+          },
+          {
+            "name": "Copilot",
+            "status": "pending"
+          },
+          {
+            "name": "Antigravity",
+            "status": "pending"
+          },
+          {
+            "name": "API Security Best Practices",
+            "status": "pending"
+          },
+          {
+            "name": "Prompt Engineering Roadmap",
+            "status": "pending"
+          },
+          {
+            "name": "AI Assisted Coding",
+            "status": "pending"
+          },
+          {
+            "name": "Applications",
+            "status": "pending"
+          },
+          {
+            "name": "horizontal node",
+            "status": "pending"
+          },
+          {
+            "name": "Prompting Techniques",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-3-foundations",
+          "backend-3-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Code Reviews",
+        "subtitle": "Master Code Reviews & Core Concepts",
+        "description": "Comprehensive module covering Code Reviews. Study key concepts: Code Reviews, MCP, Skills, Agents.",
+        "topics": [
+          "Code Reviews",
+          "MCP",
+          "Skills",
+          "Agents",
+          "Refactoring",
+          "AI Agents Roadmap",
+          "Documentation Generation",
+          "AI Providers",
+          "Building AI-powered features",
+          "Gemini",
+          "Streaming",
+          "OpenAI",
+          "Structured Outputs",
+          "Anthropic",
+          "Function Calling",
+          "Integration Patterns",
+          "CI / CD",
+          "Integration Testing",
+          "Advanced Backend",
+          "Unit Testing",
+          "Functional Testing",
+          "More about Databases",
+          "Testing",
+          "Transactions",
+          "Containerization",
+          "RabbitMQ",
+          "Kafka",
+          "ORMs",
+          "ACID",
+          "Docker",
+          "Normalization"
+        ],
+        "submodules": [
+          {
+            "name": "Code Reviews",
+            "status": "pending"
+          },
+          {
+            "name": "MCP",
+            "status": "pending"
+          },
+          {
+            "name": "Skills",
+            "status": "pending"
+          },
+          {
+            "name": "Agents",
+            "status": "pending"
+          },
+          {
+            "name": "Refactoring",
+            "status": "pending"
+          },
+          {
+            "name": "AI Agents Roadmap",
+            "status": "pending"
+          },
+          {
+            "name": "Documentation Generation",
+            "status": "pending"
+          },
+          {
+            "name": "AI Providers",
+            "status": "pending"
+          },
+          {
+            "name": "Building AI-powered features",
+            "status": "pending"
+          },
+          {
+            "name": "Gemini",
+            "status": "pending"
+          },
+          {
+            "name": "Streaming",
+            "status": "pending"
+          },
+          {
+            "name": "OpenAI",
+            "status": "pending"
+          },
+          {
+            "name": "Structured Outputs",
+            "status": "pending"
+          },
+          {
+            "name": "Anthropic",
+            "status": "pending"
+          },
+          {
+            "name": "Function Calling",
+            "status": "pending"
+          },
+          {
+            "name": "Integration Patterns",
+            "status": "pending"
+          },
+          {
+            "name": "CI / CD",
+            "status": "pending"
+          },
+          {
+            "name": "Integration Testing",
+            "status": "pending"
+          },
+          {
+            "name": "Advanced Backend",
+            "status": "pending"
+          },
+          {
+            "name": "Unit Testing",
+            "status": "pending"
+          },
+          {
+            "name": "Functional Testing",
+            "status": "pending"
+          },
+          {
+            "name": "More about Databases",
+            "status": "pending"
+          },
+          {
+            "name": "Testing",
+            "status": "pending"
+          },
+          {
+            "name": "Transactions",
+            "status": "pending"
+          },
+          {
+            "name": "Containerization",
+            "status": "pending"
+          },
+          {
+            "name": "RabbitMQ",
+            "status": "pending"
+          },
+          {
+            "name": "Kafka",
+            "status": "pending"
+          },
+          {
+            "name": "ORMs",
+            "status": "pending"
+          },
+          {
+            "name": "ACID",
+            "status": "pending"
+          },
+          {
+            "name": "Docker",
+            "status": "pending"
+          },
+          {
+            "name": "Normalization",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-4-foundations",
+          "backend-4-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 5,
+        "title": "LXC",
+        "subtitle": "Master LXC & Core Concepts",
+        "description": "Comprehensive module covering LXC. Study key concepts: LXC, Message Brokers, Failure Modes, Container Orchestration.",
+        "topics": [
+          "LXC",
+          "Message Brokers",
+          "Failure Modes",
+          "Container Orchestration",
+          "Profiling Performance",
+          "Kubernetes",
+          "Monolith",
+          "Microservices",
+          "Search Engines",
+          "SOA",
+          "Architectural Patterns",
+          "Serverless",
+          "vertical node",
+          "System Design",
+          "Service Mesh",
+          "Elasticsearch",
+          "Solr",
+          "Design & Architecture",
+          "Twelve Factor Apps",
+          "Server Sent Events",
+          "Database Indexes",
+          "WebSockets",
+          "Real-Time Data",
+          "Data Replication",
+          "Long / Short Polling",
+          "Sharding Strategies",
+          "CAP Theorem",
+          "Scaling Databases",
+          "Click to visit the roadmap",
+          "You may never need most of these, just know what they are and when to use them",
+          "NoSQL Databases"
+        ],
+        "submodules": [
+          {
+            "name": "LXC",
+            "status": "pending"
+          },
+          {
+            "name": "Message Brokers",
+            "status": "pending"
+          },
+          {
+            "name": "Failure Modes",
+            "status": "pending"
+          },
+          {
+            "name": "Container Orchestration",
+            "status": "pending"
+          },
+          {
+            "name": "Profiling Performance",
+            "status": "pending"
+          },
+          {
+            "name": "Kubernetes",
+            "status": "pending"
+          },
+          {
+            "name": "Monolith",
+            "status": "pending"
+          },
+          {
+            "name": "Microservices",
+            "status": "pending"
+          },
+          {
+            "name": "Search Engines",
+            "status": "pending"
+          },
+          {
+            "name": "SOA",
+            "status": "pending"
+          },
+          {
+            "name": "Architectural Patterns",
+            "status": "pending"
+          },
+          {
+            "name": "Serverless",
+            "status": "pending"
+          },
+          {
+            "name": "vertical node",
+            "status": "pending"
+          },
+          {
+            "name": "System Design",
+            "status": "pending"
+          },
+          {
+            "name": "Service Mesh",
+            "status": "pending"
+          },
+          {
+            "name": "Elasticsearch",
+            "status": "pending"
+          },
+          {
+            "name": "Solr",
+            "status": "pending"
+          },
+          {
+            "name": "Design & Architecture",
+            "status": "pending"
+          },
+          {
+            "name": "Twelve Factor Apps",
+            "status": "pending"
+          },
+          {
+            "name": "Server Sent Events",
+            "status": "pending"
+          },
+          {
+            "name": "Database Indexes",
+            "status": "pending"
+          },
+          {
+            "name": "WebSockets",
+            "status": "pending"
+          },
+          {
+            "name": "Real-Time Data",
+            "status": "pending"
+          },
+          {
+            "name": "Data Replication",
+            "status": "pending"
+          },
+          {
+            "name": "Long / Short Polling",
+            "status": "pending"
+          },
+          {
+            "name": "Sharding Strategies",
+            "status": "pending"
+          },
+          {
+            "name": "CAP Theorem",
+            "status": "pending"
+          },
+          {
+            "name": "Scaling Databases",
+            "status": "pending"
+          },
+          {
+            "name": "Click to visit the roadmap",
+            "status": "pending"
+          },
+          {
+            "name": "You may never need most of these, just know what they are and when to use them",
+            "status": "pending"
+          },
+          {
+            "name": "NoSQL Databases",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-5-foundations",
+          "backend-5-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 6,
+        "title": "Basic Operations Skills",
+        "subtitle": "Master Basic Operations Skills & Core Concepts",
+        "description": "Comprehensive module covering Basic Operations Skills. Study key concepts: Basic Operations Skills, Building For Scale, Realtime, Document DBs.",
+        "topics": [
+          "Basic Operations Skills",
+          "Building For Scale",
+          "Realtime",
+          "Document DBs",
+          "Key-Value",
+          "MongoDB",
+          "Firebase",
+          "Mitigation Strategies",
+          "Observability",
+          "DynamoDB",
+          "CouchDB",
+          "RethinkDB",
+          "Core Concepts",
+          "Graceful Degradation",
+          "Time Series",
+          "Graph DBs",
+          "Column DBs",
+          "Instrumentation",
+          "Throttling",
+          "Neo4j",
+          "ClickHouse",
+          "Influx DB",
+          "Monitoring",
+          "Backpressure",
+          "AWS Neptune",
+          "Cassandra",
+          "TimescaleDB",
+          "Loadshifting",
+          "Telemetry",
+          "DGraph",
+          "ScyllaDB"
+        ],
+        "submodules": [
+          {
+            "name": "Basic Operations Skills",
+            "status": "pending"
+          },
+          {
+            "name": "Building For Scale",
+            "status": "pending"
+          },
+          {
+            "name": "Realtime",
+            "status": "pending"
+          },
+          {
+            "name": "Document DBs",
+            "status": "pending"
+          },
+          {
+            "name": "Key-Value",
+            "status": "pending"
+          },
+          {
+            "name": "MongoDB",
+            "status": "pending"
+          },
+          {
+            "name": "Firebase",
+            "status": "pending"
+          },
+          {
+            "name": "Mitigation Strategies",
+            "status": "pending"
+          },
+          {
+            "name": "Observability",
+            "status": "pending"
+          },
+          {
+            "name": "DynamoDB",
+            "status": "pending"
+          },
+          {
+            "name": "CouchDB",
+            "status": "pending"
+          },
+          {
+            "name": "RethinkDB",
+            "status": "pending"
+          },
+          {
+            "name": "Core Concepts",
+            "status": "pending"
+          },
+          {
+            "name": "Graceful Degradation",
+            "status": "pending"
+          },
+          {
+            "name": "Time Series",
+            "status": "pending"
+          },
+          {
+            "name": "Graph DBs",
+            "status": "pending"
+          },
+          {
+            "name": "Column DBs",
+            "status": "pending"
+          },
+          {
+            "name": "Instrumentation",
+            "status": "pending"
+          },
+          {
+            "name": "Throttling",
+            "status": "pending"
+          },
+          {
+            "name": "Neo4j",
+            "status": "pending"
+          },
+          {
+            "name": "ClickHouse",
+            "status": "pending"
+          },
+          {
+            "name": "Influx DB",
+            "status": "pending"
+          },
+          {
+            "name": "Monitoring",
+            "status": "pending"
+          },
+          {
+            "name": "Backpressure",
+            "status": "pending"
+          },
+          {
+            "name": "AWS Neptune",
+            "status": "pending"
+          },
+          {
+            "name": "Cassandra",
+            "status": "pending"
+          },
+          {
+            "name": "TimescaleDB",
+            "status": "pending"
+          },
+          {
+            "name": "Loadshifting",
+            "status": "pending"
+          },
+          {
+            "name": "Telemetry",
+            "status": "pending"
+          },
+          {
+            "name": "DGraph",
+            "status": "pending"
+          },
+          {
+            "name": "ScyllaDB",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-6-foundations",
+          "backend-6-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 7,
+        "title": "Circuit Breaker",
+        "subtitle": "Master Circuit Breaker & Core Concepts",
+        "description": "Comprehensive module covering Circuit Breaker. Study key concepts: Circuit Breaker, Have a look at the following relevant tracks, DevOps, Full Stack.",
+        "topics": [
+          "Circuit Breaker",
+          "Have a look at the following relevant tracks",
+          "DevOps",
+          "Full Stack"
+        ],
+        "submodules": [
+          {
+            "name": "Circuit Breaker",
+            "status": "pending"
+          },
+          {
+            "name": "Have a look at the following relevant tracks",
+            "status": "pending"
+          },
+          {
+            "name": "DevOps",
+            "status": "pending"
+          },
+          {
+            "name": "Full Stack",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "backend-7-foundations",
+          "backend-7-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      }
+    ]
+  },
+  {
+    "id": "official-devops",
+    "category": "Role Roadmap",
+    "title": "DevOps Roadmap",
+    "creator": "roadmap.sh (Official)",
+    "description": "Step by step guide for DevOps, SRE or any other Operations Role in @currentYear@",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "DevOps",
+        "subtitle": "Master DevOps & Core Concepts",
+        "description": "Comprehensive module covering DevOps. Study key concepts: DevOps, Visit the Beginner Version, Python, Ruby.",
+        "topics": [
+          "DevOps",
+          "Visit the Beginner Version",
+          "Python",
+          "Ruby",
+          "Learn a Programming Language",
+          "Go",
+          "Rust",
+          "JavaScript / Node.js",
+          "Scripting",
+          "Operating System",
+          "Windows",
+          "Bash",
+          "Power Shell",
+          "Linux",
+          "Process Monitoring",
+          "Unix",
+          "FreeBSD",
+          "Ubuntu / Debian",
+          "Performance Monitoring",
+          "Terminal Knowledge",
+          "OpenBSD",
+          "SUSE Linux",
+          "Networking Tools",
+          "NetBSD"
+        ],
+        "submodules": [
+          {
+            "name": "DevOps",
+            "status": "pending"
+          },
+          {
+            "name": "Visit the Beginner Version",
+            "status": "pending"
+          },
+          {
+            "name": "Python",
+            "status": "pending"
+          },
+          {
+            "name": "Ruby",
+            "status": "pending"
+          },
+          {
+            "name": "Learn a Programming Language",
+            "status": "pending"
+          },
+          {
+            "name": "Go",
+            "status": "pending"
+          },
+          {
+            "name": "Rust",
+            "status": "pending"
+          },
+          {
+            "name": "JavaScript / Node.js",
+            "status": "pending"
+          },
+          {
+            "name": "Scripting",
+            "status": "pending"
+          },
+          {
+            "name": "Operating System",
+            "status": "pending"
+          },
+          {
+            "name": "Windows",
+            "status": "pending"
+          },
+          {
+            "name": "Bash",
+            "status": "pending"
+          },
+          {
+            "name": "Power Shell",
+            "status": "pending"
+          },
+          {
+            "name": "Linux",
+            "status": "pending"
+          },
+          {
+            "name": "Process Monitoring",
+            "status": "pending"
+          },
+          {
+            "name": "Unix",
+            "status": "pending"
+          },
+          {
+            "name": "FreeBSD",
+            "status": "pending"
+          },
+          {
+            "name": "Ubuntu / Debian",
+            "status": "pending"
+          },
+          {
+            "name": "Performance Monitoring",
+            "status": "pending"
+          },
+          {
+            "name": "Terminal Knowledge",
+            "status": "pending"
+          },
+          {
+            "name": "OpenBSD",
+            "status": "pending"
+          },
+          {
+            "name": "SUSE Linux",
+            "status": "pending"
+          },
+          {
+            "name": "Networking Tools",
+            "status": "pending"
+          },
+          {
+            "name": "NetBSD",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-1-foundations",
+          "devops-1-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 2,
+        "title": "RHEL / Derivatives",
+        "subtitle": "Master RHEL / Derivatives & Core Concepts",
+        "description": "Comprehensive module covering RHEL / Derivatives. Study key concepts: RHEL / Derivatives, Text Manipulation, Vim / Nano /  Emacs, Editors.",
+        "topics": [
+          "RHEL / Derivatives",
+          "Text Manipulation",
+          "Vim / Nano /  Emacs",
+          "Editors",
+          "Forward Proxy",
+          "Reverse Proxy",
+          "Version Control Systems",
+          "Git",
+          "Firewall",
+          "Caching Server",
+          "Docker",
+          "Load Balancer",
+          "LXC",
+          "GitHub",
+          "VCS Hosting",
+          "GitLab",
+          "What is and how to setup X ?",
+          "Containers",
+          "Bitbucket",
+          "Nginx",
+          "Caddy",
+          "FTP / SFTP",
+          "DNS",
+          "Tomcat"
+        ],
+        "submodules": [
+          {
+            "name": "RHEL / Derivatives",
+            "status": "pending"
+          },
+          {
+            "name": "Text Manipulation",
+            "status": "pending"
+          },
+          {
+            "name": "Vim / Nano /  Emacs",
+            "status": "pending"
+          },
+          {
+            "name": "Editors",
+            "status": "pending"
+          },
+          {
+            "name": "Forward Proxy",
+            "status": "pending"
+          },
+          {
+            "name": "Reverse Proxy",
+            "status": "pending"
+          },
+          {
+            "name": "Version Control Systems",
+            "status": "pending"
+          },
+          {
+            "name": "Git",
+            "status": "pending"
+          },
+          {
+            "name": "Firewall",
+            "status": "pending"
+          },
+          {
+            "name": "Caching Server",
+            "status": "pending"
+          },
+          {
+            "name": "Docker",
+            "status": "pending"
+          },
+          {
+            "name": "Load Balancer",
+            "status": "pending"
+          },
+          {
+            "name": "LXC",
+            "status": "pending"
+          },
+          {
+            "name": "GitHub",
+            "status": "pending"
+          },
+          {
+            "name": "VCS Hosting",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab",
+            "status": "pending"
+          },
+          {
+            "name": "What is and how to setup X ?",
+            "status": "pending"
+          },
+          {
+            "name": "Containers",
+            "status": "pending"
+          },
+          {
+            "name": "Bitbucket",
+            "status": "pending"
+          },
+          {
+            "name": "Nginx",
+            "status": "pending"
+          },
+          {
+            "name": "Caddy",
+            "status": "pending"
+          },
+          {
+            "name": "FTP / SFTP",
+            "status": "pending"
+          },
+          {
+            "name": "DNS",
+            "status": "pending"
+          },
+          {
+            "name": "Tomcat",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-2-foundations",
+          "devops-2-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Apache",
+        "subtitle": "Master Apache & Core Concepts",
+        "description": "Comprehensive module covering Apache. Study key concepts: Apache, HTTP, HTTPS, IIS.",
+        "topics": [
+          "Apache",
+          "HTTP",
+          "HTTPS",
+          "IIS",
+          "Networking & Protocols",
+          "SSL / TLS",
+          "SSH",
+          "Web Server",
+          "Network Engineer",
+          "OSI Model",
+          "Cloud Providers",
+          "Serverless",
+          "White / Grey Listing",
+          "AWS Lambda",
+          "AWS",
+          "Azure",
+          "SMTP",
+          "DMARC",
+          "Cloudflare",
+          "Google Cloud",
+          "IMAP",
+          "SPF",
+          "Azure Functions",
+          "Digital Ocean"
+        ],
+        "submodules": [
+          {
+            "name": "Apache",
+            "status": "pending"
+          },
+          {
+            "name": "HTTP",
+            "status": "pending"
+          },
+          {
+            "name": "HTTPS",
+            "status": "pending"
+          },
+          {
+            "name": "IIS",
+            "status": "pending"
+          },
+          {
+            "name": "Networking & Protocols",
+            "status": "pending"
+          },
+          {
+            "name": "SSL / TLS",
+            "status": "pending"
+          },
+          {
+            "name": "SSH",
+            "status": "pending"
+          },
+          {
+            "name": "Web Server",
+            "status": "pending"
+          },
+          {
+            "name": "Network Engineer",
+            "status": "pending"
+          },
+          {
+            "name": "OSI Model",
+            "status": "pending"
+          },
+          {
+            "name": "Cloud Providers",
+            "status": "pending"
+          },
+          {
+            "name": "Serverless",
+            "status": "pending"
+          },
+          {
+            "name": "White / Grey Listing",
+            "status": "pending"
+          },
+          {
+            "name": "AWS Lambda",
+            "status": "pending"
+          },
+          {
+            "name": "AWS",
+            "status": "pending"
+          },
+          {
+            "name": "Azure",
+            "status": "pending"
+          },
+          {
+            "name": "SMTP",
+            "status": "pending"
+          },
+          {
+            "name": "DMARC",
+            "status": "pending"
+          },
+          {
+            "name": "Cloudflare",
+            "status": "pending"
+          },
+          {
+            "name": "Google Cloud",
+            "status": "pending"
+          },
+          {
+            "name": "IMAP",
+            "status": "pending"
+          },
+          {
+            "name": "SPF",
+            "status": "pending"
+          },
+          {
+            "name": "Azure Functions",
+            "status": "pending"
+          },
+          {
+            "name": "Digital Ocean",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-3-foundations",
+          "devops-3-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 4,
+        "title": "POP3S",
+        "subtitle": "Master POP3S & Core Concepts",
+        "description": "Comprehensive module covering POP3S. Study key concepts: POP3S, Vercel, Hetzner, Render.",
+        "topics": [
+          "POP3S",
+          "Vercel",
+          "Hetzner",
+          "Render",
+          "Domain Keys",
+          "Netlify",
+          "Alibaba Cloud",
+          "Email Protocols",
+          "GCP Functions",
+          "Heroku",
+          "Papertrail",
+          "Ansible",
+          "Chef",
+          "Splunk",
+          "Provisioning",
+          "Configuration Management",
+          "Puppet",
+          "Salt",
+          "Loki",
+          "AWS CDK",
+          "Elastic Stack",
+          "Railway",
+          "Buildkite",
+          "CloudFormation"
+        ],
+        "submodules": [
+          {
+            "name": "POP3S",
+            "status": "pending"
+          },
+          {
+            "name": "Vercel",
+            "status": "pending"
+          },
+          {
+            "name": "Hetzner",
+            "status": "pending"
+          },
+          {
+            "name": "Render",
+            "status": "pending"
+          },
+          {
+            "name": "Domain Keys",
+            "status": "pending"
+          },
+          {
+            "name": "Netlify",
+            "status": "pending"
+          },
+          {
+            "name": "Alibaba Cloud",
+            "status": "pending"
+          },
+          {
+            "name": "Email Protocols",
+            "status": "pending"
+          },
+          {
+            "name": "GCP Functions",
+            "status": "pending"
+          },
+          {
+            "name": "Heroku",
+            "status": "pending"
+          },
+          {
+            "name": "Papertrail",
+            "status": "pending"
+          },
+          {
+            "name": "Ansible",
+            "status": "pending"
+          },
+          {
+            "name": "Chef",
+            "status": "pending"
+          },
+          {
+            "name": "Splunk",
+            "status": "pending"
+          },
+          {
+            "name": "Provisioning",
+            "status": "pending"
+          },
+          {
+            "name": "Configuration Management",
+            "status": "pending"
+          },
+          {
+            "name": "Puppet",
+            "status": "pending"
+          },
+          {
+            "name": "Salt",
+            "status": "pending"
+          },
+          {
+            "name": "Loki",
+            "status": "pending"
+          },
+          {
+            "name": "AWS CDK",
+            "status": "pending"
+          },
+          {
+            "name": "Elastic Stack",
+            "status": "pending"
+          },
+          {
+            "name": "Railway",
+            "status": "pending"
+          },
+          {
+            "name": "Buildkite",
+            "status": "pending"
+          },
+          {
+            "name": "CloudFormation",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-4-foundations",
+          "devops-4-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Graylog",
+        "subtitle": "Master Graylog & Core Concepts",
+        "description": "Comprehensive module covering Graylog. Study key concepts: Graylog, Jenkins, TeamCity, Pulumi.",
+        "topics": [
+          "Graylog",
+          "Jenkins",
+          "TeamCity",
+          "Pulumi",
+          "CI / CD Tools",
+          "GitLab CI",
+          "Circle CI",
+          "Terraform",
+          "Logs Management",
+          "Octopus Deploy",
+          "GitHub Actions",
+          "Sealed Secrets",
+          "ESO",
+          "Secret Management",
+          "Vault",
+          "SOPs",
+          "Infrastructure Monitoring",
+          "Cloud Specific Tools",
+          "Prometheus",
+          "Artifactory",
+          "Nexus",
+          "ArgoCD",
+          "Grafana",
+          "Cloud Smith"
+        ],
+        "submodules": [
+          {
+            "name": "Graylog",
+            "status": "pending"
+          },
+          {
+            "name": "Jenkins",
+            "status": "pending"
+          },
+          {
+            "name": "TeamCity",
+            "status": "pending"
+          },
+          {
+            "name": "Pulumi",
+            "status": "pending"
+          },
+          {
+            "name": "CI / CD Tools",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab CI",
+            "status": "pending"
+          },
+          {
+            "name": "Circle CI",
+            "status": "pending"
+          },
+          {
+            "name": "Terraform",
+            "status": "pending"
+          },
+          {
+            "name": "Logs Management",
+            "status": "pending"
+          },
+          {
+            "name": "Octopus Deploy",
+            "status": "pending"
+          },
+          {
+            "name": "GitHub Actions",
+            "status": "pending"
+          },
+          {
+            "name": "Sealed Secrets",
+            "status": "pending"
+          },
+          {
+            "name": "ESO",
+            "status": "pending"
+          },
+          {
+            "name": "Secret Management",
+            "status": "pending"
+          },
+          {
+            "name": "Vault",
+            "status": "pending"
+          },
+          {
+            "name": "SOPs",
+            "status": "pending"
+          },
+          {
+            "name": "Infrastructure Monitoring",
+            "status": "pending"
+          },
+          {
+            "name": "Cloud Specific Tools",
+            "status": "pending"
+          },
+          {
+            "name": "Prometheus",
+            "status": "pending"
+          },
+          {
+            "name": "Artifactory",
+            "status": "pending"
+          },
+          {
+            "name": "Nexus",
+            "status": "pending"
+          },
+          {
+            "name": "ArgoCD",
+            "status": "pending"
+          },
+          {
+            "name": "Grafana",
+            "status": "pending"
+          },
+          {
+            "name": "Cloud Smith",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-5-foundations",
+          "devops-5-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 6,
+        "title": "FluxCD",
+        "subtitle": "Master FluxCD & Core Concepts",
+        "description": "Comprehensive module covering FluxCD. Study key concepts: FluxCD, Zabbix, Datadog, Container Orchestration.",
+        "topics": [
+          "FluxCD",
+          "Zabbix",
+          "Datadog",
+          "Container Orchestration",
+          "Artifact Management",
+          "GitOps",
+          "Observability",
+          "vertical node",
+          "Jaeger",
+          "GKE / EKS / AKS",
+          "Istio",
+          "New Relic",
+          "AWS ECS / Fargate",
+          "Consul",
+          "Service Mesh",
+          "Docker Swarm",
+          "Linkerd",
+          "Envoy",
+          "OpenTelemetry",
+          "OpenShift",
+          "Dynatrace",
+          "Availability",
+          "Data Management",
+          "Cloud Design Patterns"
+        ],
+        "submodules": [
+          {
+            "name": "FluxCD",
+            "status": "pending"
+          },
+          {
+            "name": "Zabbix",
+            "status": "pending"
+          },
+          {
+            "name": "Datadog",
+            "status": "pending"
+          },
+          {
+            "name": "Container Orchestration",
+            "status": "pending"
+          },
+          {
+            "name": "Artifact Management",
+            "status": "pending"
+          },
+          {
+            "name": "GitOps",
+            "status": "pending"
+          },
+          {
+            "name": "Observability",
+            "status": "pending"
+          },
+          {
+            "name": "vertical node",
+            "status": "pending"
+          },
+          {
+            "name": "Jaeger",
+            "status": "pending"
+          },
+          {
+            "name": "GKE / EKS / AKS",
+            "status": "pending"
+          },
+          {
+            "name": "Istio",
+            "status": "pending"
+          },
+          {
+            "name": "New Relic",
+            "status": "pending"
+          },
+          {
+            "name": "AWS ECS / Fargate",
+            "status": "pending"
+          },
+          {
+            "name": "Consul",
+            "status": "pending"
+          },
+          {
+            "name": "Service Mesh",
+            "status": "pending"
+          },
+          {
+            "name": "Docker Swarm",
+            "status": "pending"
+          },
+          {
+            "name": "Linkerd",
+            "status": "pending"
+          },
+          {
+            "name": "Envoy",
+            "status": "pending"
+          },
+          {
+            "name": "OpenTelemetry",
+            "status": "pending"
+          },
+          {
+            "name": "OpenShift",
+            "status": "pending"
+          },
+          {
+            "name": "Dynatrace",
+            "status": "pending"
+          },
+          {
+            "name": "Availability",
+            "status": "pending"
+          },
+          {
+            "name": "Data Management",
+            "status": "pending"
+          },
+          {
+            "name": "Cloud Design Patterns",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-6-foundations",
+          "devops-6-advanced"
+        ],
+        "icon": "code",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 7,
+        "title": "Design and Implementation",
+        "subtitle": "Master Design and Implementation & Core Concepts",
+        "description": "Comprehensive module covering Design and Implementation. Study key concepts: Design and Implementation, Management and Monitoring, Have a look at the following relevant roadmaps, Backend.",
+        "topics": [
+          "Design and Implementation",
+          "Management and Monitoring",
+          "Have a look at the following relevant roadmaps",
+          "Backend",
+          "Kubernetes"
+        ],
+        "submodules": [
+          {
+            "name": "Design and Implementation",
+            "status": "pending"
+          },
+          {
+            "name": "Management and Monitoring",
+            "status": "pending"
+          },
+          {
+            "name": "Have a look at the following relevant roadmaps",
+            "status": "pending"
+          },
+          {
+            "name": "Backend",
+            "status": "pending"
+          },
+          {
+            "name": "Kubernetes",
+            "status": "pending"
+          }
+        ],
+        "problems": [
+          "devops-7-foundations",
+          "devops-7-advanced"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
+      }
+    ]
+  }
+]

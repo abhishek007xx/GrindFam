@@ -1,4 +1,5 @@
 import rawCsvData from '../data/comprehensive_role_and_sheet_roadmaps.csv?raw';
+import detailedJsonData from '../data/detailed_roadmaps_data.json';
 
 function parseCSV(csvText) {
   const lines = [];
@@ -94,6 +95,23 @@ parsedRows.forEach(row => {
     sourceUrl: row.Source_URL || 'https://roadmap.sh'
   });
 });
+
+// Merge deeply scraped JSON roadmaps (e.g. postgresql-dba, frontend, backend, devops)
+if (Array.isArray(detailedJsonData)) {
+  detailedJsonData.forEach(item => {
+    let targetId = item.id.replace('official-', 'role-');
+    if (item.id === 'official-postgresql-dba') targetId = 'role-postgresql-dba';
+
+    roadmapsMap.set(targetId, {
+      id: targetId,
+      category: item.category,
+      title: item.title,
+      creator: item.creator,
+      description: item.description,
+      steps: item.steps
+    });
+  });
+}
 
 // Sort steps by stepNumber for each roadmap
 roadmapsMap.forEach(rm => {

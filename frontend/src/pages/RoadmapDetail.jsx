@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InfographicRoadmapPath from '../components/InfographicRoadmapPath';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
@@ -197,129 +198,23 @@ export function RoadmapDetail() {
             </div>
           </div>
 
-          {/* 🛣️ WINDING INFOGRAPHIC ROADMAP VIEW (Inspired by roadmap.sh) */}
+          {/* 🛣️ WINDING INFOGRAPHIC ROADMAP VIEW (Inspired by roadmap.sh & Reference Image) */}
           <div className="relative bg-[#0d1117] border border-[#30363d] rounded-3xl p-6 md:p-12 overflow-hidden shadow-2xl">
-            <div className="text-center mb-12 space-y-2">
+            <div className="text-center mb-6 space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
                 <Compass className="w-3.5 h-3.5" />
-                <span>Roadmap Infographic Path</span>
+                <span>Interactive Visual Winding Highway Path</span>
               </div>
-              <h2 className="text-2xl font-extrabold text-white">Visual Winding Path</h2>
-              <p className="text-xs text-[#8b949e]">Click any milestone node to inspect study guide & practice problems</p>
+              <h2 className="text-2xl font-extrabold text-white">Roadmap Infographic</h2>
+              <p className="text-xs text-[#8b949e]">Click on any circular milestone pin to inspect deep modules, study guides & problem sets</p>
             </div>
 
-            {/* Winding Path Timeline Container */}
-            <div className="relative max-w-4xl mx-auto py-8">
-              {/* Central Winding Line for Desktop */}
-              <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1.5 bg-gradient-to-b from-indigo-600 via-purple-600 to-emerald-500 rounded-full opacity-30 pointer-events-none hidden md:block" />
-
-              <div className="space-y-12 relative z-10">
-                {roadmap.steps.map((step, idx) => {
-                  const isEven = idx % 2 === 0;
-                  const isDone = completedSteps.includes(step.stepNumber);
-                  const IconComponent = iconMap[step.icon] || Code;
-                  const theme = colorMap[step.color] || colorMap.blue;
-
-                  return (
-                    <div
-                      key={step.stepNumber}
-                      className={`flex flex-col md:flex-row items-center gap-6 ${
-                        isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                      }`}
-                    >
-                      {/* Left/Right Milestone Card */}
-                      <div className="w-full md:w-1/2">
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          onClick={() => setSelectedStep(step)}
-                          className={`p-6 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden group shadow-xl ${
-                            isDone
-                              ? 'bg-emerald-950/20 border-emerald-500/40 ring-1 ring-emerald-500/30'
-                              : `bg-[#161b22]/90 hover:bg-[#1c2128] border-[#30363d] hover:${theme.border}`
-                          }`}
-                        >
-                          <div className="space-y-3">
-                            <div className="flex items-center justify-between">
-                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                                isDone
-                                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-                                  : `${theme.bg} ${theme.text} border ${theme.border}`
-                              }`}>
-                                Step {step.stepNumber}
-                              </span>
-
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleStepCompleted(step.stepNumber);
-                                }}
-                                className="p-1 text-[#8b949e] hover:text-white transition-colors"
-                              >
-                                {isDone ? (
-                                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                                ) : (
-                                  <Circle className="w-5 h-5 text-[#484f58] hover:text-indigo-400" />
-                                )}
-                              </button>
-                            </div>
-
-                            <div>
-                              <h3 className="text-base font-extrabold text-white group-hover:text-indigo-400 transition-colors flex items-center justify-between">
-                                <span>{step.title}</span>
-                                <ChevronRight className="w-4 h-4 text-[#6e7681] group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" />
-                              </h3>
-                              <p className="text-xs text-[#8b949e] mt-1 leading-relaxed">
-                                {step.subtitle}
-                              </p>
-                            </div>
-
-                            {/* Topics Pills */}
-                            {step.topics.length > 0 && (
-                              <div className="flex items-center gap-1.5 flex-wrap pt-2 border-t border-[#21262d]">
-                                {step.topics.slice(0, 3).map((t, tIdx) => (
-                                  <span
-                                    key={tIdx}
-                                    className="px-2 py-0.5 rounded-md bg-[#0d1117] border border-[#30363d] text-[10px] text-[#8b949e]"
-                                  >
-                                    {t}
-                                  </span>
-                                ))}
-                                {step.topics.length > 3 && (
-                                  <span className="text-[10px] text-indigo-400 font-semibold">
-                                    +{step.topics.length - 3}
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </motion.div>
-                      </div>
-
-                      {/* Central Glowing Node Bubble */}
-                      <div className="relative z-20 flex-shrink-0">
-                        <div
-                          onClick={() => setSelectedStep(step)}
-                          className={`w-14 h-14 rounded-full border-2 cursor-pointer flex items-center justify-center transition-all duration-300 shadow-2xl ${
-                            isDone
-                              ? 'bg-emerald-500 border-emerald-300 text-slate-950 ring-4 ring-emerald-500/20 scale-110'
-                              : `${theme.bg} ${theme.border} ${theme.text} hover:scale-110 hover:ring-4 ${theme.ring}`
-                          }`}
-                        >
-                          {isDone ? (
-                            <Check className="w-6 h-6 stroke-[3]" />
-                          ) : (
-                            <IconComponent className="w-6 h-6" />
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Spacer for desktop layout */}
-                      <div className="w-full md:w-1/2 hidden md:block" />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+            <InfographicRoadmapPath
+              steps={roadmap.steps}
+              completedSteps={completedSteps}
+              onToggleStep={toggleStepCompleted}
+              onSelectStep={setSelectedStep}
+            />
           </div>
         </main>
       </div>
