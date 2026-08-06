@@ -158,6 +158,25 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  // Send password reset email
+  const resetPassword = async (email) => {
+    const redirectUrl = `${window.location.origin}/reset-password`;
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectUrl,
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  // Update password for authenticated or recovery session user
+  const updatePassword = async (newPassword) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    if (error) throw error;
+    return data;
+  };
+
   // Sign Out
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -176,6 +195,8 @@ export const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     signInWithGoogle,
+    resetPassword,
+    updatePassword,
     signOut,
     refreshProfile: () => user && fetchProfile(user.id, user.email, user.user_metadata)
   };
@@ -194,4 +215,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
 
