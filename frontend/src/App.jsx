@@ -113,8 +113,22 @@ function App() {
             }
           />
 
-          <Route path="/companies" element={<Navigate to="/sheets" replace />} />
-          <Route path="/company/*" element={<Navigate to="/sheets" replace />} />
+          <Route
+            path="/companies"
+            element={
+              <ProtectedRoute>
+                <CompaniesGrid />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/company/:companySlug/:trackId"
+            element={
+              <ProtectedRoute>
+                <TrackDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/sheets"
             element={
