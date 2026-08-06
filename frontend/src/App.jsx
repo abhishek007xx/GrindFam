@@ -14,6 +14,7 @@ import SheetDetail from './pages/SheetDetail';
 import RoadmapsExplorer from './pages/RoadmapsExplorer';
 import RoadmapDetail from './pages/RoadmapDetail';
 import TopicProblems from './pages/TopicProblems';
+import SquadHub from './pages/SquadHub';
 import LandingPage from './pages/LandingPage';
 
 // Protected Route Component
@@ -158,6 +159,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <RoadmapDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/squad"
+            element={
+              <ProtectedRoute>
+                <SquadHub />
               </ProtectedRoute>
             }
           />

@@ -23,7 +23,7 @@ const mainNavItems = [
 ];
 
 const socialNavItems = [
-  { id: 'squadOptions', label: 'Squad Options', icon: Shield, path: null },
+  { id: 'squad', label: 'Squad Hub', icon: Shield, path: '/squad' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'friends', label: 'Friends', icon: Users, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/', scrollTo: 'add-friend-section' },
