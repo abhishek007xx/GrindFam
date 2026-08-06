@@ -257,10 +257,10 @@ add_node(
 )
 
 # ==============================================================================
-# 2. COMPANY ROADMAPS
+# 2. COMPANY ROADMAPS (EXPANDED TO ALL MAJOR TECH COMPANIES)
 # ==============================================================================
 
-# --- Google SDE Interview Roadmap ---
+# --- Google ---
 add_node(
     "Company Roadmap", "company-google", "Google SDE Interview Roadmap", "Google Tech Guidelines",
     1, "Google Round 1: Online Assessment", "Speed & Graph/Array Precision",
@@ -286,7 +286,7 @@ add_node(
     "award", "yellow", "https://careers.google.com"
 )
 
-# --- Amazon SDE Interview Roadmap ---
+# --- Amazon ---
 add_node(
     "Company Roadmap", "company-amazon", "Amazon SDE Interview Roadmap", "Amazon Engineering Guidelines",
     1, "Amazon OA: Coding & Work Simulation", "Debugging, Coding & Work Style Assessment",
@@ -304,7 +304,7 @@ add_node(
     "award", "indigo", "https://amazon.jobs"
 )
 
-# --- Microsoft SDE Interview Roadmap ---
+# --- Microsoft ---
 add_node(
     "Company Roadmap", "company-microsoft", "Microsoft SDE Interview Roadmap", "Microsoft Interview Process",
     1, "Microsoft Codility OA", "Bit Manipulation, Arrays & String Processing",
@@ -320,6 +320,114 @@ add_node(
     "Binary Trees, Matrix DFS, DP, LLD, System Architecture, AA Round Prep",
     "serialize-and-deserialize-binary-tree, lru-cache, design-tic-tac-toe",
     "cloud", "blue", "https://careers.microsoft.com"
+)
+
+# --- Meta (Facebook) ---
+add_node(
+    "Company Roadmap", "company-meta", "Meta (Facebook) SDE Interview Roadmap", "Meta Engineering Recruiting",
+    1, "Meta Screening: 2 Questions in 45 Mins", "Maximum Speed & High Frequency",
+    "Meta screening requires solving 2 LeetCode questions in 45 minutes with optimal time complexity and zero syntax bugs. Focus heavily on Top 50 Meta Questions.",
+    "Top Meta Questions, Two Pointers, String Parsing, Trees, Speed",
+    "valid-palindrome-ii, 3sum, lowest-common-ancestor-of-a-binary-tree, subarray-sum-equals-k",
+    "code", "blue", "https://metacareers.com"
+)
+add_node(
+    "Company Roadmap", "company-meta", "Meta (Facebook) SDE Interview Roadmap", "Meta Engineering Recruiting",
+    2, "Meta Technical Onsite & Product System Design", "Coding Onsite & Scale Architecture",
+    "Complete 2 coding onsite rounds + Product/System Design (e.g., Newsfeed, Messenger, Instagram Stories). Focus on data model, API contracts, caching, and rate limiting.",
+    "Graph DFS, Tree Traversals, System Design, Caching, Newsfeed Architecture",
+    "vertical-order-traversal-of-a-binary-tree, design-news-feed, design-live-commenting",
+    "database", "purple", "https://metacareers.com"
+)
+
+# --- Apple ---
+add_node(
+    "Company Roadmap", "company-apple", "Apple Software Engineer Roadmap", "Apple Hiring Process",
+    1, "Apple Technical Screen & Core Concepts", "Low-Level Fundamentals & Algorithms",
+    "Focus on C++/Swift/Java low-level memory management, Object-Oriented Programming, Data Structure fundamentals, Bitwise tricks, and String algorithms.",
+    "C++, Memory Management, OOP, Bit Manipulation, Arrays, Strings",
+    "lru-cache, reverse-bits, implement-trie-prefix-tree",
+    "code", "teal", "https://apple.com/careers"
+)
+add_node(
+    "Company Roadmap", "company-apple", "Apple Software Engineer Roadmap", "Apple Hiring Process",
+    2, "Apple Onsite: System Architecture & Culture", "System Quality, Modularization & Testing",
+    "Apple onsite evaluates clean architecture, modular software engineering, privacy-first design, concurrency/multi-threading, and hardware-software integration.",
+    "Concurrency, Multi-Threading, System Architecture, Modular Design, Privacy",
+    "print-in-order, design-bounded-blocking-queue, apple-culture-alignment",
+    "shield", "indigo", "https://apple.com/careers"
+)
+
+# --- Netflix ---
+add_node(
+    "Company Roadmap", "company-netflix", "Netflix Senior SDE Interview Roadmap", "Netflix Culture & Engineering",
+    1, "Netflix Technical Screening & Architecture", "Resilience & Microservices Focus",
+    "Netflix focuses on senior-level engineering. Demonstrate deep knowledge of Microservice architectures, API Gateway design, Distributed Caching (Memcached/Redis), and fault-tolerance.",
+    "Microservices, Resilience, Circuit Breakers, Redis, Distributed Systems",
+    "design-video-streaming-service, design-recommendation-engine, fault-tolerant-gateway",
+    "cloud", "red", "https://jobs.netflix.com"
+)
+add_node(
+    "Company Roadmap", "company-netflix", "Netflix Senior SDE Interview Roadmap", "Netflix Culture & Engineering",
+    2, "Netflix Culture Memo & Keeper Test Round", "Freedom & Responsibility Alignment",
+    "Netflix conducts intensive culture rounds based on their famous Culture Memo (Freedom & Responsibility, High Performance, Stunning Colleagues, Context Not Control).",
+    "Culture Memo, Keeper Test, Freedom & Responsibility, High Performance",
+    "netflix-culture-alignment, keeper-test-scenarios, leadership-tradeoffs",
+    "award", "yellow", "https://jobs.netflix.com"
+)
+
+# --- Uber ---
+add_node(
+    "Company Roadmap", "company-uber", "Uber Core Engineering Roadmap", "Uber Tech Recruiting",
+    1, "Uber CodeSignal OA & Spatial Algorithms", "CodeSignal Speed & Graph / Matrix Focus",
+    "Uber CodeSignal OA has 4 tasks in 70 mins. Onsite coding heavily emphasizes Graph algorithms (Dijkstra, Topological Sort), Spatial Indexing (QuadTrees / H3), and Hard DP.",
+    "CodeSignal Speed, Graph Algorithms, Dijkstra, Spatial Indexing, Hard DP",
+    "bus-routes, shortest-path-in-a-grid-with-obstacles-elimination, sliding-puzzle",
+    "zap", "black", "https://uber.com/careers"
+)
+add_node(
+    "Company Roadmap", "company-uber", "Uber Core Engineering Roadmap", "Uber Tech Recruiting",
+    2, "Uber High-Scale System Design", "Real-Time Driver Matching & Surge Engine",
+    "Design real-time distributed systems: Rider-Driver Matching Engine, Surge Pricing Calculator, Trip Location Tracking, and High-Throughput Notification dispatching.",
+    "Geospatial Indexing, Real-time Systems, Kafka, Surge Engine Design",
+    "design-uber-ride-matching, design-surge-pricing, geospatial-indexing-h3",
+    "database", "green", "https://uber.com/careers"
+)
+
+# --- Swiggy & Zomato ---
+add_node(
+    "Company Roadmap", "company-swiggy", "Swiggy & Zomato SDE Interview Roadmap", "Hyperlocal Tech Standards",
+    1, "Coding Round: High Frequency Arrays & Graphs", "Matrix & Greedy Routing Algorithms",
+    "Solve algorithmic problems on Arrays, Two Pointers, Sliding Window, Matrix Shortest Path, and Graph Traversals tailored for delivery logistics.",
+    "Arrays, Sliding Window, Matrix BFS/DFS, Shortest Path Routing",
+    "3sum, number-of-islands, shortest-path-in-binary-matrix, coin-change",
+    "code", "orange", "https://careers.swiggy.com"
+)
+add_node(
+    "Company Roadmap", "company-swiggy", "Swiggy & Zomato SDE Interview Roadmap", "Hyperlocal Tech Standards",
+    2, "Machine Coding & High Scale HLD", "Order Engine LLD & Flash Sale HLD",
+    "Machine coding round: Implement fully functional Order Processing Engine or Delivery Agent Assignment in 90 mins. HLD round: Design Flash Sale & Hyper-local Delivery Engine.",
+    "Machine Coding, LLD, Order Processing Engine, Flash Sale HLD, Redis",
+    "design-food-delivery-system, machine-coding-order-management, redis-geospatial",
+    "database", "red", "https://zomato.com/careers"
+)
+
+# --- Flipkart & Razorpay ---
+add_node(
+    "Company Roadmap", "company-flipkart", "Flipkart & Razorpay SDE Interview Roadmap", "Fintech & E-Commerce Standards",
+    1, "90-Minute Machine Coding Round", "Object-Oriented Design & Clean Code",
+    "Write fully executable, clean, modular object-oriented code for a problem statement (e.g. Payment Gateway Aggregator, Inventory Management, Coupon Discount System).",
+    "Machine Coding, Clean Code, SOLID Principles, Extensible Architecture",
+    "machine-coding-payment-gateway, machine-coding-inventory-system, lru-cache",
+    "tool", "blue", "https://flipkartcareers.com"
+)
+add_node(
+    "Company Roadmap", "company-flipkart", "Flipkart & Razorpay SDE Interview Roadmap", "Fintech & E-Commerce Standards",
+    2, "Fintech HLD & Idempotent Systems", "Distributed Transactions & Idempotency",
+    "Design high-reliability systems: Idempotent Payment Processing, Distributed Ledger, Rate Limiting, Transactional Outbox Pattern, and Double-Entry Accounting Architecture.",
+    "Idempotency, Distributed Transactions, Transactional Outbox, Payment Ledger",
+    "design-payment-gateway, design-wallet-system, idempotent-api-design",
+    "shield", "green", "https://razorpay.com/jobs"
 )
 
 # ==============================================================================
