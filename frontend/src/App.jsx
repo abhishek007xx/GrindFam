@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import SettingsPage from './pages/Settings';
 import Dashboard from './pages/Dashboard';
 import CompaniesGrid from './pages/CompaniesGrid';
 import TrackDetail from './pages/TrackDetail';
@@ -128,6 +129,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <TopicProblems />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsPage />
               </ProtectedRoute>
             }
           />

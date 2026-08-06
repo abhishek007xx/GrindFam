@@ -31,7 +31,7 @@ const socialNavItems = [
 const settingsNavItems = [
   { id: 'editTarget', label: 'Edit Target', icon: Pencil, path: null },
   { id: 'activity', label: 'Activity', icon: Activity, path: '/', scrollTo: 'activity-section' },
-  { id: 'settings', label: 'Settings', icon: Settings, path: null },
+  { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
 ];
 
 const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpenSquadModal, platformTotal = 0 }) => {
@@ -63,7 +63,7 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
 
   const handleClick = (item) => {
     if (item.id === 'settings') {
-      setIsSettingsOpen(true);
+      navigate('/settings');
       setMobileOpen(false);
       return;
     }
