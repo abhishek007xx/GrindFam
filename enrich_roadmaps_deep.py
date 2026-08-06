@@ -1,0 +1,294 @@
+import json
+import os
+
+roadmaps = [
+    {
+        "id": "role-postgresql-dba",
+        "category": "Role Roadmap",
+        "title": "PostgreSQL DBA & Database Architect",
+        "creator": "roadmap.sh & PostgreSQL Official Docs",
+        "description": "Exhaustive step-by-step masterclass to become an enterprise PostgreSQL DB Administrator and Database Architect.",
+        "steps": [
+            {
+                "stepNumber": 1,
+                "title": "Relational Database Fundamentals & PostgreSQL Core",
+                "subtitle": "RDBMS Architecture, Relational Algebra, ACID & MVCC Mechanics",
+                "description": "Deep dive into relational database theory, set operations, data integrity constraints, and core PostgreSQL storage abstractions. Master Multi-Version Concurrency Control (MVCC) and transaction isolation levels.",
+                "guide": """### 📌 1. RDBMS vs NoSQL & Object-Relational Model
+PostgreSQL is an Object-Relational Database Management System (ORDBMS) supporting extensible data types, table inheritance, custom functions, and JSONB document storage while maintaining ACID compliance.
+
+### ⚙️ 2. ACID Guarantees & Transaction Isolation Levels
+- **Atomicity**: WAL (Write-Ahead Logging) ensures all or nothing.
+- **Consistency**: Constraints (Foreign Keys, CHECK, UNIQUE, NOT NULL).
+- **Isolation**: Read Committed (default), Repeatable Read, Serializable (SSIU - Serializable Snapshot Isolation).
+- **Durability**: Synchronous WAL commits to non-volatile disk.
+
+### 🧠 3. MVCC Mechanics (Multi-Version Concurrency Control)
+PostgreSQL handles concurrent access by maintaining tuple versions.
+- Every table row (tuple) has hidden system columns: `xmin` (creating transaction ID), `xmax` (deleting/updating transaction ID), `t_ctid` (physical tuple location).
+- Readers do not block writers, and writers do not block readers.""",
+                "codeSnippet": """-- Inspect tuple MVCC metadata in PostgreSQL
+SELECT xmin, xmax, ctid, id, name 
+FROM users 
+WHERE id = 42;
+
+-- Set Transaction Isolation Level
+BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SELECT * FROM accounts WHERE user_id = 101;
+COMMIT;""",
+                "submodules": [
+                    {"name": "Relational Model & Set Theory", "status": "pending"},
+                    {"name": "PostgreSQL vs MySQL / Oracle / MongoDB", "status": "pending"},
+                    {"name": "ACID Properties & Transaction Control (TCL)", "status": "pending"},
+                    {"name": "MVCC Mechanics (xmin, xmax, t_ctid)", "status": "pending"},
+                    {"name": "Transaction Isolation Levels (Read Committed to SSI)", "status": "pending"},
+                    {"name": "Data Types: INT, NUMERIC, UUID, JSONB, ARRAY, TIMESTAMP", "status": "pending"},
+                    {"name": "Table Constraints (FK, CHECK, EXCLUSION)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "Explain MVCC in PostgreSQL and why `xmin` and `xmax` are required.",
+                    "How does Serializable Snapshot Isolation (SSI) prevent Write Skew anomalies?",
+                    "What happens to dead tuple versions when an UPDATE is executed?"
+                ],
+                "topics": ["RDBMS", "ACID", "MVCC", "xmin/xmax", "Isolation Levels", "JSONB", "Constraints"],
+                "problems": ["postgresql-mvcc-mechanics", "acid-transactions-drill", "jsonb-indexing-exercise"],
+                "icon": "database",
+                "color": "red",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            },
+            {
+                "stepNumber": 2,
+                "title": "PostgreSQL Architecture & Storage Internals",
+                "subtitle": "Process Model, Shared Buffers Memory, WAL Writer & Page Layout",
+                "description": "Understand the PostgreSQL process hierarchy, memory structures (Shared Buffers, Work Mem, Maintenance Work Mem), WAL archiving mechanics, and 8KB heap page layouts.",
+                "guide": """### 🏗️ 1. Process Architecture
+- **Postmaster (Main Process)**: Listens on TCP port 5432 and forks backend worker processes for incoming client connections.
+- **Background Writer (bgwriter)**: Flushes dirty shared buffers to disk asynchronously.
+- **Checkpointer**: Issues system-wide checkpoints to guarantee crash recovery point.
+- **WAL Writer**: Writes Write-Ahead Log buffers to disk.
+- **Autovacuum Launcher & Workers**: Reclaims dead tuple space and updates table statistics.
+
+### 💾 2. Memory Architecture & Page Storage
+- **Shared Buffers**: Caches database pages in RAM (typically 25% of total system RAM).
+- **Work Mem**: Allocated per sort/hash operation per query session (e.g. `64MB`).
+- **Heap Page Layout**: Default 8KB pages containing PageHeader, ItemPointers, Free Space, and Tuples.""",
+                "codeSnippet": """# Inspect active PostgreSQL processes on Linux
+ps aux | grep postgres
+
+-- Query Memory and Shared Buffer hit ratio in SQL
+SELECT 
+  sum(heap_blks_read) as heap_read,
+  sum(heap_blks_hit)  as heap_hit,
+  sum(heap_blks_hit) / (sum(heap_blks_hit) + sum(heap_blks_read)) * 100 AS cache_hit_ratio
+FROM pg_statio_user_tables;""",
+                "submodules": [
+                    {"name": "Postmaster & Backend Worker Process Lifecycle", "status": "pending"},
+                    {"name": "Shared Buffers Architecture & Clock Sweep Algorithm", "status": "pending"},
+                    {"name": "Work Mem & Maintenance Work Mem Tuning", "status": "pending"},
+                    {"name": "Write-Ahead Logging (WAL) & WAL Segments", "status": "pending"},
+                    {"name": "Checkpointer & FLUSH Mechanics", "status": "pending"},
+                    {"name": "8KB Heap Page Layout (Header, Line Pointers, Tuples)", "status": "pending"},
+                    {"name": "Tablespaces & Data Directory File Hierarchy ($PGDATA)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "What is the difference between Background Writer and Checkpointer?",
+                    "How do you calculate the optimal setting for `shared_buffers` and `work_mem`?",
+                    "What is a WAL file and why is Write-Ahead Logging mandatory for durability?"
+                ],
+                "topics": ["Postmaster", "Shared Buffers", "WAL Writer", "Checkpointer", "work_mem", "Heap Pages"],
+                "problems": ["shared-buffers-tuning", "wal-archive-configuration", "heap-page-inspection"],
+                "icon": "cloud",
+                "color": "yellow",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            },
+            {
+                "stepNumber": 3,
+                "title": "Query Optimization, EXPLAIN ANALYZE & Indexing",
+                "subtitle": "Execution Plans, B-Tree, GIN, GiST, BRIN & Index Strategies",
+                "description": "Master query cost estimation, EXPLAIN ANALYZE plan interpretation, sequential vs index scans, join algorithms (Nested Loop, Hash Join, Merge Join), and advanced index types.",
+                "guide": """### 🔍 1. EXPLAIN ANALYZE Execution Plans
+- **Cost Estimate**: `cost=0.00..458.00 rows=100 width=32`.
+- **Actual Time**: `actual time=0.045..2.110 rows=98 loops=1`.
+- **Buffers Audit**: Use `EXPLAIN (ANALYZE, BUFFERS)` to track Shared Read vs Shared Hit.
+
+### ⚡ 2. Index Types & Production Use Cases
+- **B-Tree**: Default. Equality and range queries (`=, <, <=, >, >=`).
+- **GIN (Generalized Inverted Index)**: Multi-key indexing for JSONB, Arrays, Full-Text Search.
+- **GiST**: Spatial geometry (PostGIS), Range types, Nearest Neighbor (KNN).
+- **BRIN (Block Range Index)**: Ultra-lightweight indexing for massive append-only time series data.""",
+                "codeSnippet": """-- Analyze query execution plan with buffer statistics
+EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
+SELECT u.id, u.email, o.total_amount
+FROM users u
+JOIN orders o ON u.id = o.user_id
+WHERE o.created_at >= '2026-01-01';
+
+-- Create Concurrent Partial GIN Index on JSONB field
+CREATE INDEX CONCURRENTLY idx_users_metadata_active 
+ON users USING GIN ((metadata -> 'tags'))
+WHERE is_active = true;""",
+                "submodules": [
+                    {"name": "EXPLAIN ANALYZE & Cost Planner Cost Metrics", "status": "pending"},
+                    {"name": "Buffer Audit (Shared Hit vs Disk Read)", "status": "pending"},
+                    {"name": "Join Strategies: Nested Loop, Hash Join, Merge Join", "status": "pending"},
+                    {"name": "B-Tree Index Internals & Index Scans vs Bitmap Scans", "status": "pending"},
+                    {"name": "GIN Indexes for JSONB & Full Text Search", "status": "pending"},
+                    {"name": "GiST & BRIN Indexes for Spatial & Time-Series Data", "status": "pending"},
+                    {"name": "Partial Indexes, Expression Indexes & Cover Indexes (INCLUDE)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "Why does PostgreSQL choose Sequential Scan over Index Scan for high selectivity queries?",
+                    "When should you use GIN index over B-Tree index?",
+                    "What is the risk of using `CREATE INDEX` without `CONCURRENTLY` on a live production table?"
+                ],
+                "topics": ["EXPLAIN ANALYZE", "B-Tree", "GIN", "GiST", "BRIN", "Hash Join", "CONCURRENTLY"],
+                "problems": ["explain-analyze-optimization", "gin-index-jsonb-drill", "index-scan-vs-bitmap-scan"],
+                "icon": "zap",
+                "color": "blue",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            },
+            {
+                "stepNumber": 4,
+                "title": "Autovacuum, Bloat Management & Transaction Wraparound",
+                "subtitle": "Reclaiming Dead Tuples, Free Space Map & XID Freeze",
+                "description": "Prevent production outages caused by table/index bloat and 32-bit Transaction ID (XID) wraparound. Configure autovacuum workers and table-level autovacuum parameters.",
+                "guide": """### 🧹 1. Why Autovacuum is Critical
+In PostgreSQL, `UPDATE` and `DELETE` do not physically remove tuples. They leave dead tuple versions. Autovacuum reclaims dead tuple slots, updates the Free Space Map (FSM) and Visibility Map (VM), and updates `pg_statistic`.
+
+### ⚠️ 2. Transaction ID (XID) Wraparound Crisis
+PostgreSQL transaction IDs are 32-bit integers (4.2 billion transactions).
+- If un-vacuumed, the database will shut down and refuse incoming writes to prevent data corruption!
+- Autovacuum performs emergency FREEZE operations to reset older `xmin` values.""",
+                "codeSnippet": """-- Check table bloat and dead tuple count
+SELECT 
+  relname, 
+  n_dead_tup, 
+  n_live_tup,
+  round(n_dead_tup * 100.0 / nullif(n_live_tup + n_dead_tup, 0), 2) AS dead_tuple_percent,
+  last_autovacuum
+FROM pg_stat_user_tables
+ORDER BY n_dead_tup DESC;
+
+-- Tune Autovacuum for a high-write table
+ALTER TABLE orders SET (
+  autovacuum_vacuum_scale_factor = 0.05,
+  autovacuum_vacuum_threshold = 500,
+  autovacuum_vacuum_cost_limit = 2000
+);""",
+                "submodules": [
+                    {"name": "Dead Tuples & Free Space Map (FSM) Mechanics", "status": "pending"},
+                    {"name": "Visibility Map (VM) & Index-Only Scans", "status": "pending"},
+                    {"name": "Autovacuum Scale Factors & Cost-Based Vacuum Delay", "status": "pending"},
+                    {"name": "Transaction ID (XID) 32-Bit Wraparound Emergencies", "status": "pending"},
+                    {"name": "VACUUM FREEZE & Aggressive Vacuuming", "status": "pending"},
+                    {"name": "Zero-Downtime Table De-bloating with pg_repack", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "What happens if PostgreSQL reaches 2 billion un-frozen transactions?",
+                    "How do you troubleshoot a stuck autovacuum worker?",
+                    "How does `pg_repack` reclaim disk space without locking table reads and writes?"
+                ],
+                "topics": ["Autovacuum", "Dead Tuples", "FSM", "Visibility Map", "XID Wraparound", "FREEZE", "pg_repack"],
+                "problems": ["autovacuum-tuning-drill", "xid-wraparound-prevention", "pg-repack-debloat-lab"],
+                "icon": "tool",
+                "color": "teal",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            },
+            {
+                "stepNumber": 5,
+                "title": "High Availability, Replication & Connection Pooling",
+                "subtitle": "Streaming Replication, Logical Replication, PgBouncer & Patroni",
+                "description": "Architect mission-critical high availability: Primary/Replica streaming replication, Logical replication for CDC/microservices, PgBouncer connection pooling, and Patroni failover cluster management.",
+                "guide": """### 🔁 1. Streaming Replication vs Logical Replication
+- **Physical Streaming Replication**: Replaces exact WAL blocks. Read-only standby replicas. Zero schema differences allowed.
+- **Logical Replication**: Pub/Sub model based on logical decoding of WAL. Allows partial table replication, cross-version migration, and CDC.
+
+### 🔌 2. Connection Pooling with PgBouncer
+PostgreSQL uses a process-per-connection model (~10MB RAM per client connection).
+- **PgBouncer** sits in front of Postgres, multiplexing 5,000+ client connections into 50 backend server connections using **Transaction Pooling**.""",
+                "codeSnippet": """# pgbouncer.ini Transaction Pooling Config
+[databases]
+production_db = host=127.0.0.1 port=5432 dbname=production_db
+
+[pgbouncer]
+listen_addr = *
+listen_port = 6432
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+pool_mode = transaction
+max_client_conn = 10000
+default_pool_size = 50
+
+-- Create Logical Replication Publication
+CREATE PUBLICATION order_events FOR TABLE orders, order_items;""",
+                "submodules": [
+                    {"name": "Physical Streaming Replication (Sync vs Async)", "status": "pending"},
+                    {"name": "Logical Replication (Publications & Subscriptions)", "status": "pending"},
+                    {"name": "PgBouncer Connection Pooling (Session, Transaction, Statement Mode)", "status": "pending"},
+                    {"name": "Patroni & DCS (etcd / Consul) High Availability Failover", "status": "pending"},
+                    {"name": "HAPROXY / VIP Load Balancing for Read Replicas", "status": "pending"},
+                    {"name": "Replication Lag Monitoring (pg_stat_replication)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "What is the difference between Session Pooling and Transaction Pooling in PgBouncer?",
+                    "Why can't prepared statements be used easily in PgBouncer Transaction Mode?",
+                    "How does Patroni prevent Split-Brain scenarios during a network partition?"
+                ],
+                "topics": ["Streaming Replication", "Logical Replication", "PgBouncer", "Transaction Pooling", "Patroni", "etcd", "HAPROXY"],
+                "problems": ["pgbouncer-setup-drill", "streaming-replication-lab", "patroni-failover-simulation"],
+                "icon": "cloud",
+                "color": "green",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            },
+            {
+                "stepNumber": 6,
+                "title": "Backup, Point-In-Time Recovery (PITR) & Security",
+                "subtitle": "pg_basebackup, WAL-G/pgBackRest, PITR & pg_hba.conf RBAC",
+                "description": "Execute enterprise disaster recovery strategies: Physical base backups, continuous WAL archiving, Point-In-Time Recovery (PITR), pg_hba.conf client authentication, and audit logging.",
+                "guide": """### 💾 1. Backup Strategies: Logical vs Physical
+- **Logical Backup (`pg_dump`, `pg_dumpall`)**: Exports SQL statements. Slow for multi-terabyte databases.
+- **Physical Backup (`pg_basebackup`, `pgBackRest`, `WAL-G`)**: Takes binary copy of $PGDATA + WAL files. Extremely fast restore.
+
+### ⏪ 2. Point-In-Time Recovery (PITR)
+Allows restoring database state to the exact second right before an accidental `DROP TABLE` or `DELETE` occurred!
+- Restores physical base backup and replays WAL log files up to target timestamp (`recovery_target_time`).""",
+                "codeSnippet": """# Execute Physical Base Backup with pgBackRest
+pgbackrest --stanza=production backup --type=full
+
+-- Configure PITR target in postgresql.conf
+restore_command = 'pgbackrest --stanza=production archive-get %f "%p"'
+recovery_target_time = '2026-08-06 14:29:00 EST'
+recovery_target_action = 'promote'
+
+# pg_hba.conf Client Security Lockdown
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+hostssl production_db   app_user        10.0.0.0/16             scram-sha-256""",
+                "submodules": [
+                    {"name": "Logical Backups (pg_dump, pg_dumpall, parallel jobs)", "status": "pending"},
+                    {"name": "Physical Backups (pg_basebackup & pgBackRest)", "status": "pending"},
+                    {"name": "Continuous WAL Archiving (archive_command / WAL-G)", "status": "pending"},
+                    {"name": "Point-In-Time Recovery (PITR) Execution & Drills", "status": "pending"},
+                    {"name": "Client Authentication Lockdown (pg_hba.conf & SCRAM-SHA-256)", "status": "pending"},
+                    {"name": "Role-Based Access Control (RBAC, GRANT/REVOKE, Row Level Security)", "status": "pending"},
+                    {"name": "Audit Logging (pgaudit & SSL/TLS Mutual Auth)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "How do you perform a Point-In-Time Recovery (PITR) after a dropped database?",
+                    "What is SCRAM-SHA-256 authentication and why is md5 deprecated in Postgres?",
+                    "How does Row Level Security (RLS) isolate multi-tenant SaaS data?"
+                ],
+                "topics": ["pg_dump", "pg_basebackup", "pgBackRest", "PITR", "pg_hba.conf", "SCRAM-SHA-256", "RLS", "pgaudit"],
+                "problems": ["pitr-disaster-recovery-drill", "pghba-security-lockdown", "row-level-security-multi-tenant"],
+                "icon": "shield",
+                "color": "purple",
+                "sourceUrl": "https://roadmap.sh/postgresql-dba"
+            }
+        ]
+    }
+]
+
+out_file = os.path.join("frontend", "src", "data", "detailed_roadmaps_data.json")
+with open(out_file, "w", encoding="utf-8") as f:
+    json.dump(roadmaps, f, indent=2)
+
+print(f"Enriched detailed JSON roadmap saved to {out_file}!")

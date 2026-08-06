@@ -241,7 +241,7 @@ export function RoadmapDetail() {
               <div className="space-y-2 pr-8">
                 <div className="flex items-center gap-2">
                   <span className="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 text-xs font-extrabold">
-                    Step {selectedStep.stepNumber} Milestone
+                    Milestone {selectedStep.stepNumber} Masterclass
                   </span>
                   {completedSteps.includes(selectedStep.stepNumber) && (
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1">
@@ -258,42 +258,80 @@ export function RoadmapDetail() {
                 </p>
               </div>
 
-              {/* Description & Study Guide */}
-              <div className="space-y-2 bg-[#161b22]/80 border border-[#21262d] rounded-2xl p-5">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-[#8b949e] flex items-center gap-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Study Guide & Overview:</span>
+              {/* Exhaustive Study Guide */}
+              <div className="space-y-3 bg-[#161b22]/90 border border-[#21262d] rounded-2xl p-6 shadow-inner">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                  <BookOpen className="w-4 h-4" />
+                  <span>Deep Engineering Guide:</span>
                 </span>
-                <p className="text-sm text-[#e6edf3] leading-relaxed">
+                <p className="text-xs text-[#c9d1d9] leading-relaxed">
                   {selectedStep.description}
                 </p>
+
+                {selectedStep.guide && (
+                  <div className="mt-4 pt-4 border-t border-[#21262d] text-xs text-[#e6edf3] whitespace-pre-line leading-relaxed space-y-2">
+                    {selectedStep.guide}
+                  </div>
+                )}
+
+                {/* Practical Code / Command Snippet */}
+                {selectedStep.codeSnippet && (
+                  <div className="mt-4 space-y-1">
+                    <span className="text-[11px] font-bold text-[#8b949e] uppercase tracking-wider block">
+                      Production Commands / Code Snippet:
+                    </span>
+                    <pre className="p-4 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs font-mono text-emerald-400 overflow-x-auto">
+                      <code>{selectedStep.codeSnippet}</code>
+                    </pre>
+                  </div>
+                )}
               </div>
 
-              {/* Key Topics Covered */}
-              {selectedStep.topics.length > 0 && (
-                <div className="space-y-2">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-[#8b949e] block">
-                    Key Topics Covered:
+              {/* Granular Submodules Checklist */}
+              {selectedStep.submodules && selectedStep.submodules.length > 0 && (
+                <div className="space-y-3">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-[#8b949e] flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>Granular Submodules Checklist ({selectedStep.submodules.length}):</span>
                   </span>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {selectedStep.topics.map((t, idx) => (
-                      <span
-                        key={idx}
-                        className="px-3 py-1.5 rounded-xl bg-[#161b22] border border-[#30363d] text-xs font-semibold text-[#e6edf3]"
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    {selectedStep.submodules.map((sub, sIdx) => (
+                      <div
+                        key={sIdx}
+                        className="p-3 rounded-xl bg-[#161b22] border border-[#30363d] flex items-center gap-2.5 text-xs text-[#e6edf3]"
                       >
-                        {t}
-                      </span>
+                        <span className="w-2 h-2 rounded-full bg-indigo-400 flex-shrink-0" />
+                        <span className="truncate">{sub.name}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
 
+              {/* Top Interview FAQs */}
+              {selectedStep.interviewFaqs && selectedStep.interviewFaqs.length > 0 && (
+                <div className="space-y-3 bg-[#161b22]/50 border border-[#21262d] rounded-2xl p-5">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Top Interview Questions Asked by FAANG & Tier 1 Tech:</span>
+                  </span>
+                  <ul className="space-y-2">
+                    {selectedStep.interviewFaqs.map((faq, fIdx) => (
+                      <li key={fIdx} className="text-xs text-[#e6edf3] flex items-start gap-2 bg-[#0d1117] p-3 rounded-xl border border-[#30363d]">
+                        <span className="text-amber-400 font-bold">Q{fIdx + 1}.</span>
+                        <span>{faq}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Recommended Problems / Skills */}
-              {selectedStep.problems.length > 0 && (
+              {selectedStep.problems && selectedStep.problems.length > 0 && (
                 <div className="space-y-3">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-[#8b949e] flex items-center gap-1.5">
-                    <Code className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>Practice Problems & Skills:</span>
+                    <Code className="w-4 h-4 text-indigo-400" />
+                    <span>Practice Drills & Hands-on Exercises:</span>
                   </span>
 
                   <div className="space-y-2">
@@ -306,7 +344,7 @@ export function RoadmapDetail() {
                       return (
                         <div
                           key={pIdx}
-                          className="p-3 rounded-xl bg-[#161b22] border border-[#30363d] flex items-center justify-between gap-3 hover:border-indigo-500/40 transition-colors"
+                          className="p-3.5 rounded-xl bg-[#161b22] border border-[#30363d] flex items-center justify-between gap-3 hover:border-indigo-500/40 transition-colors"
                         >
                           <div className="flex items-center gap-2.5 truncate">
                             <PlayCircle className="w-4 h-4 text-indigo-400 flex-shrink-0" />
@@ -319,10 +357,10 @@ export function RoadmapDetail() {
                             href={probSlug.startsWith('http') ? probSlug : `https://leetcode.com/problems/${probSlug}/`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3 py-1 rounded-lg bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-semibold transition-all flex items-center gap-1 flex-shrink-0"
+                            className="px-3.5 py-1.5 rounded-lg bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-indigo-500/30 text-xs font-semibold transition-all flex items-center gap-1 flex-shrink-0"
                           >
-                            <span>Solve</span>
-                            <ExternalLink className="w-3 h-3" />
+                            <span>Solve Exercise</span>
+                            <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                         </div>
                       );
@@ -340,7 +378,7 @@ export function RoadmapDetail() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
                   >
-                    <span>View Authentic Source Documentation</span>
+                    <span>View Authentic Official Documentation</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 </div>
@@ -362,7 +400,7 @@ export function RoadmapDetail() {
                   <span>
                     {completedSteps.includes(selectedStep.stepNumber)
                       ? 'Completed!'
-                      : 'Mark Step as Completed'}
+                      : 'Mark Milestone as Completed'}
                   </span>
                 </button>
 
