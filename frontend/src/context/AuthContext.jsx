@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Helper to fetch user profile from Supabase profiles table
-  const fetchProfile = async (userId, userEmail = null) => {
+  const fetchProfile = async (userId, userEmail = null, userMetadata = null) => {
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -37,6 +37,33 @@ export const AuthProvider = ({ children }) => {
           } catch (_) {}
         }
         setProfile(data);
+      } else {
+        // Profile does not exist yet (e.g., OAuth sign in) - auto create profile
+        const nameFromMeta = userMetadata?.full_name || userMetadata?.name || (userEmail ? userEmail.split('@')[0] : 'User');
+        const payload = {
+          id: userId,
+          name: nameFromMeta,
+          username: nameFromMeta,
+          email: userEmail ? userEmail.toLowerCase() : null
+        };
+        const { data: created, error: createErr } = await supabase
+          .from('profiles')
+          .upsert([payload])
+          .select()
+          .maybeSingle();
+
+        if (!createErr && created) {
+          setProfile(created);
+        } else {
+          // Fallback if email column doesn't exist in profiles schema
+          const fallbackPayload = { id: userId, name: nameFromMeta, username: nameFromMeta };
+          const { data: fallbackCreated } = await supabase
+            .from('profiles')
+            .upsert([fallbackPayload])
+            .select()
+            .maybeSingle();
+          setProfile(fallbackCreated || fallbackPayload);
+        }
       }
     } catch (err) {
       console.error('Error in fetchProfile:', err);
@@ -49,7 +76,7 @@ export const AuthProvider = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id, session.user.email);
+        fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
       }
       setLoading(false);
     });
@@ -59,7 +86,7 @@ export const AuthProvider = ({ children }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchProfile(session.user.id, session.user.email);
+        await fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
       } else {
         setProfile(null);
       }
@@ -118,6 +145,19 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  // Sign In with Google OAuth
+  const signInWithGoogle = async () => {
+    const redirectUrl = window.location.origin;
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: redirectUrl
+      }
+    });
+    if (error) throw error;
+    return data;
+  };
+
   // Sign Out
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -135,8 +175,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     signUp,
     signIn,
+    signInWithGoogle,
     signOut,
-    refreshProfile: () => user && fetchProfile(user.id)
+    refreshProfile: () => user && fetchProfile(user.id, user.email, user.user_metadata)
   };
 
   return (
@@ -153,3 +194,4 @@ export const useAuth = () => {
   }
   return context;
 };
+
