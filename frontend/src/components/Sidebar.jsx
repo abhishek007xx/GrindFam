@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import SettingsModal from './SettingsModal';
 import {
   LayoutDashboard, Building2, FileCode2, Hash, Trophy, Users, UserPlus, Pencil,
   Activity, Settings, LogOut, Flame, Shield, Menu, X
@@ -40,6 +41,7 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const initials = getInitials(name);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Dynamic level & XP from platformTotal
   const level = Math.max(1, Math.floor(platformTotal / 10) + 1);
@@ -60,6 +62,11 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
   }, []);
 
   const handleClick = (item) => {
+    if (item.id === 'settings') {
+      setIsSettingsOpen(true);
+      setMobileOpen(false);
+      return;
+    }
     if (item.id === 'editTarget') {
       onEditTarget?.();
       return;
@@ -203,6 +210,12 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
         </button>
         {sidebarContent}
       </aside>
+
+      {/* Settings / Password Reset Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
     </>
   );
 };

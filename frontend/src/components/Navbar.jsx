@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
+import SettingsModal from './SettingsModal';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Calendar, Bell, ChevronDown, Search, ExternalLink,
-  X, FileCode2, Building2, Hash, ArrowRight
+  X, FileCode2, Building2, Hash, ArrowRight, Settings, LogOut, KeyRound
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -18,9 +19,12 @@ const getInitials = (name = '') => {
 
 const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
   const navigate = useNavigate();
-  const { profile, user } = useAuth();
+  const { profile, user, signOut } = useAuth();
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const initials = getInitials(name);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
   const now = new Date();
   const dateStr = now.toLocaleDateString('en-US', {
@@ -39,11 +43,14 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
 
-  // Close search on outside click
+  // Close search and user menu on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setIsSearchOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setIsUserMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -371,15 +378,61 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           <Bell className="w-4 h-4" />
         </button>
 
-        {/* User Avatar — simplified on mobile */}
-        <div className="flex items-center gap-2 pl-2 border-l border-[#21262d]">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
-            {initials}
-          </div>
-          <span className="text-sm font-medium text-[#e6edf3] hidden sm:inline">{name}</span>
-          <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] hidden sm:inline" />
+        {/* User Avatar Dropdown */}
+        <div className="relative pl-2 border-l border-[#21262d]" ref={userMenuRef}>
+          <button
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 transition-all"
+          >
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
+              {initials}
+            </div>
+            <span className="text-sm font-medium text-[#e6edf3] hidden sm:inline">{name}</span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] hidden sm:inline" />
+          </button>
+
+          <AnimatePresence>
+            {isUserMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -8, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl overflow-hidden z-50 py-1.5"
+              >
+                <div className="px-4 py-2.5 border-b border-[#21262d]">
+                  <p className="text-xs font-bold text-white truncate">{name}</p>
+                  <p className="text-[10px] text-[#8b949e] truncate">{user?.email || 'Logged In'}</p>
+                </div>
+
+                <button
+                  onClick={() => { setIsSettingsOpen(true); setIsUserMenuOpen(false); }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
+                >
+                  <Settings className="w-4 h-4 text-emerald-400" />
+                  <span>Account Settings & Password</span>
+                </button>
+
+                <div className="border-t border-[#21262d] my-1" />
+
+                <button
+                  onClick={() => { signOut(); setIsUserMenuOpen(false); }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Sign Out</span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
+
+      {/* Settings / Password Reset Modal */}
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
     </header>
   );
 };
