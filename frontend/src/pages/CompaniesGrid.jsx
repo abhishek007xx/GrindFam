@@ -5,7 +5,9 @@ import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import { Building2, Search, ArrowRight, Sparkles, Layers, Flame } from 'lucide-react';
+import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
+import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
+import { Building2, Search, ArrowRight, Sparkles, Layers, Flame, GraduationCap, Award, Briefcase } from 'lucide-react';
 
 export function CompaniesGrid() {
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ export function CompaniesGrid() {
     const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           c.slug.toLowerCase().includes(searchQuery.toLowerCase());
     if (selectedRoleFilter === 'ALL') return matchesSearch;
-    const hasRole = c.company_tracks?.some(t => t.role.toLowerCase().includes(selectedRoleFilter.toLowerCase()));
+    const hasRole = c.company_tracks?.some(t => t.role.toLowerCase().includes(selectedRoleFilter.toLowerCase()) || t.level?.toLowerCase().includes(selectedRoleFilter.toLowerCase()));
     return matchesSearch && hasRole;
   });
 
@@ -120,16 +122,22 @@ export function CompaniesGrid() {
             <div className="relative z-10 max-w-2xl space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Ranked by Hiring Popularity</span>
+                <span>Ranked by Hiring Popularity & Role Level</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-                Company DSA Tracks
+                Company DSA Tracks by Role Level
               </h1>
               <p className="text-sm text-[#8b949e] leading-relaxed">
-                Top interview kits ranked by popularity: Google, Amazon, Microsoft, Meta, Apple, Uber, Netflix, Swiggy, Zomato, Flipkart, Razorpay, PhonePe & 90+ tech companies.
+                Tailored kits for <strong>Internships</strong>, <strong>Campus Placements</strong>, and <strong>Senior/Lateral Hiring</strong> across Google, Amazon, Microsoft, Meta, Apple, Uber, Netflix & 90+ tech giants.
               </p>
             </div>
           </div>
+
+          {/* 🎯 Interview Timeline Tracker Banner */}
+          <InterviewTimelineTracker totalTrackProblems={100} solvedCount={0} />
+
+          {/* Role Level Overview Section */}
+          <RoleLevelRoadmap companyName="Top Tech Companies" />
 
           {/* Search & Filter Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
@@ -145,11 +153,11 @@ export function CompaniesGrid() {
             </div>
 
             <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-              {['ALL', 'SDE-1', 'SDE-2', 'Senior', 'Backend'].map(filter => (
+              {['ALL', 'Intern', 'Campus', 'SDE-1', 'SDE-2 / Senior', 'Senior'].map(filter => (
                 <button
                   key={filter}
                   onClick={() => setSelectedRoleFilter(filter)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all ${
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
                     selectedRoleFilter === filter
                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 border border-indigo-500/30'
                       : 'bg-[#161b22] text-[#8b949e] border border-[#30363d] hover:text-white hover:border-[#484f58]'

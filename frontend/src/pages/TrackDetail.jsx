@@ -8,6 +8,8 @@ import { useTrackStore } from '../store/useTrackStore';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import NotesModal from '../components/NotesModal';
+import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
+import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   AlertTriangle, Target, MessageSquare, Award, Search,
@@ -518,6 +520,16 @@ export function TrackDetail() {
                   </div>
                 )}
               </div>
+
+              {/* 🎯 Interview Timeline Tracker for Company */}
+              <InterviewTimelineTracker
+                totalTrackProblems={problems.length || 50}
+                solvedCount={solvedCount}
+                companyName={company?.name}
+              />
+
+              {/* 🎓 Role Level Roadmaps (Intern, Campus 3-Month, Senior Level) */}
+              <RoleLevelRoadmap companyName={company?.name || 'Company'} />
 
               {/* MIDDLE SECTION: Filters & Search Controls */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-[#0d1117] border border-[#30363d] rounded-2xl p-4 shadow-lg">

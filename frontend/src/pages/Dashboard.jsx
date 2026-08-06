@@ -17,6 +17,7 @@ import FriendsList from '../components/FriendsList';
 import EditTargetModal from '../components/EditTargetModal';
 import SquadManagerModal from '../components/SquadManagerModal';
 import ContributionHeatmap from '../components/ContributionHeatmap';
+import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
   Flame, ArrowRight, RotateCcw, BookOpen, Building2, FileCode2,
@@ -266,6 +267,14 @@ const Dashboard = () => {
                   : `${dailyTarget - yourTodayCount} more to hit today's target. Let's go! 💪`
               }
             </p>
+          </div>
+
+          {/* 🎯 Interview Timeline & Daily Quota Tracker Widget */}
+          <div className="mb-6">
+            <InterviewTimelineTracker
+              totalTrackProblems={dashboardData?.stats?.totalProblems || 100}
+              solvedCount={yourPlatformTotal}
+            />
           </div>
 
 
