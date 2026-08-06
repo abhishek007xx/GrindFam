@@ -6,7 +6,6 @@ import { companiesData } from '../lib/dataFallback';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
-import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
 import { Building2, Search, ArrowRight, Sparkles, Layers, Flame, GraduationCap, Award, Briefcase } from 'lucide-react';
 
 export function CompaniesGrid() {
@@ -135,9 +134,6 @@ export function CompaniesGrid() {
 
           {/* 🎯 Interview Timeline Tracker Banner */}
           <InterviewTimelineTracker totalTrackProblems={100} solvedCount={0} />
-
-          {/* Role Level Overview Section */}
-          <RoleLevelRoadmap companyName="Top Tech Companies" />
 
           {/* Search & Filter Bar */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">

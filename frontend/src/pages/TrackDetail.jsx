@@ -9,8 +9,6 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import NotesModal from '../components/NotesModal';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
-import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
-import { getProblemsForRoleTrack } from '../lib/roleProblemSets';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   AlertTriangle, Target, MessageSquare, Award, Search,
@@ -35,7 +33,7 @@ export function TrackDetail() {
 
   // Notes Modal State
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
-  
+
   // Accordion State
   const [openCategories, setOpenCategories] = useState({});
 
@@ -107,18 +105,16 @@ export function TrackDetail() {
             guidelines: roleObj.guidelines || {}
           });
 
-          const rawProbs = roleObj.problems && roleObj.problems.length > 0
-            ? roleObj.problems.map((p, idx) => ({
-                id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
-                title: p.title,
-                leetcode_slug: p.leetcode_slug,
-                difficulty: p.difficulty || "Medium",
-                frequency_score: p.frequency_score || 5,
-                topic_tags: p.topic_tags || [],
-                step_name: roleObj.role_name
-              }))
-            : getProblemsForRoleTrack(0, compObj.company_name);
-          setProblems(rawProbs);
+          const localProbs = (roleObj.problems || []).map((p, idx) => ({
+            id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+            title: p.title,
+            leetcode_slug: p.leetcode_slug,
+            difficulty: p.difficulty || "Medium",
+            frequency_score: p.frequency_score || 5,
+            topic_tags: p.topic_tags || [],
+            step_name: roleObj.role_name
+          }));
+          setProblems(localProbs);
         }
       } catch (err) {
         console.warn('Error connecting to Supabase. Loading local track fallback.', err);
@@ -136,17 +132,14 @@ export function TrackDetail() {
           level: roleObj.level,
           guidelines: roleObj.guidelines || {}
         });
-        const rawProbs = roleObj.problems && roleObj.problems.length > 0
-          ? roleObj.problems.map((p, idx) => ({
-              id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
-              title: p.title,
-              leetcode_slug: p.leetcode_slug,
-              difficulty: p.difficulty || "Medium",
-              frequency_score: p.frequency_score || 5,
-              topic_tags: p.topic_tags || []
-            }))
-          : getProblemsForRoleTrack(0, compObj.company_name);
-        setProblems(rawProbs);
+        setProblems((roleObj.problems || []).map((p, idx) => ({
+          id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
+          title: p.title,
+          leetcode_slug: p.leetcode_slug,
+          difficulty: p.difficulty || "Medium",
+          frequency_score: p.frequency_score || 5,
+          topic_tags: p.topic_tags || []
+        })));
       } finally {
         setLoading(false);
       }
@@ -173,7 +166,7 @@ export function TrackDetail() {
   const filteredProblems = useMemo(() => {
     return problems.filter(p => {
       const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            p.leetcode_slug.toLowerCase().includes(searchQuery.toLowerCase());
+        p.leetcode_slug.toLowerCase().includes(searchQuery.toLowerCase());
 
       const matchesDifficulty = difficultyFilter === 'ALL' || p.difficulty.toUpperCase() === difficultyFilter.toUpperCase();
 
@@ -394,30 +387,25 @@ export function TrackDetail() {
                             setActiveRoleIdx(rIdx);
                             setCompanyTrack({
                               id: trackId,
-                              role: trackOpt.title,
-                              level: trackOpt.badge,
+                              role: roleObj.role_name,
+                              level: roleObj.level,
                               guidelines: roleObj.guidelines || {}
                             });
-                            // Fetch distinct, authentic problem set for this role track
-                            const roleProbs = getProblemsForRoleTrack(rIdx, compObj.company_name);
-                            const mergedProbs = (roleObj.problems && roleObj.problems.length > 0)
-                              ? roleObj.problems.map((p, idx) => ({
-                                  id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
-                                  title: p.title,
-                                  leetcode_slug: p.leetcode_slug,
-                                  difficulty: p.difficulty || "Medium",
-                                  frequency_score: p.frequency_score || 5,
-                                  topic_tags: p.topic_tags || [],
-                                  step_name: trackOpt.title
-                                }))
-                              : roleProbs;
-                            setProblems(mergedProbs);
+                            const localProbs = (roleObj.problems || []).map((p, idx) => ({
+                              id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
+                              title: p.title,
+                              leetcode_slug: p.leetcode_slug,
+                              difficulty: p.difficulty || "Medium",
+                              frequency_score: p.frequency_score || 5,
+                              topic_tags: p.topic_tags || [],
+                              step_name: roleObj.role_name
+                            }));
+                            setProblems(localProbs);
                           }}
-                          className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group ${
-                            isActive
+                          className={`p-4 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group ${isActive
                               ? `bg-gradient-to-br ${trackOpt.color} shadow-xl ring-2 ring-indigo-500/50 scale-[1.02]`
                               : 'bg-[#161b22]/80 hover:bg-[#1c2128] border-[#30363d] opacity-80 hover:opacity-100'
-                          }`}
+                            }`}
                         >
                           <div className="space-y-2">
                             <div className="flex items-center justify-between">
@@ -538,9 +526,6 @@ export function TrackDetail() {
                 companyName={company?.name}
               />
 
-              {/* 🎓 Role Level Roadmaps (Intern, Campus 3-Month, Senior Level) */}
-              <RoleLevelRoadmap companyName={company?.name || 'Company'} />
-
               {/* MIDDLE SECTION: Filters & Search Controls */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-[#0d1117] border border-[#30363d] rounded-2xl p-4 shadow-lg">
                 <div className="relative w-full md:w-80">
@@ -577,11 +562,10 @@ export function TrackDetail() {
                       <button
                         key={diff}
                         onClick={() => setDifficultyFilter(diff)}
-                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${
-                          difficultyFilter === diff
+                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${difficultyFilter === diff
                             ? 'bg-indigo-600 text-white shadow'
                             : 'text-[#8b949e] hover:text-white'
-                        }`}
+                          }`}
                       >
                         {diff}
                       </button>
@@ -593,11 +577,10 @@ export function TrackDetail() {
                       <button
                         key={st}
                         onClick={() => setStatusFilter(st)}
-                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${
-                          statusFilter === st
+                        className={`px-3 py-1 rounded-lg text-xs font-medium transition-all flex-1 sm:flex-none ${statusFilter === st
                             ? 'bg-indigo-600 text-white shadow'
                             : 'text-[#8b949e] hover:text-white'
-                        }`}
+                          }`}
                       >
                         {st}
                       </button>
@@ -672,9 +655,8 @@ export function TrackDetail() {
                               return (
                                 <div
                                   key={prob.id}
-                                  className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#161b22]/60 ${
-                                    isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
-                                  }`}
+                                  className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#161b22]/60 ${isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
+                                    }`}
                                 >
                                   <div className="flex items-center gap-4 min-w-0">
                                     <button
@@ -696,9 +678,8 @@ export function TrackDetail() {
                                         href={leetcodeUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate ${
-                                          isSolved ? 'text-emerald-400 line-through' : isRevision ? 'text-amber-300' : 'text-white'
-                                        }`}
+                                        className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate ${isSolved ? 'text-emerald-400 line-through' : isRevision ? 'text-amber-300' : 'text-white'
+                                          }`}
                                       >
                                         <span>{prob.title}</span>
                                         <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] opacity-0 group-hover:opacity-100 hover:text-indigo-400 transition-opacity flex-shrink-0" />
@@ -723,24 +704,22 @@ export function TrackDetail() {
                                     )}
 
                                     <span
-                                      className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                        prob.difficulty === 'Easy'
+                                      className={`px-3 py-1 rounded-full text-xs font-bold ${prob.difficulty === 'Easy'
                                           ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                                           : prob.difficulty === 'Medium'
-                                          ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                                          : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                                      }`}
+                                            ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                                            : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                        }`}
                                     >
                                       {prob.difficulty}
                                     </span>
 
                                     <button
                                       onClick={() => setActiveNotesProblem(prob)}
-                                      className={`p-2 rounded-xl border transition-all ${
-                                        hasNotes
+                                      className={`p-2 rounded-xl border transition-all ${hasNotes
                                           ? 'bg-indigo-500/20 border-indigo-500/40 text-indigo-300'
                                           : 'bg-[#161b22] border-[#30363d] text-[#8b949e] hover:text-white hover:border-[#484f58]'
-                                      }`}
+                                        }`}
                                       title={hasNotes ? 'View/Edit Notes' : 'Add Personal Notes'}
                                     >
                                       <FileText className="w-4 h-4" />
