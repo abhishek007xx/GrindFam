@@ -153,17 +153,22 @@ export function CompaniesGrid() {
             </div>
 
             <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-              {['ALL', 'Intern', 'Campus', 'SDE-1', 'SDE-2 / Senior', 'Senior'].map(filter => (
+              {[
+                { id: 'ALL', label: 'All Roles', icon: null },
+                { id: 'Intern', label: '🎓 Intern Track', icon: GraduationCap },
+                { id: 'Campus', label: '🚀 Campus Placement', icon: Award },
+                { id: 'Senior', label: '💼 Senior Level', icon: Briefcase }
+              ].map(filter => (
                 <button
-                  key={filter}
-                  onClick={() => setSelectedRoleFilter(filter)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 ${
-                    selectedRoleFilter === filter
+                  key={filter.id}
+                  onClick={() => setSelectedRoleFilter(filter.id)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                    selectedRoleFilter === filter.id
                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 border border-indigo-500/30'
                       : 'bg-[#161b22] text-[#8b949e] border border-[#30363d] hover:text-white hover:border-[#484f58]'
                   }`}
                 >
-                  {filter === 'ALL' ? 'All Roles' : filter}
+                  <span>{filter.label}</span>
                 </button>
               ))}
             </div>
@@ -249,7 +254,7 @@ export function CompaniesGrid() {
                     </div>
 
                     <div className="pt-4 mt-4 border-t border-[#21262d] flex items-center justify-between text-xs">
-                      <span className="text-[#8b949e] text-[11px]">SDE Intern, SDE-1 & SDE-2</span>
+                      <span className="text-[#8b949e] text-[11px]">🎓 Intern, 🚀 Campus, 💼 Senior</span>
                       <span className="font-semibold text-indigo-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
                         Explore Tracks →
                       </span>

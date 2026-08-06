@@ -354,23 +354,23 @@ export function TrackDetail() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
                       {
-                        title: 'SDE Intern / Entry Level',
-                        badge: 'Internship Track',
-                        desc: 'Foundational Warmups, Speed, & Core Algorithms',
+                        title: '🎓 Intern Track',
+                        badge: 'Internship & Entry Level',
+                        desc: 'OA Speed Prep, Foundational DSA & CS Fundamentals',
                         icon: Sparkles,
                         color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-400'
                       },
                       {
-                        title: 'SDE-1 & High Frequency',
-                        badge: 'Primary Coding Round',
-                        desc: 'High Frequency Interview Questions & Problem Patterns',
+                        title: '🚀 Campus Placement',
+                        badge: '3-Month Placement Sprint',
+                        desc: 'Company OA Patterns, Top Frequency 50 & HR Round',
                         icon: Flame,
                         color: 'from-indigo-500/20 to-purple-500/10 border-indigo-500/40 text-indigo-400'
                       },
                       {
-                        title: 'SDE-2 / Senior Track',
-                        badge: 'Advanced Track',
-                        desc: 'Advanced DP, Complex Graphs & System Design',
+                        title: '💼 Senior Level Track',
+                        badge: 'System Design & Lateral',
+                        desc: 'HLD, LLD, Leadership Principles & Salary Negotiation',
                         icon: Award,
                         color: 'from-purple-500/20 to-pink-500/10 border-purple-500/40 text-purple-400'
                       }
