@@ -38,7 +38,7 @@ const RecentActivity = ({ leaderboard = [] }) => {
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-bold text-white">Recent Activity</h3>
         {activities.length > 0 && (
-          <span className="text-[11px] font-semibold text-[#CC785C] hover:underline cursor-pointer">View all</span>
+          <span className="text-[11px] font-semibold text-[#EA5D3A] hover:underline cursor-pointer">View all</span>
         )}
       </div>
 

@@ -223,7 +223,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
           <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] flex-shrink-0" />
           <span className="text-base font-extrabold text-white">
-            Grind<span className="text-[#CC785C]">Fam</span>
+            Grind<span className="text-[#EA5D3A]">Fam</span>
           </span>
         </div>
       </div>
@@ -239,7 +239,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
             onChange={handleSearchChange}
             onFocus={() => setIsSearchOpen(true)}
             placeholder="Search problems, topics, sheets..."
-            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#CC785C] transition-all"
+            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
           {searchQuery ? (
             <button
@@ -267,7 +267,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
             >
               {searchLoading ? (
                 <div className="p-4 text-center">
-                  <div className="w-4 h-4 border-2 border-[#CC785C] border-t-transparent rounded-full animate-spin mx-auto mb-1" />
+                  <div className="w-4 h-4 border-2 border-[#EA5D3A] border-t-transparent rounded-full animate-spin mx-auto mb-1" />
                   <span className="text-xs text-[#8b949e]">Searching...</span>
                 </div>
               ) : (
@@ -280,7 +280,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                           <button
                             key={tag}
                             onClick={() => handleTopicClick(tag)}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#CC785C]/10 hover:bg-[#CC785C]/20 border border-[#CC785C]/20 text-[#CC785C] text-[10px] font-semibold transition-all"
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#EA5D3A]/10 hover:bg-[#EA5D3A]/20 border border-[#EA5D3A]/20 text-[#EA5D3A] text-[10px] font-semibold transition-all"
                           >
                             <Hash className="w-3 h-3" />
                             {tag}
@@ -305,11 +305,11 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                             <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${
                               result.source_type === 'company'
                                 ? 'bg-indigo-500/10 border border-indigo-500/20'
-                                : 'bg-[#CC785C]/10 border border-[#CC785C]/20'
+                                : 'bg-[#EA5D3A]/10 border border-[#EA5D3A]/20'
                             }`}>
                               {result.source_type === 'company'
                                 ? <Building2 className="w-3 h-3 text-indigo-400" />
-                                : <FileCode2 className="w-3 h-3 text-[#CC785C]" />
+                                : <FileCode2 className="w-3 h-3 text-[#EA5D3A]" />
                               }
                             </div>
                             <div className="min-w-0">
@@ -352,8 +352,8 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
         <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-semibold">
-          <Flame className="w-3.5 h-3.5 text-[#CC785C]" />
-          <span className={streakDays > 0 ? 'text-[#CC785C]' : 'text-[#6e7681]'}>
+          <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
+          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-[#6e7681]'}>
             {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak'}
           </span>
         </div>
@@ -372,7 +372,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
             className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 transition-all"
           >
-            <div className="w-8 h-8 rounded-full bg-[#CC785C] flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
               {initials}
             </div>
             <span className="text-sm font-medium text-[#e6edf3] hidden sm:inline">{name}</span>
@@ -397,7 +397,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                   onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }}
                   className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
                 >
-                  <Settings className="w-4 h-4 text-[#CC785C]" />
+                  <Settings className="w-4 h-4 text-[#EA5D3A]" />
                   <span>Account Settings</span>
                 </button>
 

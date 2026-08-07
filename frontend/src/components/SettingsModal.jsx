@@ -61,7 +61,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
           {/* Modal Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-[#21262d]">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-[#CC785C]/15 border border-[#CC785C]/30 text-[#CC785C]">
+              <div className="p-2 rounded-xl bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
                 <Settings className="w-5 h-5" />
               </div>
               <div>
@@ -83,7 +83,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
               onClick={() => { setActiveTab('password'); setError(null); setSuccess(false); }}
               className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 transition-all ${
                 activeTab === 'password'
-                  ? 'border-[#CC785C] text-[#CC785C]'
+                  ? 'border-[#EA5D3A] text-[#EA5D3A]'
                   : 'border-transparent text-[#8b949e] hover:text-[#e6edf3]'
               }`}
             >
@@ -95,7 +95,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
               onClick={() => { setActiveTab('profile'); setError(null); setSuccess(false); }}
               className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 transition-all ${
                 activeTab === 'profile'
-                  ? 'border-[#CC785C] text-[#CC785C]'
+                  ? 'border-[#EA5D3A] text-[#EA5D3A]'
                   : 'border-transparent text-[#8b949e] hover:text-[#e6edf3]'
               }`}
             >
@@ -116,7 +116,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                 )}
 
                 {success && (
-                  <div className="mb-4 p-3 rounded-xl bg-[#CC785C]/10 border border-[#CC785C]/25 text-[#CC785C] text-xs flex items-center gap-2">
+                  <div className="mb-4 p-3 rounded-xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A] text-xs flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     <span>Your password has been updated successfully!</span>
                   </div>
@@ -136,7 +136,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Min 6 characters"
-                        className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#CC785C] text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] text-sm"
                       />
                     </div>
                   </div>
@@ -154,7 +154,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm new password"
-                        className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#CC785C] text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] text-sm"
                       />
                     </div>
                   </div>
@@ -170,7 +170,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="px-5 py-2.5 bg-gradient-to-r from-[#CC785C] to-[#DA7756] hover:from-[#B85C3E] hover:to-[#CC785C] text-white font-bold rounded-xl text-xs transition-colors flex items-center gap-2 disabled:opacity-50"
+                      className="px-5 py-2.5 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white font-bold rounded-xl text-xs transition-colors flex items-center gap-2 disabled:opacity-50"
                     >
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShieldCheck className="w-4 h-4" />}
                       <span>{loading ? 'Updating...' : 'Update Password'}</span>
@@ -184,7 +184,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
               <div className="space-y-4">
                 <div className="p-4 rounded-xl bg-[#0d1117] border border-[#30363d] space-y-3">
                   <div className="flex items-center gap-3 pb-3 border-b border-[#21262d]">
-                    <div className="p-2 rounded-lg bg-[#CC785C]/10 text-[#CC785C]">
+                    <div className="p-2 rounded-lg bg-[#EA5D3A]/10 text-[#EA5D3A]">
                       <User className="w-4 h-4" />
                     </div>
                     <div>
@@ -209,7 +209,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                     </div>
                     <div>
                       <p className="text-[10px] text-[#8b949e] font-semibold uppercase tracking-wider">LeetCode Username</p>
-                      <p className="text-sm font-bold text-[#CC785C] font-mono">{leetcodeUsername}</p>
+                      <p className="text-sm font-bold text-[#EA5D3A] font-mono">{leetcodeUsername}</p>
                     </div>
                   </div>
                 </div>

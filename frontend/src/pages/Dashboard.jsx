@@ -262,7 +262,7 @@ const Dashboard = () => {
           {/* ═══════════════════════════════════════════════════════════ */}
           {loading ? (
             <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
-              <div className="p-3.5 rounded-2xl bg-[#CC785C]/10 border border-[#CC785C]/20 text-[#CC785C]">
+              <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
                 <Loader2 className="w-7 h-7 animate-spin" />
               </div>
               <p className="text-sm font-semibold text-[#e6edf3]">Syncing LeetCode submissions...</p>
@@ -273,7 +273,7 @@ const Dashboard = () => {
               <AlertCircle className="w-8 h-8 text-amber-500" />
               <h3 className="text-base font-bold text-white">Unable to Load Leaderboard</h3>
               <p className="text-xs text-[#8b949e]">{error}</p>
-              <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#CC785C] to-[#DA7756] hover:from-[#B85C3E] hover:to-[#CC785C] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#CC785C]/20">
+              <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#EA5D3A]/20">
                 <RefreshCw className="w-3.5 h-3.5" /> Try Again
               </button>
             </div>
@@ -293,7 +293,7 @@ const Dashboard = () => {
                     onClick={() => setSocialTab('leaderboard')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
                       socialTab === 'leaderboard'
-                        ? 'bg-[#CC785C] text-white shadow-lg shadow-[#CC785C]/25'
+                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                         : 'text-[#8b949e] hover:text-white'
                     }`}
                   >
@@ -304,7 +304,7 @@ const Dashboard = () => {
                     onClick={() => setSocialTab('squad')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
                       socialTab === 'squad'
-                        ? 'bg-[#CC785C] text-white shadow-lg shadow-[#CC785C]/25'
+                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                         : 'text-[#8b949e] hover:text-white'
                     }`}
                   >
@@ -315,7 +315,7 @@ const Dashboard = () => {
                     onClick={() => setSocialTab('friends')}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
                       socialTab === 'friends'
-                        ? 'bg-[#CC785C] text-white shadow-lg shadow-[#CC785C]/25'
+                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                         : 'text-[#8b949e] hover:text-white'
                     }`}
                   >
@@ -328,7 +328,7 @@ const Dashboard = () => {
                     onClick={() => setIsSquadModalOpen(true)}
                     className="px-3.5 py-2 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-white text-xs font-bold flex items-center gap-1.5 transition-all"
                   >
-                    <Shield className="w-4 h-4 text-[#CC785C]" /> Squad Options
+                    <Shield className="w-4 h-4 text-[#EA5D3A]" /> Squad Options
                   </button>
                 </div>
               </div>
@@ -359,16 +359,16 @@ const Dashboard = () => {
               {socialTab === 'squad' && (
                 <div className="space-y-6 mb-6">
                   {/* Squad Info Card */}
-                  <div className="dash-card p-6 border border-[#CC785C]/30 bg-gradient-to-br from-[#161b22] to-[#0d1117] relative overflow-hidden">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="dash-card p-6 border border-[#EA5D3A]/30 bg-gradient-to-br from-[#161b22] to-[#0d1117] relative overflow-hidden">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <Shield className="w-5 h-5 text-[#CC785C]" />
-                          <span className="text-xs font-extrabold uppercase text-[#CC785C] tracking-wider">Your Active Squad</span>
+                          <Shield className="w-5 h-5 text-[#EA5D3A]" />
+                          <span className="text-xs font-extrabold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
                         </div>
-                        <h2 className="text-2xl font-black text-white">{dashboardData.squadInfo?.name || "Your Squad"}</h2>
+                        <h2 className="text-2xl font-black text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
                         <p className="text-xs text-[#8b949e] mt-1">
-                          Squad Code: <span className="font-mono text-[#CC785C] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
+                          Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
                         </p>
                       </div>
 
@@ -377,13 +377,13 @@ const Dashboard = () => {
                           onClick={handleCopySquadCode}
                           className="px-4 py-2.5 rounded-xl bg-[#21262d] hover:bg-[#30363d] text-white text-xs font-bold flex items-center gap-2 border border-[#30363d] transition-all"
                         >
-                          {copiedCode ? <Check className="w-4 h-4 text-[#CC785C]" /> : <Copy className="w-4 h-4" />}
+                          {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
                           <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
                         </button>
 
                         <button
                           onClick={() => setIsSquadModalOpen(true)}
-                          className="px-4 py-2.5 rounded-xl bg-[#22c55e] hover:bg-[#1ea34d] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#22c55e]/20 transition-all"
+                          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#EA5D3A]/20 transition-all"
                         >
                           <Users className="w-4 h-4" /> Manage Squad
                         </button>

@@ -20,10 +20,10 @@ const getLevel = (count, maxCount) => {
 
 const levelColors = {
   0: '#161b22',   // empty
-  1: '#4a251a',   // low
-  2: '#8b432a',   // medium
-  3: '#cc785c',   // high
-  4: '#da7756',   // max
+  1: '#4d1e13',   // low
+  2: '#963721',   // medium
+  3: '#ea5d3a',   // high
+  4: '#f2704e',   // max
 };
 
 // Fallback generator for 365 days if API is loading or offline
@@ -125,13 +125,13 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-[#CC785C]/10 border border-[#CC785C]/25 text-[#CC785C] flex-shrink-0">
+          <div className="p-2 rounded-xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A] flex-shrink-0">
             <GitCommit className="w-4 h-4" />
           </div>
           <div className="min-w-0">
             <h3 className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
               <span>All-Time Contribution Progress</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/30">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30">
                 GitHub Style
               </span>
             </h3>
@@ -141,7 +141,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#CC785C] flex-shrink-0" />}
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#EA5D3A] flex-shrink-0" />}
       </div>
 
       {/* Heatmap Grid */}
@@ -219,7 +219,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#21262d]">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
-            <TrendingUp className="w-3.5 h-3.5 text-[#CC785C]" />
+            <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
           </div>
           <p className="text-lg font-extrabold text-white">{stats.totalSolved || 0}</p>
           <p className="text-[10px] text-[#8b949e]">Total Solved</p>

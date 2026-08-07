@@ -45,7 +45,7 @@ const AddFriend = ({ onAddFriend }) => {
     <div className="dash-card p-5">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-[#CC785C]/10 border border-[#CC785C]/25 text-[#CC785C]">
+          <div className="p-2 rounded-xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A]">
             <UserPlus className="w-4 h-4" />
           </div>
           <div>
@@ -61,7 +61,7 @@ const AddFriend = ({ onAddFriend }) => {
             onClick={() => setMode('username')}
             className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
               mode === 'username'
-                ? 'bg-[#21262d] text-[#CC785C] font-semibold'
+                ? 'bg-[#21262d] text-[#EA5D3A] font-semibold'
                 : 'text-[#8b949e] hover:text-white'
             }`}
           >
@@ -72,7 +72,7 @@ const AddFriend = ({ onAddFriend }) => {
             onClick={() => setMode('email')}
             className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
               mode === 'email'
-                ? 'bg-[#21262d] text-[#CC785C] font-semibold'
+                ? 'bg-[#21262d] text-[#EA5D3A] font-semibold'
                 : 'text-[#8b949e] hover:text-white'
             }`}
           >
@@ -96,13 +96,13 @@ const AddFriend = ({ onAddFriend }) => {
             onChange={handleInputChange}
             placeholder={mode === 'email' ? 'friend@example.com' : 'leetcode_username'}
             required
-            className="w-full pl-8 pr-3 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#CC785C] focus:border-transparent text-sm font-mono transition-all"
+            className="w-full pl-8 pr-3 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] focus:border-transparent text-sm font-mono transition-all"
           />
         </div>
         <button
           type="submit"
           disabled={loading || !inputValue.trim()}
-          className="px-4 py-2.5 bg-gradient-to-r from-[#CC785C] to-[#DA7756] hover:from-[#B85C3E] hover:to-[#CC785C] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50 flex-shrink-0"
+          className="px-4 py-2.5 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50 flex-shrink-0"
         >
           {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <UserPlus className="w-3.5 h-3.5" />}
           <span>Add</span>
@@ -113,7 +113,7 @@ const AddFriend = ({ onAddFriend }) => {
         <div
           className={`mt-3 p-2.5 rounded-xl border text-xs flex items-center gap-2 animate-fadeIn ${
             message.type === 'success'
-              ? 'bg-[#CC785C]/10 border-[#CC785C]/25 text-[#CC785C]'
+              ? 'bg-[#EA5D3A]/10 border-[#EA5D3A]/25 text-[#EA5D3A]'
               : 'bg-red-500/10 border-red-500/25 text-red-400'
           }`}
         >
