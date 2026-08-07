@@ -349,11 +349,9 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
-        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-semibold shadow-sm">
-          <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-zinc-500 dark:text-zinc-500 light:text-slate-500'}>
-            {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak'}
-          </span>
+        <div className="flex items-center gap-1.5 px-2.5 h-8 rounded-full bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-xs font-bold text-[#EA5D3A] shadow-sm" title={`${streakDays} Day Streak`}>
+          <Flame className="w-3.5 h-3.5 text-[#EA5D3A] fill-[#EA5D3A]" />
+          <span>{streakDays}d</span>
         </div>
 
         <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 shadow-sm">
