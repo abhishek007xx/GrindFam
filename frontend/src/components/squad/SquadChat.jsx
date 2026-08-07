@@ -131,7 +131,7 @@ export default function SquadChat() {
   const channelName = activeChannel || 'general';
 
   return (
-    <div className="flex flex-col h-full bg-[#0a0e17] relative">
+    <div className="flex flex-col h-full bg-[#0a0e17] dark:bg-[#0a0e17] light:bg-slate-50 relative">
       {/* Toast Notification */}
       {errorToast && (
         <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[60] px-4 py-2 bg-red-500/20 border border-red-500/40 text-red-300 rounded-xl text-xs font-bold shadow-2xl flex items-center gap-2">
@@ -144,19 +144,19 @@ export default function SquadChat() {
       <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-[#30363d]">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center pt-20">
-            <div className="w-16 h-16 rounded-2xl bg-[#22c55e] flex items-center justify-center mb-4 text-[#0e150e]">
-              <Hash className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-2xl bg-[#EA5D3A]/20 border border-[#EA5D3A]/40 flex items-center justify-center mb-4 text-[#EA5D3A]">
+              <Hash className="w-7 h-7" />
             </div>
-            <h3 className="text-2xl font-bold text-[#e6edf3] mb-2">Welcome to #{channelName}!</h3>
-            <p className="text-[#8b949e] text-sm max-w-md">
+            <h3 className="text-xl font-bold text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 mb-2">Welcome to #{channelName}!</h3>
+            <p className="text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 text-xs max-w-md">
               This is the start of the #{channelName} channel. Start the conversation with your community!
             </p>
           </div>
         ) : (
           groupedMessages.map((group, gIdx) => (
-            <div key={gIdx} className="group relative flex gap-4 py-2 px-4 -mx-4 hover:bg-[#161b22] rounded-lg transition-colors mt-2">
-              <div className="flex-shrink-0 w-10 pt-0.5">
-                <div className="w-10 h-10 rounded-2xl flex items-center justify-center text-[#0e150e] text-sm font-bold shadow"
+            <div key={gIdx} className="group relative flex gap-3 py-2 px-3 -mx-2 hover:bg-[#161b22]/70 dark:hover:bg-[#161b22]/70 light:hover:bg-slate-100/80 rounded-xl transition-colors mt-2">
+              <div className="flex-shrink-0 w-9 pt-0.5">
+                <div className="w-9 h-9 rounded-2xl flex items-center justify-center text-white text-xs font-bold shadow-sm"
                   style={{ backgroundColor: getAvatarColor(group.author_name) }}>
                   {getInitial(group.author_name)}
                 </div>
@@ -164,10 +164,10 @@ export default function SquadChat() {
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[15px] font-semibold text-[#e6edf3] hover:underline cursor-pointer">
+                  <span className="text-sm font-bold text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 hover:underline cursor-pointer">
                     {group.author_name}
                   </span>
-                  <span className="text-[11px] text-[#8b949e]">
+                  <span className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 font-medium">
                     {formatTime(group.messages[0]?.created_at)}
                   </span>
                 </div>
@@ -180,17 +180,17 @@ export default function SquadChat() {
 
                     return (
                       <div key={msg.id || msg.created_at} className="relative group/msg">
-                        <div className="text-[15px] text-[#e6edf3] leading-relaxed break-words whitespace-pre-wrap flex items-center justify-between">
+                        <div className="text-sm text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 leading-relaxed break-words whitespace-pre-wrap flex items-center justify-between">
                           <span>{msg.content}</span>
                           
-                          <div className="opacity-0 group-hover/msg:opacity-100 flex items-center gap-1 bg-[#161b22] border border-[#30363d] rounded-lg px-1.5 py-0.5 shadow transition-opacity">
-                            <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#8b949e] hover:text-white rounded" title="Copy">
+                          <div className="opacity-0 group-hover/msg:opacity-100 flex items-center gap-1 bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-lg px-1.5 py-0.5 shadow transition-opacity">
+                            <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 rounded" title="Copy">
                               <Copy className="w-3.5 h-3.5" />
                             </button>
-                            <button onClick={() => handleToggleHeart(msg.id)} className={`p-1 rounded ${hasHeart ? 'text-[#ff8b7c]' : 'text-[#8b949e] hover:text-white'}`} title="React">
+                            <button onClick={() => handleToggleHeart(msg.id)} className={`p-1 rounded ${hasHeart ? 'text-[#ff8b7c]' : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white'}`} title="React">
                               <Heart className={`w-3.5 h-3.5 ${hasHeart ? 'fill-current' : ''}`} />
                             </button>
-                            <button onClick={() => handleReplyUser(group.author_name)} className="p-1 text-[#8b949e] hover:text-white rounded" title="Reply">
+                            <button onClick={() => handleReplyUser(group.author_name)} className="p-1 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 rounded" title="Reply">
                               <Reply className="w-3.5 h-3.5" />
                             </button>
                             {canDeleteThis && (
@@ -202,7 +202,7 @@ export default function SquadChat() {
                         </div>
 
                         {hasHeart && (
-                          <div className="inline-flex items-center gap-1 bg-[#161b22] border border-[#ff8b7c]/40 px-2 py-0.5 rounded-full text-xs text-[#ff8b7c] mt-1">
+                          <div className="inline-flex items-center gap-1 bg-[#161b22] dark:bg-[#161b22] light:bg-slate-100 border border-[#ff8b7c]/40 px-2 py-0.5 rounded-full text-xs text-[#ff8b7c] mt-1">
                             ❤️ 1
                           </div>
                         )}
@@ -218,22 +218,22 @@ export default function SquadChat() {
       </div>
 
       {/* Input Bar */}
-      <div className="px-4 pb-6 pt-0 flex-shrink-0">
+      <div className="px-4 pb-4 pt-2 bg-[#0a0e17] dark:bg-[#0a0e17] light:bg-slate-50 border-t border-[#21262d]/50 dark:border-[#21262d]/50 light:border-slate-200 flex-shrink-0">
         {typingUsers.length > 0 && (
-          <div className="text-[11px] text-[#8b949e] mb-1 h-4 flex items-center gap-1.5 px-1">
+          <div className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 mb-1 h-4 flex items-center gap-1.5 px-1">
             <span className="inline-flex gap-0.5">
-              <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
-              <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
+              <span className="w-1.5 h-1.5 bg-[#EA5D3A] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-1.5 h-1.5 bg-[#EA5D3A] rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
+              <span className="w-1.5 h-1.5 bg-[#EA5D3A] rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
             </span>
-            <span className="font-semibold text-white">{typingUsers.join(', ')}</span>
+            <span className="font-semibold text-white dark:text-white light:text-slate-900">{typingUsers.join(', ')}</span>
             <span>{typingUsers.length === 1 ? 'is' : 'are'} typing...</span>
           </div>
         )}
         <form onSubmit={handleSend} className="relative">
-          <div className="flex items-center bg-[#161b22] border border-[#30363d] rounded-xl focus-within:border-[#22d3ee] transition-colors">
-            <button type="button" className="p-3 text-[#8b949e] hover:text-white transition-colors flex-shrink-0">
-              <Plus className="w-5 h-5" />
+          <div className="flex items-center bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-xl focus-within:border-[#EA5D3A] transition-colors shadow-sm">
+            <button type="button" className="p-3 text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0">
+              <Plus className="w-4 h-4" />
             </button>
             <input
               ref={inputRef}
@@ -241,17 +241,17 @@ export default function SquadChat() {
               value={newMessage}
               onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }}
               placeholder={`Message #${channelName}`}
-              className="flex-1 bg-transparent text-[15px] text-[#e6edf3] placeholder-[#8b949e] outline-none py-2.5"
+              className="flex-1 bg-transparent text-sm text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 placeholder-[#8b949e] dark:placeholder-[#8b949e] light:placeholder-slate-400 outline-none py-2.5 px-1"
             />
-            <button type="button" className="p-3 text-[#8b949e] hover:text-white transition-colors flex-shrink-0">
-              <Smile className="w-5 h-5" />
+            <button type="button" className="p-3 text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0">
+              <Smile className="w-4 h-4" />
             </button>
             <button
               type="submit"
               disabled={!newMessage.trim() || sending}
-              className="p-3 text-[#22c55e] hover:text-[#4be277] disabled:opacity-30 transition-colors flex-shrink-0"
+              className="p-3 text-[#EA5D3A] hover:text-[#F2704E] disabled:opacity-30 transition-colors flex-shrink-0"
             >
-              {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+              {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </button>
           </div>
         </form>

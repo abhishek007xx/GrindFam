@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import { Sun, Moon } from 'lucide-react';
 import FrameSequencePlayer from '../components/FrameSequencePlayer';
 import ScrollLockSection from '../components/ScrollLockSection';
 
@@ -51,6 +53,7 @@ const COMPANIES = ['Google','Amazon','Meta','Microsoft','Netflix','Apple','Uber'
    ═══════════════════════════════════════════════════════════════════════ */
 export default function LandingPage() {
   const { user }  = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate  = useNavigate();
 
   const [scrolled,        setScrolled]        = useState(false);
@@ -130,6 +133,29 @@ export default function LandingPage() {
           </div>
 
           <div className="hidden md:flex" style={{ gap:'12px', alignItems:'center' }}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '999px',
+                padding: '7px 14px',
+                cursor: 'pointer',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '12px',
+                fontWeight: '600',
+                transition: 'all 0.2s'
+              }}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun size={15} color="#F59E0B" /> : <Moon size={15} color="#818CF8" />}
+              <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+            </button>
+
             {user
               ? <Link to="/dashboard" style={{ ...S.ctaBtn, textDecoration:'none', display:'inline-block' }}>Dashboard →</Link>
               : <>
@@ -157,6 +183,26 @@ export default function LandingPage() {
               ? <Link key={l.label} to={l.to} onClick={()=>setMobileMenuOpen(false)} style={{ color:'#8A8A85', fontSize:'14px', textDecoration:'none', padding:'8px 0' }}>{l.label}</Link>
               : <a key={l.label} href={l.href} onClick={()=>setMobileMenuOpen(false)} style={{ color:'#8A8A85', fontSize:'14px', textDecoration:'none', padding:'8px 0' }}>{l.label}</a>
             )}
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: 'rgba(255,255,255,0.08)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: '12px',
+                padding: '10px 16px',
+                cursor: 'pointer',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                justify: 'center',
+                gap: '8px',
+                fontSize: '13px',
+                fontWeight: '600'
+              }}
+            >
+              {theme === 'dark' ? <Sun size={16} color="#F59E0B" /> : <Moon size={16} color="#818CF8" />}
+              <span>Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode</span>
+            </button>
             <button onClick={handleCTA} style={{ ...S.ctaBtn, marginTop:'8px', padding:'10px 20px', textAlign:'center' }}>Start Free →</button>
           </div>
         )}

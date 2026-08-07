@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { useSquadStore } from './store/useSquadStore';
 import MainLayout from './components/MainLayout';
 import Login from './pages/Login';
@@ -113,34 +114,36 @@ const HomeOrLanding = () => {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <DeepLinkJoinHandler>
-          <Routes>
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-            <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <DeepLinkJoinHandler>
+            <Routes>
+              <Route path="/landing" element={<LandingPage />} />
+              <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+              <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+              <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
-            <Route path="/" element={<HomeOrLanding />} />
-            <Route path="/dashboard" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />
-            <Route path="/companies" element={<ProtectedRoute><MainLayout><CompaniesGrid /></MainLayout></ProtectedRoute>} />
-            <Route path="/company/:companySlug/:trackId" element={<ProtectedRoute><MainLayout><TrackDetail /></MainLayout></ProtectedRoute>} />
-            <Route path="/sheets" element={<ProtectedRoute><MainLayout><SheetsExplorer /></MainLayout></ProtectedRoute>} />
-            <Route path="/sheet/:sheetSlug" element={<ProtectedRoute><MainLayout><SheetDetail /></MainLayout></ProtectedRoute>} />
-            <Route path="/roadmaps" element={<ProtectedRoute><MainLayout><RoadmapsExplorer /></MainLayout></ProtectedRoute>} />
-            <Route path="/roadmap/:roadmapId" element={<ProtectedRoute><MainLayout><RoadmapDetail /></MainLayout></ProtectedRoute>} />
-            <Route path="/community" element={<ProtectedRoute><MainLayout><SquadHub /></MainLayout></ProtectedRoute>} />
-            <Route path="/squad" element={<Navigate to="/community" replace />} />
-            <Route path="/topics/:tagName" element={<ProtectedRoute><MainLayout><TopicProblems /></MainLayout></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><MainLayout><SettingsPage /></MainLayout></ProtectedRoute>} />
+              <Route path="/" element={<HomeOrLanding />} />
+              <Route path="/dashboard" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />
+              <Route path="/companies" element={<ProtectedRoute><MainLayout><CompaniesGrid /></MainLayout></ProtectedRoute>} />
+              <Route path="/company/:companySlug/:trackId" element={<ProtectedRoute><MainLayout><TrackDetail /></MainLayout></ProtectedRoute>} />
+              <Route path="/sheets" element={<ProtectedRoute><MainLayout><SheetsExplorer /></MainLayout></ProtectedRoute>} />
+              <Route path="/sheet/:sheetSlug" element={<ProtectedRoute><MainLayout><SheetDetail /></MainLayout></ProtectedRoute>} />
+              <Route path="/roadmaps" element={<ProtectedRoute><MainLayout><RoadmapsExplorer /></MainLayout></ProtectedRoute>} />
+              <Route path="/roadmap/:roadmapId" element={<ProtectedRoute><MainLayout><RoadmapDetail /></MainLayout></ProtectedRoute>} />
+              <Route path="/community" element={<ProtectedRoute><MainLayout><SquadHub /></MainLayout></ProtectedRoute>} />
+              <Route path="/squad" element={<Navigate to="/community" replace />} />
+              <Route path="/topics/:tagName" element={<ProtectedRoute><MainLayout><TopicProblems /></MainLayout></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><MainLayout><SettingsPage /></MainLayout></ProtectedRoute>} />
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </DeepLinkJoinHandler>
-      </AuthProvider>
-    </BrowserRouter>
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </DeepLinkJoinHandler>
+        </AuthProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

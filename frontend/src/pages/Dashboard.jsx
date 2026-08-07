@@ -296,10 +296,10 @@ const Dashboard = () => {
 
           {/* Greeting Header */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#F3F4F6]">
+            <h2 className="text-2xl font-bold text-[#F3F4F6] dark:text-[#F3F4F6] light:text-slate-900">
               Hey {name.split(' ')[0]}!
             </h2>
-            <p className="text-sm text-[#9CA3AF] mt-0.5">
+            <p className="text-sm text-[#9CA3AF] dark:text-[#9CA3AF] light:text-slate-600 mt-0.5">
               {yourTodayCount === 0
                 ? "Time to start grinding — your squad is counting on you!"
                 : yourTodayCount >= dailyTarget
@@ -309,16 +309,6 @@ const Dashboard = () => {
             </p>
           </div>
 
-          {/* 🎯 Interview Timeline & Daily Quota Tracker Widget */}
-          <div className="mb-6">
-            <InterviewTimelineTracker
-              totalTrackProblems={dashboardData?.stats?.totalProblems || 100}
-              solvedCount={yourPlatformTotal}
-            />
-          </div>
-
-
-
           {/* ═══════════════════════════════════════════════════════════ */}
           {/* ██  EXISTING: Leaderboard Section  ██ */}
           {/* ═══════════════════════════════════════════════════════════ */}
@@ -327,8 +317,8 @@ const Dashboard = () => {
               <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
                 <Loader2 className="w-7 h-7 animate-spin" />
               </div>
-              <p className="text-sm font-semibold text-[#e6edf3]">Syncing LeetCode submissions...</p>
-              <p className="text-xs text-[#6e7681]">Querying live data for your squad</p>
+              <p className="text-sm font-semibold text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900">Loading Dashboard...</p>
+              <p className="text-xs text-[#6e7681] dark:text-[#6e7681] light:text-slate-600">Fetching your progress and squad stats</p>
             </div>
           ) : error ? (
             <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">
@@ -359,27 +349,27 @@ const Dashboard = () => {
 
               {/* Zone 2: Deep Problem-Solving Analytics */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 2: Deep Problem-Solving Analytics</h2>
-                  <p className="text-xs text-zinc-400">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
+                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 2: Deep Problem-Solving Analytics</h2>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
                 </div>
                 <ProblemAnalytics stats={dashboardData.stats} />
               </div>
 
               {/* Zone 3: Revision, Retention & Sheet Tracking */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 3: Revision, Retention & Sheet Tracking</h2>
-                  <p className="text-xs text-zinc-400">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
+                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 3: Revision, Retention & Sheet Tracking</h2>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
                 </div>
                 <SpacedRepetitionVault />
               </div>
 
               {/* Zone 4: Social Drive, Contests & Gamification */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 4: Social Drive, Contests & Gamification</h2>
-                  <p className="text-xs text-zinc-400">Contest rating curve, XP level badges, live calendar & squad standings</p>
+                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 4: Social Drive, Contests & Gamification</h2>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Contest rating curve, XP level badges, live calendar & squad standings</p>
                 </div>
 
                 <ContestsGamification platformTotal={yourPlatformTotal} />
