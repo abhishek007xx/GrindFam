@@ -14,7 +14,7 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget, onSyncLeetCode, refr
   return (
     <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
       {/* Squad Members */}
-      <div className="dash-card dash-card-hover p-5 bg-[#121318] border border-[#27272A] rounded-2xl shadow-sm">
+      <div className="dash-card dash-card-hover p-5 bg-[#121215] border border-[#27272A] rounded-2xl shadow-sm">
         <div className="w-8 h-8 rounded-xl bg-zinc-900/80 dark:bg-zinc-900/80 light:bg-slate-100 border border-zinc-800 dark:border-zinc-800 light:border-slate-200 flex items-center justify-center mb-3 text-zinc-300 dark:text-zinc-300 light:text-slate-700">
           <Users className="w-4 h-4" />
         </div>
@@ -24,7 +24,7 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget, onSyncLeetCode, refr
       </div>
 
       {/* Hit Target Today */}
-      <div className="dash-card dash-card-hover p-5 bg-[#121318] border border-[#27272A] rounded-2xl shadow-sm">
+      <div className="dash-card dash-card-hover p-5 bg-[#121215] border border-[#27272A] rounded-2xl shadow-sm">
         <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3 text-[#10B981]">
           <CheckCircle2 className="w-4 h-4" />
         </div>
@@ -38,7 +38,7 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget, onSyncLeetCode, refr
       </div>
 
       {/* Your Today's Count */}
-      <div className="dash-card dash-card-hover p-5 bg-[#121318] border border-[#27272A] rounded-2xl shadow-sm flex flex-col justify-between">
+      <div className="dash-card dash-card-hover p-5 bg-[#121215] border border-[#27272A] rounded-2xl shadow-sm flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between mb-3">
             <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-[#EA5D3A]">
@@ -64,7 +64,7 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget, onSyncLeetCode, refr
       </div>
 
       {/* GrindFam Total */}
-      <div className="dash-card dash-card-hover p-5 bg-[#121318] border border-[#27272A] rounded-2xl shadow-sm">
+      <div className="dash-card dash-card-hover p-5 bg-[#121215] border border-[#27272A] rounded-2xl shadow-sm">
         <div className="w-8 h-8 rounded-xl bg-zinc-900/80 dark:bg-zinc-900/80 light:bg-slate-100 border border-zinc-800 dark:border-zinc-800 light:border-slate-200 flex items-center justify-center mb-3 text-zinc-300 dark:text-zinc-300 light:text-slate-700">
           <TrendingUp className="w-4 h-4" />
         </div>
@@ -74,7 +74,7 @@ const StatsCards = ({ stats, dailyTarget = 5, onEditTarget, onSyncLeetCode, refr
       </div>
 
       {/* Daily Target Card */}
-      <div className="dash-card dash-card-hover p-5 bg-[#121318] border border-[#27272A] rounded-2xl shadow-sm col-span-2 lg:col-span-1 flex items-center gap-3">
+      <div className="dash-card dash-card-hover p-5 bg-[#121215] border border-[#27272A] rounded-2xl shadow-sm col-span-2 lg:col-span-1 flex items-center gap-3">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-400 light:text-slate-600 mb-0.5">Daily Target</p>
           <h3 className="text-3xl font-bold text-white dark:text-white light:text-slate-900 font-mono tracking-tight">{target}</h3>

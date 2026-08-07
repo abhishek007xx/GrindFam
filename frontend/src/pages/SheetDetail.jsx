@@ -25,7 +25,7 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8 }) {
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke="#21262d"
+          stroke="#222225"
           strokeWidth={strokeWidth}
           fill="transparent"
         />
@@ -306,7 +306,7 @@ export function SheetDetail() {
           {/* Back Navigation */}
           <button
             onClick={() => navigate('/sheets')}
-            className="flex items-center gap-2 text-xs font-semibold text-[#8b949e] hover:text-white transition-colors"
+            className="flex items-center gap-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All DSA Sheets</span>
@@ -314,13 +314,13 @@ export function SheetDetail() {
 
           {loading ? (
             <div className="space-y-6 animate-pulse">
-              <div className="h-44 bg-[#161b22]/50 border border-[#30363d] rounded-3xl" />
-              <div className="h-96 bg-[#161b22]/50 border border-[#30363d] rounded-3xl" />
+              <div className="h-44 bg-[#121215]/50 border border-[#27272A] rounded-3xl" />
+              <div className="h-96 bg-[#121215]/50 border border-[#27272A] rounded-3xl" />
             </div>
           ) : (
             <>
               {/* TOP HEADER */}
-              <div className="relative bg-[#0d1117]/90 backdrop-blur border border-[#30363d] rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="relative bg-[#09090B]/90 backdrop-blur border border-[#27272A] rounded-3xl p-8 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl text-center md:text-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
                     <Sparkles className="w-3.5 h-3.5" />
@@ -329,14 +329,14 @@ export function SheetDetail() {
                   <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                     {sheet?.name}
                   </h1>
-                  <p className="text-xs text-[#8b949e] flex items-center justify-center md:justify-start gap-1.5 font-medium">
-                    <User className="w-3.5 h-3.5 text-[#6e7681]" />
-                    <span>Created by <strong className="text-[#e6edf3]">{sheet?.creator}</strong></span>
+                  <p className="text-xs text-[#A1A1AA] flex items-center justify-center md:justify-start gap-1.5 font-medium">
+                    <User className="w-3.5 h-3.5 text-[#71717A]" />
+                    <span>Created by <strong className="text-[#F4F4F5]">{sheet?.creator}</strong></span>
                   </p>
                 </div>
 
                 {/* Progress Ring & Stats */}
-                <div className="flex items-center gap-6 bg-[#161b22] border border-[#30363d] rounded-2xl p-5 shadow-xl">
+                <div className="flex items-center gap-6 bg-[#121215] border border-[#27272A] rounded-2xl p-5 shadow-xl">
                   <ProgressRing percentage={completionPercentage} size={84} strokeWidth={8} />
 
                   <div className="space-y-1.5 text-xs">
@@ -350,7 +350,7 @@ export function SheetDetail() {
                         <span className="font-semibold">{revisionCount} Needs Revision</span>
                       </div>
                     )}
-                    <p className="text-[11px] text-[#8b949e]">
+                    <p className="text-[11px] text-[#A1A1AA]">
                       {totalProblems - solvedCount} remaining
                     </p>
                   </div>
@@ -358,15 +358,15 @@ export function SheetDetail() {
               </div>
 
               {/* SEARCH & FILTERS BAR */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0d1117] border border-[#30363d] rounded-2xl p-4 shadow-lg">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#09090B] border border-[#27272A] rounded-2xl p-4 shadow-lg">
                 <div className="relative w-full sm:w-80">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681]" />
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search problems in sheet..."
-                    className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-emerald-500/50"
+                    className="w-full pl-10 pr-4 py-2 bg-[#121215] border border-[#27272A] rounded-xl text-xs text-[#F4F4F5] placeholder-[#71717A] focus:outline-none focus:border-emerald-500/50"
                   />
                 </div>
 
@@ -374,7 +374,7 @@ export function SheetDetail() {
                   {/* Expand / Collapse All Toggle */}
                   <button
                     onClick={toggleExpandAll}
-                    className="px-3 py-1.5 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-xs font-semibold text-[#8b949e] hover:text-white transition-all flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-xl bg-[#121215] hover:bg-[#222225] border border-[#27272A] text-xs font-semibold text-[#A1A1AA] hover:text-white transition-all flex items-center gap-1.5"
                   >
                     {sortedCategoryNames.some(cat => openCategories[cat] === true) ? (
                       <>
@@ -383,13 +383,13 @@ export function SheetDetail() {
                       </>
                     ) : (
                       <>
-                        <ChevronDown className="w-3.5 h-3.5 text-[#8b949e]" />
+                        <ChevronDown className="w-3.5 h-3.5 text-[#A1A1AA]" />
                         <span>Expand All</span>
                       </>
                     )}
                   </button>
 
-                  <div className="flex items-center gap-1.5 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
+                  <div className="flex items-center gap-1.5 bg-[#121215] p-1 rounded-xl border border-[#27272A]">
                     {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
                       <button
                         key={diff}
@@ -397,7 +397,7 @@ export function SheetDetail() {
                         className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                           difficultyFilter === diff
                             ? 'bg-emerald-600 text-white shadow'
-                            : 'text-[#8b949e] hover:text-white'
+                            : 'text-[#A1A1AA] hover:text-white'
                         }`}
                       >
                         {diff}
@@ -410,7 +410,7 @@ export function SheetDetail() {
               {/* ACCORDION CATEGORY LIST — CLOSED BY DEFAULT, SEQUENTIALLY ORDERED */}
               <div className="space-y-4">
                 {sortedCategoryNames.length === 0 ? (
-                  <div className="p-12 text-center bg-[#0d1117] border border-[#30363d] rounded-3xl text-[#6e7681]">
+                  <div className="p-12 text-center bg-[#09090B] border border-[#27272A] rounded-3xl text-[#71717A]">
                     <p className="text-sm font-medium">No matching problems found.</p>
                   </div>
                 ) : (
@@ -424,29 +424,29 @@ export function SheetDetail() {
                     return (
                       <div
                         key={catName}
-                        className="bg-[#0d1117] border border-[#30363d] rounded-2xl overflow-hidden shadow-lg transition-all"
+                        className="bg-[#09090B] border border-[#27272A] rounded-2xl overflow-hidden shadow-lg transition-all"
                       >
                         {/* Accordion Header */}
                         <div
                           onClick={() => toggleCategory(catName)}
-                          className="px-6 py-4 bg-[#161b22]/70 hover:bg-[#161b22] border-b border-[#21262d] flex items-center justify-between cursor-pointer transition-colors"
+                          className="px-6 py-4 bg-[#121215]/70 hover:bg-[#121215] border-b border-[#222225] flex items-center justify-between cursor-pointer transition-colors"
                         >
                           <div className="flex items-center gap-3">
                             {isOpen ? (
                               <ChevronUp className="w-4 h-4 text-emerald-400" />
                             ) : (
-                              <ChevronDown className="w-4 h-4 text-[#8b949e]" />
+                              <ChevronDown className="w-4 h-4 text-[#A1A1AA]" />
                             )}
                             <h3 className="text-sm font-bold text-white tracking-wide">
                               {catName}
                             </h3>
-                            <span className="px-2.5 py-0.5 rounded-full bg-[#0d1117] border border-[#30363d] text-[11px] font-mono text-[#8b949e]">
+                            <span className="px-2.5 py-0.5 rounded-full bg-[#09090B] border border-[#27272A] text-[11px] font-mono text-[#A1A1AA]">
                               {catSolved}/{catTotal} Solved
                             </span>
                           </div>
 
                           <div className="flex items-center gap-3">
-                            <div className="w-24 bg-[#0d1117] h-2 rounded-full overflow-hidden border border-[#30363d] hidden sm:block">
+                            <div className="w-24 bg-[#09090B] h-2 rounded-full overflow-hidden border border-[#27272A] hidden sm:block">
                               <div
                                 className="bg-emerald-500 h-full rounded-full transition-all duration-500"
                                 style={{ width: `${catPercentage}%` }}
@@ -460,7 +460,7 @@ export function SheetDetail() {
 
                         {/* Accordion Body */}
                         {isOpen && (
-                          <div className="divide-y divide-[#21262d]">
+                          <div className="divide-y divide-[#222225]">
                             {catProblems.map((prob) => {
                               const userState = progressMap[prob.id] || {};
                               const status = userState.status || 'not_started';
@@ -472,7 +472,7 @@ export function SheetDetail() {
                               return (
                                 <div
                                   key={prob.id}
-                                  className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#161b22]/50 ${
+                                  className={`p-4 sm:px-6 flex items-center justify-between gap-4 transition-colors hover:bg-[#121215]/50 ${
                                     isSolved ? 'bg-emerald-950/10' : isRevision ? 'bg-amber-950/10' : ''
                                   }`}
                                 >
@@ -507,7 +507,7 @@ export function SheetDetail() {
                                         ) : (
                                           <motion.div
                                             key="unsolved"
-                                            className="w-5 h-5 rounded-md border-2 border-[#484f58] hover:border-white transition-colors"
+                                            className="w-5 h-5 rounded-md border-2 border-[#3F3F46] hover:border-white transition-colors"
                                           />
                                         )}
                                       </AnimatePresence>
@@ -527,12 +527,12 @@ export function SheetDetail() {
                                         }`}
                                       >
                                         <span>{prob.title}</span>
-                                        <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] hover:text-emerald-400 transition-colors flex-shrink-0" />
+                                        <ExternalLink className="w-3.5 h-3.5 text-[#71717A] hover:text-emerald-400 transition-colors flex-shrink-0" />
                                       </a>
 
                                       <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                         {prob.topic_tags?.map(tag => (
-                                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#161b22] border border-[#30363d] text-[#8b949e]">
+                                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] bg-[#121215] border border-[#27272A] text-[#A1A1AA]">
                                             #{tag}
                                           </span>
                                         ))}
@@ -552,7 +552,7 @@ export function SheetDetail() {
                                       </button>
                                     )}
 
-                                    <span className="inline-flex items-center gap-1.5 text-xs text-[#8b949e] font-medium">
+                                    <span className="inline-flex items-center gap-1.5 text-xs text-[#A1A1AA] font-medium">
                                        <span className={`w-2 h-2 rounded-full inline-block ${
                                          prob.difficulty === 'Easy' ? 'bg-[#22c55e]' : prob.difficulty === 'Medium' ? 'bg-[#eab308]' : 'bg-[#ef4444]'
                                        }`} />
@@ -564,7 +564,7 @@ export function SheetDetail() {
                                       className={`p-2 rounded-xl border transition-all ${
                                         hasNotes
                                           ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
-                                          : 'bg-[#161b22] border-[#30363d] text-[#8b949e] hover:text-white'
+                                          : 'bg-[#121215] border-[#27272A] text-[#A1A1AA] hover:text-white'
                                       }`}
                                       title={hasNotes ? 'View/Edit Notes' : 'Add Personal Notes'}
                                     >

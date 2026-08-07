@@ -19,7 +19,7 @@ export default function MemberCard({ member, isCurrentUser, onClick }) {
         <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold">
           {initial}
         </div>
-        <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#161B22] ${
+        <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-[#121215] ${
           isOnline ? 'bg-[#10B981]' : 'bg-[#6B7280]'
         }`} />
       </div>

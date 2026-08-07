@@ -68,7 +68,7 @@ export default function MemberPopover({ member, onClose }) {
               }`} />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#F3F4F6] flex items-center gap-1.5">
+              <h3 className="text-base font-bold text-[#F4F4F5] flex items-center gap-1.5">
                 {member.name}
                 {roles.includes('admin') && <Crown className="w-4 h-4 text-amber-400" title="Admin" />}
                 {roles.includes('moderator') && <Shield className="w-4 h-4 text-blue-400" title="Moderator" />}

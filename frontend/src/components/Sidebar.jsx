@@ -289,7 +289,7 @@ export default function Sidebar({
   );
 
   return (
-    <div className={`flex flex-col h-full py-3 gap-3 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 transition-all duration-300 ${
+    <div className={`flex flex-col h-full py-3 gap-3 bg-[#09090B] dark:bg-[#09090B] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 transition-all duration-300 ${
       isCollapsed ? 'px-2' : 'px-3'
     }`}>
       {/* 1. TOP USER PROFILE CARD */}
@@ -313,7 +313,7 @@ export default function Sidebar({
           </div>
         </div>
       ) : (
-        <div className="p-2.5 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
+        <div className="p-2.5 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0 cursor-pointer" onClick={() => navigate('/settings')}>
               <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
@@ -357,7 +357,7 @@ export default function Sidebar({
               if (onToggleCollapse) onToggleCollapse();
               setTimeout(() => inputRef.current?.focus(), 100);
             }}
-            className="w-full flex items-center justify-center p-2.5 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-zinc-400 hover:text-white transition-all shadow-sm"
+            className="w-full flex items-center justify-center p-2.5 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-zinc-400 hover:text-white transition-all shadow-sm"
             title="Search problems (Ctrl+K)"
           >
             <Search className="w-4 h-4 text-[#EA5D3A]" />
@@ -372,7 +372,7 @@ export default function Sidebar({
               onChange={handleSearchChange}
               onFocus={() => setIsSearchOpen(true)}
               placeholder="Search problems..."
-              className="w-full pl-9 pr-7 py-2 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 placeholder-zinc-500 dark:placeholder-zinc-500 light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
+              className="w-full pl-9 pr-7 py-2 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 placeholder-zinc-500 dark:placeholder-zinc-500 light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
             />
             {searchQuery ? (
               <button
@@ -391,7 +391,7 @@ export default function Sidebar({
 
         {/* Floating Search Results Overlay */}
         {isSearchOpen && searchQuery && (
-          <div className="absolute left-0 top-full mt-1.5 w-72 bg-[#121318] dark:bg-[#121318] light:bg-white border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50 py-2 space-y-2">
+          <div className="absolute left-0 top-full mt-1.5 w-72 bg-[#121215] dark:bg-[#121215] light:bg-white border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50 py-2 space-y-2">
             {searchLoading ? (
               <div className="p-3 text-center text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-500">
                 Searching problems...

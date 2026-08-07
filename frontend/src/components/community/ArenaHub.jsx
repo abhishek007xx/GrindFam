@@ -32,9 +32,9 @@ export function ArenaHub({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
-        className="bg-gradient-to-r from-[#161B22] via-[#1F2937] to-[#161B22] border border-[#30363D] rounded-xl p-6 shadow-2xl relative overflow-hidden space-y-4"
+        className="bg-gradient-to-r from-[#121215] via-[#18181B] to-[#121215] border border-[#27272A] rounded-xl p-6 shadow-2xl relative overflow-hidden space-y-4"
       >
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#21262D] pb-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#222225] pb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="px-2.5 py-0.5 rounded bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#F59E0B] text-[11px] font-bold uppercase">
@@ -44,7 +44,7 @@ export function ArenaHub({
                 <Clock className="w-3.5 h-3.5 text-[#F59E0B]" aria-hidden="true" /> Resets in 4h 12m
               </span>
             </div>
-            <h2 className="text-xl font-extrabold text-[#F3F4F6]">
+            <h2 className="text-xl font-extrabold text-[#F4F4F5]">
               Minimum Window Substring Speed Run
             </h2>
           </div>
@@ -71,7 +71,7 @@ export function ArenaHub({
         transition={{ duration: 0.25, delay: 0.05 }}
         aria-live="polite"
         aria-atomic="true"
-        className="bg-[#1F2937] border-2 border-[#EA5D3A] rounded-2xl p-6 md:p-8 text-center shadow-[0_0_30px_rgba(234,93,58,0.15)] relative space-y-6"
+        className="bg-[#18181B] border-2 border-[#EA5D3A] rounded-2xl p-6 md:p-8 text-center shadow-[0_0_30px_rgba(234,93,58,0.15)] relative space-y-6"
       >
         {/* Match State: IDLE */}
         {matchState === 'idle' && (
@@ -80,7 +80,7 @@ export function ArenaHub({
               <div className="w-12 h-12 rounded-xl bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] flex items-center justify-center mx-auto shadow-md">
                 <Swords className="w-6 h-6" aria-hidden="true" />
               </div>
-              <h2 className="text-2xl font-extrabold text-[#F3F4F6] tracking-tight">
+              <h2 className="text-2xl font-extrabold text-[#F4F4F5] tracking-tight">
                 Arena Battle League
               </h2>
               <p className="text-xs text-[#9CA3AF]">
@@ -97,7 +97,7 @@ export function ArenaHub({
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] ${
                   matchType === '1v1'
                     ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] shadow-md'
-                    : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white'
+                    : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white'
                 }`}
               >
                 Live 1v1 Match
@@ -109,7 +109,7 @@ export function ArenaHub({
                 className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] ${
                   matchType === 'ghost'
                     ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] shadow-md'
-                    : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white'
+                    : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white'
                 }`}
               >
                 Async Ghost Run
@@ -136,11 +136,11 @@ export function ArenaHub({
         {matchState === 'searching' && (
           <div className="max-w-md mx-auto space-y-4 py-4">
             <div className="w-16 h-16 rounded-full border-4 border-[#EA5D3A] border-t-transparent animate-spin mx-auto" />
-            <h3 className="text-lg font-extrabold text-[#F3F4F6]">Finding Opponent...</h3>
+            <h3 className="text-lg font-extrabold text-[#F4F4F5]">Finding Opponent...</h3>
             <p className="text-xs text-[#9CA3AF]">Matching you with an equal-ELO opponent (under 3 seconds)</p>
             <button
               onClick={onCancelSearch}
-              className="px-4 py-2 bg-[#161B22] border border-[#30363D] text-[#9CA3AF] hover:text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 mx-auto"
+              className="px-4 py-2 bg-[#121215] border border-[#27272A] text-[#9CA3AF] hover:text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 mx-auto"
             >
               <X className="w-3.5 h-3.5" />
               <span>Cancel Search</span>
@@ -163,13 +163,13 @@ export function ArenaHub({
               </div>
               <Swords className="w-6 h-6 text-[#F59E0B] animate-pulse" />
               <div className="text-center">
-                <div className="w-12 h-12 rounded-xl bg-[#6B7280]/20 border border-[#6B7280]/40 flex items-center justify-center text-[#F3F4F6] font-bold text-xs mx-auto">
+                <div className="w-12 h-12 rounded-xl bg-[#6B7280]/20 border border-[#6B7280]/40 flex items-center justify-center text-[#F4F4F5] font-bold text-xs mx-auto">
                   {opponent.name?.[0] || 'O'}
                 </div>
                 <span className="text-xs text-[#9CA3AF] mt-1 block">{opponent.elo} ELO</span>
               </div>
             </div>
-            <p className="text-xs text-[#F3F4F6] font-semibold">Problem: {matchProblem}</p>
+            <p className="text-xs text-[#F4F4F5] font-semibold">Problem: {matchProblem}</p>
           </motion.div>
         )}
 
@@ -177,7 +177,7 @@ export function ArenaHub({
         {matchState === 'in_progress' && (
           <div className="max-w-md mx-auto space-y-4 py-4">
             <h3 className="text-lg font-extrabold text-[#F59E0B]">Battle In Progress</h3>
-            <p className="text-sm text-[#F3F4F6]">{matchProblem}</p>
+            <p className="text-sm text-[#F4F4F5]">{matchProblem}</p>
             <p className="text-xs text-[#9CA3AF]">vs {opponent?.name} ({opponent?.elo} ELO)</p>
             <div className="flex gap-3 justify-center">
               <motion.button
@@ -227,11 +227,11 @@ export function ArenaHub({
         )}
 
         {/* ELO & Division Counter Row (always visible) */}
-        <div className="pt-4 border-t border-[#30363D] flex items-center justify-around max-w-md mx-auto text-xs">
+        <div className="pt-4 border-t border-[#27272A] flex items-center justify-around max-w-md mx-auto text-xs">
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-[#F59E0B]" aria-hidden="true" />
             <span className="text-[#9CA3AF]">ELO Rating:</span>
-            <span className="font-mono font-extrabold text-[#F3F4F6] text-sm">{eloRating}</span>
+            <span className="font-mono font-extrabold text-[#F4F4F5] text-sm">{eloRating}</span>
           </div>
           <div className="flex items-center gap-2">
             <Shield className="w-4 h-4 text-[#EA5D3A]" aria-hidden="true" />
@@ -252,9 +252,9 @@ export function ArenaHub({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.1 }}
-          className="bg-[#161B22] border border-[#30363D] rounded-xl p-5 space-y-3"
+          className="bg-[#121215] border border-[#27272A] rounded-xl p-5 space-y-3"
         >
-          <h3 className="text-sm font-bold text-[#F3F4F6] flex items-center gap-2">
+          <h3 className="text-sm font-bold text-[#F4F4F5] flex items-center gap-2">
             <Trophy className="w-4 h-4 text-[#F59E0B]" />
             <span>Recent Match History</span>
           </h3>
@@ -262,14 +262,14 @@ export function ArenaHub({
             {matchHistory.slice(0, 5).map((match, idx) => {
               const won = match.winner_id === match.player_a;
               return (
-                <div key={match.id || idx} className="flex items-center justify-between py-2 px-3 bg-[#0D1117] border border-[#21262D] rounded-lg text-xs">
+                <div key={match.id || idx} className="flex items-center justify-between py-2 px-3 bg-[#09090B] border border-[#222225] rounded-lg text-xs">
                   <div className="flex items-center gap-2">
                     <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
                       won ? 'bg-[#10B981]/20 text-[#10B981]' : 'bg-[#EF4444]/20 text-[#EF4444]'
                     }`}>
                       {won ? 'WIN' : 'LOSS'}
                     </span>
-                    <span className="text-[#F3F4F6] font-medium">{match.problem_title || 'Arena Match'}</span>
+                    <span className="text-[#F4F4F5] font-medium">{match.problem_title || 'Arena Match'}</span>
                   </div>
                   <span className={`font-mono font-bold ${
                     match.elo_change_a >= 0 ? 'text-[#10B981]' : 'text-[#EF4444]'

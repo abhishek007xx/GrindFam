@@ -24,7 +24,7 @@ function ProgressRing({ percentage = 0, size = 80, strokeWidth = 8 }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#21262D" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -271,7 +271,7 @@ export function TrackDetail() {
       {/* Back Navigation identical to SheetDetail */}
       <button
         onClick={() => navigate('/companies')}
-        className="flex items-center gap-2 text-xs font-semibold text-[#8B949E] hover:text-white transition-colors"
+        className="flex items-center gap-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Company Tracks</span>
@@ -279,25 +279,25 @@ export function TrackDetail() {
 
       {loading ? (
         <div className="space-y-6 animate-pulse">
-          <div className="h-48 bg-[#161B22]/50 border border-[#30363D] rounded-lg" />
-          <div className="h-64 bg-[#161B22]/50 border border-[#30363D] rounded-lg" />
+          <div className="h-48 bg-[#121215]/50 border border-[#27272A] rounded-lg" />
+          <div className="h-64 bg-[#121215]/50 border border-[#27272A] rounded-lg" />
         </div>
       ) : (
         <>
           {/* Hero Banner Card identical to SheetDetail */}
-          <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="bg-[#121215] border border-[#27272A] rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-3">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+                <span className="px-2.5 py-0.5 rounded bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium">
                   {companyTrack?.role || 'DSA Track'}
                 </span>
-                <span className="px-2.5 py-0.5 rounded bg-[#161B22] border border-[#30363D] text-[#8B949E] text-xs font-medium">
+                <span className="px-2.5 py-0.5 rounded bg-[#121215] border border-[#27272A] text-[#A1A1AA] text-xs font-medium">
                   Level: {companyTrack?.level || 'All Levels'}
                 </span>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-lg bg-[#1F2937] border border-[#30363D] p-2 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-[#18181B] border border-[#27272A] p-2 flex items-center justify-center flex-shrink-0">
                   {company?.logo_url ? (
                     <img
                       src={company.logo_url}
@@ -313,7 +313,7 @@ export function TrackDetail() {
                   ) : null}
                   <span className="font-bold text-white text-base hidden">{company?.name?.slice(0, 2).toUpperCase()}</span>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
+                <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
                   {company?.name} Track
                 </h1>
               </div>
@@ -323,7 +323,7 @@ export function TrackDetail() {
               </p>
             </div>
 
-            <div className="flex items-center gap-6 flex-shrink-0 self-start md:self-center bg-[#1F2937]/50 border border-[#30363D] p-4 rounded-lg">
+            <div className="flex items-center gap-6 flex-shrink-0 self-start md:self-center bg-[#18181B]/50 border border-[#27272A] p-4 rounded-lg">
               <ProgressRing percentage={completionPercentage} size={76} strokeWidth={7} />
               <div className="space-y-1">
                 <div className="text-xs font-medium text-[#9CA3AF]">Solved Progress</div>
@@ -370,8 +370,8 @@ export function TrackDetail() {
                   }}
                   className={`px-3.5 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap border flex items-center gap-2 ${
                     isActive
-                      ? 'bg-[#1F2937] text-white border-[#EA5D3A] shadow-sm font-semibold'
-                      : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'
+                      ? 'bg-[#18181B] text-white border-[#EA5D3A] shadow-sm font-semibold'
+                      : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#4B5563]'
                   }`}
                 >
                   <IconComp className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EA5D3A]'}`} />

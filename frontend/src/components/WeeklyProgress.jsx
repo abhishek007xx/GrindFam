@@ -24,7 +24,7 @@ const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }
       {/* Header */}
       <div className="flex items-center justify-between mb-4 flex-shrink-0">
         <h3 className="text-sm font-bold text-white">Weekly Progress</h3>
-        <button className="flex items-center gap-1 text-[11px] text-[#8b949e] font-medium hover:text-white transition-colors">
+        <button className="flex items-center gap-1 text-[11px] text-[#A1A1AA] font-medium hover:text-white transition-colors">
           This Week <ChevronDown className="w-3 h-3" />
         </button>
       </div>
@@ -37,7 +37,7 @@ const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }
           const isToday = i === adjustedTodayIndex;
           return (
             <div key={day} className="flex-1 flex flex-col items-center gap-1 h-full justify-end">
-              <span className="text-[10px] font-bold text-[#8b949e]">{val}</span>
+              <span className="text-[10px] font-bold text-[#A1A1AA]">{val}</span>
               <div className="w-full flex items-end flex-1">
                 <div
                   className="w-full rounded-t-md transition-all duration-500"
@@ -45,26 +45,26 @@ const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }
                     height: val > 0 ? `${Math.max(height, 8)}%` : '3px',
                     background: val > 0
                       ? (isToday ? '#EA5D3A' : 'rgba(234,93,58,0.6)')
-                      : '#21262d',
+                      : '#222225',
                     boxShadow: isToday && val > 0 ? '0 0 12px rgba(234,93,58,0.4)' : 'none'
                   }}
                 ></div>
               </div>
-              <span className={`text-[10px] font-medium ${isToday ? 'text-[#EA5D3A] font-bold' : 'text-[#6e7681]'}`}>{day}</span>
+              <span className={`text-[10px] font-medium ${isToday ? 'text-[#EA5D3A] font-bold' : 'text-[#71717A]'}`}>{day}</span>
             </div>
           );
         })}
       </div>
 
       {/* Summary Stats */}
-      <div className="flex items-center justify-between pt-3 border-t border-[#21262d] flex-shrink-0">
+      <div className="flex items-center justify-between pt-3 border-t border-[#222225] flex-shrink-0">
         <div>
           <span className="text-lg font-extrabold text-white">{totalSolved}</span>
-          <span className="text-[11px] text-[#8b949e] ml-1.5">Total Solved</span>
+          <span className="text-[11px] text-[#A1A1AA] ml-1.5">Total Solved</span>
         </div>
         <div>
           <span className="text-lg font-extrabold text-white">{avgPerDay}</span>
-          <span className="text-[11px] text-[#8b949e] ml-1.5">Avg / Day</span>
+          <span className="text-[11px] text-[#A1A1AA] ml-1.5">Avg / Day</span>
         </div>
       </div>
     </div>

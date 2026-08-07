@@ -39,7 +39,7 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8, label }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#21262d" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -57,7 +57,7 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8, label }) {
       </svg>
       <div className="absolute flex flex-col items-center">
         <span className="text-lg font-extrabold text-white font-mono leading-none">{percentage}%</span>
-        {label && <span className="text-[9px] text-[#8b949e] mt-0.5">{label}</span>}
+        {label && <span className="text-[9px] text-[#A1A1AA] mt-0.5">{label}</span>}
       </div>
     </div>
   );
@@ -295,18 +295,18 @@ const Dashboard = () => {
     <div className="space-y-8 animate-fadeIn">
 
       {/* Greeting Header */}
-          <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <img
               src="/logo.png"
               alt="GrindFam Mascot"
               className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
             />
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium mb-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium mb-2">
                 <Zap className="w-3.5 h-3.5 text-[#EA5D3A]" />
                 <span>Today&apos;s Focus</span>
               </div>
-              <h2 className="text-2xl font-bold text-[#F3F4F6] tracking-tight">
+              <h2 className="text-2xl font-bold text-[#F4F4F5] tracking-tight">
                 Hey {name.split(' ')[0]}! 👋
               </h2>
               <p className="text-sm text-[#9CA3AF] mt-0.5">
@@ -322,7 +322,7 @@ const Dashboard = () => {
             <button
               onClick={handleManualSyncLeetCode}
               disabled={refreshing}
-              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1F2937] hover:bg-[#EA5D3A]/15 border border-[#30363D] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
+              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#18181B] hover:bg-[#EA5D3A]/15 border border-[#27272A] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
               title="Sync latest submissions from LeetCode"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -338,14 +338,14 @@ const Dashboard = () => {
               <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
                 <Loader2 className="w-7 h-7 animate-spin" />
               </div>
-              <p className="text-sm font-semibold text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900">Loading Dashboard...</p>
-              <p className="text-xs text-[#6e7681] dark:text-[#6e7681] light:text-slate-600">Fetching your progress and squad stats</p>
+              <p className="text-sm font-semibold text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900">Loading Dashboard...</p>
+              <p className="text-xs text-[#71717A] dark:text-[#71717A] light:text-slate-600">Fetching your progress and squad stats</p>
             </div>
           ) : error ? (
             <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">
               <AlertCircle className="w-8 h-8 text-amber-500" />
               <h3 className="text-base font-bold text-white">Unable to Load Leaderboard</h3>
-              <p className="text-xs text-[#8b949e]">{error}</p>
+              <p className="text-xs text-[#A1A1AA]">{error}</p>
               <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#EA5D3A]/20">
                 <RefreshCw className="w-3.5 h-3.5" /> Try Again
               </button>
@@ -370,12 +370,12 @@ const Dashboard = () => {
 
               {/* Zone 2: Deep Problem-Solving Analytics */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Deep Problem-Solving Analytics</h2>
+                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Deep Problem-Solving Analytics</h2>
                     <p className="text-[10px] text-[#6B7280]">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
                   </div>
                 </div>
@@ -384,12 +384,12 @@ const Dashboard = () => {
 
               {/* Zone 3: Revision, Retention & Sheet Tracking */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Revision, Retention & Sheet Tracking</h2>
+                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Revision, Retention & Sheet Tracking</h2>
                     <p className="text-[10px] text-[#6B7280]">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
                   </div>
                 </div>
@@ -398,12 +398,12 @@ const Dashboard = () => {
 
               {/* Zone 4: Social Drive, Contests & Gamification */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Social Drive, Contests & Gamification</h2>
+                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Social Drive, Contests & Gamification</h2>
                     <p className="text-[10px] text-[#6B7280]">Contest rating curve, XP level badges, live calendar & squad standings</p>
                   </div>
                 </div>
@@ -558,8 +558,8 @@ const Dashboard = () => {
           )}
 
           {/* Footer */}
-          <div className="text-center py-6 border-t border-[#21262d] mt-4">
-            <p className="text-xs text-[#6e7681] flex items-center justify-center gap-1.5">
+          <div className="text-center py-6 border-t border-[#222225] mt-4">
+            <p className="text-xs text-[#71717A] flex items-center justify-center gap-1.5">
               © {new Date().getFullYear()} GrindFam. Built for consistency. Built for the squad.
               <Heart className="w-3 h-3 text-[#EA5D3A] fill-[#EA5D3A]" />
             </p>

@@ -102,7 +102,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="w-full max-w-lg bg-[#121318] border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden"
+          className="w-full max-w-lg bg-[#121215] border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Modal Header */}
           <div className="flex items-center justify-between px-6 py-4 border-b border-[#27272A]">
@@ -275,7 +275,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                             value={editLcUsername}
                             onChange={(e) => setEditLcUsername(e.target.value)}
                             placeholder="e.g. Iamkartikeyan"
-                            className="w-full pl-10 pr-4 py-2 bg-[#121318] border border-[#27272A] rounded-xl text-white font-mono text-xs focus:outline-none focus:border-[#EA5D3A]"
+                            className="w-full pl-10 pr-4 py-2 bg-[#121215] border border-[#27272A] rounded-xl text-white font-mono text-xs focus:outline-none focus:border-[#EA5D3A]"
                           />
                         </div>
                         <button

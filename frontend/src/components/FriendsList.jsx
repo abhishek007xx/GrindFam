@@ -108,7 +108,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
   return (
     <div className="dash-card overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-[#21262d]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-[#222225]">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
             <Users className="w-5 h-5" />
@@ -120,14 +120,14 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
                 {friends.length} Active
               </span>
             </h3>
-            <p className="text-xs text-[#8b949e]">Your added friends and competitive allies</p>
+            <p className="text-xs text-[#A1A1AA]">Your added friends and competitive allies</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={fetchFriends}
-            className="p-2 rounded-xl bg-[#161b22] border border-[#30363d] text-[#8b949e] hover:text-white transition-all"
+            className="p-2 rounded-xl bg-[#121215] border border-[#27272A] text-[#A1A1AA] hover:text-white transition-all"
             title="Refresh Friends"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -142,15 +142,15 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
       </div>
 
       {/* Search Input */}
-      <div className="px-5 py-3 border-b border-[#21262d] bg-[#0d1117]/50">
+      <div className="px-5 py-3 border-b border-[#222225] bg-[#09090B]/50">
         <div className="relative">
-          <Search className="w-4 h-4 text-[#8b949e] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#A1A1AA] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search friends by name or LeetCode handle..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#161b22] border border-[#30363d] rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full bg-[#121215] border border-[#27272A] rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-[#71717A] focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
         </div>
       </div>
@@ -160,16 +160,16 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
         {loading ? (
           <div className="py-10 flex flex-col items-center justify-center gap-2 text-center">
             <Loader2 className="w-6 h-6 animate-spin text-[#EA5D3A]" />
-            <p className="text-xs text-[#8b949e]">Loading your friends...</p>
+            <p className="text-xs text-[#A1A1AA]">Loading your friends...</p>
           </div>
         ) : filteredFriends.length === 0 ? (
           <div className="py-12 text-center flex flex-col items-center gap-3">
-            <div className="p-3.5 rounded-2xl bg-white/5 text-[#8b949e]">
+            <div className="p-3.5 rounded-2xl bg-white/5 text-[#A1A1AA]">
               <Users className="w-8 h-8" />
             </div>
             <div>
               <p className="text-sm font-bold text-white">No Friends Found</p>
-              <p className="text-xs text-[#8b949e] mt-1 max-w-sm mx-auto">
+              <p className="text-xs text-[#A1A1AA] mt-1 max-w-sm mx-auto">
                 {search ? "No friends match your search query." : "Add friends by LeetCode handle or email to track their progress together!"}
               </p>
             </div>
@@ -191,7 +191,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
               return (
                 <div
                   key={friend.id}
-                  className="p-3.5 rounded-2xl bg-[#161b22] border border-[#30363d] flex items-center justify-between hover:border-[#484f58] transition-all group"
+                  className="p-3.5 rounded-2xl bg-[#121215] border border-[#27272A] flex items-center justify-between hover:border-[#3F3F46] transition-all group"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${grad} flex items-center justify-center text-white font-bold text-xs border border-white/20 shadow-md flex-shrink-0`}>
@@ -203,9 +203,9 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
                         <span className="text-sm font-extrabold text-white truncate">{friend.name}</span>
                         <ShieldCheck className="w-3.5 h-3.5 text-[#EA5D3A]" />
                       </div>
-                      <p className="text-xs text-[#8b949e] truncate">@{friend.leetcodeUsername || 'leetcode'}</p>
+                      <p className="text-xs text-[#A1A1AA] truncate">@{friend.leetcodeUsername || 'leetcode'}</p>
 
-                      <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#8b949e]">
+                      <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#A1A1AA]">
                         <span className="flex items-center gap-1 text-[#EA5D3A] font-bold">
                           <CheckCircle2 className="w-3 h-3" /> Today: {friend.todayCount || 0}
                         </span>
@@ -219,7 +219,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
                   <button
                     onClick={() => onRemoveFriend(friend.id)}
                     disabled={removingId === friend.id}
-                    className="p-2 rounded-xl text-[#8b949e] hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all flex-shrink-0"
+                    className="p-2 rounded-xl text-[#A1A1AA] hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all flex-shrink-0"
                     title="Remove Friend"
                   >
                     {removingId === friend.id ? (

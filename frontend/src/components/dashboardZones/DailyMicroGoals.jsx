@@ -78,7 +78,7 @@ export default function DailyMicroGoals({ onXPEarned }) {
   const progressPercent = Math.min(100, Math.round((completedCount / Math.max(1, goals.length)) * 100));
 
   return (
-    <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+    <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
       {/* Header Bar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

@@ -5,12 +5,12 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { margin: 0; background-color: #0B0C10; }
+body { margin: 0; background-color: #09090B; }
 
 :root {
   /* Codolio Style Deep Charcoal Black Palette */
-  --color-bg:               #0B0C10; /* Deep Charcoal Black */
-  --color-surface:          #121318; /* Elevated Zinc/Carbon #121318 */
+  --color-bg:               #09090B; /* Deep Charcoal Black */
+  --color-surface:          #121215; /* Elevated Zinc/Carbon #121215 */
   --color-surface-elevated: #18181B;
   --color-border:           #27272A; /* Ultra-subtle Zinc #27272A / rgba(255,255,255,0.08) */
   --color-border-hover:     #3F3F46;
@@ -48,25 +48,25 @@ html.light #root {
 
 /* 1. Main Card & Page Surface Backgrounds (Case-Insensitive) */
 html.light .dash-card,
-html.light [class*="bg-[#0b0c10]" i],
+html.light [class*="bg-[#09090B]" i],
 html.light [class*="bg-[#0a0a0a]" i],
-html.light [class*="bg-[#0d1117]" i],
-html.light [class*="bg-[#0a0e17]" i],
-html.light [class*="bg-[#121318]" i],
-html.light [class*="bg-[#161b22]" i],
+html.light [class*="bg-[#09090B]" i],
+html.light [class*="bg-[#09090B]" i],
+html.light [class*="bg-[#121215]" i],
+html.light [class*="bg-[#121215]" i],
 html.light [class*="bg-[#18181b]" i],
 html.light [class*="bg-[#121212]" i],
 html.light [class*="bg-[#131313]" i],
 html.light [class*="bg-[#09090b]" i],
-html.light [class*="bg-[#16171e]" i] {
+html.light [class*="bg-[#141417]" i] {
   background-color: #FFFFFF !important;
 }
 
 /* 2. Inset / Sub-card / Button / Input Backgrounds (Case-Insensitive) */
-html.light [class*="bg-[#1f2937]" i],
-html.light [class*="bg-[#1c2333]" i],
-html.light [class*="bg-[#21262d]" i],
-html.light [class*="bg-[#30363d]" i],
+html.light [class*="bg-[#18181B]" i],
+html.light [class*="bg-[#18181B]" i],
+html.light [class*="bg-[#222225]" i],
+html.light [class*="bg-[#27272A]" i],
 html.light [class*="bg-[#181818]" i],
 html.light [class*="bg-[#111827]" i],
 html.light [class*="bg-zinc-950"],
@@ -92,20 +92,20 @@ html.light [class*="to-[#121212]"] {
 /* 4. Table Rows & Dropdown Hover States (Case-Insensitive) */
 html.light table tr,
 html.light table tbody tr:hover,
-html.light [class*="hover:bg-[#0d1117]" i]:hover,
-html.light [class*="hover:bg-[#21262d]" i]:hover,
-html.light [class*="hover:bg-[#161b22]" i]:hover,
-html.light [class*="hover:bg-[#1f2937]" i]:hover,
+html.light [class*="hover:bg-[#09090B]" i]:hover,
+html.light [class*="hover:bg-[#222225]" i]:hover,
+html.light [class*="hover:bg-[#121215]" i]:hover,
+html.light [class*="hover:bg-[#18181B]" i]:hover,
 html.light [class*="hover:bg-zinc-800"]:hover {
   background-color: #F8FAFC !important;
 }
 
 /* 5. Border Overrides (Case-Insensitive) */
 html.light [class*="border-[#27272a]" i],
-html.light [class*="border-[#30363d]" i],
-html.light [class*="border-[#21262d]" i],
+html.light [class*="border-[#27272A]" i],
+html.light [class*="border-[#222225]" i],
 html.light [class*="border-[#4b5563]" i],
-html.light [class*="border-[#1f2937]" i],
+html.light [class*="border-[#18181B]" i],
 html.light [class*="border-zinc-800"],
 html.light [class*="border-zinc-700"],
 html.light [class*="border-zinc-600"],
@@ -121,9 +121,9 @@ html.light .text-white,
 html.light .text-zinc-100,
 html.light .text-zinc-200,
 html.light .text-zinc-300,
-html.light [class*="text-[#f3f4f6]" i],
+html.light [class*="text-[#F4F4F5]" i],
 html.light [class*="text-[#e5e7eb]" i],
-html.light [class*="text-[#e6edf3]" i],
+html.light [class*="text-[#F4F4F5]" i],
 html.light [class*="text-[#fafafa]" i],
 html.light [class*="text-[#f5f5f0]" i] {
   color: #0F172A !important;
@@ -132,16 +132,16 @@ html.light [class*="text-[#f5f5f0]" i] {
 html.light .text-zinc-400,
 html.light .text-zinc-500,
 html.light [class*="text-[#9ca3af]" i],
-html.light [class*="text-[#8b949e]" i],
+html.light [class*="text-[#A1A1AA]" i],
 html.light [class*="text-[#6b7280]" i],
-html.light [class*="text-[#6e7681]" i],
-html.light [class*="text-[#484f58]" i] {
+html.light [class*="text-[#71717A]" i],
+html.light [class*="text-[#3F3F46]" i] {
   color: #475569 !important;
 }
 
 /* 7. SVG Progress Ring Track Color in Light Mode */
-html.light circle[stroke="#21262D"],
-html.light circle[stroke="#21262d"] {
+html.light circle[stroke="#222225"],
+html.light circle[stroke="#222225"] {
   stroke: #E2E8F0 !important;
 }
 
@@ -197,7 +197,7 @@ html, body, div, header, nav, aside, main, button {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     letter-spacing: -0.015em;
-    background-color: #0B0C10;
+    background-color: #09090B;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -219,7 +219,7 @@ html, body, div, header, nav, aside, main, button {
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
     -webkit-text-fill-color: #FFFFFF !important;
-    -webkit-box-shadow: 0 0 0px 1000px #121318 inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px #121215 inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -230,9 +230,9 @@ html, body, div, header, nav, aside, main, button {
   }
 }
 
-/* Codolio Sleek Surface Cards (#121318, rounded-2xl, no neon glow) */
+/* Codolio Sleek Surface Cards (#121215, rounded-2xl, no neon glow) */
 .dash-card {
-  background: #121318;
+  background: #121215;
   border: 1px solid #27272A;
   border-radius: 16px;
   padding: 20px;
@@ -243,7 +243,7 @@ html, body, div, header, nav, aside, main, button {
 }
 .dash-card-hover:hover {
   border-color: #3F3F46;
-  background-color: #16171E;
+  background-color: #141417;
 }
 
 /* Sidebar Navigation Items */
@@ -281,7 +281,7 @@ html, body, div, header, nav, aside, main, button {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0C10;
+  background: #09090B;
 }
 ::-webkit-scrollbar-thumb {
   background: #27272A;
@@ -296,43 +296,43 @@ html, body, div, header, nav, aside, main, button {
    ========================================================================== */
 html:not(.light) {
   /* Surfaces & Banners */
-  [class*="bg-[#161B22]"], [class*="bg-[#161b22]"] {
-    background-color: #121318 !important;
+  [class*="bg-[#121215]"], [class*="bg-[#121215]"] {
+    background-color: #121215 !important;
   }
-  [class*="bg-[#0D1117]"], [class*="bg-[#0d1117]"] {
-    background-color: #0B0C10 !important;
+  [class*="bg-[#09090B]"], [class*="bg-[#09090B]"] {
+    background-color: #09090B !important;
   }
-  [class*="bg-[#1F2937]"], [class*="bg-[#1f2937]"] {
+  [class*="bg-[#18181B]"], [class*="bg-[#18181B]"] {
     background-color: #18181B !important;
   }
-  [class*="bg-[#21262d]"], [class*="bg-[#21262D]"], [class*="bg-[#1c2333]"] {
+  [class*="bg-[#222225]"], [class*="bg-[#222225]"], [class*="bg-[#18181B]"] {
     background-color: #16171C !important;
   }
 
   /* Charcoal Borders */
-  [class*="border-[#30363D]"], [class*="border-[#30363d]"] {
+  [class*="border-[#27272A]"], [class*="border-[#27272A]"] {
     border-color: #27272A !important;
   }
-  [class*="border-[#21262D]"], [class*="border-[#21262d]"] {
+  [class*="border-[#222225]"], [class*="border-[#222225]"] {
     border-color: #222226 !important;
   }
-  [class*="border-[#1F2937]"], [class*="border-[#1f2937]"] {
+  [class*="border-[#18181B]"], [class*="border-[#18181B]"] {
     border-color: #27272A !important;
   }
 
   /* Crisp Text Colors */
-  [class*="text-[#8b949e]"], [class*="text-[#6e7681]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
+  [class*="text-[#A1A1AA]"], [class*="text-[#71717A]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
     color: #A1A1AA !important;
   }
-  [class*="text-[#e6edf3]"], [class*="text-[#F3F4F6]"], [class*="text-[#f3f4f6]"] {
+  [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"] {
     color: #F4F4F5 !important;
   }
 
   /* Charcoal Hover States */
-  [class*="hover:bg-[#1f2937]"]:hover, 
-  [class*="hover:bg-[#21262d]"]:hover, 
-  [class*="hover:bg-[#161b22]"]:hover, 
-  [class*="hover:bg-[#30363d]"]:hover {
+  [class*="hover:bg-[#18181B]"]:hover, 
+  [class*="hover:bg-[#222225]"]:hover, 
+  [class*="hover:bg-[#121215]"]:hover, 
+  [class*="hover:bg-[#27272A]"]:hover {
     background-color: #1F1F23 !important;
   }
 }

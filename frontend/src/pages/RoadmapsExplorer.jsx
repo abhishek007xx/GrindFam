@@ -20,7 +20,7 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#21262D" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -30,7 +30,7 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
           className="transition-all duration-700 ease-out"
         />
       </svg>
-      <span className="absolute text-[11px] font-bold text-[#F3F4F6] font-mono">
+      <span className="absolute text-[11px] font-bold text-[#F4F4F5] font-mono">
         {percentage}%
       </span>
     </div>
@@ -43,7 +43,7 @@ function RoadmapBadgeIcon({ roadmap }) {
   const iconUrl = iconInfo.url;
 
   return (
-    <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform">
+    <div className="w-10 h-10 rounded-lg bg-[#18181B] border border-[#27272A] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform">
       {iconUrl ? (
         <img
           src={iconUrl}
@@ -198,7 +198,7 @@ export function RoadmapsExplorer() {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* ── Header Banner ── */}
-      <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] p-6 md:p-8">
         <img
           src="/logo.png"
           alt="GrindFam Mascot"
@@ -207,11 +207,11 @@ export function RoadmapsExplorer() {
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-2xl space-y-2">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium">
               <Compass className="w-3.5 h-3.5 text-[#EA5D3A]" />
               <span>Career Roadmap System</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
               Career Roadmaps
             </h1>
             <p className="text-xs md:text-sm text-[#9CA3AF] leading-relaxed">
@@ -226,7 +226,7 @@ export function RoadmapsExplorer() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search roadmaps or topics..."
-              className="w-full pl-10 pr-4 py-2 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-[#121215] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all"
             />
           </div>
         </div>
@@ -246,8 +246,8 @@ export function RoadmapsExplorer() {
             onClick={() => setSelectedCategory(cat.id)}
             className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${
               selectedCategory === cat.id
-                ? 'bg-[#1F2937] text-white border-[#EA5D3A] shadow-sm'
-                : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'
+                ? 'bg-[#18181B] text-white border-[#EA5D3A] shadow-sm'
+                : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#4B5563]'
             }`}
           >
             {cat.label}
@@ -260,9 +260,9 @@ export function RoadmapsExplorer() {
         {/* Left: Roadmap Cards Grid (8 cols) */}
         <div className="lg:col-span-8">
           {filteredRoadmaps.length === 0 ? (
-            <div className="text-center py-12 bg-[#161B22] border border-[#30363D] rounded-lg p-6 space-y-2">
+            <div className="text-center py-12 bg-[#121215] border border-[#27272A] rounded-lg p-6 space-y-2">
               <Compass className="w-10 h-10 text-[#6B7280] mx-auto" />
-              <h3 className="text-sm font-semibold text-[#F3F4F6]">No Roadmaps Found</h3>
+              <h3 className="text-sm font-semibold text-[#F4F4F5]">No Roadmaps Found</h3>
               <p className="text-xs text-[#9CA3AF]">Try adjusting your search query or category filter.</p>
             </div>
           ) : (
@@ -283,10 +283,10 @@ export function RoadmapsExplorer() {
                     key={rm.id}
                     variants={cardVariants}
                     onClick={() => navigate(`/roadmap/${rm.id}`)}
-                    className={`group relative bg-[#161B22] border rounded-lg p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                    className={`group relative bg-[#121215] border rounded-lg p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between ${
                       isActive
                         ? 'border-[#EA5D3A] shadow-md ring-1 ring-[#EA5D3A]/30'
-                        : 'border-[#30363D] hover:border-[#4B5563]'
+                        : 'border-[#27272A] hover:border-[#4B5563]'
                     }`}
                   >
                     <div className="space-y-3">
@@ -296,10 +296,10 @@ export function RoadmapsExplorer() {
                           <RoadmapBadgeIcon roadmap={rm} />
 
                           <div className="space-y-0.5 min-w-0">
-                            <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
+                            <span className="px-2 py-0.5 rounded bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-[10px] font-medium">
                               {rm.category}
                             </span>
-                            <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
+                            <h3 className="text-base font-bold text-[#F4F4F5] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
                               {rm.title}
                             </h3>
                             <p className="text-xs text-[#9CA3AF] flex items-center gap-1 truncate">
@@ -315,7 +315,7 @@ export function RoadmapsExplorer() {
                       </div>
 
                       {/* Stats Row */}
-                      <div className="pt-3 border-t border-[#21262D] flex items-center justify-between text-xs text-[#9CA3AF]">
+                      <div className="pt-3 border-t border-[#222225] flex items-center justify-between text-xs text-[#9CA3AF]">
                         <div className="flex items-center gap-1.5">
                           <Layers className="w-3.5 h-3.5 text-[#6B7280]" />
                           <span>{rmTotal} Milestones</span>
@@ -334,7 +334,7 @@ export function RoadmapsExplorer() {
                         className={`px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-colors flex items-center gap-1 ${
                           isActive
                             ? 'bg-[#EA5D3A]/15 border-[#EA5D3A]/40 text-[#EA5D3A]'
-                            : 'bg-[#161B22] border-[#30363D] text-[#9CA3AF] hover:text-white'
+                            : 'bg-[#121215] border-[#27272A] text-[#9CA3AF] hover:text-white'
                         }`}
                       >
                         <Bookmark className="w-3 h-3" />
@@ -356,13 +356,13 @@ export function RoadmapsExplorer() {
           {activeRoadmap ? (
             <>
               {/* Active Path Quick View with Icon */}
-              <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-[#21262D]">
-                  <h3 className="text-xs font-bold text-[#F3F4F6] uppercase tracking-wider flex items-center gap-1.5">
+              <div className="bg-[#121215] border border-[#27272A] rounded-lg p-5 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-[#222225]">
+                  <h3 className="text-xs font-bold text-[#F4F4F5] uppercase tracking-wider flex items-center gap-1.5">
                     <BarChart2 className="w-3.5 h-3.5 text-[#EA5D3A]" />
                     Active Path
                   </h3>
-                  <span className="text-[10px] font-mono text-[#9CA3AF] bg-[#1F2937] px-2 py-0.5 rounded border border-[#30363D]">
+                  <span className="text-[10px] font-mono text-[#9CA3AF] bg-[#18181B] px-2 py-0.5 rounded border border-[#27272A]">
                     {activeRoadmap.category}
                   </span>
                 </div>
@@ -370,7 +370,7 @@ export function RoadmapsExplorer() {
                 <div className="flex items-start gap-3">
                   <RoadmapBadgeIcon roadmap={activeRoadmap} />
                   <div>
-                    <h4 className="text-sm font-bold text-[#F3F4F6] leading-snug">{activeRoadmap.title}</h4>
+                    <h4 className="text-sm font-bold text-[#F4F4F5] leading-snug">{activeRoadmap.title}</h4>
                     <p className="text-[11px] text-[#9CA3AF] mt-0.5">{activeRoadmap.creator}</p>
                   </div>
                 </div>
@@ -381,7 +381,7 @@ export function RoadmapsExplorer() {
                     <span className="text-[#9CA3AF] font-medium">Overall Progress</span>
                     <span className="font-mono font-bold text-[#EA5D3A]">{activePercent}%</span>
                   </div>
-                  <div className="w-full bg-[#0D1117] h-2 rounded-full overflow-hidden border border-[#21262D]">
+                  <div className="w-full bg-[#09090B] h-2 rounded-full overflow-hidden border border-[#222225]">
                     <div
                       className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500"
                       style={{ width: `${activePercent}%` }}
@@ -391,20 +391,20 @@ export function RoadmapsExplorer() {
 
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-2.5">
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#0D1117] border border-[#21262D]">
+                  <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#09090B] border border-[#222225]">
                     <Trophy className="w-4 h-4 text-[#EA5D3A] flex-shrink-0" />
                     <div>
                       <span className="block text-[10px] text-[#9CA3AF]">Done</span>
-                      <span className="block text-sm font-bold text-[#F3F4F6] font-mono">
+                      <span className="block text-sm font-bold text-[#F4F4F5] font-mono">
                         {activeCompleted.length}/{activeTotalSteps}
                       </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#0D1117] border border-[#21262D]">
+                  <div className="flex items-center gap-2.5 p-2.5 rounded-lg bg-[#09090B] border border-[#222225]">
                     <Clock className="w-4 h-4 text-[#EA5D3A] flex-shrink-0" />
                     <div>
                       <span className="block text-[10px] text-[#9CA3AF]">Est. Time</span>
-                      <span className="block text-sm font-bold text-[#F3F4F6] font-mono">
+                      <span className="block text-sm font-bold text-[#F4F4F5] font-mono">
                         {Math.max(2, (activeTotalSteps - activeCompleted.length) * 3)}h
                       </span>
                     </div>
@@ -422,14 +422,14 @@ export function RoadmapsExplorer() {
               </div>
 
               {/* Dynamic Milestone Timeline */}
-              <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 space-y-4">
-                <h3 className="text-xs font-bold text-[#F3F4F6] uppercase tracking-wider flex items-center gap-1.5 pb-3 border-b border-[#21262D]">
+              <div className="bg-[#121215] border border-[#27272A] rounded-lg p-5 space-y-4">
+                <h3 className="text-xs font-bold text-[#F4F4F5] uppercase tracking-wider flex items-center gap-1.5 pb-3 border-b border-[#222225]">
                   <Layers className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   Milestone Progress
                 </h3>
 
                 <div className="relative pl-5 space-y-4">
-                  <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-[#21262D]" />
+                  <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-[#222225]" />
 
                   {stages.map((stage, stageIdx) => (
                     <div key={stageIdx} className="relative">
@@ -437,8 +437,8 @@ export function RoadmapsExplorer() {
                         stage.status === 'completed'
                           ? 'bg-[#10B981] border-[#10B981]'
                           : stage.status === 'active'
-                          ? 'bg-[#0D1117] border-[#EA5D3A] shadow-[0_0_6px_#EA5D3A]'
-                          : 'bg-[#21262D] border-[#30363D]'
+                          ? 'bg-[#09090B] border-[#EA5D3A] shadow-[0_0_6px_#EA5D3A]'
+                          : 'bg-[#222225] border-[#27272A]'
                       }`} />
 
                       <div className="mb-2">
@@ -459,10 +459,10 @@ export function RoadmapsExplorer() {
                             key={idx}
                             className={`flex items-start gap-2 p-2 rounded-md text-xs transition-all ${
                               stage.status === 'completed'
-                                ? 'bg-[#0D1117] border border-[#21262D] text-[#9CA3AF]'
+                                ? 'bg-[#09090B] border border-[#222225] text-[#9CA3AF]'
                                 : stage.status === 'active'
-                                ? 'bg-[#0D1117] border border-[#EA5D3A]/30 text-[#F3F4F6]'
-                                : 'bg-[#0D1117] border border-[#21262D] text-[#6B7280] opacity-60'
+                                ? 'bg-[#09090B] border border-[#EA5D3A]/30 text-[#F4F4F5]'
+                                : 'bg-[#09090B] border border-[#222225] text-[#6B7280] opacity-60'
                             }`}
                           >
                             {stage.status === 'completed' && <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] flex-shrink-0 mt-0.5" />}
@@ -487,8 +487,8 @@ export function RoadmapsExplorer() {
 
               {/* Skill Breakdown */}
               {skillBreakdown.length > 0 && (
-                <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 space-y-3">
-                  <h3 className="text-xs font-bold text-[#F3F4F6] uppercase tracking-wider pb-3 border-b border-[#21262D]">
+                <div className="bg-[#121215] border border-[#27272A] rounded-lg p-5 space-y-3">
+                  <h3 className="text-xs font-bold text-[#F4F4F5] uppercase tracking-wider pb-3 border-b border-[#222225]">
                     Skill Breakdown
                   </h3>
 
@@ -496,9 +496,9 @@ export function RoadmapsExplorer() {
                     <div key={idx} className="space-y-1">
                       <div className="flex justify-between text-xs font-medium">
                         <span className="text-[#9CA3AF]">{skill.label}</span>
-                        <span className="text-[#F3F4F6] font-mono">{skill.percent}%</span>
+                        <span className="text-[#F4F4F5] font-mono">{skill.percent}%</span>
                       </div>
-                      <div className="w-full bg-[#0D1117] h-1.5 rounded-full overflow-hidden border border-[#21262D]">
+                      <div className="w-full bg-[#09090B] h-1.5 rounded-full overflow-hidden border border-[#222225]">
                         <div
                           className="h-1.5 rounded-full transition-all duration-500"
                           style={{ width: `${skill.percent}%`, backgroundColor: skill.color }}
@@ -510,10 +510,10 @@ export function RoadmapsExplorer() {
               )}
 
               {/* Certification Banner */}
-              <div className="bg-[#161B22] border border-[#EA5D3A]/20 rounded-lg p-4 space-y-2">
+              <div className="bg-[#121215] border border-[#EA5D3A]/20 rounded-lg p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-[#EA5D3A]" />
-                  <h4 className="text-xs font-bold text-[#F3F4F6]">Completion Badge</h4>
+                  <h4 className="text-xs font-bold text-[#F4F4F5]">Completion Badge</h4>
                 </div>
                 <p className="text-[11px] text-[#9CA3AF] leading-snug">
                   Finish all milestones to earn your verified GrindFam readiness badge.
@@ -527,7 +527,7 @@ export function RoadmapsExplorer() {
               </div>
             </>
           ) : (
-            <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 text-center space-y-2">
+            <div className="bg-[#121215] border border-[#27272A] rounded-lg p-5 text-center space-y-2">
               <Compass className="w-8 h-8 text-[#6B7280] mx-auto" />
               <p className="text-xs text-[#9CA3AF]">Follow a roadmap to see your analytics here.</p>
             </div>

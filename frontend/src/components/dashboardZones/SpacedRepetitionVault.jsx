@@ -18,7 +18,7 @@ export default function SpacedRepetitionVault() {
   return (
     <div className="space-y-6">
       {/* 1. Spaced Repetition Queue & Forgetting Curve */}
-      <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+      <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-[#EA5D3A] flex items-center justify-center">
@@ -78,7 +78,7 @@ export default function SpacedRepetitionVault() {
       {/* Grid: Sheet Progress Dashboard & Live Company Tag Coverage */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 2. Unified Sheet Tracker Dashboard */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-[#10B981] flex items-center justify-center">
@@ -121,7 +121,7 @@ export default function SpacedRepetitionVault() {
         </div>
 
         {/* 3. Live Company Tag Tracker */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-amber-400 flex items-center justify-center">
@@ -159,7 +159,7 @@ export default function SpacedRepetitionVault() {
       </div>
 
       {/* 4. Code Vault & Bookmarks */}
-      <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-3">
+      <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-purple-400 flex items-center justify-center">

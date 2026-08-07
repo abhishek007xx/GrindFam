@@ -68,7 +68,7 @@ export function RoadmapDetail() {
   if (!roadmap) {
     return (
       <div className="p-8 text-center space-y-4">
-        <h2 className="text-xl font-bold text-[#F3F4F6]">Roadmap Not Found</h2>
+        <h2 className="text-xl font-bold text-[#F4F4F5]">Roadmap Not Found</h2>
         <button
           onClick={() => navigate('/roadmaps')}
           className="px-4 py-2 bg-[#EA5D3A] text-white rounded-lg text-xs font-bold"
@@ -93,21 +93,21 @@ export function RoadmapDetail() {
       </button>
 
       {/* Header Banner — Consistent Slate Dark Theme */}
-      <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] p-6 md:p-8">
         <div className="absolute top-0 right-0 w-72 h-72 bg-[#EA5D3A]/8 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-5 border-b border-[#21262D]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-5 border-b border-[#222225]">
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#EA5D3A] text-xs font-medium">
+                <span className="px-2.5 py-0.5 rounded bg-[#18181B] border border-[#27272A] text-[#EA5D3A] text-xs font-medium">
                   {roadmap.category}
                 </span>
                 <span className="text-xs text-[#9CA3AF] font-medium">
-                  Source: <strong className="text-[#F3F4F6]">{roadmap.creator}</strong>
+                  Source: <strong className="text-[#F4F4F5]">{roadmap.creator}</strong>
                 </span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
                 {roadmap.title}
               </h1>
             </div>
@@ -118,7 +118,7 @@ export function RoadmapDetail() {
                 className={`px-4 py-2 rounded-lg font-bold text-xs transition-all flex items-center gap-2 ${
                   isFollowing
                     ? 'bg-[#EA5D3A] text-white shadow-sm'
-                    : 'bg-[#161B22] hover:bg-[#1F2937] text-[#F3F4F6] border border-[#30363D]'
+                    : 'bg-[#121215] hover:bg-[#18181B] text-[#F4F4F5] border border-[#27272A]'
                 }`}
               >
                 <Bookmark className="w-4 h-4" />
@@ -133,7 +133,7 @@ export function RoadmapDetail() {
               <span className="text-[#9CA3AF]">Progress</span>
               <span className="text-[#EA5D3A] font-mono">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
             </div>
-            <div className="w-full bg-[#0D1117] h-2 rounded-full overflow-hidden border border-[#21262D]">
+            <div className="w-full bg-[#09090B] h-2 rounded-full overflow-hidden border border-[#222225]">
               <div
                 className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
@@ -144,8 +144,8 @@ export function RoadmapDetail() {
       </div>
 
       {/* Interactive Infographic Roadmap Canvas */}
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6">
-        <h2 className="text-base font-bold text-[#F3F4F6] mb-4 flex items-center gap-2">
+      <div className="bg-[#121215] border border-[#27272A] rounded-lg p-6">
+        <h2 className="text-base font-bold text-[#F4F4F5] mb-4 flex items-center gap-2">
           <Layers className="w-5 h-5 text-[#EA5D3A]" /> Interactive Learning Roadmap
         </h2>
         <InfographicRoadmapPath
@@ -159,13 +159,13 @@ export function RoadmapDetail() {
       {/* Step Detail Modal */}
       {selectedStep && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setSelectedStep(null)}>
-          <div className="w-full max-w-xl bg-[#161B22] border border-[#30363D] rounded-lg p-6 shadow-2xl space-y-4" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-3 border-b border-[#21262D]">
+          <div className="w-full max-w-xl bg-[#121215] border border-[#27272A] rounded-lg p-6 shadow-2xl space-y-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between pb-3 border-b border-[#222225]">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded bg-[#EA5D3A]/15 text-[#EA5D3A] text-xs font-bold">
                   Milestone {selectedStep.stepNumber}
                 </span>
-                <h3 className="text-base font-bold text-[#F3F4F6]">{selectedStep.title}</h3>
+                <h3 className="text-base font-bold text-[#F4F4F5]">{selectedStep.title}</h3>
               </div>
               <button onClick={() => setSelectedStep(null)} className="p-1 text-[#9CA3AF] hover:text-white rounded-lg">
                 <X className="w-5 h-5" />
@@ -179,7 +179,7 @@ export function RoadmapDetail() {
                 <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF] mb-2">Key Topics Covered</h4>
                 <div className="flex flex-wrap gap-1.5">
                   {selectedStep.topics.map((t, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-md bg-[#0D1117] border border-[#21262D] text-xs text-[#F3F4F6]">
+                    <span key={idx} className="px-2.5 py-1 rounded-md bg-[#09090B] border border-[#222225] text-xs text-[#F4F4F5]">
                       {t}
                     </span>
                   ))}
@@ -187,7 +187,7 @@ export function RoadmapDetail() {
               </div>
             )}
 
-            <div className="pt-3 border-t border-[#21262D] flex items-center justify-between">
+            <div className="pt-3 border-t border-[#222225] flex items-center justify-between">
               <button
                 onClick={() => toggleStepCompleted(selectedStep.stepNumber)}
                 className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${

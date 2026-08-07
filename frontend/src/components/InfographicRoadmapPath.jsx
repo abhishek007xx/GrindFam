@@ -126,7 +126,7 @@ export function InfographicRoadmapPath({ steps, completedSteps, onToggleStep, on
                   className={`p-7 rounded-3xl border cursor-pointer transition-all duration-300 relative overflow-hidden group shadow-2xl backdrop-blur-xl ${
                     isDone
                       ? 'bg-emerald-950/20 border-emerald-500/50 ring-1 ring-emerald-500/30'
-                      : `bg-[#0d1117]/95 hover:bg-[#161b22] border-[#30363d] hover:${theme.border}`
+                      : `bg-[#09090B]/95 hover:bg-[#121215] border-[#27272A] hover:${theme.border}`
                   }`}
                 >
                   <div className="space-y-4">
@@ -145,12 +145,12 @@ export function InfographicRoadmapPath({ steps, completedSteps, onToggleStep, on
                           e.stopPropagation();
                           onToggleStep(step.stepNumber);
                         }}
-                        className="p-1 text-[#8b949e] hover:text-white transition-colors"
+                        className="p-1 text-[#A1A1AA] hover:text-white transition-colors"
                       >
                         {isDone ? (
                           <CheckCircle2 className="w-6 h-6 text-emerald-400" />
                         ) : (
-                          <Circle className="w-6 h-6 text-[#484f58] hover:text-indigo-400" />
+                          <Circle className="w-6 h-6 text-[#3F3F46] hover:text-indigo-400" />
                         )}
                       </button>
                     </div>
@@ -160,19 +160,19 @@ export function InfographicRoadmapPath({ steps, completedSteps, onToggleStep, on
                       <h3 className="text-xl font-extrabold text-white group-hover:text-indigo-400 transition-colors flex items-center justify-between">
                         <span>{step.title}</span>
                       </h3>
-                      <p className="text-xs text-[#8b949e] mt-1.5 leading-relaxed font-medium">
+                      <p className="text-xs text-[#A1A1AA] mt-1.5 leading-relaxed font-medium">
                         {step.subtitle}
                       </p>
                     </div>
 
                     {/* High-level Description Preview */}
-                    <p className="text-xs text-[#c9d1d9] leading-relaxed line-clamp-2 bg-[#161b22]/70 p-3 rounded-2xl border border-[#21262d]">
+                    <p className="text-xs text-[#c9d1d9] leading-relaxed line-clamp-2 bg-[#121215]/70 p-3 rounded-2xl border border-[#222225]">
                       {step.description}
                     </p>
 
                     {/* Submodules Accordion Trigger */}
                     {step.submodules && step.submodules.length > 0 && (
-                      <div className="pt-3 border-t border-[#21262d] space-y-2">
+                      <div className="pt-3 border-t border-[#222225] space-y-2">
                         <div
                           onClick={(e) => toggleExpand(e, step.stepNumber)}
                           className="flex items-center justify-between text-xs text-indigo-400 hover:text-indigo-300 font-bold cursor-pointer"
@@ -195,7 +195,7 @@ export function InfographicRoadmapPath({ steps, completedSteps, onToggleStep, on
                               {step.submodules.map((sub, sIdx) => (
                                 <div
                                   key={sIdx}
-                                  className="text-xs text-[#e6edf3] bg-[#161b22] border border-[#21262d] px-3 py-2 rounded-xl flex items-center gap-2"
+                                  className="text-xs text-[#F4F4F5] bg-[#121215] border border-[#222225] px-3 py-2 rounded-xl flex items-center gap-2"
                                 >
                                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 flex-shrink-0" />
                                   <span className="truncate">{sub.name}</span>

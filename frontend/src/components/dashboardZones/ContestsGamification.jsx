@@ -46,7 +46,7 @@ export default function ContestsGamification({ platformTotal = 0 }) {
   return (
     <div className="space-y-6">
       {/* 1. Gamified Level & XP Progression Bar */}
-      <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+      <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-[#EA5D3A] text-white flex items-center justify-center font-bold text-sm shadow-md">
@@ -85,7 +85,7 @@ export default function ContestsGamification({ platformTotal = 0 }) {
       {/* Grid: Contest Performance Rating & Upcoming Contest Calendar */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 2. Contest Performance Rating */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-amber-400 flex items-center justify-center">
@@ -122,7 +122,7 @@ export default function ContestsGamification({ platformTotal = 0 }) {
         </div>
 
         {/* 3. Upcoming Contest Calendar & Reminders */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-cyan-400 flex items-center justify-center">

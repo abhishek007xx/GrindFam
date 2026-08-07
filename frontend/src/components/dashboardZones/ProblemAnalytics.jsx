@@ -31,7 +31,7 @@ export default function ProblemAnalytics({ stats }) {
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 1. Difficulty Breakdown & Acceptance Ratio Grid */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-[#10B981] flex items-center justify-center">
@@ -84,7 +84,7 @@ export default function ProblemAnalytics({ stats }) {
         </div>
 
         {/* 2. Topic Mastery Radar */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-[#EA5D3A] flex items-center justify-center">
@@ -116,7 +116,7 @@ export default function ProblemAnalytics({ stats }) {
       {/* Bottom Grid: Algorithmic Pattern Mastery & Peak Time Efficiency */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Pattern & Paradigm Tracker */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-3">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-purple-400 flex items-center justify-center">
               <Layers className="w-4 h-4" />
@@ -141,7 +141,7 @@ export default function ProblemAnalytics({ stats }) {
         </div>
 
         {/* Time Spent & Peak Activity Efficiency */}
-        <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+        <div className="dash-card bg-[#121215] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-cyan-400 flex items-center justify-center">
               <Clock className="w-4 h-4" />
