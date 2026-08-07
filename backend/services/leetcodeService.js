@@ -9,12 +9,12 @@ const formatDateStr = (d) => {
 };
 
 /**
- * Fetch LeetCode stats and today's solved problems for a user.
+ * Fetch LeetCode stats and today's solved problems for a user with retry & timeout protection.
  * @param {string} username - LeetCode username
  * @returns {Promise<Object>} User data with totalSolved, todayCount, difficulty breakdown
  */
 const fetchUserTodayData = async (username) => {
-  if (!username) {
+  if (!username || typeof username !== 'string' || !username.trim()) {
     return {
       username: 'Unknown',
       totalSolved: 0,
@@ -26,6 +26,8 @@ const fetchUserTodayData = async (username) => {
       error: 'Username not provided'
     };
   }
+
+  const cleanUsername = username.trim();
 
   const graphqlQuery = {
     query: `
@@ -46,105 +48,121 @@ const fetchUserTodayData = async (username) => {
         }
       }
     `,
-    variables: { username }
+    variables: { username: cleanUsername }
   };
 
-  try {
-    const response = await axios.post(
-      'https://leetcode.com/graphql',
-      graphqlQuery,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-          'Referer': `https://leetcode.com/${username}/`
-        },
-        timeout: 10000
+  const maxRetries = 2;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await axios.post(
+        'https://leetcode.com/graphql',
+        graphqlQuery,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'Referer': `https://leetcode.com/${cleanUsername}/`
+          },
+          timeout: 8000
+        }
+      );
+
+      if (response.data?.errors) {
+        throw new Error(`GraphQL error: ${response.data.errors[0]?.message || 'Unknown GraphQL error'}`);
       }
-    );
 
-    const data = response.data?.data;
+      const data = response.data?.data;
 
-    if (!data || !data.matchedUser) {
+      if (!data || !data.matchedUser) {
+        return {
+          username: cleanUsername,
+          totalSolved: 0,
+          todayCount: 0,
+          easyCount: 0,
+          mediumCount: 0,
+          hardCount: 0,
+          targetHit: false,
+          error: 'User not found or private profile'
+        };
+      }
+
+      // Extract total & difficulty breakdown solved problems
+      const acSubmissions = data.matchedUser.submitStatsGlobal?.acSubmissionNum || [];
+      const allAc = acSubmissions.find((sub) => sub.difficulty === 'All');
+      const easyAc = acSubmissions.find((sub) => sub.difficulty === 'Easy');
+      const mediumAc = acSubmissions.find((sub) => sub.difficulty === 'Medium');
+      const hardAc = acSubmissions.find((sub) => sub.difficulty === 'Hard');
+
+      const totalSolved = allAc ? allAc.count : 0;
+      const easyCount = easyAc ? easyAc.count : 0;
+      const mediumCount = mediumAc ? mediumAc.count : 0;
+      const hardCount = hardAc ? hardAc.count : 0;
+
+      // Robust Today Date Matching (24-hour window + UTC date + Local date)
+      const now = new Date();
+      const todayUtcStr = now.toISOString().split('T')[0];
+      const todayLocalStr = formatDateStr(now);
+
+      const recentSubmissions = data.recentAcSubmissionList || [];
+      const todayProblemSlugs = new Set();
+
+      recentSubmissions.forEach((sub) => {
+        const subTimestampMs = parseInt(sub.timestamp, 10) * 1000;
+        const subDate = new Date(subTimestampMs);
+        const subUtcStr = subDate.toISOString().split('T')[0];
+        const subLocalStr = formatDateStr(subDate);
+
+        const diffHours = (now.getTime() - subTimestampMs) / (1000 * 60 * 60);
+
+        if (diffHours <= 24 || subUtcStr === todayUtcStr || subLocalStr === todayLocalStr) {
+          todayProblemSlugs.add(sub.titleSlug || sub.title);
+        }
+      });
+
+      const todayCount = todayProblemSlugs.size;
+
       return {
-        username,
-        totalSolved: 0,
-        todayCount: 0,
-        easyCount: 0,
-        mediumCount: 0,
-        hardCount: 0,
-        targetHit: false,
-        error: 'User not found or private profile'
+        username: cleanUsername,
+        totalSolved,
+        todayCount,
+        easyCount,
+        mediumCount,
+        hardCount,
+        targetHit: todayCount >= 5,
+        error: null
       };
-    }
-
-    // Extract total & difficulty breakdown solved problems
-    const acSubmissions = data.matchedUser.submitStatsGlobal?.acSubmissionNum || [];
-    const allAc = acSubmissions.find((sub) => sub.difficulty === 'All');
-    const easyAc = acSubmissions.find((sub) => sub.difficulty === 'Easy');
-    const mediumAc = acSubmissions.find((sub) => sub.difficulty === 'Medium');
-    const hardAc = acSubmissions.find((sub) => sub.difficulty === 'Hard');
-
-    const totalSolved = allAc ? allAc.count : 0;
-    const easyCount = easyAc ? easyAc.count : 0;
-    const mediumCount = mediumAc ? mediumAc.count : 0;
-    const hardCount = hardAc ? hardAc.count : 0;
-
-    // Robust Today Date Matching (24-hour window + UTC date + Local date)
-    const now = new Date();
-    const todayUtcStr = now.toISOString().split('T')[0];
-    const todayLocalStr = formatDateStr(now);
-
-    const recentSubmissions = data.recentAcSubmissionList || [];
-    const todayProblemSlugs = new Set();
-
-    recentSubmissions.forEach((sub) => {
-      const subTimestampMs = parseInt(sub.timestamp, 10) * 1000;
-      const subDate = new Date(subTimestampMs);
-      const subUtcStr = subDate.toISOString().split('T')[0];
-      const subLocalStr = formatDateStr(subDate);
-
-      const diffHours = (now.getTime() - subTimestampMs) / (1000 * 60 * 60);
-
-      if (diffHours <= 24 || subUtcStr === todayUtcStr || subLocalStr === todayLocalStr) {
-        todayProblemSlugs.add(sub.titleSlug || sub.title);
+    } catch (error) {
+      if (attempt < maxRetries) {
+        const delay = (attempt + 1) * 1000;
+        await new Promise(res => setTimeout(res, delay));
+      } else {
+        console.error(`Error fetching LeetCode data for user ${cleanUsername}:`, error.message);
+        return {
+          username: cleanUsername,
+          totalSolved: 0,
+          todayCount: 0,
+          easyCount: 0,
+          mediumCount: 0,
+          hardCount: 0,
+          targetHit: false,
+          error: error.message || 'Failed to fetch LeetCode data'
+        };
       }
-    });
-
-    const todayCount = todayProblemSlugs.size;
-
-    return {
-      username,
-      totalSolved,
-      todayCount,
-      easyCount,
-      mediumCount,
-      hardCount,
-      targetHit: todayCount >= 5,
-      error: null
-    };
-  } catch (error) {
-    console.error(`Error fetching LeetCode data for user ${username}:`, error.message);
-    return {
-      username,
-      totalSolved: 0,
-      todayCount: 0,
-      easyCount: 0,
-      mediumCount: 0,
-      hardCount: 0,
-      targetHit: false,
-      error: 'Failed to fetch LeetCode data'
-    };
+    }
   }
 };
 
 /**
  * In-memory cache to avoid re-syncing the same user's history multiple times per day.
+ * Key: `${userId}`, Value: date string 'YYYY-MM-DD' of last sync
  */
 const syncCache = {};
 
 /**
  * Fetch historical submission calendar for a user from LeetCode and bulk-upsert into daily_activity.
+ * @param {string} userId - Supabase User UUID
+ * @param {string} username - LeetCode username
+ * @param {boolean} forceSync - Bypass 24h cache throttle
  */
 const syncUserLeetCodeHistory = async (userId, username, forceSync = false) => {
   if (!userId || !username) return;
@@ -158,6 +176,8 @@ const syncUserLeetCodeHistory = async (userId, username, forceSync = false) => {
     return;
   }
 
+  const cleanUsername = username.trim();
+
   const graphqlQuery = {
     query: `
       query userProfileCalendar($username: String!) {
@@ -168,7 +188,7 @@ const syncUserLeetCodeHistory = async (userId, username, forceSync = false) => {
         }
       }
     `,
-    variables: { username }
+    variables: { username: cleanUsername }
   };
 
   try {
@@ -179,9 +199,9 @@ const syncUserLeetCodeHistory = async (userId, username, forceSync = false) => {
         headers: {
           'Content-Type': 'application/json',
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-          'Referer': `https://leetcode.com/${username}/`
+          'Referer': `https://leetcode.com/${cleanUsername}/`
         },
-        timeout: 10000
+        timeout: 8000
       }
     );
 
@@ -240,7 +260,7 @@ const syncUserLeetCodeHistory = async (userId, username, forceSync = false) => {
 
     syncCache[userId] = todayDate;
   } catch (error) {
-    console.error(`Error syncing LeetCode history for user ${username}:`, error.message);
+    console.error(`Error syncing LeetCode history for user ${cleanUsername}:`, error.message);
   }
 };
 
