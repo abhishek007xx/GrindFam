@@ -191,7 +191,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
 
       {/* Emerald Green Progress Bar */}
       <div className="relative z-10 space-y-1.5">
-        <div className="flex items-center justify-between text-[11px] font-medium text-zinc-400">
+        <div className="flex items-center justify-between text-[11px] font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-500">
           <span>
             {remainingProblems === 0
               ? 'All target problems solved!'
@@ -200,7 +200,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
           </span>
           <span className="font-mono font-semibold text-[#10B981]">{solvedCount} / {totalTrackProblems} Solved</span>
         </div>
-        <div className="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
+        <div className="h-1.5 w-full bg-zinc-900 dark:bg-zinc-900 light:bg-slate-200 rounded-full overflow-hidden border border-zinc-800 dark:border-zinc-800 light:border-slate-300">
           <div
             className="h-full bg-[#10B981] rounded-full transition-all duration-700"
             style={{ width: `${progressPercent}%` }}

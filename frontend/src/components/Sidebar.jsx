@@ -83,7 +83,7 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
               className={`flex items-center gap-3 px-3 py-2 text-sm font-medium cursor-pointer transition-all ${
                 isActive
                   ? 'bg-[#18181B] dark:bg-[#18181B] light:bg-slate-100 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
-                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#18181B]/50 dark:hover:bg-[#18181B]/50 light:hover:bg-slate-100/80 rounded-md'
+                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-700 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#18181B]/50 dark:hover:bg-[#18181B]/50 light:hover:bg-slate-100 rounded-md'
               }`}
             >
               <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : 'text-zinc-400 dark:text-zinc-400 light:text-slate-500'}`} />
@@ -118,7 +118,7 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
       </nav>
 
       {/* Level / XP Progress Widget */}
-      <div className="p-3 bg-[#121212] dark:bg-[#121212] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2.5 flex-shrink-0">
+      <div className="p-3 bg-[#121212] dark:bg-[#121212] light:bg-slate-100/90 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2.5 flex-shrink-0 shadow-sm">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 flex items-center gap-1.5">
             Level {level} Grinder
@@ -147,7 +147,7 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
           <div className="w-full bg-[#18181B] dark:bg-[#18181B] light:bg-slate-200 border border-[#27272A] dark:border-[#27272A] light:border-slate-300 h-1.5 rounded-full overflow-hidden">
             <div className="bg-[#10B981] h-full rounded-full transition-all duration-500" style={{ width: `${xpPercent}%` }} />
           </div>
-          <div className="flex items-center justify-between text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-600 mt-1 font-mono">
+          <div className="flex items-center justify-between text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-500 mt-1 font-mono">
             <span>XP Progress</span>
             <span>{xpInLevel} / {xpMax}</span>
           </div>

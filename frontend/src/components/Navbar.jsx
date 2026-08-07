@@ -233,7 +233,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
       {/* Global Search Bar */}
       <div className="relative flex-1 max-w-md mx-4" ref={searchRef}>
         <div className="relative flex items-center">
-          <Search className="absolute left-3 w-4 h-4 text-[#6e7681]" />
+          <Search className="absolute left-3 w-4 h-4 text-[#6e7681] dark:text-[#6e7681] light:text-slate-400" />
           <input
             ref={inputRef}
             type="text"
@@ -241,7 +241,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
             onChange={handleSearchChange}
             onFocus={() => setIsSearchOpen(true)}
             placeholder="Search problems, topics, sheets..."
-            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] dark:bg-[#161b22] light:bg-slate-50 border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-xl text-xs text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 placeholder-[#6e7681] dark:placeholder-[#6e7681] light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
           />
           {searchQuery ? (
             <button
@@ -251,7 +251,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
               <X className="w-3.5 h-3.5 text-[#6e7681]" />
             </button>
           ) : (
-            <span className="absolute right-2 px-1.5 py-0.5 bg-[#21262d] border border-[#30363d] rounded text-[9px] text-[#6e7681] font-mono hidden sm:inline-block">
+            <span className="absolute right-2 px-1.5 py-0.5 bg-[#21262d] dark:bg-[#21262d] light:bg-slate-200 border border-[#30363d] dark:border-[#30363d] light:border-slate-300 rounded text-[9px] text-[#6e7681] dark:text-[#6e7681] light:text-slate-600 font-mono hidden sm:inline-block">
               Ctrl+K
             </span>
           )}
@@ -265,18 +265,18 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.15 }}
-              className="absolute top-full left-0 mt-1.5 w-full min-w-[320px] max-w-[420px] bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl shadow-black/40 overflow-hidden z-50"
+              className="absolute top-full left-0 mt-1.5 w-full min-w-[320px] max-w-[420px] bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50"
             >
               {searchLoading ? (
                 <div className="p-4 text-center">
                   <div className="w-4 h-4 border-2 border-[#EA5D3A] border-t-transparent rounded-full animate-spin mx-auto mb-1" />
-                  <span className="text-xs text-[#8b949e]">Searching...</span>
+                  <span className="text-xs text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">Searching...</span>
                 </div>
               ) : (
                 <>
                   {topicResults.length > 0 && (
-                    <div className="px-3 py-2.5 border-b border-[#21262d]">
-                      <p className="text-[9px] font-bold text-[#6e7681] uppercase tracking-widest mb-2">Topics</p>
+                    <div className="px-3 py-2.5 border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200">
+                      <p className="text-[9px] font-bold text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 uppercase tracking-widest mb-2">Topics</p>
                       <div className="flex flex-wrap gap-1.5">
                         {topicResults.map(tag => (
                           <button
@@ -294,26 +294,26 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
 
                   {searchResults.length > 0 && (
                     <div className="max-h-[320px] overflow-y-auto">
-                      <p className="px-3 pt-2.5 pb-1 text-[9px] font-bold text-[#6e7681] uppercase tracking-widest">
+                      <p className="px-3 pt-2.5 pb-1 text-[9px] font-bold text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 uppercase tracking-widest">
                         Problems ({searchResults.length})
                       </p>
                       {searchResults.map((result, idx) => (
                         <div
                           key={result.id || idx}
                           onClick={() => handleResultClick(result)}
-                          className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-[#0d1117] cursor-pointer transition-colors border-b border-[#21262d]/50 last:border-b-0"
+                          className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-[#0d1117] dark:hover:bg-[#0d1117] light:hover:bg-slate-100 cursor-pointer transition-colors border-b border-[#21262d]/50 dark:border-[#21262d]/50 light:border-slate-200 last:border-b-0"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 bg-[#181818] border border-white/10 text-[#8b949e]">
+                            <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 bg-[#181818] dark:bg-[#181818] light:bg-slate-100 border border-white/10 dark:border-white/10 light:border-slate-200 text-[#8b949e]">
                               {result.source_type === 'company'
-                                ? <Building2 className="w-3 h-3 text-[#8b949e]" />
+                                ? <Building2 className="w-3 h-3 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600" />
                                 : <FileCode2 className="w-3 h-3 text-[#EA5D3A]" />
                               }
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs font-medium text-[#e6edf3] truncate">{result.title}</p>
+                              <p className="text-xs font-medium text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 truncate">{result.title}</p>
                               {result.source_name && (
-                                <p className="text-[9px] text-[#6e7681] truncate">from {result.source_name}</p>
+                                <p className="text-[9px] text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 truncate">from {result.source_name}</p>
                               )}
                             </div>
                           </div>
@@ -336,7 +336,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
 
                   {searchResults.length === 0 && topicResults.length === 0 && searchQuery.length >= 2 && (
                     <div className="py-6 text-center">
-                      <p className="text-xs text-[#6e7681]">No results found for "{searchQuery}"</p>
+                      <p className="text-xs text-[#6e7681] dark:text-[#6e7681] light:text-slate-500">No results found for "{searchQuery}"</p>
                     </div>
                   )}
                 </>
@@ -352,53 +352,55 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-zinc-800 text-xs font-semibold text-zinc-200 hover:border-[#EA5D3A] hover:text-white transition-all disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-zinc-800 dark:border-zinc-800 light:border-slate-200 text-xs font-semibold text-zinc-200 dark:text-zinc-200 light:text-slate-700 hover:border-[#EA5D3A] hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-50 shadow-sm"
           title="Manual sync LeetCode submissions data"
         >
           <RefreshCw className={`w-3.5 h-3.5 text-[#EA5D3A] ${refreshing ? 'animate-spin' : ''}`} />
           <span>{refreshing ? 'Syncing...' : 'Sync LeetCode'}</span>
         </button>
 
-        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-[#27272A] text-xs font-semibold">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-semibold shadow-sm">
           <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-zinc-500'}>
+          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-zinc-500 dark:text-zinc-500 light:text-slate-500'}>
             {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak'}
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-[#27272A] text-xs font-medium text-zinc-400">
+        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 shadow-sm">
           <Calendar className="w-3.5 h-3.5" />
           <span>{dateStr}</span>
         </div>
 
-        <button className="relative p-2 rounded-xl hover:bg-white/5 text-[#8b949e] hover:text-white transition-colors">
+        <button className="relative p-2 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 transition-colors">
           <Bell className="w-4 h-4" />
         </button>
 
         {/* Dark / Light Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl border border-zinc-800/80 bg-[#121318] text-[#8b949e] hover:text-amber-400 hover:border-amber-500/40 transition-all flex items-center justify-center relative group"
+          className="p-2 rounded-xl border border-zinc-800/80 dark:border-zinc-800/80 light:border-slate-200 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-amber-400 hover:border-amber-500/40 transition-all flex items-center justify-center relative group shadow-sm"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           aria-label="Toggle Theme"
         >
           {theme === 'dark' ? (
             <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 group-hover:rotate-45" />
           ) : (
-            <Moon className="w-4 h-4 text-indigo-400 transition-transform duration-300 group-hover:-rotate-12" />
+            <Moon className="w-4 h-4 text-indigo-500 transition-transform duration-300 group-hover:-rotate-12" />
           )}
         </button>
 
-        <div className="relative pl-2 border-l border-[#21262d]" ref={userMenuRef}>
+        <div className="relative pl-2 border-l border-[#21262d] dark:border-[#21262d] light:border-slate-200" ref={userMenuRef}>
           <button
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 transition-all"
+            className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-all max-w-[200px]"
           >
             <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
               {initials}
             </div>
-            <span className="text-sm font-medium text-[#e6edf3] hidden sm:inline">{name}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] hidden sm:inline" />
+            <span className="text-sm font-medium text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 truncate hidden sm:inline-block max-w-[120px]">
+              {name}
+            </span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 hidden sm:inline flex-shrink-0" />
           </button>
 
           <AnimatePresence>

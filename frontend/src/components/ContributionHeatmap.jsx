@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { Flame, Calendar, TrendingUp, Award, Loader2, GitCommit } from 'lucide-react';
 
 import { API_BASE_URL } from '../config/api';
@@ -18,12 +19,20 @@ const getLevel = (count, maxCount) => {
   return 4;
 };
 
-const levelColors = {
-  0: '#161b22',   // empty
+const levelColorsDark = {
+  0: '#161b22',   // empty dark
   1: '#0e4429',   // low green
   2: '#006d32',   // medium green
   3: '#26a641',   // high green
   4: '#39d353',   // max green
+};
+
+const levelColorsLight = {
+  0: '#e2e8f0',   // empty light slate
+  1: '#9be9a8',   // low green
+  2: '#40c463',   // medium green
+  3: '#30a14e',   // high green
+  4: '#216e39',   // max green
 };
 
 // Fallback generator for 365 days if API is loading or offline
@@ -46,10 +55,13 @@ const generateFallbackDays = () => {
 
 const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const { token } = useAuth();
+  const { theme } = useTheme();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [hoveredDay, setHoveredDay] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+
+  const activeLevelColors = theme === 'light' ? levelColorsLight : levelColorsDark;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,7 +133,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   return (
-    <div className="dash-card p-4 sm:p-6" id="activity-section">
+    <div className="dash-card p-4 sm:p-6 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#121318] dark:bg-[#121318] light:bg-white rounded-2xl shadow-sm" id="activity-section">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
@@ -135,7 +147,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
                 GitHub Green
               </span>
             </h3>
-            <p className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-600">
+            <p className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">
               {stats.totalSolved || 0} problem{stats.totalSolved !== 1 ? 's' : ''} solved in the last 365 days
             </p>
           </div>
@@ -154,7 +166,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
               return (
                 <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
                   {label && (
-                    <span className="text-[10px] text-[#8b949e] font-medium">{label.label}</span>
+                    <span className="text-[10px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 font-medium">{label.label}</span>
                   )}
                 </div>
               );
@@ -167,7 +179,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
             <div className="flex flex-col mr-1.5" style={{ gap: `${cellGap}px` }}>
               {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
                 <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
-                  <span className="text-[10px] text-[#8b949e] font-medium pr-1">{label}</span>
+                  <span className="text-[10px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 font-medium pr-1">{label}</span>
                 </div>
               ))}
             </div>
@@ -184,11 +196,11 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
                     return (
                       <div
                         key={di}
-                        className="rounded-sm cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-white/40"
+                        className="rounded-sm cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-emerald-400"
                         style={{
                           width: cellSize,
                           height: cellSize,
-                          backgroundColor: levelColors[level],
+                          backgroundColor: activeLevelColors[level],
                         }}
                         onMouseEnter={(e) => handleMouseEnter(day, e)}
                         onMouseLeave={() => setHoveredDay(null)}
@@ -202,55 +214,55 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
 
           {/* Legend */}
           <div className="flex items-center justify-end mt-3 gap-1.5">
-            <span className="text-[10px] text-[#8b949e] mr-1">Less</span>
+            <span className="text-[10px] text-slate-500 dark:text-[#8b949e] font-medium mr-1">Less</span>
             {[0, 1, 2, 3, 4].map((lvl) => (
               <div
                 key={lvl}
                 className="rounded-sm"
-                style={{ width: cellSize, height: cellSize, backgroundColor: levelColors[lvl] }}
+                style={{ width: cellSize, height: cellSize, backgroundColor: activeLevelColors[lvl] }}
               />
             ))}
-            <span className="text-[10px] text-[#8b949e] ml-1">More</span>
+            <span className="text-[10px] text-slate-500 dark:text-[#8b949e] font-medium ml-1">More</span>
           </div>
         </div>
       </div>
 
       {/* Stats Row — Responsive */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#21262d]">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#21262d] dark:border-[#21262d] light:border-slate-200">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
           </div>
-          <p className="text-lg font-extrabold text-white">{stats.totalSolved || 0}</p>
-          <p className="text-[10px] text-[#8b949e]">Total Solved</p>
+          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.totalSolved || 0}</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#8b949e]">Total Solved</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
-            <Calendar className="w-3.5 h-3.5 text-blue-400" />
+            <Calendar className="w-3.5 h-3.5 text-blue-500" />
           </div>
-          <p className="text-lg font-extrabold text-white">{stats.activeDays || 0}</p>
-          <p className="text-[10px] text-[#8b949e]">Active Days</p>
+          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.activeDays || 0}</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#8b949e]">Active Days</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
-            <Flame className="w-3.5 h-3.5 text-orange-400" />
+            <Flame className="w-3.5 h-3.5 text-amber-500" />
           </div>
-          <p className="text-lg font-extrabold text-white">{stats.currentStreak || 0}</p>
-          <p className="text-[10px] text-[#8b949e]">Current Streak</p>
+          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.currentStreak || 0}</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#8b949e]">Current Streak</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
-            <Award className="w-3.5 h-3.5 text-yellow-400" />
+            <Award className="w-3.5 h-3.5 text-yellow-500" />
           </div>
-          <p className="text-lg font-extrabold text-white">{stats.longestStreak || 0}</p>
-          <p className="text-[10px] text-[#8b949e]">Longest Streak</p>
+          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.longestStreak || 0}</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#8b949e]">Longest Streak</p>
         </div>
       </div>
 
       {/* Tooltip */}
       {hoveredDay && (
         <div
-          className="fixed z-50 px-3 py-2 rounded-lg bg-[#1c2333] border border-[#30363d] shadow-xl pointer-events-none"
+          className="fixed z-50 px-3 py-2 rounded-lg bg-slate-900 dark:bg-[#1c2333] border border-slate-700 dark:border-[#30363d] shadow-xl pointer-events-none"
           style={{
             left: tooltipPos.x,
             top: tooltipPos.y,
@@ -260,7 +272,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           <p className="text-xs font-bold text-white">
             {hoveredDay.count} problem{hoveredDay.count !== 1 ? 's' : ''} solved
           </p>
-          <p className="text-[10px] text-[#8b949e]">
+          <p className="text-[10px] text-slate-300 dark:text-[#8b949e]">
             {new Date(hoveredDay.date + 'T00:00:00').toLocaleDateString('en-US', {
               weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
             })}
