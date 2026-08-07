@@ -1,4 +1,5 @@
 import React from 'react';
+import { Activity } from 'lucide-react';
 
 const avatarColors = [
   'from-emerald-500 to-teal-600',
