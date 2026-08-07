@@ -395,7 +395,7 @@ const Dashboard = () => {
           {/* TAB 1: OVERVIEW (Main Dashboard Tab as requested) */}
           {activeMainTab === 'overview' && (
             <div className="space-y-6 animate-fadeIn">
-              {/* Squad members & hit target row */}
+              {/* Row 1: Squad members & hit target row */}
               <StatsCards
                 stats={dashboardData.stats}
                 dailyTarget={dailyTarget}
@@ -404,7 +404,7 @@ const Dashboard = () => {
                 refreshing={refreshing}
               />
 
-              {/* Heatmap & Daily Checklist Grid */}
+              {/* Row 2: Heatmap & Daily Checklist Grid */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <div className="xl:col-span-2">
                   <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
@@ -414,15 +414,22 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              {/* Weekly Progress ABOVE Leaderboard */}
-              <WeeklyProgress
-                yourTodayCount={yourTodayCount}
-                dailyTarget={dailyTarget}
-                platformTotal={yourPlatformTotal}
-                weeklyData={weeklyData}
-              />
+              {/* Row 3: Weekly Progress Bar Chart & Target Donut Graph */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <WeeklyProgress
+                  yourTodayCount={yourTodayCount}
+                  dailyTarget={dailyTarget}
+                  platformTotal={yourPlatformTotal}
+                  weeklyData={weeklyData}
+                />
+                <ProgressChart
+                  yourTodayCount={yourTodayCount}
+                  dailyTarget={dailyTarget}
+                  weeklyData={weeklyData}
+                />
+              </div>
 
-              {/* Leaderboard Table & Recent Activity */}
+              {/* Row 4: Leaderboard Table & Recent Activity */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" id="leaderboard-section">
                 <div className="xl:col-span-2">
                   <LeaderboardTable
