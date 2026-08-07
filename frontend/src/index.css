@@ -42,59 +42,93 @@ html.light #root {
   color: #0F172A !important;
 }
 
-html.light .bg-\[\#0B0C10\],
-html.light .bg-\[\#0A0A0A\],
-html.light .bg-\[\#0d1117\],
-html.light .bg-\[\#0a0e17\],
-html.light .bg-\[\#121318\],
-html.light .bg-\[\#161b22\],
-html.light .bg-\[\#18181B\],
-html.light .bg-\[\#121212\],
-html.light .bg-\[\#131313\],
-html.light .bg-\[\#09090B\] {
+/* 1. Main Surface / Card Backgrounds */
+html.light .dash-card,
+html.light [class*="bg-[#0B0C10]"],
+html.light [class*="bg-[#0A0A0A]"],
+html.light [class*="bg-[#0d1117]"],
+html.light [class*="bg-[#0a0e17]"],
+html.light [class*="bg-[#121318]"],
+html.light [class*="bg-[#161b22]"],
+html.light [class*="bg-[#18181B]"],
+html.light [class*="bg-[#121212]"],
+html.light [class*="bg-[#131313]"],
+html.light [class*="bg-[#09090B]"],
+html.light [class*="bg-[#16171E]"] {
   background-color: #FFFFFF !important;
 }
 
-html.light .bg-zinc-900,
-html.light .bg-zinc-800,
-html.light .bg-zinc-950,
-html.light .bg-\[\#16171E\],
-html.light .bg-\[\#1c2333\],
-html.light .bg-\[\#21262d\] {
+/* 2. Inset / Sub-card / Button / Input Backgrounds */
+html.light [class*="bg-zinc-950"],
+html.light [class*="bg-zinc-900"],
+html.light [class*="bg-zinc-850"],
+html.light [class*="bg-zinc-800"],
+html.light [class*="bg-[#1c2333]"],
+html.light [class*="bg-[#21262d]"],
+html.light [class*="bg-[#30363d]"],
+html.light [class*="bg-[#181818]"],
+html.light [class*="bg-slate-900"],
+html.light [class*="bg-slate-800"] {
   background-color: #F1F5F9 !important;
 }
 
-html.light .border-\[\#27272A\],
-html.light .border-\[\#30363d\],
-html.light .border-\[\#21262d\],
-html.light .border-zinc-800,
-html.light .border-zinc-800\/80,
-html.light .border-zinc-700,
-html.light .border-white\/10,
-html.light .border-white\/5 {
+/* 3. Gradient Overrides */
+html.light [class*="via-zinc-900"],
+html.light [class*="to-zinc-900"],
+html.light [class*="from-zinc-900"],
+html.light [class*="via-[#121212]"],
+html.light [class*="to-[#121212]"] {
+  --tw-gradient-via: #F1F5F9 !important;
+  --tw-gradient-to: #F1F5F9 !important;
+  --tw-gradient-from: #FFFFFF !important;
+}
+
+/* 4. Table Rows & Modals */
+html.light table tr,
+html.light table tbody tr:hover,
+html.light [class*="hover:bg-[#0d1117]"]:hover,
+html.light [class*="hover:bg-[#21262d]"]:hover,
+html.light [class*="hover:bg-zinc-800"]:hover {
+  background-color: #F8FAFC !important;
+}
+
+/* 5. Border Overrides */
+html.light [class*="border-[#27272A]"],
+html.light [class*="border-[#30363d]"],
+html.light [class*="border-[#21262d]"],
+html.light [class*="border-zinc-800"],
+html.light [class*="border-zinc-700"],
+html.light [class*="border-zinc-600"],
+html.light [class*="border-white/10"],
+html.light [class*="border-white/5"],
+html.light [class*="border-white/20"],
+html.light [class*="border-black"] {
   border-color: #E2E8F0 !important;
 }
 
+/* 6. Text Color Overrides (Primary vs Secondary) */
 html.light .text-white,
 html.light .text-zinc-100,
 html.light .text-zinc-200,
 html.light .text-zinc-300,
-html.light .text-\[\#F3F4F6\],
-html.light .text-\[\#e6edf3\],
-html.light .text-\[\#FAFAFA\],
-html.light .text-\[\#F5F5F0\] {
+html.light [class*="text-[#F3F4F6]"],
+html.light [class*="text-[#e6edf3]"],
+html.light [class*="text-[#FAFAFA]"],
+html.light [class*="text-[#F5F5F0]"] {
   color: #0F172A !important;
 }
 
 html.light .text-zinc-400,
 html.light .text-zinc-500,
-html.light .text-\[\#9CA3AF\],
-html.light .text-\[\#8b949e\],
-html.light .text-\[\#8A8A85\],
-html.light .text-\[\#6e7681\] {
+html.light [class*="text-[#9CA3AF]"],
+html.light [class*="text-[#8b949e]"],
+html.light [class*="text-[#8A8A85]"],
+html.light [class*="text-[#6e7681]"],
+html.light [class*="text-[#484f58]"] {
   color: #475569 !important;
 }
 
+/* 7. Hover & Interactive States */
 html.light .dash-card {
   background: #FFFFFF !important;
   border-color: #E2E8F0 !important;
