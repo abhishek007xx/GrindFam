@@ -10,6 +10,8 @@ import {
   Loader2, ExternalLink, Menu, X, Flame
 } from 'lucide-react';
 import { supabase } from '../supabase';
+import useStreakEngine from '../hooks/useStreakEngine';
+import useArenaMatchmaking from '../hooks/useArenaMatchmaking';
 
 // Code Splitting & Lazy Loading Heavy Community Components
 const ArenaHub = lazy(() => import('../components/community/ArenaHub'));
@@ -44,7 +46,10 @@ export default function SquadHub() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewDMModalOpen, setIsNewDMModalOpen] = useState(false);
   const [channelSidebarOpen, setChannelSidebarOpen] = useState(false);
-  const [userStreak, setUserStreak] = useState(14);
+
+  // Use new centralized hooks
+  const streakEngine = useStreakEngine(session?.user?.id);
+  const arenaMatchmaking = useArenaMatchmaking(session?.user?.id);
 
   useEffect(() => {
     loadMySquads();
@@ -64,36 +69,6 @@ export default function SquadHub() {
     }
   });
 
-  // Calculate user streak
-  useEffect(() => {
-    if (!session?.user?.id) return;
-    const fetchStreak = async () => {
-      try {
-        const { data } = await supabase
-          .from('user_progress')
-          .select('solved_at')
-          .eq('user_id', session.user.id)
-          .eq('status', 'solved');
-        const dates = [...new Set((data || []).map(p => p.solved_at ? p.solved_at.split('T')[0] : null).filter(Boolean))].sort();
-        let streak = 0;
-        if (dates.length > 0) {
-          streak = 1;
-          for (let i = dates.length - 1; i > 0; i--) {
-            const curr = new Date(dates[i]);
-            const prev = new Date(dates[i - 1]);
-            const diffDays = Math.round((curr - prev) / (1000 * 60 * 60 * 24));
-            if (diffDays === 1) streak++;
-            else break;
-          }
-        }
-        setUserStreak(streak || 14);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchStreak();
-  }, [session]);
-
   const isAdmin = activeSquad?.role === 'admin';
 
   return (
@@ -102,8 +77,9 @@ export default function SquadHub() {
       <CommunityNav
         activeMode={activeCommunityMode}
         onSelectMode={(mode) => setActiveCommunityMode(mode)}
-        streakCount={userStreak}
-        isShieldActive={true}
+        streakCount={streakEngine.currentStreak}
+        isShieldActive={streakEngine.isShieldActive}
+        pendingReviewCount={useSquadStore.getState().peerReviews?.filter(r => r.status === 'pending' && r.author_id !== session?.user?.id)?.length || 0}
       />
 
       {/* ── 2. Spatial Mode Canvas Render ── */}
@@ -116,19 +92,22 @@ export default function SquadHub() {
         {/* Mode A: Today & Habit Hub */}
         {activeCommunityMode === 'today' && (
           <TodayHabitHub
-            userStreak={userStreak}
+            userStreak={streakEngine.currentStreak}
+            shieldsAvailable={streakEngine.shieldsAvailable}
+            isShieldActive={streakEngine.isShieldActive}
             activeTrackName={activeSquad?.name || 'Google SDE Target Track'}
             dailyXp={250}
             targetXp={300}
+            activeSquad={activeSquad}
+            members={members}
+            squadWeeklyProgress={{ current: 14, target: 25 }} // Mock for now
           />
         )}
 
         {/* Mode B: Arena & Battle PvP */}
         {activeCommunityMode === 'arena' && (
           <ArenaHub
-            eloRating={1540}
-            leagueTier="Gold Division"
-            userRank={142}
+            {...arenaMatchmaking}
           />
         )}
 

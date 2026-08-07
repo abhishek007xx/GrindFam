@@ -1,11 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sparkles, Play, CheckCircle2, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Sparkles, Play, CheckCircle2, ArrowRight, ShieldCheck, Users, Circle } from 'lucide-react';
 
-export function TodayHabitHub({ userStreak = 14, activeTrackName = 'Google SDE Track', dailyXp = 250, targetXp = 300 }) {
+export function TodayHabitHub({
+  userStreak = 0,
+  activeTrackName = 'Google SDE Track',
+  dailyXp = 0,
+  targetXp = 300,
+  shieldsAvailable = 0,
+  isShieldActive = false,
+  activeSquad = null,
+  members = [],
+  squadWeeklyProgress = null
+}) {
   const navigate = useNavigate();
   const xpPercent = Math.min(100, Math.round((dailyXp / targetXp) * 100));
+
+  // Online members (active in last 24h)
+  const onlineMembers = members.filter(m => m.isOnline);
+  const podCapacity = activeSquad?.max_members || 10;
+  const memberCount = members.length;
 
   return (
     <div
@@ -64,8 +79,8 @@ export function TodayHabitHub({ userStreak = 14, activeTrackName = 'Google SDE T
         </div>
       </motion.section>
 
-      {/* ── 2. Grid Cards: Target Company Path + Streak Protection Status ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* ── 2. Grid Cards: Target Company Path + Streak Protection + Active Squad Pod ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Active Track Progress Card */}
         <motion.article
           initial={{ opacity: 0, y: 12 }}
@@ -110,11 +125,17 @@ export function TodayHabitHub({ userStreak = 14, activeTrackName = 'Google SDE T
         >
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 text-[11px] font-bold flex items-center gap-1">
+              <span className={`px-2.5 py-0.5 rounded border text-[11px] font-bold flex items-center gap-1 ${
+                isShieldActive
+                  ? 'bg-[#10B981]/15 text-[#10B981] border-[#10B981]/30'
+                  : 'bg-[#1F2937] text-[#6B7280] border-[#30363D]'
+              }`}>
                 <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Streak Protected</span>
+                <span>{isShieldActive ? 'Streak Protected' : 'No Shield'}</span>
               </span>
-              <span className="text-xs text-[#9CA3AF] font-mono">2 Shields Stored</span>
+              <span className="text-xs text-[#9CA3AF] font-mono">
+                {shieldsAvailable} Shield{shieldsAvailable !== 1 ? 's' : ''} Stored
+              </span>
             </div>
 
             <div>
@@ -129,6 +150,76 @@ export function TodayHabitHub({ userStreak = 14, activeTrackName = 'Google SDE T
             <span>Next Freeze Reward: 7 Days</span>
             <span className="text-[#EA5D3A] font-bold font-mono">+100 XP</span>
           </div>
+        </motion.article>
+
+        {/* Active Squad Pod Summary Card */}
+        <motion.article
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25, delay: 0.15 }}
+          className="bg-[#161B22] border border-[#30363D] hover:border-[#4B5563] rounded-xl p-5 space-y-4 transition-all flex flex-col justify-between"
+        >
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="px-2.5 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#EA5D3A] text-[11px] font-bold flex items-center gap-1">
+                <Users className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Active Squad Pod</span>
+              </span>
+              <span className="text-xs text-[#9CA3AF] font-mono">
+                {memberCount}/{podCapacity} Members
+              </span>
+            </div>
+
+            <div>
+              <h3 className="text-base font-bold text-[#F3F4F6]">
+                {activeSquad?.name || 'No Active Squad'}
+              </h3>
+              {squadWeeklyProgress && (
+                <div className="mt-2 space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[#9CA3AF]">Weekly Goal</span>
+                    <span className="text-[#10B981] font-mono font-bold">
+                      {squadWeeklyProgress.current}/{squadWeeklyProgress.target} Solved
+                    </span>
+                  </div>
+                  <div className="w-full bg-[#0D1117] h-1.5 rounded-full overflow-hidden border border-[#21262D]">
+                    <div
+                      className="bg-[#10B981] h-full rounded-full transition-all duration-500"
+                      style={{ width: `${Math.min(100, Math.round((squadWeeklyProgress.current / squadWeeklyProgress.target) * 100))}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Online Pod Members Mini-Roster */}
+            {onlineMembers.length > 0 && (
+              <div className="space-y-1.5 pt-2 border-t border-[#21262D]">
+                <p className="text-[10px] uppercase tracking-wider text-[#6B7280] font-bold">Online Now</p>
+                <div className="space-y-1">
+                  {onlineMembers.slice(0, 3).map((m, i) => (
+                    <div key={m.user_id || i} className="flex items-center gap-2 text-xs">
+                      <span className="relative flex-shrink-0">
+                        <Circle className="w-2 h-2 text-[#10B981] fill-[#10B981]" />
+                      </span>
+                      <span className="text-[#F3F4F6] font-medium truncate">{m.name || m.username}</span>
+                    </div>
+                  ))}
+                  {onlineMembers.length > 3 && (
+                    <span className="text-[10px] text-[#6B7280]">+{onlineMembers.length - 3} more</span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => {/* Switch to squad mode handled by parent */}}
+            className="w-full py-2.5 bg-[#1F2937] hover:bg-[#252D3B] text-[#F3F4F6] border border-[#30363D] hover:border-[#EA5D3A]/50 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
+          >
+            <span>View Squad Workspace</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#EA5D3A]" aria-hidden="true" />
+          </button>
         </motion.article>
       </div>
     </div>

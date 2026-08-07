@@ -1,57 +1,149 @@
--- Migration: Community V3 Migration (Roles, DM System, Realtime Publications & RLS Fixes)
+-- Migration: Community V3 — Peer Reviews, Streak Engine, Arena Matches
+-- Non-destructive: uses IF NOT EXISTS throughout
 
--- 1. Roles column
-ALTER TABLE public.squad_members ADD COLUMN IF NOT EXISTS roles text[] DEFAULT '{member}';
-
--- 2. DM tables
-CREATE TABLE IF NOT EXISTS public.dm_threads (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  participant_a uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  participant_b uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  created_at timestamptz DEFAULT now(),
-  CONSTRAINT unique_dm_pair UNIQUE (participant_a, participant_b),
-  CONSTRAINT different_participants CHECK (participant_a < participant_b)
+-- ═══════════════════════════════════════════════════════════════
+-- 1. PEER CODE REVIEWS
+-- ═══════════════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS public.peer_reviews (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  squad_id UUID NOT NULL REFERENCES public.squads(id) ON DELETE CASCADE,
+  author_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  problem_title TEXT NOT NULL,
+  difficulty TEXT DEFAULT 'Medium',
+  code_snippet TEXT NOT NULL,
+  language TEXT DEFAULT 'javascript',
+  notes TEXT,
+  kudos_count INT DEFAULT 0,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'approved')),
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS public.dm_messages (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  thread_id uuid NOT NULL REFERENCES public.dm_threads(id) ON DELETE CASCADE,
-  sender_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  content text NOT NULL,
-  created_at timestamptz DEFAULT now(),
-  read boolean DEFAULT false
+CREATE INDEX IF NOT EXISTS idx_peer_reviews_squad ON public.peer_reviews (squad_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_peer_reviews_author ON public.peer_reviews (author_id);
+
+-- ═══════════════════════════════════════════════════════════════
+-- 2. LINE-ITEM ANNOTATIONS ON REVIEWS
+-- ═══════════════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS public.line_annotations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  review_id UUID NOT NULL REFERENCES public.peer_reviews(id) ON DELETE CASCADE,
+  reviewer_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  line_number INT NOT NULL,
+  comment_text TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. RLS for DMs
-ALTER TABLE public.dm_threads ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.dm_messages ENABLE ROW LEVEL SECURITY;
+CREATE INDEX IF NOT EXISTS idx_line_annotations_review ON public.line_annotations (review_id, created_at ASC);
 
-DROP POLICY IF EXISTS "dm_threads_read" ON public.dm_threads;
-DROP POLICY IF EXISTS "dm_threads_insert" ON public.dm_threads;
-DROP POLICY IF EXISTS "dm_messages_read" ON public.dm_messages;
-DROP POLICY IF EXISTS "dm_messages_insert" ON public.dm_messages;
-DROP POLICY IF EXISTS "dm_messages_update" ON public.dm_messages;
+-- ═══════════════════════════════════════════════════════════════
+-- 3. USER STREAK ENGINE
+-- ═══════════════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS public.user_streaks (
+  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  current_streak INT DEFAULT 0,
+  longest_streak INT DEFAULT 0,
+  last_active_date DATE,
+  shields_available INT DEFAULT 0,
+  shields_used INT DEFAULT 0,
+  total_xp INT DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
 
-CREATE POLICY "dm_threads_read" ON public.dm_threads FOR SELECT USING (auth.uid() = participant_a OR auth.uid() = participant_b);
-CREATE POLICY "dm_threads_insert" ON public.dm_threads FOR INSERT WITH CHECK (auth.uid() = participant_a OR auth.uid() = participant_b);
-CREATE POLICY "dm_messages_read" ON public.dm_messages FOR SELECT USING (EXISTS (SELECT 1 FROM dm_threads WHERE id = thread_id AND (auth.uid() = participant_a OR auth.uid() = participant_b)));
-CREATE POLICY "dm_messages_insert" ON public.dm_messages FOR INSERT WITH CHECK (sender_id = auth.uid() AND EXISTS (SELECT 1 FROM dm_threads WHERE id = thread_id AND (auth.uid() = participant_a OR auth.uid() = participant_b)));
-CREATE POLICY "dm_messages_update" ON public.dm_messages FOR UPDATE USING (EXISTS (SELECT 1 FROM dm_threads WHERE id = thread_id AND auth.uid() IN (participant_a, participant_b)));
+-- ═══════════════════════════════════════════════════════════════
+-- 4. ARENA MATCH HISTORY
+-- ═══════════════════════════════════════════════════════════════
+CREATE TABLE IF NOT EXISTS public.arena_matches (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  player_a UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  player_b UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  winner_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  match_type TEXT DEFAULT '1v1' CHECK (match_type IN ('1v1', 'ghost')),
+  problem_title TEXT,
+  duration_seconds INT,
+  elo_change_a INT DEFAULT 0,
+  elo_change_b INT DEFAULT 0,
+  status TEXT DEFAULT 'completed' CHECK (status IN ('searching', 'in_progress', 'completed', 'cancelled')),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- 4. Fix squad_messages RLS (THIS IS WHY CHAT IS DEAD)
-DROP POLICY IF EXISTS "squad_messages_read" ON public.squad_messages;
-DROP POLICY IF EXISTS "squad_messages_insert" ON public.squad_messages;
+CREATE INDEX IF NOT EXISTS idx_arena_matches_player ON public.arena_matches (player_a, created_at DESC);
 
-CREATE POLICY "squad_messages_read" ON public.squad_messages FOR SELECT USING (EXISTS (SELECT 1 FROM squad_members WHERE squad_id = squad_messages.squad_id AND user_id = auth.uid()));
-CREATE POLICY "squad_messages_insert" ON public.squad_messages FOR INSERT WITH CHECK (user_id = auth.uid() AND EXISTS (SELECT 1 FROM squad_members WHERE squad_id = squad_messages.squad_id AND user_id = auth.uid()));
+-- ═══════════════════════════════════════════════════════════════
+-- 5. ROW LEVEL SECURITY
+-- ═══════════════════════════════════════════════════════════════
 
--- 5. Enable realtime (wrapped so re-running won't error)
-DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.squad_messages; EXCEPTION WHEN OTHERS THEN NULL; END $$;
-DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.squad_members; EXCEPTION WHEN OTHERS THEN NULL; END $$;
-DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.dm_messages; EXCEPTION WHEN OTHERS THEN NULL; END $$;
-DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.dm_threads; EXCEPTION WHEN OTHERS THEN NULL; END $$;
+-- Peer Reviews: Squad members can read, authors can insert
+ALTER TABLE public.peer_reviews ENABLE ROW LEVEL SECURITY;
 
--- 6. Indexes for performance
-CREATE INDEX IF NOT EXISTS idx_squad_messages_squad ON public.squad_messages (squad_id, created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_dm_messages_thread ON public.dm_messages (thread_id, created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_dm_threads_user ON public.dm_threads (participant_a, participant_b);
+DROP POLICY IF EXISTS "peer_reviews_read" ON public.peer_reviews;
+DROP POLICY IF EXISTS "peer_reviews_insert" ON public.peer_reviews;
+DROP POLICY IF EXISTS "peer_reviews_update" ON public.peer_reviews;
+
+CREATE POLICY "peer_reviews_read" ON public.peer_reviews
+  FOR SELECT USING (
+    EXISTS (SELECT 1 FROM squad_members WHERE squad_id = peer_reviews.squad_id AND user_id = auth.uid())
+  );
+CREATE POLICY "peer_reviews_insert" ON public.peer_reviews
+  FOR INSERT WITH CHECK (
+    author_id = auth.uid() AND
+    EXISTS (SELECT 1 FROM squad_members WHERE squad_id = peer_reviews.squad_id AND user_id = auth.uid())
+  );
+CREATE POLICY "peer_reviews_update" ON public.peer_reviews
+  FOR UPDATE USING (
+    EXISTS (SELECT 1 FROM squad_members WHERE squad_id = peer_reviews.squad_id AND user_id = auth.uid())
+  );
+
+-- Line Annotations: Squad members can read/insert via review's squad
+ALTER TABLE public.line_annotations ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "line_annotations_read" ON public.line_annotations;
+DROP POLICY IF EXISTS "line_annotations_insert" ON public.line_annotations;
+
+CREATE POLICY "line_annotations_read" ON public.line_annotations
+  FOR SELECT USING (
+    EXISTS (
+      SELECT 1 FROM peer_reviews pr
+      JOIN squad_members sm ON sm.squad_id = pr.squad_id
+      WHERE pr.id = line_annotations.review_id AND sm.user_id = auth.uid()
+    )
+  );
+CREATE POLICY "line_annotations_insert" ON public.line_annotations
+  FOR INSERT WITH CHECK (
+    reviewer_id = auth.uid() AND
+    EXISTS (
+      SELECT 1 FROM peer_reviews pr
+      JOIN squad_members sm ON sm.squad_id = pr.squad_id
+      WHERE pr.id = line_annotations.review_id AND sm.user_id = auth.uid()
+    )
+  );
+
+-- User Streaks: Users can read/manage their own streaks
+ALTER TABLE public.user_streaks ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "user_streaks_read" ON public.user_streaks;
+DROP POLICY IF EXISTS "user_streaks_insert" ON public.user_streaks;
+DROP POLICY IF EXISTS "user_streaks_update" ON public.user_streaks;
+
+CREATE POLICY "user_streaks_read" ON public.user_streaks
+  FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "user_streaks_insert" ON public.user_streaks
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "user_streaks_update" ON public.user_streaks
+  FOR UPDATE USING (auth.uid() = user_id);
+
+-- Arena Matches: Participants can read their own matches
+ALTER TABLE public.arena_matches ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "arena_matches_read" ON public.arena_matches;
+DROP POLICY IF EXISTS "arena_matches_insert" ON public.arena_matches;
+
+CREATE POLICY "arena_matches_read" ON public.arena_matches
+  FOR SELECT USING (auth.uid() = player_a OR auth.uid() = player_b);
+CREATE POLICY "arena_matches_insert" ON public.arena_matches
+  FOR INSERT WITH CHECK (auth.uid() = player_a);
+
+-- ═══════════════════════════════════════════════════════════════
+-- 6. REALTIME PUBLICATION
+-- ═══════════════════════════════════════════════════════════════
+DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.peer_reviews; EXCEPTION WHEN OTHERS THEN NULL; END $$;
+DO $$ BEGIN ALTER PUBLICATION supabase_realtime ADD TABLE public.line_annotations; EXCEPTION WHEN OTHERS THEN NULL; END $$;

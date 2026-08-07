@@ -1,151 +1,349 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, ThumbsUp, Code, Send } from 'lucide-react';
-import useOptimisticMessages from '../../hooks/useOptimisticMessages';
+import { MessageSquare, ThumbsUp, Code, Send, Plus, X, Loader2, CheckCircle } from 'lucide-react';
+import { useSquadStore } from '../../store/useSquadStore';
+import { useAuth } from '../../context/AuthContext';
 
 export function PeerCodeReviewQueue() {
-  const initialReviews = [
-    {
-      id: 'rev-1',
-      author: 'Alex G.',
-      problemTitle: 'Trapping Rain Water (Hard)',
-      language: 'C++',
-      kudos: 14,
-      codeSnippet: `int trap(vector<int>& height) {
-    int l = 0, r = height.size() - 1;
-    int leftMax = 0, rightMax = 0, res = 0;
-    while (l < r) { ... }
-    return res;
-}`,
-      comment: 'Line 4: Used Two Pointer approach for O(N) time and O(1) auxiliary space.'
-    },
-    {
-      id: 'rev-2',
-      author: 'Priya K.',
-      problemTitle: 'Lowest Common Ancestor of Binary Tree (Medium)',
-      language: 'Python',
-      kudos: 8,
-      codeSnippet: `def lowestCommonAncestor(self, root, p, q):
-    if not root or root == p or root == q:
-        return root
-    left = self.lowestCommonAncestor(root.left, p, q)
-    right = self.lowestCommonAncestor(root.right, p, q)`,
-      comment: 'Line 3: Clean post-order recursion. Pass test cases in 18ms.'
+  const { session } = useAuth();
+  const { 
+    activeSquad, 
+    peerReviews, 
+    fetchPeerReviews, 
+    submitPeerReview, 
+    addLineAnnotation, 
+    giveKudos 
+  } = useSquadStore();
+
+  const [activeTab, setActiveTab] = useState('all'); // 'all', 'pending', 'approved'
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  
+  // Submit Form State
+  const [problemTitle, setProblemTitle] = useState('');
+  const [codeSnippet, setCodeSnippet] = useState('');
+  const [notes, setNotes] = useState('');
+
+  // Annotation Form State
+  const [activeReviewId, setActiveReviewId] = useState(null);
+  const [annotatingLine, setAnnotatingLine] = useState(null);
+  const [annotationText, setAnnotationText] = useState('');
+  const [submittingAnnotation, setSubmittingAnnotation] = useState(false);
+
+  useEffect(() => {
+    if (activeSquad?.id) {
+      fetchPeerReviews(activeSquad.id);
     }
-  ];
+  }, [activeSquad?.id, fetchPeerReviews]);
 
-  const { items: reviews, setItems } = useOptimisticMessages(initialReviews);
-  const [commentInput, setCommentInput] = useState({});
-
-  const handleKudos = (id) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, kudos: item.kudos + 1 } : item))
-    );
-  };
-
-  const handleAddComment = (id) => {
-    const text = commentInput[id];
-    if (!text || !text.trim()) return;
-    alert(`Comment submitted on review: "${text}" (+5 Reviewer XP awarded)`);
-    setCommentInput({ ...commentInput, [id]: '' });
-  };
-
-  const handleKeyDown = (e, id) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleAddComment(id);
+  const handleSubmitReview = async (e) => {
+    e.preventDefault();
+    if (!problemTitle.trim() || !codeSnippet.trim() || submitting) return;
+    
+    setSubmitting(true);
+    try {
+      await submitPeerReview({
+        squadId: activeSquad.id,
+        problemTitle,
+        difficulty: 'Medium', // Default for now
+        codeSnippet,
+        language: 'javascript', // Default for now
+        notes
+      });
+      setShowSubmitModal(false);
+      setProblemTitle('');
+      setCodeSnippet('');
+      setNotes('');
+    } catch (err) {
+      console.error('Failed to submit review:', err);
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  const handleAddAnnotation = async (reviewId) => {
+    if (!annotationText.trim() || annotatingLine === null || submittingAnnotation) return;
+    
+    setSubmittingAnnotation(true);
+    try {
+      await addLineAnnotation({
+        reviewId,
+        lineNumber: annotatingLine,
+        commentText: annotationText
+      });
+      setAnnotatingLine(null);
+      setAnnotationText('');
+    } catch (err) {
+      console.error('Failed to add annotation:', err);
+    } finally {
+      setSubmittingAnnotation(false);
+    }
+  };
+
+  const handleKudos = async (reviewId) => {
+    await giveKudos(reviewId);
+  };
+
+  // Filter logic
+  const filteredReviews = peerReviews.filter(review => {
+    if (activeTab === 'all') return true;
+    if (activeTab === 'approved') return review.status === 'approved';
+    if (activeTab === 'pending') return review.status === 'pending' && review.author_id !== session?.user?.id;
+    return true;
+  });
 
   return (
-    <div className="space-y-6 animate-fadeIn">
-      <div className="flex items-center justify-between border-b border-[#21262D] pb-4">
+    <div className="space-y-6">
+      {/* Header & Controls */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-lg font-bold text-[#F3F4F6] flex items-center gap-2">
-            <Code className="w-5 h-5 text-[#EA5D3A]" aria-hidden="true" />
-            <span>Peer Code Review Queue</span>
-          </h2>
-          <p className="text-xs text-[#9CA3AF] mt-0.5">
-            Review squadmates' solution logic, leave line-item feedback, and earn Peer Reviewer XP.
-          </p>
+          <h2 className="text-xl font-extrabold text-[#F3F4F6] tracking-tight">Peer Code Review</h2>
+          <p className="text-xs text-[#9CA3AF] mt-1">Get feedback from your squad on time & space complexity.</p>
         </div>
+        
+        <button
+          onClick={() => setShowSubmitModal(true)}
+          className="px-4 py-2 bg-[#EA5D3A] hover:bg-[#F2633F] text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Submit for Review</span>
+        </button>
       </div>
 
-      {/* Review Queue Items */}
+      {/* Filter Tabs */}
+      <div className="flex items-center gap-2 border-b border-[#30363D] pb-2">
+        {['all', 'pending', 'approved'].map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`px-4 py-2 text-xs font-bold rounded-t-lg transition-all border-b-2 ${
+              activeTab === tab 
+                ? 'border-[#EA5D3A] text-[#EA5D3A]' 
+                : 'border-transparent text-[#9CA3AF] hover:text-[#F3F4F6]'
+            }`}
+          >
+            {tab === 'all' && 'All Reviews'}
+            {tab === 'pending' && 'Pending My Review'}
+            {tab === 'approved' && 'Approved'}
+          </button>
+        ))}
+      </div>
+
+      {/* Review Queue List */}
       <div className="space-y-4">
-        <AnimatePresence>
-          {reviews.map((rev, idx) => (
-            <motion.article
-              key={rev.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2, delay: idx * 0.04 }}
-              className="bg-[#161B22] border border-[#30363D] hover:border-[#4B5563] rounded-xl p-5 space-y-4 transition-all"
-            >
-              {/* Header: Author + Problem Title */}
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <span className="px-2 py-0.5 rounded bg-[#1F2937] text-[#EA5D3A] text-[10px] font-bold border border-[#30363D]">
-                    {rev.language}
-                  </span>
-                  <h3 className="text-sm font-bold text-[#F3F4F6]">{rev.problemTitle}</h3>
-                  <p className="text-xs text-[#9CA3AF]">
-                    Submitted by <strong className="text-white">{rev.author}</strong>
-                  </p>
+        {filteredReviews.length === 0 ? (
+          <div className="text-center py-10 bg-[#161B22] border border-[#30363D] rounded-xl">
+            <Code className="w-8 h-8 text-[#6B7280] mx-auto mb-3" />
+            <p className="text-sm text-[#9CA3AF]">No reviews found in this category.</p>
+          </div>
+        ) : (
+          <AnimatePresence>
+            {filteredReviews.map((review) => (
+              <motion.div
+                key={review.id}
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className={`bg-[#161B22] border rounded-xl overflow-hidden shadow-sm transition-colors ${
+                  review.isPending ? 'border-[#EA5D3A]/50 opacity-70' : 'border-[#30363D]'
+                }`}
+              >
+                {/* Review Header */}
+                <div className="p-4 border-b border-[#21262D] flex items-start justify-between bg-[#0D1117]/50">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-[#F3F4F6]">{review.author_name}</span>
+                      <span className="text-[#6B7280] text-xs">submitted</span>
+                      <span className="text-[#EA5D3A] font-semibold text-sm">{review.problem_title}</span>
+                    </div>
+                    {review.notes && (
+                      <p className="text-xs text-[#9CA3AF] mt-1">{review.notes}</p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {review.status === 'approved' && (
+                      <span className="px-2 py-1 bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30 rounded text-[10px] font-bold uppercase flex items-center gap-1">
+                        <CheckCircle className="w-3 h-3" /> Approved
+                      </span>
+                    )}
+                    <button
+                      onClick={() => handleKudos(review.id)}
+                      className="flex items-center gap-1.5 px-2 py-1 bg-[#1F2937] hover:bg-[#252D3B] text-[#9CA3AF] hover:text-[#EA5D3A] border border-[#30363D] rounded-md transition-colors text-xs font-bold"
+                    >
+                      <ThumbsUp className="w-3.5 h-3.5" />
+                      <span>{review.kudos_count || 0}</span>
+                    </button>
+                  </div>
                 </div>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleKudos(rev.id)}
-                  aria-label={`Give Kudos to ${rev.author}. Current kudos count: ${rev.kudos}`}
-                  className="px-3 py-1.5 rounded-lg bg-[#1F2937] hover:bg-[#252D3B] text-[#10B981] border border-[#10B981]/30 text-xs font-bold transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
-                >
-                  <ThumbsUp className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Kudos ({rev.kudos})</span>
-                </motion.button>
-              </div>
+                {/* Code Snippet with Line Actions */}
+                <div className="p-4 bg-[#0a0e17] font-mono text-xs overflow-x-auto">
+                  <pre className="text-[#e6edf3]">
+                    {review.code_snippet.split('\n').map((line, idx) => {
+                      const lineNum = idx + 1;
+                      const hasAnnotation = review.annotations?.some(a => a.line_number === lineNum);
+                      const isAnnotatingThisLine = activeReviewId === review.id && annotatingLine === lineNum;
+                      
+                      return (
+                        <div key={lineNum} className="group flex hover:bg-[#161B22] transition-colors relative pr-12">
+                          <span className="w-8 flex-shrink-0 text-[#6B7280] select-none text-right pr-3 border-r border-[#30363D] mr-3">
+                            {lineNum}
+                          </span>
+                          <span className="flex-1 whitespace-pre">{line || ' '}</span>
+                          
+                          {/* Add Annotation Button (Hover) */}
+                          <button
+                            onClick={() => {
+                              setActiveReviewId(review.id);
+                              setAnnotatingLine(lineNum);
+                              setAnnotationText('');
+                            }}
+                            className="absolute right-2 top-0 bottom-0 opacity-0 group-hover:opacity-100 text-[#6B7280] hover:text-[#EA5D3A] px-2 flex items-center"
+                            title="Add line comment"
+                          >
+                            <MessageSquare className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </pre>
+                </div>
 
-              {/* Code Snippet Container */}
-              <div
-                tabIndex={0}
-                aria-label={`Code snippet for ${rev.problemTitle}`}
-                className="bg-[#0D1117] border border-[#21262D] rounded-lg p-3 font-mono text-xs text-[#F3F4F6] overflow-x-auto focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#EA5D3A]"
-              >
-                <pre>{rev.codeSnippet}</pre>
-              </div>
+                {/* Annotations List */}
+                {review.annotations?.length > 0 && (
+                  <div className="border-t border-[#30363D] bg-[#161B22] divide-y divide-[#30363D]">
+                    {review.annotations.map(ann => (
+                      <div key={ann.id} className={`p-3 flex gap-3 text-xs ${ann.isPending ? 'opacity-70' : ''}`}>
+                        <div className="w-10 h-6 flex items-center justify-center bg-[#1F2937] text-[#9CA3AF] font-mono rounded border border-[#30363D] flex-shrink-0">
+                          L{ann.line_number}
+                        </div>
+                        <div>
+                          <div className="font-bold text-[#F3F4F6] mb-0.5">{ann.reviewer_name}</div>
+                          <div className="text-[#9CA3AF]">{ann.comment_text}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
-              {/* Line Comment Annotation */}
-              <div className="bg-[#1F2937]/50 border border-[#30363D] rounded-lg p-3 text-xs text-[#9CA3AF] flex items-start gap-2">
-                <MessageSquare className="w-4 h-4 text-[#EA5D3A] flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <span>{rev.comment}</span>
-              </div>
+                {/* Inline Annotation Input */}
+                {activeReviewId === review.id && annotatingLine !== null && (
+                  <div className="p-3 border-t border-[#EA5D3A]/40 bg-[#1F2937]/50 flex gap-3">
+                    <div className="w-10 h-8 flex items-center justify-center bg-[#EA5D3A]/20 text-[#EA5D3A] font-mono rounded border border-[#EA5D3A]/40 font-bold text-xs">
+                      L{annotatingLine}
+                    </div>
+                    <div className="flex-1 relative">
+                      <input
+                        type="text"
+                        autoFocus
+                        value={annotationText}
+                        onChange={(e) => setAnnotationText(e.target.value)}
+                        placeholder="Add review comment..."
+                        className="w-full bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-md py-1.5 px-3 text-xs text-[#F3F4F6] outline-none pr-10"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleAddAnnotation(review.id);
+                          if (e.key === 'Escape') setAnnotatingLine(null);
+                        }}
+                      />
+                      <button
+                        onClick={() => handleAddAnnotation(review.id)}
+                        disabled={!annotationText.trim() || submittingAnnotation}
+                        className="absolute right-1.5 top-1.5 text-[#EA5D3A] disabled:opacity-30"
+                      >
+                        {submittingAnnotation ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                      </button>
+                    </div>
+                    <button onClick={() => setAnnotatingLine(null)} className="text-[#6B7280] hover:text-[#F3F4F6] p-1.5">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        )}
+      </div>
 
-              {/* Input Comment Box */}
-              <div className="flex items-center gap-2 pt-2 border-t border-[#21262D]">
-                <input
-                  type="text"
-                  value={commentInput[rev.id] || ''}
-                  onChange={(e) => setCommentInput({ ...commentInput, [rev.id]: e.target.value })}
-                  onKeyDown={(e) => handleKeyDown(e, rev.id)}
-                  placeholder="Leave line feedback or feedback (Press Enter to submit)..."
-                  aria-label={`Leave review comment on ${rev.author}'s solution`}
-                  className="flex-1 px-3 py-1.5 bg-[#0D1117] border border-[#21262D] rounded-lg text-xs text-[#F3F4F6] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] focus-visible:ring-1 focus-visible:ring-[#EA5D3A]"
-                />
-                <button
-                  onClick={() => handleAddComment(rev.id)}
-                  aria-label="Submit code review comment"
-                  className="px-3 py-1.5 bg-[#EA5D3A] hover:bg-[#F2633F] text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                >
-                  <Send className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Review</span>
+      {/* Submit Modal */}
+      <AnimatePresence>
+        {showSubmitModal && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-[#0a0e17]/80 backdrop-blur-sm z-50"
+              onClick={() => setShowSubmitModal(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-[#161B22] border border-[#30363D] rounded-2xl shadow-2xl z-50 p-6"
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-white">Submit Solution for Review</h3>
+                <button onClick={() => setShowSubmitModal(false)} className="text-[#6B7280] hover:text-white transition-colors">
+                  <X className="w-5 h-5" />
                 </button>
               </div>
-            </motion.article>
-          ))}
-        </AnimatePresence>
-      </div>
+
+              <form onSubmit={handleSubmitReview} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#9CA3AF] mb-1.5">Problem Title</label>
+                  <input
+                    type="text"
+                    required
+                    value={problemTitle}
+                    onChange={(e) => setProblemTitle(e.target.value)}
+                    placeholder="e.g., Binary Tree Level Order Traversal"
+                    className="w-full bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-xs font-bold text-[#9CA3AF] mb-1.5">Implementation (Paste Code)</label>
+                  <textarea
+                    required
+                    value={codeSnippet}
+                    onChange={(e) => setCodeSnippet(e.target.value)}
+                    placeholder="function solution() { ... }"
+                    className="w-full h-48 bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-lg px-4 py-3 text-sm text-white font-mono outline-none transition-colors scrollbar-thin"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#9CA3AF] mb-1.5">Context / What needs review?</label>
+                  <input
+                    type="text"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="e.g., Is my space complexity O(1) or O(N)?"
+                    className="w-full bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
+                  />
+                </div>
+
+                <div className="pt-4 flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowSubmitModal(false)}
+                    className="px-5 py-2.5 bg-[#1F2937] hover:bg-[#252D3B] text-white text-sm font-bold rounded-xl transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submitting || !problemTitle.trim() || !codeSnippet.trim()}
+                    className="px-5 py-2.5 bg-[#EA5D3A] hover:bg-[#F2633F] disabled:opacity-50 text-white text-sm font-bold rounded-xl transition-colors flex items-center gap-2 shadow-lg"
+                  >
+                    {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                    <span>Submit</span>
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
