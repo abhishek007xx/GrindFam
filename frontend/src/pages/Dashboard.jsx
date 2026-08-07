@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData, sheetsData } from '../lib/dataFallback';
+import { useAuth } from '../context/AuthContext';
 import StatsCards from '../components/StatsCards';
 import LeaderboardTable from '../components/LeaderboardTable';
 import WeeklyProgress from '../components/WeeklyProgress';
