@@ -151,13 +151,22 @@ export const useSquadStore = create((set, get) => ({
       // 2. Fetch Chat History (last 80 messages) with profile resolution
       const { data: rawMessages } = await supabase
         .from('squad_messages')
-        .select('*, profiles(username, leetcode_username)')
+        .select('*')
         .eq('squad_id', squadId)
         .order('created_at', { ascending: false })
         .limit(80);
 
+      // Collect author user_ids that aren't in profileMap yet
+      const missingAuthorIds = [...new Set((rawMessages || []).map(m => m.user_id))].filter(id => id && !profileMap[id]);
+      if (missingAuthorIds.length > 0) {
+        const { data: extraProfiles } = await supabase
+          .from('profiles').select('id, username, leetcode_username')
+          .in('id', missingAuthorIds);
+        (extraProfiles || []).forEach(p => { profileMap[p.id] = p; });
+      }
+
       const enrichedMessages = (rawMessages || []).map(m => {
-        const prof = m.profiles || {};
+        const prof = profileMap[m.user_id] || {};
         return {
           ...m,
           author_name: prof.username || prof.leetcode_username || 'Member'

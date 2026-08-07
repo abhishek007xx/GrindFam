@@ -118,7 +118,13 @@ const getDashboardData = async (req, res) => {
         // Sync historical LeetCode submission calendar into daily_activity
         if (!lcData.error) {
           try {
-            await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, forceSync);
+            if (forceSync) {
+              await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, forceSync);
+            } else {
+              syncUserLeetCodeHistory(profile.id, profile.leetcode_username, false).catch(err => {
+                console.warn(`Background sync error for ${profile.leetcode_username}:`, err.message);
+              });
+            }
 
             // Upsert today's count — use max(existing, incoming) to never lose data
             let finalTodayCount = todayCount;

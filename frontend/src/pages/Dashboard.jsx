@@ -101,7 +101,7 @@ function calculateStreak(solvedDates) {
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { token, profile, user } = useAuth();
+  const { token, profile, user, loading: authLoading } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
 
@@ -145,7 +145,10 @@ const Dashboard = () => {
 
   // ─── Leaderboard API fetch ───
   const fetchDashboard = useCallback(async (isSilent = false) => {
-    if (!token) return;
+    if (!token) {
+      if (!authLoading) setLoading(false);
+      return;
+    }
     if (!isSilent) setLoading(true);
     else setRefreshing(true);
     setError(null);
@@ -158,7 +161,7 @@ const Dashboard = () => {
     } catch (err) {
       setError(err.response?.data?.error || err.message || 'Failed to fetch leaderboard data.');
     } finally { setLoading(false); setRefreshing(false); }
-  }, [token]);
+  }, [token, authLoading]);
 
   // ─── Manual Force Sync LeetCode Submissions ───
   const handleManualSyncLeetCode = useCallback(async () => {
