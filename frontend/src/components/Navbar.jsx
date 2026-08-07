@@ -400,67 +400,6 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
             <Moon className="w-4 h-4 text-indigo-500 transition-transform duration-300 group-hover:-rotate-12" />
           )}
         </button>
-
-        <div className="relative pl-2 border-l border-[#21262d] dark:border-[#21262d] light:border-slate-200" ref={userMenuRef}>
-          <button
-            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center gap-2 p-1 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-all max-w-[200px]"
-          >
-            <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-[11px] border border-white/20 flex-shrink-0">
-              {initials}
-            </div>
-            <span className="text-sm font-medium text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 truncate hidden sm:inline-block max-w-[120px]">
-              {name}
-            </span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 hidden sm:inline flex-shrink-0" />
-          </button>
-
-          <AnimatePresence>
-            {isUserMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                transition={{ duration: 0.15 }}
-                className="absolute right-0 top-full mt-2 w-56 bg-[#161b22] border border-[#30363d] rounded-xl shadow-2xl overflow-hidden z-50 py-1.5"
-              >
-                <div className="px-4 py-2.5 border-b border-[#21262d]">
-                  <p className="text-xs font-bold text-white truncate">{name}</p>
-                  <p className="text-[10px] text-[#8b949e] truncate">{user?.email || 'Logged In'}</p>
-                </div>
-
-                <button
-                  onClick={() => { toggleTheme(); setIsUserMenuOpen(false); }}
-                  className="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
-                >
-                  <div className="flex items-center gap-2.5">
-                    {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
-                    <span>Theme</span>
-                  </div>
-                  <span className="text-[10px] text-[#8b949e] uppercase font-bold tracking-wider">{theme} Mode</span>
-                </button>
-
-                <button
-                  onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
-                >
-                  <Settings className="w-4 h-4 text-[#EA5D3A]" />
-                  <span>Account Settings</span>
-                </button>
-
-                <div className="border-t border-[#21262d] my-1" />
-
-                <button
-                  onClick={() => { signOut(); setIsUserMenuOpen(false); }}
-                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 transition-colors"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
       </div>
 
       <SettingsModal
