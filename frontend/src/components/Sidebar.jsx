@@ -8,7 +8,7 @@ import { companiesData, sheetsData } from '../lib/dataFallback';
 import {
   LayoutDashboard, Building2, FileCode2, Map, Hash, Trophy, Users, UserPlus, Pencil,
   Activity, Settings, Flame, Shield, Sun, Moon, PanelLeftClose, PanelLeftOpen,
-  Search, X, ExternalLink, LogOut, ChevronRight
+  Search, X, ExternalLink, LogOut, ChevronRight, Briefcase
 } from 'lucide-react';
 
 const mainNavItems = [
@@ -17,6 +17,7 @@ const mainNavItems = [
   { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
   { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmaps' },
   { id: 'topics', label: 'Topics', icon: Hash, path: '/topics/Array' },
+  { id: 'portfolio', label: 'Portfolio', icon: Briefcase, path: '/portfolio' },
 ];
 
 const socialNavItems = [

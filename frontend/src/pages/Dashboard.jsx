@@ -294,13 +294,18 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-fadeIn">
 
-          {/* Greeting Header with Prominent Sync Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-[#F3F4F6] dark:text-[#F3F4F6] light:text-slate-900">
+      {/* Greeting Header */}
+          <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#EA5D3A]/5 via-transparent to-transparent pointer-events-none" />
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium mb-2">
+                <Zap className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                <span>Today&apos;s Focus</span>
+              </div>
+              <h2 className="text-2xl font-bold text-[#F3F4F6] tracking-tight">
                 Hey {name.split(' ')[0]}! 👋
               </h2>
-              <p className="text-sm text-[#9CA3AF] dark:text-[#9CA3AF] light:text-slate-600 mt-0.5">
+              <p className="text-sm text-[#9CA3AF] mt-0.5">
                 {yourTodayCount === 0
                   ? "Time to start grinding — your squad is counting on you!"
                   : yourTodayCount >= dailyTarget
@@ -313,7 +318,7 @@ const Dashboard = () => {
             <button
               onClick={handleManualSyncLeetCode}
               disabled={refreshing}
-              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs shadow-md shadow-[#EA5D3A]/20 transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer border border-orange-400/30"
+              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1F2937] hover:bg-[#EA5D3A]/15 border border-[#30363D] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
               title="Sync latest submissions from LeetCode"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -361,27 +366,42 @@ const Dashboard = () => {
 
               {/* Zone 2: Deep Problem-Solving Analytics */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 2: Deep Problem-Solving Analytics</h2>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
+                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
+                    <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Deep Problem-Solving Analytics</h2>
+                    <p className="text-[10px] text-[#6B7280]">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
+                  </div>
                 </div>
                 <ProblemAnalytics stats={dashboardData.stats} />
               </div>
 
               {/* Zone 3: Revision, Retention & Sheet Tracking */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 3: Revision, Retention & Sheet Tracking</h2>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
+                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
+                    <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Revision, Retention & Sheet Tracking</h2>
+                    <p className="text-[10px] text-[#6B7280]">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
+                  </div>
                 </div>
                 <SpacedRepetitionVault />
               </div>
 
               {/* Zone 4: Social Drive, Contests & Gamification */}
               <div className="mb-8 space-y-4">
-                <div className="border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 pb-2">
-                  <h2 className="text-lg font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 tracking-tight">Zone 4: Social Drive, Contests & Gamification</h2>
-                  <p className="text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-600">Contest rating curve, XP level badges, live calendar & squad standings</p>
+                <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] px-5 py-3 flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
+                    <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#F3F4F6] tracking-tight">Social Drive, Contests & Gamification</h2>
+                    <p className="text-[10px] text-[#6B7280]">Contest rating curve, XP level badges, live calendar & squad standings</p>
+                  </div>
                 </div>
 
                 <ContestsGamification platformTotal={yourPlatformTotal} />

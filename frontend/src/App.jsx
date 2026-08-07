@@ -19,6 +19,7 @@ import RoadmapDetail from './pages/RoadmapDetail';
 import TopicProblems from './pages/TopicProblems';
 import SquadHub from './pages/SquadHub';
 import LandingPage from './pages/LandingPage';
+import Portfolio from './pages/Portfolio';
 
 // Deep-link join handler component
 const DeepLinkJoinHandler = ({ children }) => {
@@ -137,6 +138,7 @@ function App() {
               <Route path="/squad" element={<Navigate to="/community" replace />} />
               <Route path="/topics/:tagName" element={<ProtectedRoute><MainLayout><TopicProblems /></MainLayout></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><MainLayout><SettingsPage /></MainLayout></ProtectedRoute>} />
+              <Route path="/portfolio" element={<ProtectedRoute><MainLayout><Portfolio /></MainLayout></ProtectedRoute>} />
 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
