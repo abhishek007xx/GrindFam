@@ -92,24 +92,22 @@ export function RoadmapDetail() {
         <span>Back to All Roadmaps</span>
       </button>
 
-      {/* Header Banner Card with Vector Infographic Gradient */}
-      <div className="relative bg-gradient-to-r from-emerald-950/70 via-[#161b22] to-cyan-950/60 border border-[#30363d] rounded-3xl p-8 shadow-2xl overflow-hidden">
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
-          <Route className="w-64 h-64 text-[#22c55e]" />
-        </div>
+      {/* Header Banner Card with Kinetic Obsidian Theme */}
+      <div className="relative bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl p-6 md:p-8 shadow-xl overflow-hidden space-y-6">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-[#EA5D3A]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#1F1F1F]">
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-3 py-1 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/30 text-[#22c55e] text-xs font-bold">
+                <span className="px-3 py-1 rounded-full bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] text-xs font-bold">
                   {roadmap.category}
                 </span>
-                <span className="text-xs text-[#8b949e] font-medium">
-                  Source: <strong className="text-white">{roadmap.creator}</strong>
+                <span className="text-xs text-[#8A8A85] font-medium">
+                  Source: <strong className="text-[#FAFAFA]">{roadmap.creator}</strong>
                 </span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-[#FAFAFA] tracking-tight">
                 {roadmap.title}
               </h1>
             </div>
@@ -119,8 +117,8 @@ export function RoadmapDetail() {
                 onClick={toggleFollow}
                 className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
                   isFollowing
-                    ? 'bg-[#22c55e] text-[#0e150e] shadow-lg shadow-[#22c55e]/20'
-                    : 'bg-[#161b22] hover:bg-[#21262d] text-white border border-[#30363d]'
+                    ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/20'
+                    : 'bg-[#171717] hover:bg-[#222222] text-[#FAFAFA] border border-[#262626]'
                 }`}
               >
                 <Bookmark className="w-4 h-4" />
@@ -132,11 +130,14 @@ export function RoadmapDetail() {
           {/* Progress Summary */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs font-bold">
-              <span className="text-[#8b949e]">Progress Breakdown</span>
-              <span className="text-[#22c55e]">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
+              <span className="text-[#8A8A85]">Progress Breakdown</span>
+              <span className="text-[#EA5D3A] font-mono">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
             </div>
-            <div className="progress-track h-3">
-              <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+            <div className="w-full bg-[#0A0A0A] h-2.5 rounded-full overflow-hidden border border-[#1F1F1F]">
+              <div
+                className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500 shadow-sm"
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
           </div>
         </div>
