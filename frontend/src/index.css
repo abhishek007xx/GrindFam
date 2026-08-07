@@ -53,7 +53,7 @@ body { margin: 0; background-color: #0a0e17; }
   }
 
   .font-display {
-    font-family: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   }
 
   ::selection {
