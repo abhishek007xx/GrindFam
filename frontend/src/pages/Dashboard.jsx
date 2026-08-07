@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { supabase } from '../lib/supabaseClient';
@@ -138,6 +138,45 @@ const Dashboard = () => {
   }, [token]);
 
   useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
+
+  const [searchParams] = useSearchParams();
+
+  // Handle URL search params for tab switching & smooth scrolling (?tab=leaderboard|friends|addFriend|squad)
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    const scrollToParam = searchParams.get('scrollTo');
+
+    if (tabParam) {
+      if (tabParam === 'leaderboard') {
+        setSocialTab('leaderboard');
+        setTimeout(() => {
+          const el = document.getElementById('leaderboard-section');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      } else if (tabParam === 'squad') {
+        setSocialTab('squad');
+      } else if (tabParam === 'friends' || tabParam === 'addFriend') {
+        setSocialTab('friends');
+        if (tabParam === 'addFriend') {
+          setTimeout(() => {
+            const el = document.getElementById('add-friend-section');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              const input = el.querySelector('input');
+              if (input) input.focus();
+            }
+          }, 150);
+        }
+      }
+    }
+
+    if (scrollToParam) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollToParam);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    }
+  }, [searchParams]);
 
   // Handle 1-click Join Squad from URL params (?joinSquad=CODE)
   useEffect(() => {

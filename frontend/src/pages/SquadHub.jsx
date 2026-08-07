@@ -118,7 +118,7 @@ export default function SquadHub() {
   if (loading && mySquads.length === 0) {
     return (
       <div className="h-full flex-1 bg-[#0d1117] flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 text-[#22c55e] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#EA5D3A] animate-spin" />
       </div>
     );
   }
@@ -135,8 +135,8 @@ export default function SquadHub() {
             onClick={() => { setActiveSquad(null); useSquadStore.setState({ activeDMThread: null }); }}
             className={`w-12 max-md:w-10 h-12 max-md:h-10 flex items-center justify-center transition-all duration-300 ${
               !activeSquad && !activeDMThread
-                ? 'rounded-2xl bg-[#22c55e] text-[#0e150e]'
-                : 'rounded-[24px] bg-[#161b22] text-[#dce5d9] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e]'
+                ? 'rounded-2xl bg-[#EA5D3A] text-[#0e150e]'
+                : 'rounded-[24px] bg-[#161b22] text-[#dce5d9] hover:rounded-2xl hover:bg-[#EA5D3A] hover:text-[#0e150e]'
             }`}
           >
             <Compass className="w-6 h-6 max-md:w-5 max-md:h-5" />
@@ -163,7 +163,7 @@ export default function SquadHub() {
         <div className="relative group flex items-center justify-center">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-12 max-md:w-10 h-12 max-md:h-10 rounded-[24px] bg-[#161b22] text-[#22c55e] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e] flex items-center justify-center transition-all duration-300"
+            className="w-12 max-md:w-10 h-12 max-md:h-10 rounded-[24px] bg-[#161b22] text-[#EA5D3A] hover:rounded-2xl hover:bg-[#EA5D3A] hover:text-[#0e150e] flex items-center justify-center transition-all duration-300"
           >
             <Plus className="w-6 h-6 max-md:w-5 max-md:h-5" />
           </button>
@@ -245,10 +245,10 @@ export default function SquadHub() {
             {/* Bottom User Panel */}
             <div className="h-14 bg-[#091009] border-t border-[#21262d] px-3 flex items-center gap-2 flex-shrink-0">
               <div className="relative">
-                <div className="w-8 h-8 rounded-2xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
+                <div className="w-8 h-8 rounded-2xl bg-[#EA5D3A] flex items-center justify-center text-[#0e150e] text-xs font-bold">
                   {(profile?.username || profile?.leetcode_username || 'U')[0].toUpperCase()}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#091009] bg-[#22c55e]" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#091009] bg-[#EA5D3A]" />
               </div>
 
               <div className="flex-1 min-w-0">
@@ -290,7 +290,7 @@ export default function SquadHub() {
 
             {noSquads && (
               <div className="text-center py-16 bg-[#161b22] border border-[#21262d] rounded-2xl mb-8">
-                <div className="w-20 h-20 rounded-3xl bg-[#22c55e] flex items-center justify-center mx-auto mb-4 text-[#0e150e]">
+                <div className="w-20 h-20 rounded-3xl bg-[#EA5D3A] flex items-center justify-center mx-auto mb-4 text-[#0e150e]">
                   <Users className="w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-black text-white mb-2">You're not in any community squads yet</h3>
@@ -299,7 +299,7 @@ export default function SquadHub() {
                 </p>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="px-6 py-3 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold transition-all shadow-lg shadow-[#22c55e]/20"
+                  className="px-6 py-3 bg-[#EA5D3A] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold transition-all shadow-lg shadow-[#EA5D3A]/20"
                 >
                   Create your community squad
                 </button>
@@ -311,10 +311,10 @@ export default function SquadHub() {
                 {communitySquads.map((sq) => {
                   const isMember = mySquads.some(m => m.id === sq.id);
                   return (
-                    <div key={sq.id} className="p-5 bg-[#161b22] border border-[#21262d] rounded-2xl flex flex-col justify-between space-y-4 hover:border-[#22c55e]/40 transition-colors">
+                    <div key={sq.id} className="p-5 bg-[#161b22] border border-[#21262d] rounded-2xl flex flex-col justify-between space-y-4 hover:border-[#EA5D3A]/40 transition-colors">
                       <div>
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[#22c55e]/20 text-[#22c55e]">
+                          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[#EA5D3A]/20 text-[#EA5D3A]">
                             Community
                           </span>
                           <span className="text-xs text-[#869585]">{sq.member_count}/100 Members</span>
@@ -329,7 +329,7 @@ export default function SquadHub() {
                         className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                           isMember
                             ? 'bg-[#091009] text-[#869585] border border-[#21262d]'
-                            : 'bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] shadow-md'
+                            : 'bg-[#EA5D3A] hover:bg-[#1ea34d] text-[#0e150e] shadow-md'
                         }`}
                       >
                         {joiningId === sq.id ? <Loader2 className="w-4 h-4 animate-spin" /> : isMember ? 'Already Joined' : 'Join Community'}

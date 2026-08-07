@@ -24,14 +24,14 @@ const mainNavItems = [
 
 const socialNavItems = [
   { id: 'community', label: 'Community', icon: Users, path: '/community' },
-  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
-  { id: 'friends', label: 'Friends', icon: Shield, path: '/', scrollTo: 'leaderboard-section' },
-  { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/', scrollTo: 'add-friend-section' },
+  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/dashboard?tab=leaderboard' },
+  { id: 'friends', label: 'Friends', icon: Shield, path: '/dashboard?tab=friends' },
+  { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/dashboard?tab=addFriend' },
 ];
 
 const settingsNavItems = [
   { id: 'editTarget', label: 'Edit Target', icon: Pencil, path: null },
-  { id: 'activity', label: 'Activity', icon: Activity, path: '/', scrollTo: 'activity-section' },
+  { id: 'activity', label: 'Activity', icon: Activity, path: '/dashboard?scrollTo=activity-section' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
 ];
 
@@ -63,17 +63,8 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
       return;
     }
 
-    if (item.path && item.path !== window.location.pathname) {
+    if (item.path) {
       navigate(item.path);
-    }
-
-    if (item.scrollTo) {
-      setTimeout(() => {
-        const el = document.getElementById(item.scrollTo);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
-    } else if (item.id === 'dashboard') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
