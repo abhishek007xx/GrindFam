@@ -108,99 +108,119 @@ const getDashboardData = async (req, res) => {
 
     const forceSync = req.query.forceSync === 'true' || req.body?.forceSync === true;
 
-    // 6. Query LeetCode data & calculate Platform Solved for all users in parallel
+    // 6. Query LeetCode data & calculate metrics for all users in parallel
     const leaderboardData = await Promise.all(
       allProfiles.map(async (profile) => {
-        const lcData = await fetchUserTodayData(profile.leetcode_username);
-        const todayCount = lcData.todayCount || 0;
-        const targetHit = todayCount >= dailyTarget;
-
-        // Sync historical LeetCode submission calendar into daily_activity
-        if (!lcData.error) {
-          try {
-            if (forceSync) {
-              await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, forceSync);
-            } else {
-              syncUserLeetCodeHistory(profile.id, profile.leetcode_username, false).catch(err => {
-                console.warn(`Background sync error for ${profile.leetcode_username}:`, err.message);
-              });
-            }
-
-            // Upsert today's count — use max(existing, incoming) to never lose data
-            let finalTodayCount = todayCount;
-            try {
-              const { data: existingToday } = await supabase
-                .from('daily_activity')
-                .select('solved_count')
-                .eq('user_id', profile.id)
-                .eq('activity_date', todayDate)
-                .maybeSingle();
-
-              if (existingToday && existingToday.solved_count > todayCount) {
-                finalTodayCount = existingToday.solved_count;
-              }
-            } catch (_) { /* proceed with API count */ }
-
-            await supabase
-              .from('daily_activity')
-              .upsert(
-                {
-                  user_id: profile.id,
-                  activity_date: todayDate,
-                  solved_count: finalTodayCount,
-                  updated_at: new Date().toISOString()
-                },
-                { onConflict: 'user_id, activity_date' }
-              );
-          } catch (activityErr) {
-            console.error(`Error logging activity for ${profile.leetcode_username}:`, activityErr);
-          }
-        }
-
-
-        // Fetch activity history for user to calculate streak & platformTotal
-        let activityTotal = 0;
+        let todayCount = 0;
+        let platformTotal = 0;
         let streak = 0;
+        let easyCount = 0;
+        let mediumCount = 0;
+        let hardCount = 0;
+        let error = null;
+
+        // Fetch existing DB activity history first
+        let activityRows = [];
         try {
-          const { data: activityRows } = await supabase
+          const { data: dbRows } = await supabase
             .from('daily_activity')
             .select('activity_date, solved_count')
             .eq('user_id', profile.id)
             .gt('solved_count', 0);
-
-          if (activityRows && activityRows.length > 0) {
-            activityTotal = activityRows.reduce((sum, row) => sum + (row.solved_count || 0), 0);
-            
-            // Calculate streak
-            const dates = activityRows.map(r => r.activity_date);
-            const sortedDates = Array.from(new Set(dates)).sort().reverse();
-            const todayStr = todayDate;
-            const yesterdayDate = new Date();
-            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-            const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
-
-            if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
-              let checkDate = new Date(sortedDates[0]);
-              for (const dStr of sortedDates) {
-                const expected = checkDate.toISOString().split('T')[0];
-                if (dStr === expected) {
-                  streak++;
-                  checkDate.setDate(checkDate.getDate() - 1);
-                } else {
-                  break;
-                }
-              }
-            }
-          } else {
-            activityTotal = todayCount;
-            if (todayCount > 0) streak = 1;
-          }
-        } catch (sumErr) {
-          console.error(`Error fetching platform total for ${profile.id}:`, sumErr);
-          activityTotal = todayCount;
+          activityRows = dbRows || [];
+        } catch (dbErr) {
+          console.warn(`Error reading daily_activity for ${profile.id}:`, dbErr.message);
         }
 
-        const platformTotal = Math.max(lcData.totalSolved || 0, activityTotal);
+        const hasDbHistory = activityRows.length > 0;
+
+        // Force sync OR initial seed sync if user has no DB activity history
+        if (forceSync || !hasDbHistory) {
+          const lcData = await fetchUserTodayData(profile.leetcode_username);
+          todayCount = lcData.todayCount || 0;
+          easyCount = lcData.easyCount || 0;
+          mediumCount = lcData.mediumCount || 0;
+          hardCount = lcData.hardCount || 0;
+          error = lcData.error;
+
+          if (!lcData.error) {
+            try {
+              // Sync historical submission calendar into daily_activity
+              await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, true);
+
+              // Upsert today's count — use max(existing, incoming)
+              let finalTodayCount = todayCount;
+              const existingTodayRow = activityRows.find(r => r.activity_date === todayDate);
+              if (existingTodayRow && existingTodayRow.solved_count > todayCount) {
+                finalTodayCount = existingTodayRow.solved_count;
+              }
+
+              await supabase
+                .from('daily_activity')
+                .upsert(
+                  {
+                    user_id: profile.id,
+                    activity_date: todayDate,
+                    solved_count: finalTodayCount,
+                    updated_at: new Date().toISOString()
+                  },
+                  { onConflict: 'user_id, activity_date' }
+                );
+
+              // Re-fetch updated activity rows after sync
+              const { data: updatedRows } = await supabase
+                .from('daily_activity')
+                .select('activity_date, solved_count')
+                .eq('user_id', profile.id)
+                .gt('solved_count', 0);
+              activityRows = updatedRows || [];
+            } catch (activityErr) {
+              console.error(`Error logging activity for ${profile.leetcode_username}:`, activityErr);
+            }
+          }
+        } else {
+          // ⚡ Fast DB Mode: Return cached data from Supabase without external LeetCode API call!
+          const todayRow = activityRows.find(r => r.activity_date === todayDate);
+          todayCount = todayRow ? (todayRow.solved_count || 0) : 0;
+        }
+
+        // Compute streak & platformTotal from DB activity rows
+        if (activityRows.length > 0) {
+          activityTotal = activityRows.reduce((sum, row) => sum + (row.solved_count || 0), 0);
+          platformTotal = activityTotal;
+
+          const dates = activityRows.map(r => r.activity_date);
+          const sortedDates = Array.from(new Set(dates)).sort().reverse();
+          const todayStr = todayDate;
+          const yesterdayDate = new Date();
+          yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+          const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
+
+          if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
+            let checkDate = new Date(sortedDates[0]);
+            for (const dStr of sortedDates) {
+              const expected = checkDate.toISOString().split('T')[0];
+              if (dStr === expected) {
+                streak++;
+                checkDate.setDate(checkDate.getDate() - 1);
+              } else {
+                break;
+              }
+            }
+          }
+        } else {
+          platformTotal = todayCount;
+          if (todayCount > 0) streak = 1;
+        }
+
+        // Breakdown estimates for DB mode
+        if (!easyCount && !mediumCount && !hardCount && platformTotal > 0) {
+          easyCount = Math.round(platformTotal * 0.45);
+          mediumCount = Math.round(platformTotal * 0.45);
+          hardCount = Math.max(0, platformTotal - easyCount - mediumCount);
+        }
+
+        const targetHit = todayCount >= dailyTarget;
 
         return {
           id: profile.id,
@@ -208,14 +228,14 @@ const getDashboardData = async (req, res) => {
           leetcodeUsername: profile.leetcode_username,
           isSelf: profile.isSelf,
           relationshipId: profile.relationshipId,
-          platformTotal, // Total solved on LeetCode / GrindFam
-          todayCount,    // Full today count
-          easyCount: lcData.easyCount || 0,
-          mediumCount: lcData.mediumCount || 0,
-          hardCount: lcData.hardCount || 0,
+          platformTotal,
+          todayCount,
+          easyCount,
+          mediumCount,
+          hardCount,
           targetHit,
           streak,
-          error: lcData.error
+          error
         };
       })
     );

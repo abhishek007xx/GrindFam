@@ -20,10 +20,10 @@ const getLevel = (count, maxCount) => {
 
 const levelColors = {
   0: '#161b22',   // empty
-  1: '#4d1e13',   // low
-  2: '#963721',   // medium
-  3: '#ea5d3a',   // high
-  4: '#f2704e',   // max
+  1: '#0e4429',   // low green
+  2: '#006d32',   // medium green
+  3: '#26a641',   // high green
+  4: '#39d353',   // max green
 };
 
 // Fallback generator for 365 days if API is loading or offline
@@ -125,23 +125,23 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A] flex-shrink-0">
+          <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
             <GitCommit className="w-4 h-4" />
           </div>
           <div className="min-w-0">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2 flex-wrap">
+            <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 flex items-center gap-2 flex-wrap">
               <span>All-Time Contribution Progress</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30">
-                GitHub Style
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-[#10B981] border border-emerald-500/30 font-semibold">
+                GitHub Green
               </span>
             </h3>
-            <p className="text-[11px] text-[#8b949e]">
+            <p className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-600">
               {stats.totalSolved || 0} problem{stats.totalSolved !== 1 ? 's' : ''} solved in the last 365 days
             </p>
           </div>
         </div>
 
-        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#EA5D3A] flex-shrink-0" />}
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#10B981] flex-shrink-0" />}
       </div>
 
       {/* Heatmap Grid */}
