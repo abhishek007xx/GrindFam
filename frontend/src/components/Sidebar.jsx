@@ -65,7 +65,7 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
   const renderNavGroup = (items, label) => (
     <div className="mb-3">
       {label && (
-        <p className="px-3 py-1.5 text-[11px] font-medium tracking-wider text-zinc-500 uppercase">{label}</p>
+        <p className="px-3 py-1.5 text-[11px] font-semibold tracking-wider text-zinc-500 dark:text-zinc-500 light:text-slate-600 uppercase">{label}</p>
       )}
       <div className="space-y-1">
         {items.map((item) => {
@@ -82,11 +82,11 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
               onClick={() => handleClick(item)}
               className={`flex items-center gap-3 px-3 py-2 text-sm font-medium cursor-pointer transition-all ${
                 isActive
-                  ? 'bg-[#18181B] text-white border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-[#18181B]/50 rounded-md'
+                  ? 'bg-[#18181B] dark:bg-[#18181B] light:bg-slate-100 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
+                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#18181B]/50 dark:hover:bg-[#18181B]/50 light:hover:bg-slate-100/80 rounded-md'
               }`}
             >
-              <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : 'text-zinc-400'}`} />
+              <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : 'text-zinc-400 dark:text-zinc-400 light:text-slate-500'}`} />
               <span>{item.label}</span>
             </div>
           );
@@ -96,15 +96,15 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
   );
 
   return (
-    <div className="flex flex-col h-full px-4 py-3 gap-2 bg-[#0B0C10] border-r border-[#27272A]">
+    <div className="flex flex-col h-full px-4 py-3 gap-2 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200">
       {/* Logo Header */}
       <div
-        className="px-2 h-16 flex items-center border-b border-[#27272A] cursor-pointer flex-shrink-0 mb-1"
+        className="px-2 h-16 flex items-center border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 cursor-pointer flex-shrink-0 mb-1"
         onClick={() => { onNavigate?.(); navigate('/'); }}
       >
         <div className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-md object-cover border border-[#27272A] flex-shrink-0" />
-          <h1 className="text-base font-bold text-white tracking-tight">
+          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-md object-cover border border-[#27272A] dark:border-[#27272A] light:border-slate-200 flex-shrink-0" />
+          <h1 className="text-base font-bold text-white dark:text-white light:text-slate-900 tracking-tight">
             Grind<span className="text-[#EA5D3A]">Fam</span>
           </h1>
         </div>
@@ -118,23 +118,23 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
       </nav>
 
       {/* Level / XP Progress Widget */}
-      <div className="p-3 bg-[#121212] border border-[#27272A] rounded-xl space-y-2.5 flex-shrink-0">
+      <div className="p-3 bg-[#121212] dark:bg-[#121212] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2.5 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-zinc-100 flex items-center gap-1.5">
+          <span className="text-xs font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 flex items-center gap-1.5">
             Level {level} Grinder
             <Flame className="w-3.5 h-3.5 text-amber-500" />
           </span>
           <div className="flex items-center gap-1">
             <button
               onClick={toggleTheme}
-              className="p-1 rounded text-zinc-400 hover:text-amber-400 hover:bg-white/5 transition-colors"
+              className="p-1 rounded text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:text-amber-400 hover:bg-white/5 transition-colors"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+              {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-500" />}
             </button>
             <button
               onClick={() => navigate('/settings')}
-              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+              className="p-1 rounded text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 transition-colors"
               title="Settings"
             >
               <Settings className="w-3.5 h-3.5" />
@@ -144,10 +144,10 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
 
         {/* XP Progress Bar */}
         <div>
-          <div className="w-full bg-[#18181B] border border-[#27272A] h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-[#18181B] dark:bg-[#18181B] light:bg-slate-200 border border-[#27272A] dark:border-[#27272A] light:border-slate-300 h-1.5 rounded-full overflow-hidden">
             <div className="bg-[#10B981] h-full rounded-full transition-all duration-500" style={{ width: `${xpPercent}%` }} />
           </div>
-          <div className="flex items-center justify-between text-[9px] text-zinc-500 mt-1 font-mono">
+          <div className="flex items-center justify-between text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-600 mt-1 font-mono">
             <span>XP Progress</span>
             <span>{xpInLevel} / {xpMax}</span>
           </div>
