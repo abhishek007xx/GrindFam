@@ -106,7 +106,13 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = searchParams.get('tab');
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem('grindfam_dashboard_cache');
+      if (cached) return false;
+    } catch (e) {}
+    return true;
+  });
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
   const [activeMainTab, setActiveMainTab] = useState('overview'); // 'overview' | 'analytics' | 'vault' | 'contests' | 'social'
@@ -116,11 +122,17 @@ const Dashboard = () => {
   const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
-  const [dashboardData, setDashboardData] = useState({
-    dailyTarget: 5,
-    squadInfo: null,
-    stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
-    leaderboard: []
+  const [dashboardData, setDashboardData] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem('grindfam_dashboard_cache');
+      if (cached) return JSON.parse(cached);
+    } catch (e) {}
+    return {
+      dailyTarget: 5,
+      squadInfo: null,
+      stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
+      leaderboard: []
+    };
   });
 
   const [socialTab, setSocialTab] = useState(() => {
@@ -146,29 +158,36 @@ const Dashboard = () => {
   const yourTodayCount = dashboardData.stats?.yourTodayCount || 0;
   const yourPlatformTotal = dashboardData.stats?.yourPlatformTotal || 0;
 
-  // ─── Leaderboard API fetch ───
+  // ─── Leaderboard API fetch with Stale-While-Revalidate Caching ───
   const fetchDashboard = useCallback(async (isSilent = false) => {
     if (!token) {
       if (!authLoading) setLoading(false);
       return;
     }
-    if (!isSilent) setLoading(true);
-    else setRefreshing(true);
+    const hasData = dashboardData?.leaderboard && dashboardData.leaderboard.length > 0;
+    if (!hasData && !isSilent) {
+      setLoading(true);
+    } else {
+      setRefreshing(true);
+    }
     setError(null);
     try {
       const response = await axios.get(`${API_BASE_URL}/dashboard`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDashboardData(response.data);
+      try {
+        sessionStorage.setItem('grindfam_dashboard_cache', JSON.stringify(response.data));
+      } catch (e) {}
       if (response.data?.dailyTarget) setDailyTarget(response.data.dailyTarget);
     } catch (err) {
       setError(err.response?.data?.error || err.message || 'Failed to fetch leaderboard data.');
     } finally { setLoading(false); setRefreshing(false); }
-  }, [token, authLoading]);
+  }, [token, authLoading, dashboardData?.leaderboard]);
 
   useEffect(() => {
-    fetchDashboard();
-  }, [fetchDashboard]);
+    fetchDashboard(true);
+  }, []);
 
   // ─── Manual Force Sync LeetCode Submissions ───
   const handleManualSyncLeetCode = useCallback(async () => {
@@ -180,6 +199,9 @@ const Dashboard = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDashboardData(response.data);
+      try {
+        sessionStorage.setItem('grindfam_dashboard_cache', JSON.stringify(response.data));
+      } catch (e) {}
       if (response.data?.dailyTarget) setDailyTarget(response.data.dailyTarget);
     } catch (err) {
       setError(err.response?.data?.error || err.message || 'Failed to sync LeetCode data.');
@@ -404,24 +426,16 @@ const Dashboard = () => {
                 refreshing={refreshing}
               />
 
-              {/* Row 2: Minimalist Leaderboard Table & Daily Micro Goals */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" id="leaderboard-section">
-                <div className="xl:col-span-2">
+              {/* Independent 2-Column Responsive Layout (Prevents vertical gaps & layout shifts) */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                {/* Left Main Column (2/3 width) */}
+                <div className="xl:col-span-2 space-y-6" id="leaderboard-section">
                   <LeaderboardTable
                     leaderboard={dashboardData.leaderboard}
                     dailyTarget={dailyTarget}
                     onRemoveFriend={handleRemoveFriend}
                     removingId={removingId}
                   />
-                </div>
-                <div className="xl:col-span-1">
-                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
-                </div>
-              </div>
-
-              {/* Row 3: Weekly Progress Bar Chart & Recent Activity */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <div className="xl:col-span-2">
                   <WeeklyProgress
                     yourTodayCount={yourTodayCount}
                     dailyTarget={dailyTarget}
@@ -429,7 +443,10 @@ const Dashboard = () => {
                     weeklyData={weeklyData}
                   />
                 </div>
-                <div className="xl:col-span-1">
+
+                {/* Right Sidebar Column (1/3 width) */}
+                <div className="xl:col-span-1 space-y-6">
+                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
                 </div>
               </div>
