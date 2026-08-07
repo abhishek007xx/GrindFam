@@ -275,8 +275,8 @@ export default function Sidebar({
                 isCollapsed ? 'justify-center px-2' : ''
               } ${
                 isActive
-                  ? 'bg-[#262626] dark:bg-[#262626] light:bg-slate-100 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
-                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-700 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#262626]/50 dark:hover:bg-[#262626]/50 light:hover:bg-slate-100 rounded-md'
+                  ? 'bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-200 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
+                  : 'bg-transparent text-zinc-400 dark:text-zinc-400 light:text-slate-700 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 rounded-md'
               }`}
             >
               <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : 'text-zinc-400 dark:text-zinc-400 light:text-slate-500'}`} />

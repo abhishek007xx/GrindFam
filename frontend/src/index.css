@@ -291,48 +291,4 @@ html, body, div, header, nav, aside, main, button {
   background: #444444;
 }
 
-/* ==========================================================================
-   Charcoal Black Palette Overrides (Removes Bluish/Navy Tints Globally)
-   ========================================================================== */
-html:not(.light) {
-  /* Surfaces & Banners */
-  [class*="bg-[#1E1E1E]"], [class*="bg-[#1E1E1E]"] {
-    background-color: #1E1E1E !important;
-  }
-  [class*="bg-[#141414]"], [class*="bg-[#141414]"] {
-    background-color: #141414 !important;
-  }
-  [class*="bg-[#262626]"], [class*="bg-[#262626]"] {
-    background-color: #262626 !important;
-  }
-  [class*="bg-[#2C2C2C]"], [class*="bg-[#2C2C2C]"], [class*="bg-[#262626]"] {
-    background-color: #262626 !important;
-  }
 
-  /* Charcoal Borders */
-  [class*="border-[#333333]"], [class*="border-[#333333]"] {
-    border-color: #333333 !important;
-  }
-  [class*="border-[#2C2C2C]"], [class*="border-[#2C2C2C]"] {
-    border-color: #222226 !important;
-  }
-  [class*="border-[#262626]"], [class*="border-[#262626]"] {
-    border-color: #333333 !important;
-  }
-
-  /* Crisp Text Colors */
-  [class*="text-[#A3A3A3]"], [class*="text-[#737373]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
-    color: #A3A3A3 !important;
-  }
-  [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"] {
-    color: #F4F4F5 !important;
-  }
-
-  /* Charcoal Hover States */
-  [class*="hover:bg-[#262626]"]:hover, 
-  [class*="hover:bg-[#2C2C2C]"]:hover, 
-  [class*="hover:bg-[#1E1E1E]"]:hover, 
-  [class*="hover:bg-[#333333]"]:hover {
-    background-color: #1F1F23 !important;
-  }
-}
