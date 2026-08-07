@@ -5,18 +5,18 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { margin: 0; background-color: #09090B; }
+body { margin: 0; background-color: #141414; }
 
 :root {
   /* Codolio Style Deep Charcoal Black Palette */
-  --color-bg:               #09090B; /* Deep Charcoal Black */
-  --color-surface:          #121215; /* Elevated Zinc/Carbon #121215 */
-  --color-surface-elevated: #18181B;
-  --color-border:           #27272A; /* Ultra-subtle Zinc #27272A / rgba(255,255,255,0.08) */
-  --color-border-hover:     #3F3F46;
+  --color-bg:               #141414; /* Deep Charcoal Black */
+  --color-surface:          #1E1E1E; /* Elevated Zinc/Carbon #1E1E1E */
+  --color-surface-elevated: #262626;
+  --color-border:           #333333; /* Ultra-subtle Zinc #333333 / rgba(255,255,255,0.08) */
+  --color-border-hover:     #444444;
   --color-text:             #FFFFFF; /* Pure White */
-  --color-text-muted:       #A1A1AA; /* Light Gray Body Text */
-  --color-text-dim:         #71717A; /* Muted Slate Secondary Metrics */
+  --color-text-muted:       #A3A3A3; /* Light Gray Body Text */
+  --color-text-dim:         #737373; /* Muted Slate Secondary Metrics */
   --color-accent:           #F97316; /* Restrained Accent Orange */
   --color-accent-hover:     #EA580C;
   --color-success:          #10B981; /* Emerald Green Solved Metric */
@@ -48,25 +48,25 @@ html.light #root {
 
 /* 1. Main Card & Page Surface Backgrounds (Case-Insensitive) */
 html.light .dash-card,
-html.light [class*="bg-[#09090B]" i],
+html.light [class*="bg-[#141414]" i],
 html.light [class*="bg-[#0a0a0a]" i],
-html.light [class*="bg-[#09090B]" i],
-html.light [class*="bg-[#09090B]" i],
-html.light [class*="bg-[#121215]" i],
-html.light [class*="bg-[#121215]" i],
-html.light [class*="bg-[#18181b]" i],
+html.light [class*="bg-[#141414]" i],
+html.light [class*="bg-[#141414]" i],
+html.light [class*="bg-[#1E1E1E]" i],
+html.light [class*="bg-[#1E1E1E]" i],
+html.light [class*="bg-[#262626]" i],
 html.light [class*="bg-[#121212]" i],
 html.light [class*="bg-[#131313]" i],
-html.light [class*="bg-[#09090b]" i],
+html.light [class*="bg-[#141414]" i],
 html.light [class*="bg-[#141417]" i] {
   background-color: #FFFFFF !important;
 }
 
 /* 2. Inset / Sub-card / Button / Input Backgrounds (Case-Insensitive) */
-html.light [class*="bg-[#18181B]" i],
-html.light [class*="bg-[#18181B]" i],
-html.light [class*="bg-[#222225]" i],
-html.light [class*="bg-[#27272A]" i],
+html.light [class*="bg-[#262626]" i],
+html.light [class*="bg-[#262626]" i],
+html.light [class*="bg-[#2C2C2C]" i],
+html.light [class*="bg-[#333333]" i],
 html.light [class*="bg-[#181818]" i],
 html.light [class*="bg-[#111827]" i],
 html.light [class*="bg-zinc-950"],
@@ -92,20 +92,20 @@ html.light [class*="to-[#121212]"] {
 /* 4. Table Rows & Dropdown Hover States (Case-Insensitive) */
 html.light table tr,
 html.light table tbody tr:hover,
-html.light [class*="hover:bg-[#09090B]" i]:hover,
-html.light [class*="hover:bg-[#222225]" i]:hover,
-html.light [class*="hover:bg-[#121215]" i]:hover,
-html.light [class*="hover:bg-[#18181B]" i]:hover,
+html.light [class*="hover:bg-[#141414]" i]:hover,
+html.light [class*="hover:bg-[#2C2C2C]" i]:hover,
+html.light [class*="hover:bg-[#1E1E1E]" i]:hover,
+html.light [class*="hover:bg-[#262626]" i]:hover,
 html.light [class*="hover:bg-zinc-800"]:hover {
   background-color: #F8FAFC !important;
 }
 
 /* 5. Border Overrides (Case-Insensitive) */
-html.light [class*="border-[#27272a]" i],
-html.light [class*="border-[#27272A]" i],
-html.light [class*="border-[#222225]" i],
+html.light [class*="border-[#333333]" i],
+html.light [class*="border-[#333333]" i],
+html.light [class*="border-[#2C2C2C]" i],
 html.light [class*="border-[#4b5563]" i],
-html.light [class*="border-[#18181B]" i],
+html.light [class*="border-[#262626]" i],
 html.light [class*="border-zinc-800"],
 html.light [class*="border-zinc-700"],
 html.light [class*="border-zinc-600"],
@@ -132,16 +132,16 @@ html.light [class*="text-[#f5f5f0]" i] {
 html.light .text-zinc-400,
 html.light .text-zinc-500,
 html.light [class*="text-[#9ca3af]" i],
-html.light [class*="text-[#A1A1AA]" i],
+html.light [class*="text-[#A3A3A3]" i],
 html.light [class*="text-[#6b7280]" i],
-html.light [class*="text-[#71717A]" i],
-html.light [class*="text-[#3F3F46]" i] {
+html.light [class*="text-[#737373]" i],
+html.light [class*="text-[#444444]" i] {
   color: #475569 !important;
 }
 
 /* 7. SVG Progress Ring Track Color in Light Mode */
-html.light circle[stroke="#222225"],
-html.light circle[stroke="#222225"] {
+html.light circle[stroke="#2C2C2C"],
+html.light circle[stroke="#2C2C2C"] {
   stroke: #E2E8F0 !important;
 }
 
@@ -197,7 +197,7 @@ html, body, div, header, nav, aside, main, button {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     letter-spacing: -0.015em;
-    background-color: #09090B;
+    background-color: #141414;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -219,7 +219,7 @@ html, body, div, header, nav, aside, main, button {
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
     -webkit-text-fill-color: #FFFFFF !important;
-    -webkit-box-shadow: 0 0 0px 1000px #121215 inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1E1E1E inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -230,10 +230,10 @@ html, body, div, header, nav, aside, main, button {
   }
 }
 
-/* Codolio Sleek Surface Cards (#121215, rounded-2xl, no neon glow) */
+/* Codolio Sleek Surface Cards (#1E1E1E, rounded-2xl, no neon glow) */
 .dash-card {
-  background: #121215;
-  border: 1px solid #27272A;
+  background: #1E1E1E;
+  border: 1px solid #333333;
   border-radius: 16px;
   padding: 20px;
 }
@@ -242,7 +242,7 @@ html, body, div, header, nav, aside, main, button {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .dash-card-hover:hover {
-  border-color: #3F3F46;
+  border-color: #444444;
   background-color: #141417;
 }
 
@@ -264,8 +264,8 @@ html, body, div, header, nav, aside, main, button {
 
 /* Emerald Green Progress Fills */
 .progress-track {
-  background-color: #18181B;
-  border: 1px solid #27272A;
+  background-color: #262626;
+  border: 1px solid #333333;
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -281,14 +281,14 @@ html, body, div, header, nav, aside, main, button {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090B;
+  background: #141414;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
+  background: #333333;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3F3F46;
+  background: #444444;
 }
 
 /* ==========================================================================
@@ -296,43 +296,43 @@ html, body, div, header, nav, aside, main, button {
    ========================================================================== */
 html:not(.light) {
   /* Surfaces & Banners */
-  [class*="bg-[#121215]"], [class*="bg-[#121215]"] {
-    background-color: #121215 !important;
+  [class*="bg-[#1E1E1E]"], [class*="bg-[#1E1E1E]"] {
+    background-color: #1E1E1E !important;
   }
-  [class*="bg-[#09090B]"], [class*="bg-[#09090B]"] {
-    background-color: #09090B !important;
+  [class*="bg-[#141414]"], [class*="bg-[#141414]"] {
+    background-color: #141414 !important;
   }
-  [class*="bg-[#18181B]"], [class*="bg-[#18181B]"] {
-    background-color: #18181B !important;
+  [class*="bg-[#262626]"], [class*="bg-[#262626]"] {
+    background-color: #262626 !important;
   }
-  [class*="bg-[#222225]"], [class*="bg-[#222225]"], [class*="bg-[#18181B]"] {
-    background-color: #16171C !important;
+  [class*="bg-[#2C2C2C]"], [class*="bg-[#2C2C2C]"], [class*="bg-[#262626]"] {
+    background-color: #262626 !important;
   }
 
   /* Charcoal Borders */
-  [class*="border-[#27272A]"], [class*="border-[#27272A]"] {
-    border-color: #27272A !important;
+  [class*="border-[#333333]"], [class*="border-[#333333]"] {
+    border-color: #333333 !important;
   }
-  [class*="border-[#222225]"], [class*="border-[#222225]"] {
+  [class*="border-[#2C2C2C]"], [class*="border-[#2C2C2C]"] {
     border-color: #222226 !important;
   }
-  [class*="border-[#18181B]"], [class*="border-[#18181B]"] {
-    border-color: #27272A !important;
+  [class*="border-[#262626]"], [class*="border-[#262626]"] {
+    border-color: #333333 !important;
   }
 
   /* Crisp Text Colors */
-  [class*="text-[#A1A1AA]"], [class*="text-[#71717A]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
-    color: #A1A1AA !important;
+  [class*="text-[#A3A3A3]"], [class*="text-[#737373]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
+    color: #A3A3A3 !important;
   }
   [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"], [class*="text-[#F4F4F5]"] {
     color: #F4F4F5 !important;
   }
 
   /* Charcoal Hover States */
-  [class*="hover:bg-[#18181B]"]:hover, 
-  [class*="hover:bg-[#222225]"]:hover, 
-  [class*="hover:bg-[#121215]"]:hover, 
-  [class*="hover:bg-[#27272A]"]:hover {
+  [class*="hover:bg-[#262626]"]:hover, 
+  [class*="hover:bg-[#2C2C2C]"]:hover, 
+  [class*="hover:bg-[#1E1E1E]"]:hover, 
+  [class*="hover:bg-[#333333]"]:hover {
     background-color: #1F1F23 !important;
   }
 }

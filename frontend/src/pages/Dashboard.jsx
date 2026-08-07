@@ -39,7 +39,7 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8, label }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#2C2C2C" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -57,7 +57,7 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8, label }) {
       </svg>
       <div className="absolute flex flex-col items-center">
         <span className="text-lg font-extrabold text-white font-mono leading-none">{percentage}%</span>
-        {label && <span className="text-[9px] text-[#A1A1AA] mt-0.5">{label}</span>}
+        {label && <span className="text-[9px] text-[#A3A3A3] mt-0.5">{label}</span>}
       </div>
     </div>
   );
@@ -295,14 +295,14 @@ const Dashboard = () => {
     <div className="space-y-8 animate-fadeIn">
 
       {/* Greeting Header */}
-          <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <img
               src="/logo.png"
               alt="GrindFam Mascot"
               className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
             />
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium mb-2">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#262626] border border-[#333333] text-[#9CA3AF] text-xs font-medium mb-2">
                 <Zap className="w-3.5 h-3.5 text-[#EA5D3A]" />
                 <span>Today&apos;s Focus</span>
               </div>
@@ -322,7 +322,7 @@ const Dashboard = () => {
             <button
               onClick={handleManualSyncLeetCode}
               disabled={refreshing}
-              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#18181B] hover:bg-[#EA5D3A]/15 border border-[#27272A] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
+              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#262626] hover:bg-[#EA5D3A]/15 border border-[#333333] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
               title="Sync latest submissions from LeetCode"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -339,13 +339,13 @@ const Dashboard = () => {
                 <Loader2 className="w-7 h-7 animate-spin" />
               </div>
               <p className="text-sm font-semibold text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900">Loading Dashboard...</p>
-              <p className="text-xs text-[#71717A] dark:text-[#71717A] light:text-slate-600">Fetching your progress and squad stats</p>
+              <p className="text-xs text-[#737373] dark:text-[#737373] light:text-slate-600">Fetching your progress and squad stats</p>
             </div>
           ) : error ? (
             <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">
               <AlertCircle className="w-8 h-8 text-amber-500" />
               <h3 className="text-base font-bold text-white">Unable to Load Leaderboard</h3>
-              <p className="text-xs text-[#A1A1AA]">{error}</p>
+              <p className="text-xs text-[#A3A3A3]">{error}</p>
               <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#EA5D3A]/20">
                 <RefreshCw className="w-3.5 h-3.5" /> Try Again
               </button>
@@ -370,7 +370,7 @@ const Dashboard = () => {
 
               {/* Zone 2: Deep Problem-Solving Analytics */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
@@ -384,7 +384,7 @@ const Dashboard = () => {
 
               {/* Zone 3: Revision, Retention & Sheet Tracking */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
@@ -398,7 +398,7 @@ const Dashboard = () => {
 
               {/* Zone 4: Social Drive, Contests & Gamification */}
               <div className="mb-8 space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] px-5 py-3 flex items-center gap-3">
+                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
                   </div>
@@ -411,8 +411,8 @@ const Dashboard = () => {
                 <ContestsGamification platformTotal={yourPlatformTotal} />
 
                 {/* Social Category Hub Navigation */}
-                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#27272A] rounded-xl mt-4">
-                  <div className="flex flex-wrap items-center gap-2 bg-[#09090B] p-1 rounded-lg border border-[#27272A]">
+                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#333333] rounded-xl mt-4">
+                  <div className="flex flex-wrap items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#333333]">
                     <button
                       onClick={() => handleTabChange('leaderboard')}
                       className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
@@ -461,7 +461,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setIsSquadModalOpen(true)}
-                      className="px-3 py-1.5 rounded-lg bg-[#18181B] hover:bg-[#27272A] border border-[#27272A] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
+                      className="px-3 py-1.5 rounded-lg bg-[#262626] hover:bg-[#333333] border border-[#333333] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
                     >
                       <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
                     </button>
@@ -491,7 +491,7 @@ const Dashboard = () => {
 
                 {socialTab === 'squad' && (
                   <div className="space-y-6 mb-6">
-                    <div className="dash-card p-6 border border-[#27272A] bg-[#121212] relative overflow-hidden">
+                    <div className="dash-card p-6 border border-[#333333] bg-[#121212] relative overflow-hidden">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                           <div className="flex items-center gap-2 mb-1">
@@ -507,7 +507,7 @@ const Dashboard = () => {
                         <div className="flex items-center gap-3">
                           <button
                             onClick={handleCopySquadCode}
-                            className="px-4 py-2.5 rounded-xl bg-[#18181B] hover:bg-[#27272A] text-white text-xs font-bold flex items-center gap-2 border border-[#27272A] transition-all"
+                            className="px-4 py-2.5 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold flex items-center gap-2 border border-[#333333] transition-all"
                           >
                             {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
                             <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
@@ -558,8 +558,8 @@ const Dashboard = () => {
           )}
 
           {/* Footer */}
-          <div className="text-center py-6 border-t border-[#222225] mt-4">
-            <p className="text-xs text-[#71717A] flex items-center justify-center gap-1.5">
+          <div className="text-center py-6 border-t border-[#2C2C2C] mt-4">
+            <p className="text-xs text-[#737373] flex items-center justify-center gap-1.5">
               © {new Date().getFullYear()} GrindFam. Built for consistency. Built for the squad.
               <Heart className="w-3 h-3 text-[#EA5D3A] fill-[#EA5D3A]" />
             </p>

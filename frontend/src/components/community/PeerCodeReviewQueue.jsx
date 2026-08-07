@@ -149,7 +149,7 @@ export function PeerCodeReviewQueue() {
           onClick={() => setShowSubmitModal(true)}
           aria-haspopup="dialog"
           aria-expanded={showSubmitModal}
-          className="px-4 py-2 bg-[#EA5D3A] hover:bg-[#F2633F] text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090B]"
+          className="px-4 py-2 bg-[#EA5D3A] hover:bg-[#F2633F] text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#141414]"
         >
           <Plus className="w-4 h-4" aria-hidden="true" />
           <span>Submit for Review</span>
@@ -157,7 +157,7 @@ export function PeerCodeReviewQueue() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#27272A] pb-2" role="tablist" aria-label="Review Queue Filters">
+      <div className="flex items-center gap-2 border-b border-[#333333] pb-2" role="tablist" aria-label="Review Queue Filters">
         {['all', 'pending', 'approved'].map(tab => (
           <button
             key={tab}
@@ -180,7 +180,7 @@ export function PeerCodeReviewQueue() {
       {/* Review Queue List */}
       <div className="space-y-4">
         {filteredReviews.length === 0 ? (
-          <div className="text-center py-10 bg-[#121215] border border-[#27272A] rounded-xl">
+          <div className="text-center py-10 bg-[#1E1E1E] border border-[#333333] rounded-xl">
             <Code className="w-8 h-8 text-[#6B7280] mx-auto mb-3" />
             <p className="text-sm text-[#9CA3AF]">No reviews found in this category.</p>
           </div>
@@ -193,12 +193,12 @@ export function PeerCodeReviewQueue() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className={`bg-[#121215] border rounded-xl overflow-hidden shadow-sm transition-colors ${
-                  review.isPending ? 'border-[#EA5D3A]/50 opacity-70' : 'border-[#27272A]'
+                className={`bg-[#1E1E1E] border rounded-xl overflow-hidden shadow-sm transition-colors ${
+                  review.isPending ? 'border-[#EA5D3A]/50 opacity-70' : 'border-[#333333]'
                 }`}
               >
                 {/* Review Header */}
-                <div className="p-4 border-b border-[#222225] flex items-start justify-between bg-[#09090B]/50">
+                <div className="p-4 border-b border-[#2C2C2C] flex items-start justify-between bg-[#141414]/50">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-[#F4F4F5]">{review.author_name}</span>
@@ -218,7 +218,7 @@ export function PeerCodeReviewQueue() {
                     <button
                       onClick={() => handleKudos(review.id)}
                       aria-label={`Give kudos to ${review.author_name}'s solution. Current kudos: ${review.kudos_count || 0}`}
-                      className="flex items-center gap-1.5 px-2 py-1 bg-[#18181B] hover:bg-[#252D3B] text-[#9CA3AF] hover:text-[#EA5D3A] border border-[#27272A] rounded-md transition-colors text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
+                      className="flex items-center gap-1.5 px-2 py-1 bg-[#262626] hover:bg-[#252D3B] text-[#9CA3AF] hover:text-[#EA5D3A] border border-[#333333] rounded-md transition-colors text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
                     >
                       <ThumbsUp className="w-3.5 h-3.5" aria-hidden="true" />
                       <span>{review.kudos_count || 0}</span>
@@ -227,7 +227,7 @@ export function PeerCodeReviewQueue() {
                 </div>
 
                 {/* Code Snippet with Line Actions */}
-                <div className="p-4 bg-[#09090B] font-mono text-xs overflow-x-auto scrollbar-thin scrollbar-thumb-[#27272A]">
+                <div className="p-4 bg-[#141414] font-mono text-xs overflow-x-auto scrollbar-thin scrollbar-thumb-[#333333]">
                   <pre className="text-[#F4F4F5]">
                     {review.code_snippet.split('\n').map((line, idx) => {
                       const lineNum = idx + 1;
@@ -235,8 +235,8 @@ export function PeerCodeReviewQueue() {
                       const isAnnotatingThisLine = activeReviewId === review.id && annotatingLine === lineNum;
                       
                       return (
-                        <div key={lineNum} className="group flex hover:bg-[#121215] transition-colors relative pr-12">
-                          <span className="w-8 flex-shrink-0 text-[#6B7280] select-none text-right pr-3 border-r border-[#27272A] mr-3">
+                        <div key={lineNum} className="group flex hover:bg-[#1E1E1E] transition-colors relative pr-12">
+                          <span className="w-8 flex-shrink-0 text-[#6B7280] select-none text-right pr-3 border-r border-[#333333] mr-3">
                             {lineNum}
                           </span>
                           <span className="flex-1 whitespace-pre">{line || ' '}</span>
@@ -262,10 +262,10 @@ export function PeerCodeReviewQueue() {
 
                 {/* Annotations List */}
                 {review.annotations?.length > 0 && (
-                  <div className="border-t border-[#27272A] bg-[#121215] divide-y divide-[#27272A]">
+                  <div className="border-t border-[#333333] bg-[#1E1E1E] divide-y divide-[#333333]">
                     {review.annotations.map(ann => (
                       <div key={ann.id} className={`p-3 flex gap-3 text-xs ${ann.isPending ? 'opacity-70' : ''}`}>
-                        <div className="w-10 h-6 flex items-center justify-center bg-[#18181B] text-[#9CA3AF] font-mono rounded border border-[#27272A] flex-shrink-0">
+                        <div className="w-10 h-6 flex items-center justify-center bg-[#262626] text-[#9CA3AF] font-mono rounded border border-[#333333] flex-shrink-0">
                           L{ann.line_number}
                         </div>
                         <div>
@@ -279,7 +279,7 @@ export function PeerCodeReviewQueue() {
 
                 {/* Inline Annotation Input */}
                 {activeReviewId === review.id && annotatingLine !== null && (
-                  <div className="p-3 border-t border-[#EA5D3A]/40 bg-[#18181B]/50 flex gap-3">
+                  <div className="p-3 border-t border-[#EA5D3A]/40 bg-[#262626]/50 flex gap-3">
                     <div className="w-10 h-8 flex items-center justify-center bg-[#EA5D3A]/20 text-[#EA5D3A] font-mono rounded border border-[#EA5D3A]/40 font-bold text-xs">
                       L{annotatingLine}
                     </div>
@@ -291,7 +291,7 @@ export function PeerCodeReviewQueue() {
                         onChange={(e) => setAnnotationText(e.target.value)}
                         placeholder="Add review comment..."
                         aria-label={`Annotation comment for line ${annotatingLine}`}
-                        className="w-full bg-[#09090B] border border-[#27272A] focus:border-[#EA5D3A] rounded-md py-1.5 px-3 text-xs text-[#F4F4F5] outline-none pr-10 focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
+                        className="w-full bg-[#141414] border border-[#333333] focus:border-[#EA5D3A] rounded-md py-1.5 px-3 text-xs text-[#F4F4F5] outline-none pr-10 focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleAddAnnotation(review.id);
                           if (e.key === 'Escape') setAnnotatingLine(null);
@@ -323,7 +323,7 @@ export function PeerCodeReviewQueue() {
           <>
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-[#09090B]/80 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-[#141414]/80 backdrop-blur-sm z-50"
               onClick={() => setShowSubmitModal(false)}
             />
             <motion.div
@@ -333,7 +333,7 @@ export function PeerCodeReviewQueue() {
               role="dialog"
               aria-modal="true"
               aria-labelledby="modal-title"
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-[#121215] border border-[#27272A] rounded-2xl shadow-2xl z-50 p-6"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-2xl z-50 p-6"
             >
               <div className="flex justify-between items-center mb-6">
                 <h3 id="modal-title" className="text-xl font-bold text-white">Submit Solution for Review</h3>
@@ -351,7 +351,7 @@ export function PeerCodeReviewQueue() {
                     value={problemTitle}
                     onChange={(e) => setProblemTitle(e.target.value)}
                     placeholder="e.g., Binary Tree Level Order Traversal"
-                    className="w-full bg-[#09090B] border border-[#27272A] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
+                    className="w-full bg-[#141414] border border-[#333333] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
                   />
                 </div>
                 
@@ -362,7 +362,7 @@ export function PeerCodeReviewQueue() {
                     value={codeSnippet}
                     onChange={(e) => setCodeSnippet(e.target.value)}
                     placeholder="function solution() { ... }"
-                    className="w-full h-48 bg-[#09090B] border border-[#27272A] focus:border-[#EA5D3A] rounded-lg px-4 py-3 text-sm text-white font-mono outline-none transition-colors scrollbar-thin"
+                    className="w-full h-48 bg-[#141414] border border-[#333333] focus:border-[#EA5D3A] rounded-lg px-4 py-3 text-sm text-white font-mono outline-none transition-colors scrollbar-thin"
                   />
                 </div>
 
@@ -373,7 +373,7 @@ export function PeerCodeReviewQueue() {
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="e.g., Is my space complexity O(1) or O(N)?"
-                    className="w-full bg-[#09090B] border border-[#27272A] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
+                    className="w-full bg-[#141414] border border-[#333333] focus:border-[#EA5D3A] rounded-lg px-4 py-2.5 text-sm text-white outline-none transition-colors"
                   />
                 </div>
 
@@ -381,7 +381,7 @@ export function PeerCodeReviewQueue() {
                   <button
                     type="button"
                     onClick={() => setShowSubmitModal(false)}
-                    className="px-5 py-2.5 bg-[#18181B] hover:bg-[#252D3B] text-white text-sm font-bold rounded-xl transition-colors"
+                    className="px-5 py-2.5 bg-[#262626] hover:bg-[#252D3B] text-white text-sm font-bold rounded-xl transition-colors"
                   >
                     Cancel
                   </button>

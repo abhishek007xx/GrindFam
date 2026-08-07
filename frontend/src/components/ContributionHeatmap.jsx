@@ -20,7 +20,7 @@ const getLevel = (count, maxCount) => {
 };
 
 const levelColorsDark = {
-  0: '#121215',   // empty dark
+  0: '#1E1E1E',   // empty dark
   1: '#0e4429',   // low green
   2: '#006d32',   // medium green
   3: '#26a641',   // high green
@@ -133,7 +133,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   return (
-    <div className="dash-card p-4 sm:p-6 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#121215] dark:bg-[#121215] light:bg-white rounded-2xl shadow-sm" id="activity-section">
+    <div className="dash-card p-4 sm:p-6 border border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white rounded-2xl shadow-sm" id="activity-section">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2.5">
@@ -147,7 +147,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
                 GitHub Green
               </span>
             </h3>
-            <p className="text-[11px] text-[#A1A1AA] dark:text-[#A1A1AA] light:text-slate-500">
+            <p className="text-[11px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">
               {stats.totalSolved || 0} problem{stats.totalSolved !== 1 ? 's' : ''} solved in the last 365 days
             </p>
           </div>
@@ -166,7 +166,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
               return (
                 <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
                   {label && (
-                    <span className="text-[10px] text-[#A1A1AA] dark:text-[#A1A1AA] light:text-slate-500 font-medium">{label.label}</span>
+                    <span className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 font-medium">{label.label}</span>
                   )}
                 </div>
               );
@@ -179,7 +179,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
             <div className="flex flex-col mr-1.5" style={{ gap: `${cellGap}px` }}>
               {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
                 <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
-                  <span className="text-[10px] text-[#A1A1AA] dark:text-[#A1A1AA] light:text-slate-500 font-medium pr-1">{label}</span>
+                  <span className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 font-medium pr-1">{label}</span>
                 </div>
               ))}
             </div>
@@ -214,7 +214,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
 
           {/* Legend */}
           <div className="flex items-center justify-end mt-3 gap-1.5">
-            <span className="text-[10px] text-slate-500 dark:text-[#A1A1AA] font-medium mr-1">Less</span>
+            <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium mr-1">Less</span>
             {[0, 1, 2, 3, 4].map((lvl) => (
               <div
                 key={lvl}
@@ -222,47 +222,47 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
                 style={{ width: cellSize, height: cellSize, backgroundColor: activeLevelColors[lvl] }}
               />
             ))}
-            <span className="text-[10px] text-slate-500 dark:text-[#A1A1AA] font-medium ml-1">More</span>
+            <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium ml-1">More</span>
           </div>
         </div>
       </div>
 
       {/* Stats Row — Responsive */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#222225] dark:border-[#222225] light:border-slate-200">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
           </div>
           <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.totalSolved || 0}</p>
-          <p className="text-[10px] text-slate-500 dark:text-[#A1A1AA]">Total Solved</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Total Solved</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Calendar className="w-3.5 h-3.5 text-blue-500" />
           </div>
           <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.activeDays || 0}</p>
-          <p className="text-[10px] text-slate-500 dark:text-[#A1A1AA]">Active Days</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Active Days</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Flame className="w-3.5 h-3.5 text-amber-500" />
           </div>
           <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.currentStreak || 0}</p>
-          <p className="text-[10px] text-slate-500 dark:text-[#A1A1AA]">Current Streak</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Current Streak</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Award className="w-3.5 h-3.5 text-yellow-500" />
           </div>
           <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.longestStreak || 0}</p>
-          <p className="text-[10px] text-slate-500 dark:text-[#A1A1AA]">Longest Streak</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Longest Streak</p>
         </div>
       </div>
 
       {/* Tooltip */}
       {hoveredDay && (
         <div
-          className="fixed z-50 px-3 py-2 rounded-lg bg-slate-900 dark:bg-[#18181B] border border-slate-700 dark:border-[#27272A] shadow-xl pointer-events-none"
+          className="fixed z-50 px-3 py-2 rounded-lg bg-slate-900 dark:bg-[#262626] border border-slate-700 dark:border-[#333333] shadow-xl pointer-events-none"
           style={{
             left: tooltipPos.x,
             top: tooltipPos.y,
@@ -272,7 +272,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           <p className="text-xs font-bold text-white">
             {hoveredDay.count} problem{hoveredDay.count !== 1 ? 's' : ''} solved
           </p>
-          <p className="text-[10px] text-slate-300 dark:text-[#A1A1AA]">
+          <p className="text-[10px] text-slate-300 dark:text-[#A3A3A3]">
             {new Date(hoveredDay.date + 'T00:00:00').toLocaleDateString('en-US', {
               weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
             })}

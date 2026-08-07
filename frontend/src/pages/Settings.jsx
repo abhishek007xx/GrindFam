@@ -60,21 +60,21 @@ const SettingsPage = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-extrabold text-white">Account Settings</h1>
-                <p className="text-xs text-[#A1A1AA]">Manage your profile and update your password</p>
+                <p className="text-xs text-[#A3A3A3]">Manage your profile and update your password</p>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Card 1: Change Password */}
-            <div className="dash-card p-6 bg-[#121215] border border-[#27272A] rounded-2xl shadow-xl">
-              <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#222225]">
+            <div className="dash-card p-6 bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-xl">
+              <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#2C2C2C]">
                 <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
                   <KeyRound className="w-5 h-5" />
                 </div>
                 <div>
                   <h2 className="text-base font-extrabold text-white">Change Password</h2>
-                  <p className="text-[11px] text-[#A1A1AA]">Update your account password</p>
+                  <p className="text-[11px] text-[#A3A3A3]">Update your account password</p>
                 </div>
               </div>
 
@@ -94,11 +94,11 @@ const SettingsPage = () => {
 
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider mb-1.5">
                     New Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#3F3F46]" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#444444]" />
                     <input
                       type="password"
                       required
@@ -106,17 +106,17 @@ const SettingsPage = () => {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="Min 6 characters"
-                      className="w-full pl-10 pr-4 py-2.5 bg-[#09090B] border border-[#27272A] rounded-xl text-[#F4F4F5] placeholder-[#3F3F46] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-[#F4F4F5] placeholder-[#444444] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider mb-1.5">
                     Confirm New Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#3F3F46]" />
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#444444]" />
                     <input
                       type="password"
                       required
@@ -124,7 +124,7 @@ const SettingsPage = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Confirm new password"
-                      className="w-full pl-10 pr-4 py-2.5 bg-[#09090B] border border-[#27272A] rounded-xl text-[#F4F4F5] placeholder-[#3F3F46] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-[#F4F4F5] placeholder-[#444444] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
                     />
                   </div>
                 </div>
@@ -141,49 +141,49 @@ const SettingsPage = () => {
             </div>
 
             {/* Card 2: Profile Details */}
-            <div className="dash-card p-6 bg-[#121215] border border-[#27272A] rounded-2xl shadow-xl flex flex-col justify-between">
+            <div className="dash-card p-6 bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-xl flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#222225]">
+                <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#2C2C2C]">
                   <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
                     <User className="w-5 h-5" />
                   </div>
                   <div>
                     <h2 className="text-base font-extrabold text-white">Profile Details</h2>
-                    <p className="text-[11px] text-[#A1A1AA]">Your personal GrindFam identity</p>
+                    <p className="text-[11px] text-[#A3A3A3]">Your personal GrindFam identity</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="p-3.5 rounded-xl bg-[#09090B] border border-[#27272A] flex items-center gap-3">
+                  <div className="p-3.5 rounded-xl bg-[#141414] border border-[#333333] flex items-center gap-3">
                     <User className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                     <div>
-                      <p className="text-[10px] text-[#A1A1AA] font-semibold uppercase tracking-wider">Name</p>
+                      <p className="text-[10px] text-[#A3A3A3] font-semibold uppercase tracking-wider">Name</p>
                       <p className="text-sm font-bold text-white">{name}</p>
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#09090B] border border-[#27272A] flex items-center gap-3">
+                  <div className="p-3.5 rounded-xl bg-[#141414] border border-[#333333] flex items-center gap-3">
                     <Mail className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                     <div>
-                      <p className="text-[10px] text-[#A1A1AA] font-semibold uppercase tracking-wider">Email</p>
+                      <p className="text-[10px] text-[#A3A3A3] font-semibold uppercase tracking-wider">Email</p>
                       <p className="text-sm font-bold text-white">{email}</p>
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-[#09090B] border border-[#27272A] flex items-center gap-3">
+                  <div className="p-3.5 rounded-xl bg-[#141414] border border-[#333333] flex items-center gap-3">
                     <Code2 className="w-4 h-4 text-amber-400 flex-shrink-0" />
                     <div>
-                      <p className="text-[10px] text-[#A1A1AA] font-semibold uppercase tracking-wider">LeetCode Username</p>
+                      <p className="text-[10px] text-[#A3A3A3] font-semibold uppercase tracking-wider">LeetCode Username</p>
                       <p className="text-sm font-bold text-emerald-400 font-mono">{leetcodeUsername}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#222225]">
+              <div className="mt-6 pt-4 border-t border-[#2C2C2C]">
                 <button
                   onClick={() => navigate('/')}
-                  className="w-full py-2.5 px-4 bg-[#222225] hover:bg-[#27272A] text-white text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-2.5 px-4 bg-[#2C2C2C] hover:bg-[#333333] text-white text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <span>Back to Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
@@ -192,14 +192,14 @@ const SettingsPage = () => {
             </div>
 
             {/* Card 3: Appearance & Theme */}
-            <div className="md:col-span-2 dash-card p-6 bg-[#121215] border border-[#27272A] rounded-2xl shadow-xl">
-              <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#222225]">
+            <div className="md:col-span-2 dash-card p-6 bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-xl">
+              <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#2C2C2C]">
                 <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
                   <Palette className="w-5 h-5" />
                 </div>
                 <div>
                   <h2 className="text-base font-extrabold text-white">Appearance & Theme</h2>
-                  <p className="text-[11px] text-[#A1A1AA]">Customize your GrindFam visual theme experience</p>
+                  <p className="text-[11px] text-[#A3A3A3]">Customize your GrindFam visual theme experience</p>
                 </div>
               </div>
 
@@ -209,8 +209,8 @@ const SettingsPage = () => {
                   onClick={() => setTheme('dark')}
                   className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                     theme === 'dark'
-                      ? 'bg-[#09090B] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
-                      : 'bg-[#09090B]/60 border-[#27272A] hover:border-zinc-500'
+                      ? 'bg-[#141414] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
+                      : 'bg-[#141414]/60 border-[#333333] hover:border-zinc-500'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -219,7 +219,7 @@ const SettingsPage = () => {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-white">Dark Mode</p>
-                      <p className="text-[11px] text-[#A1A1AA]">Sleek high-contrast dark theme</p>
+                      <p className="text-[11px] text-[#A3A3A3]">Sleek high-contrast dark theme</p>
                     </div>
                   </div>
                   {theme === 'dark' && (
@@ -232,8 +232,8 @@ const SettingsPage = () => {
                   onClick={() => setTheme('light')}
                   className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                     theme === 'light'
-                      ? 'bg-[#09090B] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
-                      : 'bg-[#09090B]/60 border-[#27272A] hover:border-zinc-500'
+                      ? 'bg-[#141414] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
+                      : 'bg-[#141414]/60 border-[#333333] hover:border-zinc-500'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -242,7 +242,7 @@ const SettingsPage = () => {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-white">Light Mode</p>
-                      <p className="text-[11px] text-[#A1A1AA]">Clean crisp bright theme</p>
+                      <p className="text-[11px] text-[#A3A3A3]">Clean crisp bright theme</p>
                     </div>
                   </div>
                   {theme === 'light' && (

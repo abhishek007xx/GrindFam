@@ -119,9 +119,9 @@ export default function SquadLeaderboard() {
             {/* Rank 2 */}
             {/* Rank 2 */}
             {topThree[1] ? (
-              <div className="p-4 bg-[#18181B] border border-[#27272A] rounded-lg flex flex-col items-center justify-end text-center mt-6">
+              <div className="p-4 bg-[#262626] border border-[#333333] rounded-lg flex flex-col items-center justify-end text-center mt-6">
                 <Award className="w-6 h-6 text-slate-300 mb-1" />
-                <div className="w-10 h-10 rounded-full bg-[#18181B] border border-[#27272A] flex items-center justify-center text-white font-bold text-sm mb-2">
+                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2">
                   {getInitial(topThree[1].name)}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[1].name}</span>
@@ -131,7 +131,7 @@ export default function SquadLeaderboard() {
 
             {/* Rank 1 */}
             {topThree[0] ? (
-              <div className="p-5 bg-[#18181B] border-2 border-[#EA5D3A]/50 rounded-lg flex flex-col items-center justify-end text-center shadow-lg shadow-[#EA5D3A]/10">
+              <div className="p-5 bg-[#262626] border-2 border-[#EA5D3A]/50 rounded-lg flex flex-col items-center justify-end text-center shadow-lg shadow-[#EA5D3A]/10">
                 <Trophy className="w-8 h-8 text-[#EA5D3A] mb-1" />
                 <div className="w-12 h-12 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-extrabold text-base mb-2">
                   {getInitial(topThree[0].name)}
@@ -143,9 +143,9 @@ export default function SquadLeaderboard() {
 
             {/* Rank 3 */}
             {topThree[2] ? (
-              <div className="p-4 bg-[#18181B] border border-[#27272A] rounded-lg flex flex-col items-center justify-end text-center mt-8">
+              <div className="p-4 bg-[#262626] border border-[#333333] rounded-lg flex flex-col items-center justify-end text-center mt-8">
                 <Award className="w-6 h-6 text-amber-600 mb-1" />
-                <div className="w-10 h-10 rounded-full bg-[#18181B] border border-[#27272A] flex items-center justify-center text-white font-bold text-sm mb-2">
+                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2">
                   {getInitial(topThree[2].name)}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[2].name}</span>
@@ -164,7 +164,7 @@ export default function SquadLeaderboard() {
                   className={`p-3.5 rounded-lg border flex items-center justify-between gap-4 transition-all ${
                     isMe
                       ? 'bg-[#EA5D3A]/10 border-[#EA5D3A]/40'
-                      : 'bg-[#121215] border-[#27272A]'
+                      : 'bg-[#1E1E1E] border-[#333333]'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">

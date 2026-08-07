@@ -22,10 +22,10 @@ export default function DMList({ onOpenNewDM }) {
 
       <div className="space-y-1.5">
         {dmThreads.length === 0 ? (
-          <div className="text-center py-6 text-[#71717A] dark:text-[#71717A] light:text-slate-500 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl p-4">
+          <div className="text-center py-6 text-[#737373] dark:text-[#737373] light:text-slate-500 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl p-4">
             <MessageCircle className="w-8 h-8 mx-auto mb-2 opacity-50 text-emerald-400" />
             <p className="font-bold text-white dark:text-white light:text-slate-900 text-xs">No messages yet</p>
-            <p className="text-[11px] mt-0.5 text-[#A1A1AA] dark:text-[#A1A1AA] light:text-slate-500">Start chatting with squad mates</p>
+            <p className="text-[11px] mt-0.5 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">Start chatting with squad mates</p>
           </div>
         ) : (
           dmThreads.map(thread => {
@@ -36,7 +36,7 @@ export default function DMList({ onOpenNewDM }) {
               <button
                 key={thread.id}
                 onClick={() => openDM(thread.partnerId)}
-                className="w-full p-2.5 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 hover:bg-[#222225] dark:hover:bg-[#222225] light:hover:bg-slate-100 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-left transition-all group flex items-center justify-between gap-2 shadow-sm"
+                className="w-full p-2.5 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 hover:bg-[#2C2C2C] dark:hover:bg-[#2C2C2C] light:hover:bg-slate-100 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl text-left transition-all group flex items-center justify-between gap-2 shadow-sm"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-xs flex-shrink-0 shadow-sm">
@@ -46,7 +46,7 @@ export default function DMList({ onOpenNewDM }) {
                     <div className="font-semibold text-xs text-white dark:text-white light:text-slate-900 truncate group-hover:text-emerald-400 transition-colors">
                       {partnerName}
                     </div>
-                    <div className="text-[10px] text-[#A1A1AA] dark:text-[#A1A1AA] light:text-slate-500 truncate">
+                    <div className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 truncate">
                       {thread.lastMessage || 'No messages yet'}
                     </div>
                   </div>

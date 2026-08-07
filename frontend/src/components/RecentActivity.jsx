@@ -59,9 +59,9 @@ const RecentActivity = ({ leaderboard = [] }) => {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold text-[#F4F4F5]">{act.name}</p>
-                <p className="text-[11px] text-[#A1A1AA] truncate">{act.text}</p>
+                <p className="text-[11px] text-[#A3A3A3] truncate">{act.text}</p>
               </div>
-              <span className="text-[10px] text-[#71717A] flex-shrink-0 mt-0.5">Today</span>
+              <span className="text-[10px] text-[#737373] flex-shrink-0 mt-0.5">Today</span>
             </div>
           ))
         )}

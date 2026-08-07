@@ -275,8 +275,8 @@ export default function Sidebar({
                 isCollapsed ? 'justify-center px-2' : ''
               } ${
                 isActive
-                  ? 'bg-[#18181B] dark:bg-[#18181B] light:bg-slate-100 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
-                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-700 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#18181B]/50 dark:hover:bg-[#18181B]/50 light:hover:bg-slate-100 rounded-md'
+                  ? 'bg-[#262626] dark:bg-[#262626] light:bg-slate-100 text-white dark:text-white light:text-slate-900 border-l-2 border-[#EA5D3A] rounded-r-md font-semibold'
+                  : 'text-zinc-400 dark:text-zinc-400 light:text-slate-700 hover:text-zinc-200 dark:hover:text-zinc-200 light:hover:text-slate-900 hover:bg-[#262626]/50 dark:hover:bg-[#262626]/50 light:hover:bg-slate-100 rounded-md'
               }`}
             >
               <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : 'text-zinc-400 dark:text-zinc-400 light:text-slate-500'}`} />
@@ -289,13 +289,13 @@ export default function Sidebar({
   );
 
   return (
-    <div className={`flex flex-col h-full py-3 gap-3 bg-[#09090B] dark:bg-[#09090B] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 transition-all duration-300 ${
+    <div className={`flex flex-col h-full py-3 gap-3 bg-[#141414] dark:bg-[#141414] light:bg-white border-r border-[#333333] dark:border-[#333333] light:border-slate-200 transition-all duration-300 ${
       isCollapsed ? 'px-2' : 'px-3'
     }`}>
       {/* 1. TOP USER PROFILE CARD */}
       {isCollapsed ? (
         <div
-          className="flex flex-col items-center py-2 px-1 border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 cursor-pointer"
+          className="flex flex-col items-center py-2 px-1 border-b border-[#333333] dark:border-[#333333] light:border-slate-200 cursor-pointer"
           title={`${name} (@${handle})`}
           onClick={() => navigate('/settings')}
         >
@@ -313,7 +313,7 @@ export default function Sidebar({
           </div>
         </div>
       ) : (
-        <div className="p-2.5 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
+        <div className="p-2.5 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0 cursor-pointer" onClick={() => navigate('/settings')}>
               <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
@@ -357,7 +357,7 @@ export default function Sidebar({
               if (onToggleCollapse) onToggleCollapse();
               setTimeout(() => inputRef.current?.focus(), 100);
             }}
-            className="w-full flex items-center justify-center p-2.5 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-zinc-400 hover:text-white transition-all shadow-sm"
+            className="w-full flex items-center justify-center p-2.5 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl text-zinc-400 hover:text-white transition-all shadow-sm"
             title="Search problems (Ctrl+K)"
           >
             <Search className="w-4 h-4 text-[#EA5D3A]" />
@@ -372,7 +372,7 @@ export default function Sidebar({
               onChange={handleSearchChange}
               onFocus={() => setIsSearchOpen(true)}
               placeholder="Search problems..."
-              className="w-full pl-9 pr-7 py-2 bg-[#121215] dark:bg-[#121215] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 placeholder-zinc-500 dark:placeholder-zinc-500 light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
+              className="w-full pl-9 pr-7 py-2 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 placeholder-zinc-500 dark:placeholder-zinc-500 light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
             />
             {searchQuery ? (
               <button
@@ -382,7 +382,7 @@ export default function Sidebar({
                 <X className="w-3.5 h-3.5" />
               </button>
             ) : (
-              <span className="absolute right-2 px-1.5 py-0.5 bg-[#18181B] dark:bg-[#18181B] light:bg-slate-200 border border-[#27272A] dark:border-[#27272A] light:border-slate-300 rounded text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-600 font-mono">
+              <span className="absolute right-2 px-1.5 py-0.5 bg-[#262626] dark:bg-[#262626] light:bg-slate-200 border border-[#333333] dark:border-[#333333] light:border-slate-300 rounded text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-600 font-mono">
                 ⌘K
               </span>
             )}
@@ -391,7 +391,7 @@ export default function Sidebar({
 
         {/* Floating Search Results Overlay */}
         {isSearchOpen && searchQuery && (
-          <div className="absolute left-0 top-full mt-1.5 w-72 bg-[#121215] dark:bg-[#121215] light:bg-white border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50 py-2 space-y-2">
+          <div className="absolute left-0 top-full mt-1.5 w-72 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50 py-2 space-y-2">
             {searchLoading ? (
               <div className="p-3 text-center text-xs text-zinc-400 dark:text-zinc-400 light:text-slate-500">
                 Searching problems...
@@ -411,7 +411,7 @@ export default function Sidebar({
                       <div
                         key={i}
                         onClick={() => handleResultClick(r)}
-                        className="px-3 py-2 hover:bg-[#18181B] dark:hover:bg-[#18181B] light:hover:bg-slate-100 cursor-pointer flex items-center justify-between text-xs transition-colors"
+                        className="px-3 py-2 hover:bg-[#262626] dark:hover:bg-[#262626] light:hover:bg-slate-100 cursor-pointer flex items-center justify-between text-xs transition-colors"
                       >
                         <div className="flex items-center gap-2 truncate">
                           <FileCode2 className="w-3.5 h-3.5 text-[#EA5D3A] flex-shrink-0" />
@@ -431,7 +431,7 @@ export default function Sidebar({
                 )}
 
                 {topicResults.length > 0 && (
-                  <div className="border-t border-[#27272A] dark:border-[#27272A] light:border-slate-200 pt-1">
+                  <div className="border-t border-[#333333] dark:border-[#333333] light:border-slate-200 pt-1">
                     <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 light:text-slate-500">
                       Topic Patterns
                     </p>
@@ -439,7 +439,7 @@ export default function Sidebar({
                       <div
                         key={i}
                         onClick={() => handleTopicClick(t)}
-                        className="px-3 py-1.5 hover:bg-[#18181B] dark:hover:bg-[#18181B] light:hover:bg-slate-100 cursor-pointer flex items-center justify-between text-xs transition-colors"
+                        className="px-3 py-1.5 hover:bg-[#262626] dark:hover:bg-[#262626] light:hover:bg-slate-100 cursor-pointer flex items-center justify-between text-xs transition-colors"
                       >
                         <div className="flex items-center gap-2">
                           <Hash className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
@@ -457,7 +457,7 @@ export default function Sidebar({
       </div>
 
       {/* 3. NAV GROUPS */}
-      <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-[#27272A]">
+      <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-[#333333]">
         {renderNavGroup(mainNavItems, null)}
         {renderNavGroup(socialNavItems, 'SOCIAL')}
         {renderNavGroup(settingsNavItems, 'SETTINGS')}
@@ -466,7 +466,7 @@ export default function Sidebar({
       {/* 4. LEVEL / XP PROGRESS WIDGET */}
       {isCollapsed ? (
         <div
-          className="p-2 bg-[#121212] dark:bg-[#121212] light:bg-slate-100/90 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl flex flex-col items-center gap-2 flex-shrink-0 shadow-sm"
+          className="p-2 bg-[#121212] dark:bg-[#121212] light:bg-slate-100/90 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl flex flex-col items-center gap-2 flex-shrink-0 shadow-sm"
           title={`Level ${level} Grinder (${xpInLevel}/${xpMax} XP)`}
         >
           <div className="w-8 h-8 rounded-lg bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30 flex items-center justify-center font-bold text-xs">
@@ -481,7 +481,7 @@ export default function Sidebar({
           </button>
         </div>
       ) : (
-        <div className="p-3 bg-[#121212] dark:bg-[#121212] light:bg-slate-100/90 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2.5 flex-shrink-0 shadow-sm">
+        <div className="p-3 bg-[#121212] dark:bg-[#121212] light:bg-slate-100/90 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl space-y-2.5 flex-shrink-0 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-zinc-100 dark:text-zinc-100 light:text-slate-900 flex items-center gap-1.5">
               Level {level} Grinder
@@ -507,7 +507,7 @@ export default function Sidebar({
 
           {/* XP Progress Bar */}
           <div>
-            <div className="w-full bg-[#18181B] dark:bg-[#18181B] light:bg-slate-200 border border-[#27272A] dark:border-[#27272A] light:border-slate-300 h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-[#262626] dark:bg-[#262626] light:bg-slate-200 border border-[#333333] dark:border-[#333333] light:border-slate-300 h-1.5 rounded-full overflow-hidden">
               <div className="bg-[#10B981] h-full rounded-full transition-all duration-500" style={{ width: `${xpPercent}%` }} />
             </div>
             <div className="flex items-center justify-between text-[9px] text-zinc-500 dark:text-zinc-500 light:text-slate-500 mt-1 font-mono">

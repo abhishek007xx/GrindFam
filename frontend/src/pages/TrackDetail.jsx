@@ -24,7 +24,7 @@ function ProgressRing({ percentage = 0, size = 80, strokeWidth = 8 }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#2C2C2C" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -271,7 +271,7 @@ export function TrackDetail() {
       {/* Back Navigation identical to SheetDetail */}
       <button
         onClick={() => navigate('/companies')}
-        className="flex items-center gap-2 text-xs font-semibold text-[#A1A1AA] hover:text-white transition-colors"
+        className="flex items-center gap-2 text-xs font-semibold text-[#A3A3A3] hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to Company Tracks</span>
@@ -279,25 +279,25 @@ export function TrackDetail() {
 
       {loading ? (
         <div className="space-y-6 animate-pulse">
-          <div className="h-48 bg-[#121215]/50 border border-[#27272A] rounded-lg" />
-          <div className="h-64 bg-[#121215]/50 border border-[#27272A] rounded-lg" />
+          <div className="h-48 bg-[#1E1E1E]/50 border border-[#333333] rounded-lg" />
+          <div className="h-64 bg-[#1E1E1E]/50 border border-[#333333] rounded-lg" />
         </div>
       ) : (
         <>
           {/* Hero Banner Card identical to SheetDetail */}
-          <div className="bg-[#121215] border border-[#27272A] rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="bg-[#1E1E1E] border border-[#333333] rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-3">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium">
+                <span className="px-2.5 py-0.5 rounded bg-[#262626] border border-[#333333] text-[#9CA3AF] text-xs font-medium">
                   {companyTrack?.role || 'DSA Track'}
                 </span>
-                <span className="px-2.5 py-0.5 rounded bg-[#121215] border border-[#27272A] text-[#A1A1AA] text-xs font-medium">
+                <span className="px-2.5 py-0.5 rounded bg-[#1E1E1E] border border-[#333333] text-[#A3A3A3] text-xs font-medium">
                   Level: {companyTrack?.level || 'All Levels'}
                 </span>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-lg bg-[#18181B] border border-[#27272A] p-2 flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-lg bg-[#262626] border border-[#333333] p-2 flex items-center justify-center flex-shrink-0">
                   {company?.logo_url ? (
                     <img
                       src={company.logo_url}
@@ -323,7 +323,7 @@ export function TrackDetail() {
               </p>
             </div>
 
-            <div className="flex items-center gap-6 flex-shrink-0 self-start md:self-center bg-[#18181B]/50 border border-[#27272A] p-4 rounded-lg">
+            <div className="flex items-center gap-6 flex-shrink-0 self-start md:self-center bg-[#262626]/50 border border-[#333333] p-4 rounded-lg">
               <ProgressRing percentage={completionPercentage} size={76} strokeWidth={7} />
               <div className="space-y-1">
                 <div className="text-xs font-medium text-[#9CA3AF]">Solved Progress</div>
@@ -370,8 +370,8 @@ export function TrackDetail() {
                   }}
                   className={`px-3.5 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap border flex items-center gap-2 ${
                     isActive
-                      ? 'bg-[#18181B] text-white border-[#EA5D3A] shadow-sm font-semibold'
-                      : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#4B5563]'
+                      ? 'bg-[#262626] text-white border-[#EA5D3A] shadow-sm font-semibold'
+                      : 'bg-[#1E1E1E] text-[#9CA3AF] border-[#333333] hover:text-white hover:border-[#4B5563]'
                   }`}
                 >
                   <IconComp className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EA5D3A]'}`} />

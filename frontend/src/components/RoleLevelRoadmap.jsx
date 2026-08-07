@@ -9,9 +9,9 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
   const [activeTab, setActiveTab] = useState('campus'); // 'intern', 'campus', 'senior'
 
   return (
-    <div className="dash-card p-6 bg-[#121215] border border-[#27272A] rounded-2xl shadow-xl">
+    <div className="dash-card p-6 bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-xl">
       {/* Header & Role Level Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-[#222225]">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-[#2C2C2C]">
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-bold uppercase tracking-wider mb-1">
             <Layers className="w-3 h-3" /> Role Level Roadmaps
@@ -22,13 +22,13 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1 bg-[#09090B] p-1 rounded-xl border border-[#27272A]">
+        <div className="flex items-center gap-1 bg-[#141414] p-1 rounded-xl border border-[#333333]">
           <button
             onClick={() => setActiveTab('intern')}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'intern'
                 ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
-                : 'text-[#A1A1AA] hover:text-white'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
             <GraduationCap className="w-4 h-4" />
@@ -40,7 +40,7 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'campus'
                 ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
-                : 'text-[#A1A1AA] hover:text-white'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
             <Award className="w-4 h-4" />
@@ -52,7 +52,7 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'senior'
                 ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
-                : 'text-[#A1A1AA] hover:text-white'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
             <Briefcase className="w-4 h-4" />
@@ -77,18 +77,18 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
                 <GraduationCap className="w-4 h-4 text-emerald-400" />
                 Internship Target Strategy
               </h3>
-              <p className="text-xs text-[#A1A1AA] mt-1">
+              <p className="text-xs text-[#A3A3A3] mt-1">
                 Optimized for summer & winter engineering internships. Focuses heavily on speed in Online Assessments (OAs), core foundational DSA, and CS fundamentals.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Module 1: OA Speed Drills */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-emerald-400 uppercase tracking-wider">
                   <Zap className="w-4 h-4" /> OA Speed Drills
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" />
                     <span>Time-boxed 60-min test simulation (2 problems).</span>
@@ -105,11 +105,11 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Module 2: CS Fundamentals */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-indigo-400 uppercase tracking-wider">
                   <Cpu className="w-4 h-4" /> CS Fundamentals & Aptitude
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 mt-0.5 flex-shrink-0" />
                     <span>Operating Systems: Threads, Processes & Memory.</span>
@@ -126,11 +126,11 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Module 3: ATS Resume Checklist */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-amber-400 uppercase tracking-wider">
                   <FileText className="w-4 h-4" /> ATS Resume & Projects
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
                     <span>Action verb + Quantified metric formula (`Built X achieving Y%`).</span>
@@ -163,21 +163,21 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
                 <Award className="w-4 h-4 text-[#22c55e]" />
                 3-Month Campus Placement Sprint
               </h3>
-              <p className="text-xs text-[#A1A1AA] mt-1">
+              <p className="text-xs text-[#A3A3A3] mt-1">
                 Structured 90-day roadmap designed for college placements. Covers foundational DSA, company OA patterns, and HR/Behavioral prep.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Month 1 */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-emerald-500/30 space-y-3 relative overflow-hidden">
+              <div className="p-4 rounded-xl bg-[#141414] border border-emerald-500/30 space-y-3 relative overflow-hidden">
                 <div className="absolute top-0 right-0 px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-bold text-[9px] uppercase rounded-bl-lg">
                   Month 1
                 </div>
                 <div className="flex items-center gap-2 text-xs font-extrabold text-white">
                   <BookOpen className="w-4 h-4 text-emerald-400" /> Core DSA Foundations
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" />
                     <span>Arrays, Strings, Two Pointers & Sliding Window.</span>
@@ -194,14 +194,14 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Month 2 */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-indigo-500/30 space-y-3 relative overflow-hidden">
+              <div className="p-4 rounded-xl bg-[#141414] border border-indigo-500/30 space-y-3 relative overflow-hidden">
                 <div className="absolute top-0 right-0 px-2 py-0.5 bg-indigo-500/20 text-indigo-400 font-bold text-[9px] uppercase rounded-bl-lg">
                   Month 2
                 </div>
                 <div className="flex items-center gap-2 text-xs font-extrabold text-white">
                   <Code2 className="w-4 h-4 text-indigo-400" /> OA Patterns & Top 50
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400 mt-0.5 flex-shrink-0" />
                     <span>Dynamic Programming (1D, 2D & Knapsack patterns).</span>
@@ -218,14 +218,14 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Month 3 */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-amber-500/30 space-y-3 relative overflow-hidden">
+              <div className="p-4 rounded-xl bg-[#141414] border border-amber-500/30 space-y-3 relative overflow-hidden">
                 <div className="absolute top-0 right-0 px-2 py-0.5 bg-amber-500/20 text-amber-400 font-bold text-[9px] uppercase rounded-bl-lg">
                   Month 3
                 </div>
                 <div className="flex items-center gap-2 text-xs font-extrabold text-white">
                   <MessageSquare className="w-4 h-4 text-amber-400" /> Mock OAs & HR Prep
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
                     <span>Full 90-minute Mock Online Assessment tests.</span>
@@ -258,18 +258,18 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
                 <Briefcase className="w-4 h-4 text-purple-400" />
                 Senior / Lateral Hiring Strategy
               </h3>
-              <p className="text-xs text-[#A1A1AA] mt-1">
+              <p className="text-xs text-[#A3A3A3] mt-1">
                 For experienced software engineers (SDE-2, SDE-3, Tech Leads). Combines advanced DSA with High-Level & Low-Level System Design, leadership principles, and salary negotiation.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Module 1: System Design (HLD & LLD) */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-purple-400 uppercase tracking-wider">
                   <Database className="w-4 h-4" /> System Design (HLD & LLD)
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-purple-400 mt-0.5 flex-shrink-0" />
                     <span>HLD: Scalability, Caching (Redis), Load Balancers, DB Sharding.</span>
@@ -286,11 +286,11 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Module 2: Leadership Principles */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-emerald-400 uppercase tracking-wider">
                   <ShieldCheck className="w-4 h-4" /> Leadership & Behavioral
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 mt-0.5 flex-shrink-0" />
                     <span>Company Leadership Principles (e.g. Amazon 16 LPs, Google Googliness).</span>
@@ -307,11 +307,11 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
               </div>
 
               {/* Module 3: Negotiation & Compensation */}
-              <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-3">
+              <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-3">
                 <div className="flex items-center gap-2 text-xs font-extrabold text-amber-400 uppercase tracking-wider">
                   <DollarSign className="w-4 h-4" /> Salary & Offer Negotiation
                 </div>
-                <ul className="text-xs text-[#A1A1AA] space-y-2">
+                <ul className="text-xs text-[#A3A3A3] space-y-2">
                   <li className="flex items-start gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 mt-0.5 flex-shrink-0" />
                     <span>Base Salary vs RSUs/Equity vs Joining Bonus breakdown.</span>

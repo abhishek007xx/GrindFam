@@ -84,7 +84,7 @@ export default function SquadHub() {
 
       {/* ── 2. Spatial Mode Canvas Render ── */}
       <Suspense fallback={
-        <div className="p-12 text-center bg-[#121215] border border-[#27272A] rounded-xl space-y-3 animate-pulse">
+        <div className="p-12 text-center bg-[#1E1E1E] border border-[#333333] rounded-xl space-y-3 animate-pulse">
           <Loader2 className="w-8 h-8 text-[#EA5D3A] animate-spin mx-auto" />
           <p className="text-xs text-[#9CA3AF]">Loading Community Module...</p>
         </div>
@@ -115,8 +115,8 @@ export default function SquadHub() {
         {activeCommunityMode === 'squad' && (
           <div className="space-y-6">
             {/* Squad Active Workspace */}
-            <div className="bg-[#121215] border border-[#27272A] rounded-xl p-5 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-[#222225]">
+            <div className="bg-[#1E1E1E] border border-[#333333] rounded-xl p-5 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#2C2C2C]">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-[#EA5D3A]" />
                   <h3 className="text-base font-bold text-[#F4F4F5]">
@@ -136,7 +136,7 @@ export default function SquadHub() {
               {activeSquad ? (
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
                   {/* Channel List Sidebar */}
-                  <div className="lg:col-span-3 bg-[#09090B] border border-[#222225] rounded-lg p-3 space-y-2">
+                  <div className="lg:col-span-3 bg-[#141414] border border-[#2C2C2C] rounded-lg p-3 space-y-2">
                     <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF] mb-2 px-2">Text Channels</h4>
                     {TEXT_CHANNELS.map((ch) => (
                       <button
@@ -144,8 +144,8 @@ export default function SquadHub() {
                         onClick={() => setActiveChannel(ch.id)}
                         className={`w-full px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-2 transition-all ${
                           activeChannel === ch.id
-                            ? 'bg-[#18181B] text-white border border-[#EA5D3A]/40'
-                            : 'text-[#9CA3AF] hover:text-white hover:bg-[#121215]'
+                            ? 'bg-[#262626] text-white border border-[#EA5D3A]/40'
+                            : 'text-[#9CA3AF] hover:text-white hover:bg-[#1E1E1E]'
                         }`}
                       >
                         {ch.icon}
@@ -155,7 +155,7 @@ export default function SquadHub() {
                   </div>
 
                   {/* Channel Content Canvas */}
-                  <div className="lg:col-span-9 bg-[#09090B] border border-[#222225] rounded-lg p-4 min-h-[500px]">
+                  <div className="lg:col-span-9 bg-[#141414] border border-[#2C2C2C] rounded-lg p-4 min-h-[500px]">
                     {activeChannel === 'general' && <SquadChat />}
                     {activeChannel === 'code-sharing' && <PeerCodeReviewQueue />}
                     {activeChannel === 'leaderboard' && <SquadLeaderboard />}
@@ -163,7 +163,7 @@ export default function SquadHub() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-16 bg-[#09090B] border border-[#222225] rounded-lg p-6 space-y-4">
+                <div className="text-center py-16 bg-[#141414] border border-[#2C2C2C] rounded-lg p-6 space-y-4">
                   <Compass className="w-10 h-10 text-[#EA5D3A] mx-auto animate-bounce" />
                   <div className="space-y-1">
                     <h4 className="text-base font-bold text-[#F4F4F5]">No Active Squad Selected</h4>

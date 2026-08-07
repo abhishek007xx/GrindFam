@@ -43,13 +43,13 @@ export default function DMChat({ threadId, otherUser }) {
   const partnerInitial = (partner.username || partner.partnerName || 'U')[0].toUpperCase();
 
   return (
-    <div className="flex flex-col h-[600px] bg-[#09090B] border border-[#27272A] rounded-xl overflow-hidden">
+    <div className="flex flex-col h-[600px] bg-[#141414] border border-[#333333] rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-[#27272A] bg-[#121215] flex items-center justify-between flex-shrink-0">
+      <div className="p-4 border-b border-[#333333] bg-[#1E1E1E] flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <button
             onClick={() => useSquadStore.setState({ activeDMThread: null })}
-            className="p-1.5 text-[#A1A1AA] hover:text-white rounded-lg transition-colors md:hidden"
+            className="p-1.5 text-[#A3A3A3] hover:text-white rounded-lg transition-colors md:hidden"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -58,7 +58,7 @@ export default function DMChat({ threadId, otherUser }) {
           </div>
           <div>
             <div className="font-semibold text-white">{partner.username || partner.partnerName}</div>
-            <div className="text-xs text-[#A1A1AA]">Direct Message</div>
+            <div className="text-xs text-[#A3A3A3]">Direct Message</div>
           </div>
         </div>
 
@@ -76,13 +76,13 @@ export default function DMChat({ threadId, otherUser }) {
       </div>
 
       {/* Messages Feed */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-[#27272A]">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-[#333333]">
         {dmMessages.map(msg => {
           const isMe = msg.sender_id === session?.user?.id;
           return (
             <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[70%] px-4 py-2.5 rounded-2xl ${
-                isMe ? 'bg-emerald-600 text-white font-medium shadow-md shadow-emerald-600/10' : 'bg-[#121215] border border-[#27272A] text-[#F4F4F5]'
+                isMe ? 'bg-emerald-600 text-white font-medium shadow-md shadow-emerald-600/10' : 'bg-[#1E1E1E] border border-[#333333] text-[#F4F4F5]'
               }`}>
                 <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
                 <div className="text-[10px] opacity-70 mt-1 text-right">
@@ -96,14 +96,14 @@ export default function DMChat({ threadId, otherUser }) {
       </div>
 
       {/* Input Form */}
-      <form onSubmit={handleSend} className="p-4 border-t border-[#27272A] bg-[#121215] flex-shrink-0">
+      <form onSubmit={handleSend} className="p-4 border-t border-[#333333] bg-[#1E1E1E] flex-shrink-0">
         <div className="flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder={`Message ${partner.username || partner.partnerName}...`}
-            className="flex-1 px-4 py-2.5 bg-[#09090B] border border-[#27272A] rounded-xl text-sm text-white placeholder-[#A1A1AA] focus:outline-none focus:border-emerald-500 transition-colors"
+            className="flex-1 px-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-sm text-white placeholder-[#A3A3A3] focus:outline-none focus:border-emerald-500 transition-colors"
           />
           <button
             type="submit"

@@ -20,7 +20,7 @@ function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#222225" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#2C2C2C" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -238,7 +238,7 @@ export function TopicProblems() {
       </button>
 
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-lg bg-[#121215] border border-[#27272A] p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] p-6 md:p-8">
         <img
           src="/logo.png"
           alt="GrindFam Mascot"
@@ -246,7 +246,7 @@ export function TopicProblems() {
         />
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2.5 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#18181B] border border-[#27272A] text-[#9CA3AF] text-xs font-medium">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#262626] border border-[#333333] text-[#9CA3AF] text-xs font-medium">
               <Hash className="w-3.5 h-3.5 text-[#EA5D3A]" />
               <span>Topic Explorer</span>
             </div>
@@ -263,7 +263,7 @@ export function TopicProblems() {
               <span className="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold">{difficultyBreakdown.Hard} Hard</span>
             </div>
           </div>
-          <div className="flex items-center gap-4 bg-[#09090B] border border-[#27272A] rounded-lg p-4 shadow-md flex-shrink-0">
+          <div className="flex items-center gap-4 bg-[#141414] border border-[#333333] rounded-lg p-4 shadow-md flex-shrink-0">
             <ProgressRing percentage={percentage} size={64} strokeWidth={6} />
             <div className="space-y-1 text-xs">
               <div className="flex items-center gap-2">
@@ -281,7 +281,7 @@ export function TopicProblems() {
         <span className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mr-1">Browse Topics:</span>
         {POPULAR_TOPICS.filter(t => t !== decodedTag).slice(0, 12).map(topic => (
           <button key={topic} onClick={() => navigate(`/topics/${encodeURIComponent(topic)}`)}
-            className="px-3 py-1 rounded-md text-[10px] font-semibold transition-all border bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#EA5D3A]/40">
+            className="px-3 py-1 rounded-md text-[10px] font-semibold transition-all border bg-[#1E1E1E] text-[#9CA3AF] border-[#333333] hover:text-white hover:border-[#EA5D3A]/40">
             #{topic}
           </button>
         ))}
@@ -293,19 +293,19 @@ export function TopicProblems() {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
           <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search within topic..."
-            className="w-full pl-10 pr-4 py-2 bg-[#121215] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all" />
+            className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E] border border-[#333333] rounded-md text-xs text-[#F4F4F5] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all" />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
           {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
             <button key={diff} onClick={() => setDifficultyFilter(diff)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${difficultyFilter === diff ? 'bg-[#18181B] text-white border-[#EA5D3A] font-semibold' : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#4B5563]'}`}>
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${difficultyFilter === diff ? 'bg-[#262626] text-white border-[#EA5D3A] font-semibold' : 'bg-[#1E1E1E] text-[#9CA3AF] border-[#333333] hover:text-white hover:border-[#4B5563]'}`}>
               {diff}
             </button>
           ))}
-          <div className="w-px h-4 bg-[#27272A] mx-1" />
+          <div className="w-px h-4 bg-[#333333] mx-1" />
           {[{ key: 'ALL', label: 'All' }, { key: 'sheet', label: 'Sheets' }, { key: 'company', label: 'Companies' }].map(src => (
             <button key={src.key} onClick={() => setSourceFilter(src.key)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${sourceFilter === src.key ? 'bg-[#18181B] text-white border-[#EA5D3A] font-semibold' : 'bg-[#121215] text-[#9CA3AF] border-[#27272A] hover:text-white hover:border-[#4B5563]'}`}>
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${sourceFilter === src.key ? 'bg-[#262626] text-white border-[#EA5D3A] font-semibold' : 'bg-[#1E1E1E] text-[#9CA3AF] border-[#333333] hover:text-white hover:border-[#4B5563]'}`}>
               {src.label}
             </button>
           ))}
@@ -316,22 +316,22 @@ export function TopicProblems() {
       {loading ? (
         <div className="space-y-2">
           {[1, 2, 3, 4, 5, 6].map(n => (
-            <div key={n} className="h-14 rounded-md bg-[#121215] border border-[#27272A] animate-pulse" />
+            <div key={n} className="h-14 rounded-md bg-[#1E1E1E] border border-[#333333] animate-pulse" />
           ))}
         </div>
       ) : filteredProblems.length === 0 ? (
-        <div className="text-center py-12 bg-[#121215] border border-[#27272A] rounded-lg space-y-3">
+        <div className="text-center py-12 bg-[#1E1E1E] border border-[#333333] rounded-lg space-y-3">
           <Hash className="w-10 h-10 text-[#4B5563] mx-auto" />
           <h3 className="text-sm font-semibold text-[#F4F4F5]">No Problems Found</h3>
           <p className="text-xs text-[#9CA3AF]">No problems match your current filters for #{decodedTag}.</p>
         </div>
       ) : (
         <motion.div variants={containerVariants} initial="hidden" animate="visible"
-          className="bg-[#121215] border border-[#27272A] rounded-lg overflow-hidden">
-          <div className="grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3 bg-[#09090B] border-b border-[#27272A] text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">
+          className="bg-[#1E1E1E] border border-[#333333] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3 bg-[#141414] border-b border-[#333333] text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">
             <span></span><span>Problem</span><span className="hidden sm:block">Source</span><span>Difficulty</span><span>Status</span><span></span>
           </div>
-          <div className="divide-y divide-[#222225]">
+          <div className="divide-y divide-[#2C2C2C]">
             {filteredProblems.map((prob) => {
               const userState = progressMap[prob.id] || {};
               const status = userState.status || 'not_started';
@@ -340,7 +340,7 @@ export function TopicProblems() {
               const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
               return (
                 <motion.div key={prob.id} variants={rowVariants}
-                  className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#18181B]/40 ${isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''}`}>
+                  className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#262626]/40 ${isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''}`}>
                   <button onClick={() => toggleStatusOptimistic(user?.id, prob.id)} className="focus:outline-none transition-transform active:scale-90" title="Toggle status">
                     <AnimatePresence mode="wait">
                       {isSolved ? (
@@ -372,7 +372,7 @@ export function TopicProblems() {
                   <span className={`text-[10px] font-semibold ${isSolved ? 'text-emerald-400' : isRevision ? 'text-amber-400' : 'text-[#4B5563]'}`}>
                     {isSolved ? 'Solved' : isRevision ? 'Revision' : '—'}
                   </span>
-                  <a href={leetcodeUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded hover:bg-[#27272A] transition-colors">
+                  <a href={leetcodeUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded hover:bg-[#333333] transition-colors">
                     <ExternalLink className="w-3.5 h-3.5 text-[#6B7280] hover:text-[#EA5D3A] transition-colors" />
                   </a>
                 </motion.div>

@@ -24,13 +24,13 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
   };
 
   return (
-    <div className="h-screen w-full flex bg-[#09090B] dark:bg-[#09090B] light:bg-slate-50 text-zinc-200 dark:text-zinc-200 light:text-slate-900 overflow-hidden">
+    <div className="h-screen w-full flex bg-[#141414] dark:bg-[#141414] light:bg-slate-50 text-zinc-200 dark:text-zinc-200 light:text-slate-900 overflow-hidden">
       {/* Desktop Collapsible Sidebar Container */}
-      <div className={`relative hidden lg:block ${isCollapsed ? 'w-16' : 'w-64'} flex-shrink-0 border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#09090B] dark:bg-[#09090B] light:bg-white transition-all duration-300 ease-in-out z-20`}>
+      <div className={`relative hidden lg:block ${isCollapsed ? 'w-16' : 'w-64'} flex-shrink-0 border-r border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#141414] dark:bg-[#141414] light:bg-white transition-all duration-300 ease-in-out z-20`}>
         {/* Sleek Floating Collapse Toggle Button on Border Line */}
         <button
           onClick={toggleCollapse}
-          className="absolute -right-3 top-5 z-40 w-6 h-6 rounded-full bg-[#121215] dark:bg-[#121215] light:bg-white border border-[#27272A] dark:border-[#27272A] light:border-slate-300 text-[#EA5D3A] hover:bg-[#EA5D3A] hover:text-white transition-all shadow-md flex items-center justify-center cursor-pointer group"
+          className="absolute -right-3 top-5 z-40 w-6 h-6 rounded-full bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-[#333333] dark:border-[#333333] light:border-slate-300 text-[#EA5D3A] hover:bg-[#EA5D3A] hover:text-white transition-all shadow-md flex items-center justify-center cursor-pointer group"
           title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
         >
@@ -54,7 +54,7 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setMobileOpen(false)} />
-          <div className="absolute inset-y-0 left-0 w-64 bg-[#09090B] dark:bg-[#09090B] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 overflow-y-auto">
+          <div className="absolute inset-y-0 left-0 w-64 bg-[#141414] dark:bg-[#141414] light:bg-white border-r border-[#333333] dark:border-[#333333] light:border-slate-200 overflow-y-auto">
             <Sidebar
               onNavigate={() => setMobileOpen(false)}
               platformTotal={platformTotal}
