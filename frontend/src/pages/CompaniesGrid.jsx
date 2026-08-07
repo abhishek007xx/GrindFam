@@ -102,46 +102,45 @@ export function CompaniesGrid() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* 1. Header Hero Banner — Dark Neutral with GrindFam Fox Mascot Watermark */}
-      <div className="relative overflow-hidden rounded-lg bg-[#121212] border border-white/[0.08] p-6 md:p-8">
-        {/* Fox Watermark Image */}
+      {/* 1. Header Hero Banner — Dark Slate Background (#161B22, #30363D) */}
+      <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
         <img
           src="/logo.png"
           alt="GrindFam Mascot"
-          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.06] grayscale pointer-events-none select-none"
+          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
         />
 
         <div className="relative z-10 max-w-2xl space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A] text-xs font-bold">
-            <Building2 className="w-3.5 h-3.5" />
-            <span className="uppercase tracking-tight">Hiring Popularity Tracks</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+            <Building2 className="w-3.5 h-3.5 text-[#EA5D3A]" />
+            <span>Hiring Popularity Tracks</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
+          <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
             Company DSA Tracks
           </h1>
-          <p className="text-xs md:text-sm text-[#8b949e] leading-relaxed">
-            Targeted prep kits for <strong>Internships</strong>, <strong>Campus Placements</strong>, and <strong>Senior Hiring</strong> across Google, Amazon, Microsoft, Meta & tech giants.
+          <p className="text-xs md:text-sm text-[#9CA3AF] leading-relaxed">
+            Targeted prep kits for <strong>Internships</strong>, <strong>Campus Placements</strong>, and <strong>Senior Hiring</strong> across Google, Amazon, Microsoft, Meta & top tech companies.
           </p>
         </div>
       </div>
 
-      {/* 2. 🎯 Interview Target Tracker (Asymmetrical Hero Bar) */}
+      {/* 2. Target Interview Countdown (Urgent Target Section) */}
       <InterviewTimelineTracker totalTrackProblems={100} solvedCount={0} />
 
-      {/* 3. Search & Filter Bar */}
+      {/* 3. Search & Neutral Filter Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search companies..."
-            className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-md text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full pl-10 pr-4 py-2 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
         </div>
 
-        {/* Filter Pills — Single Orange Accent for Active State */}
+        {/* Filter Pills — Neutral Dark Background (#1F2937), Active Border Highlight (Not Solid Orange Blocks) */}
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
           {[
             { id: 'ALL', label: 'All Roles', icon: null },
@@ -152,10 +151,10 @@ export function CompaniesGrid() {
             <button
               key={filter.id}
               onClick={() => setSelectedRoleFilter(filter.id)}
-              className={`px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 border ${
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5 border ${
                 selectedRoleFilter === filter.id
-                  ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] shadow-md shadow-[#EA5D3A]/20'
-                  : 'bg-[#161b22] text-[#8b949e] border-[#30363d] hover:text-white hover:border-[#484f58]'
+                  ? 'bg-[#1F2937] text-white border-[#EA5D3A] shadow-sm'
+                  : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'
               }`}
             >
               <span>{filter.label}</span>
@@ -164,18 +163,18 @@ export function CompaniesGrid() {
         </div>
       </div>
 
-      {/* 4. Company Cards Grid — Asymmetrical Feature Card (#1 Featured, rest compact) */}
+      {/* 4. Company Cards Grid — #161B22 Cards with #30363D Borders */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-            <div key={n} className="h-52 rounded-lg bg-[#161b22]/50 border border-[#30363d] animate-pulse p-4 space-y-3" />
+            <div key={n} className="h-52 rounded-lg bg-[#161B22]/50 border border-[#30363D] animate-pulse p-4 space-y-3" />
           ))}
         </div>
       ) : filteredCompanies.length === 0 ? (
-        <div className="text-center py-12 bg-[#121212] border border-white/[0.08] rounded-lg p-6 space-y-2">
-          <Building2 className="w-10 h-10 text-[#6e7681] mx-auto" />
-          <h3 className="text-sm font-bold text-white uppercase tracking-tight">No Companies Found</h3>
-          <p className="text-xs text-[#8b949e]">Try adjusting your search query or role filter.</p>
+        <div className="text-center py-12 bg-[#161B22] border border-[#30363D] rounded-lg p-6 space-y-2">
+          <Building2 className="w-10 h-10 text-[#6B7280] mx-auto" />
+          <h3 className="text-sm font-semibold text-[#F3F4F6]">No Companies Found</h3>
+          <p className="text-xs text-[#9CA3AF]">Try adjusting your search query or role filter.</p>
         </div>
       ) : (
         <motion.div
@@ -196,17 +195,17 @@ export function CompaniesGrid() {
                   const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
                   navigate(`/company/${comp.slug}/${firstTrackId}`);
                 }}
-                className={`group relative rounded-lg transition-all duration-200 cursor-pointer flex flex-col justify-between p-4 ${
+                className={`group relative rounded-lg transition-all duration-200 cursor-pointer flex flex-col justify-between p-5 bg-[#161B22] border ${
                   isFeatured
-                    ? 'bg-[#181818] border-2 border-[#EA5D3A]/50 shadow-xl shadow-[#EA5D3A]/10 md:col-span-2'
-                    : 'bg-[#121212] border border-white/[0.08] hover:border-[#EA5D3A]/40 hover:bg-[#151515]'
+                    ? 'border-[#EA5D3A]/40 shadow-lg shadow-[#EA5D3A]/5 md:col-span-2'
+                    : 'border-[#30363D] hover:border-[#4B5563]'
                 }`}
               >
                 <div className="space-y-3">
                   {/* Featured Badge Header for #1 Card */}
                   {isFeatured && (
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="px-2 py-0.5 rounded-full bg-[#EA5D3A]/20 text-[#EA5D3A] text-[10px] font-black uppercase tracking-wider border border-[#EA5D3A]/30">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30">
                         Featured Target Track
                       </span>
                     </div>
@@ -214,7 +213,7 @@ export function CompaniesGrid() {
 
                   <div className="flex items-center justify-between gap-3">
                     {/* Real Company Brand Logo */}
-                    <div className="w-10 h-10 rounded-md bg-[#181818] border border-white/10 p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform flex-shrink-0">
+                    <div className="w-10 h-10 rounded-md bg-[#1F2937] border border-[#30363D] p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform flex-shrink-0">
                       {comp.logo_url ? (
                         <img
                           src={comp.logo_url}
@@ -233,26 +232,26 @@ export function CompaniesGrid() {
                       </div>
                     </div>
 
-                    {/* Single Compact Meta-Line (No pill-overload) */}
+                    {/* Single Compact Meta-Line */}
                     <div className="text-right">
-                      <p className="text-[11px] font-medium text-[#8b949e]">
+                      <p className="text-[11px] font-medium text-[#9CA3AF]">
                         {isTopCompany ? 'Top Tech' : 'Tech Giant'} • {comp.company_tracks?.length || 3} Tracks
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-base font-extrabold text-white group-hover:text-[#EA5D3A] transition-colors flex items-center justify-between">
+                    <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors flex items-center justify-between">
                       <span>{comp.name}</span>
-                      <ArrowRight className="w-4 h-4 text-[#6e7681] group-hover:text-[#EA5D3A] group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-4 h-4 text-[#6B7280] group-hover:text-[#EA5D3A] group-hover:translate-x-0.5 transition-all" />
                     </h3>
-                    <p className="text-[11px] text-[#6e7681] font-mono mt-0.5">/{comp.slug}</p>
+                    <p className="text-[11px] text-[#6B7280] font-mono mt-0.5">/{comp.slug}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
-                  <span className="text-[#6e7681] text-[11px]">Intern, Campus, Senior</span>
-                  <span className="font-semibold text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform text-[11px] flex items-center gap-1">
+                <div className="pt-3 mt-3 border-t border-[#21262D] flex items-center justify-between text-xs">
+                  <span className="text-[#6B7280] text-[11px]">Intern, Campus, Senior</span>
+                  <span className="font-medium text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform text-[11px] flex items-center gap-1">
                     Explore →
                   </span>
                 </div>

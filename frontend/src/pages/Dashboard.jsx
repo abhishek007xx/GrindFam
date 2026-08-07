@@ -325,49 +325,49 @@ const Dashboard = () => {
                 onEditTarget={() => setIsEditModalOpen(true)}
               />
 
-              {/* 🏆 Social Category Hub Navigation */}
-              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2 bg-[#0d1117] p-1.5 rounded-xl border border-[#21262d]">
+              {/* Social Category Hub Navigation */}
+              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#161B22] border border-[#30363D] rounded-lg">
+                <div className="flex items-center gap-2 bg-[#0D1117] p-1 rounded-md border border-[#30363D]">
                   <button
                     onClick={() => setSocialTab('leaderboard')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'leaderboard'
-                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
-                        : 'text-[#8b949e] hover:text-white'
+                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
+                        : 'text-[#9CA3AF] hover:text-white'
                     }`}
                   >
-                    <span>🏆 Leaderboard</span>
+                    <span>Leaderboard</span>
                   </button>
 
                   <button
                     onClick={() => setSocialTab('squad')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'squad'
-                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
-                        : 'text-[#8b949e] hover:text-white'
+                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
+                        : 'text-[#9CA3AF] hover:text-white'
                     }`}
                   >
-                    <span>🛡️ Squad Hub</span>
+                    <span>Squad Hub</span>
                   </button>
 
                   <button
                     onClick={() => setSocialTab('friends')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-extrabold transition-all ${
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'friends'
-                        ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
-                        : 'text-[#8b949e] hover:text-white'
+                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
+                        : 'text-[#9CA3AF] hover:text-white'
                     }`}
                   >
-                    <span>👥 Friends ({dashboardData.stats?.totalFriends || 0})</span>
+                    <span>Friends ({dashboardData.stats?.totalFriends || 0})</span>
                   </button>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsSquadModalOpen(true)}
-                    className="px-3.5 py-2 rounded-xl bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] text-white text-xs font-bold flex items-center gap-1.5 transition-all"
+                    className="px-3 py-1.5 rounded-md bg-[#1F2937] hover:bg-[#374151] border border-[#30363D] text-[#F3F4F6] text-xs font-medium flex items-center gap-1.5 transition-all"
                   >
-                    <Shield className="w-4 h-4 text-[#EA5D3A]" /> Squad Options
+                    <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
                   </button>
                 </div>
               </div>

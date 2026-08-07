@@ -5,21 +5,20 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { margin: 0; background-color: #0a0e17; }
+body { margin: 0; background-color: #0D1117; }
 
 :root {
-  --color-bg:               #0d1117;
-  --color-surface:          #121212;
-  --color-surface-elevated: #161b22;
-  --color-border:           #21262d;
-  --color-border-muted:     #30363d;
-  --color-text:             #e6edf3;
-  --color-text-muted:       #8b949e;
-  --color-text-dim:         #6e7681;
-  --color-text-faint:       #484f58;
+  --color-bg:               #0D1117;
+  --color-surface:          #161B22;
+  --color-surface-elevated: #1F2937;
+  --color-border:           #30363D;
+  --color-border-muted:     #21262D;
+  --color-text:             #F3F4F6;
+  --color-text-muted:       #9CA3AF;
+  --color-text-dim:         #6B7280;
   --color-accent:           #EA5D3A;
   --color-accent-hover:     #F2704E;
-  --color-accent-pressed:   #D84C2A;
+  --color-success:          #10B981;
 
   --sidebar-width:          240px;
   --navbar-height:          56px;
@@ -48,7 +47,7 @@ body { margin: 0; background-color: #0a0e17; }
   }
 
   body {
-    @apply text-slate-200 min-h-screen antialiased;
+    @apply text-gray-200 min-h-screen antialiased;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     letter-spacing: -0.01em;
     background-color: var(--color-bg);
@@ -57,20 +56,16 @@ body { margin: 0; background-color: #0a0e17; }
     overflow-x: hidden;
   }
 
-  .font-display {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  }
-
   ::selection {
-    background-color: rgba(234, 93, 58, 0.3);
+    background-color: rgba(234, 93, 58, 0.25);
     color: #ffffff;
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #F5F5F0 !important;
-    -webkit-box-shadow: 0 0 0px 1000px #151515 inset !important;
+    -webkit-text-fill-color: #F3F4F6 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #161B22 inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -82,50 +77,11 @@ body { margin: 0; background-color: #0a0e17; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/*  Page Shell — Consistent layout across all pages               */
-/* ═══════════════════════════════════════════════════════════════ */
-.page-shell {
-  min-height: 100vh;
-  background-color: var(--color-bg);
-  display: flex;
-}
-
-.page-content {
-  flex: 1;
-  margin-left: var(--sidebar-width);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.page-main {
-  flex: 1;
-  padding: var(--content-padding);
-  overflow-y: auto;
-}
-
-.page-main-constrained {
-  flex: 1;
-  padding: var(--content-padding);
-  overflow-y: auto;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-}
-
-@media (max-width: 1023px) {
-  .page-content {
-    margin-left: 0;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Dashboard Card System — 8-10px corner rounding & 20-24px padding */
+/*  Dashboard Card System — Soft Dark Charcoal #161B22 & #30363D   */
 /* ═══════════════════════════════════════════════════════════════ */
 .dash-card {
   background: var(--color-surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 20px;
 }
@@ -134,15 +90,15 @@ body { margin: 0; background-color: #0a0e17; }
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .dash-card-hover:hover {
-  border-color: rgba(234, 93, 58, 0.3);
-  background-color: #151515;
+  border-color: #4B5563;
+  background-color: #1C2128;
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
 /*  Sidebar Navigation                                            */
 /* ═══════════════════════════════════════════════════════════════ */
 .sidebar-nav-item {
-  @apply flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-all cursor-pointer;
+  @apply flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all cursor-pointer;
   color: var(--color-text-muted);
   position: relative;
 }
@@ -151,33 +107,18 @@ body { margin: 0; background-color: #0a0e17; }
   background: rgba(255, 255, 255, 0.04);
 }
 .sidebar-nav-item.active {
-  background: rgba(234, 93, 58, 0.12);
+  background: rgba(234, 93, 58, 0.1);
   color: #EA5D3A;
-  font-weight: 700;
+  font-weight: 600;
   border-left: 3px solid #EA5D3A;
   border-radius: 0 8px 8px 0;
 }
 
-/* Sidebar mobile overlay */
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 35;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.sidebar-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 /* ═══════════════════════════════════════════════════════════════ */
-/*  Progress Bar System — Slim 5px orange progress bar            */
+/*  Progress Bar System — Muted Green for Success                 */
 /* ═══════════════════════════════════════════════════════════════ */
 .progress-track {
-  background: #1f242d;
+  background: #21262D;
   border-radius: 999px;
   overflow: hidden;
   height: 5px;
@@ -186,7 +127,7 @@ body { margin: 0; background-color: #0a0e17; }
   height: 100%;
   border-radius: 999px;
   transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-  background: #EA5D3A;
+  background: var(--color-success);
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -195,15 +136,15 @@ body { margin: 0; background-color: #0a0e17; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #30363d;
+  background: #30363D;
   border-radius: 999px;
   transition: background 0.2s;
 }
-::-webkit-scrollbar-thumb:hover { background: #484f58; }
+::-webkit-scrollbar-thumb:hover { background: #484F58; }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #30363d transparent;
+  scrollbar-color: #30363D transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -236,10 +177,10 @@ body { margin: 0; background-color: #0a0e17; }
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/*  Auth Pages Background Orbs                                    */
+/*  Auth Pages Background                                         */
 /* ═══════════════════════════════════════════════════════════════ */
 .auth-bg {
   position: relative;
   overflow: hidden;
-  background-color: #0A0A0A;
+  background-color: #0D1117;
 }
