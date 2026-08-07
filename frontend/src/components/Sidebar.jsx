@@ -23,8 +23,6 @@ const mainNavItems = [
 const socialNavItems = [
   { id: 'community', label: 'Grind Hub', icon: Users, path: '/community' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/?tab=leaderboard' },
-  { id: 'friends', label: 'Friends', icon: Shield, path: '/?tab=friends' },
-  { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/?tab=addFriend' },
 ];
 
 const settingsNavItems = [
