@@ -14,6 +14,39 @@ import {
   GraduationCap, Briefcase, Layers
 } from 'lucide-react';
 
+function ProgressRing({ percentage = 0, size = 80, strokeWidth = 8 }) {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="transform -rotate-90">
+        <circle
+          cx={size / 2} cy={size / 2} r={radius}
+          stroke="#21262D" strokeWidth={strokeWidth} fill="transparent"
+        />
+        <circle
+          cx={size / 2} cy={size / 2} r={radius}
+          stroke="url(#comp-emerald-glow)" strokeWidth={strokeWidth} fill="transparent"
+          strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-700 ease-out"
+        />
+        <defs>
+          <linearGradient id="comp-emerald-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#10B981" />
+            <stop offset="100%" stopColor="#14B8A6" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span className="absolute text-sm font-bold text-white font-mono">
+        {percentage}%
+      </span>
+    </div>
+  );
+}
+
 export function TrackDetail() {
   const { companySlug, trackId } = useParams();
   const navigate = useNavigate();
@@ -44,7 +77,6 @@ export function TrackDetail() {
       try {
         setLoading(true);
 
-        // 1. Try fetching from Supabase
         const { data: trackData, error: trackErr } = await supabase
           .from('company_tracks')
           .select('*, companies(*)')
@@ -55,14 +87,14 @@ export function TrackDetail() {
           setCompanyTrack(trackData);
           setCompany(trackData.companies);
 
-          const { data: problemsData, error: probErr } = await supabase
+          const { data: problemsData } = await supabase
             .from('problems')
             .select('*')
             .eq('source_id', trackId)
             .eq('source_type', 'company')
             .order('frequency_score', { ascending: false });
 
-          if (!probErr) setProblems(problemsData || []);
+          setProblems(problemsData || []);
 
           if (user && problemsData && problemsData.length > 0) {
             const problemIds = problemsData.map(p => p.id);
@@ -86,7 +118,6 @@ export function TrackDetail() {
           }
         } else {
           // Fallback to local dataset
-          console.warn('Supabase track query failed or empty. Loading local track fallback.');
           const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
           setCompany({
             id: `local-${compObj.slug}`,
@@ -95,7 +126,6 @@ export function TrackDetail() {
             logo_url: compObj.logo_url
           });
 
-          // Match role or first role
           const roleObj = compObj.roles.find(r => trackId.includes(r.role_name) || trackId.includes(compObj.slug)) || compObj.roles[0];
           setCompanyTrack({
             id: trackId,
@@ -116,29 +146,7 @@ export function TrackDetail() {
           setProblems(localProbs);
         }
       } catch (err) {
-        console.warn('Error connecting to Supabase. Loading local track fallback.', err);
-        const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
-        setCompany({
-          id: `local-${compObj.slug}`,
-          name: compObj.company_name === 'Meta / Facebook' ? 'Meta' : compObj.company_name,
-          slug: compObj.slug,
-          logo_url: compObj.logo_url
-        });
-        const roleObj = compObj.roles[0];
-        setCompanyTrack({
-          id: trackId,
-          role: roleObj.role_name,
-          level: roleObj.level,
-          guidelines: roleObj.guidelines || {}
-        });
-        setProblems((roleObj.problems || []).map((p, idx) => ({
-          id: `local-prob-${compObj.slug}-${idx}-${p.leetcode_slug}`,
-          title: p.title,
-          leetcode_slug: p.leetcode_slug,
-          difficulty: p.difficulty || "Medium",
-          frequency_score: p.frequency_score || 5,
-          topic_tags: p.topic_tags || []
-        })));
+        console.warn('Error fetching track details.', err);
       } finally {
         setLoading(false);
       }
@@ -259,32 +267,37 @@ export function TrackDetail() {
   const guidelines = companyTrack?.guidelines || {};
 
   return (
-    <div className="space-y-8 animate-fadeIn pb-12">
-      {/* Back Navigation */}
+    <div className="space-y-6 animate-fadeIn pb-12">
+      {/* Back Navigation identical to SheetDetail */}
       <button
         onClick={() => navigate('/companies')}
-        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#181514] border border-zinc-800 text-xs font-bold text-zinc-300 hover:text-white hover:border-[#EA5D3A]/50 hover:bg-[#EA5D3A]/10 transition-all"
+        className="flex items-center gap-2 text-xs font-semibold text-[#8B949E] hover:text-white transition-colors"
       >
-        <ArrowLeft className="w-4 h-4 text-[#EA5D3A]" />
+        <ArrowLeft className="w-4 h-4" />
         <span>Back to Company Tracks</span>
       </button>
 
       {loading ? (
         <div className="space-y-6 animate-pulse">
-          <div className="h-32 bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl" />
-          <div className="h-64 bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl" />
+          <div className="h-48 bg-[#161B22]/50 border border-[#30363D] rounded-lg" />
+          <div className="h-64 bg-[#161B22]/50 border border-[#30363D] rounded-lg" />
         </div>
       ) : (
         <>
-          {/* ── 1. Compact Hero Header Banner ── */}
-          <div className="relative overflow-hidden bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl p-5 md:p-6 shadow-xl space-y-5">
-            {/* Subtle Glow Spheres */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#EA5D3A]/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Hero Banner Card identical to SheetDetail */}
+          <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+                  {companyTrack?.role || 'DSA Track'}
+                </span>
+                <span className="px-2.5 py-0.5 rounded bg-[#161B22] border border-[#30363D] text-[#8B949E] text-xs font-medium">
+                  Level: {companyTrack?.level || 'All Levels'}
+                </span>
+              </div>
 
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              {/* Left Company Details */}
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#171717] border border-[#262626] p-2.5 flex items-center justify-center flex-shrink-0 shadow-md">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-lg bg-[#1F2937] border border-[#30363D] p-2 flex items-center justify-center flex-shrink-0">
                   {company?.logo_url ? (
                     <img
                       src={company.logo_url}
@@ -298,237 +311,77 @@ export function TrackDetail() {
                       }}
                     />
                   ) : null}
-                  <span className="font-extrabold text-[#EA5D3A] text-lg hidden">{company?.name?.slice(0, 2).toUpperCase()}</span>
+                  <span className="font-bold text-white text-base hidden">{company?.name?.slice(0, 2).toUpperCase()}</span>
                 </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">{company?.name}</h1>
-                    <span className="px-2.5 py-0.5 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] text-xs font-bold">
-                      {companyTrack?.role || 'DSA Track'}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-lg bg-[#171717] border border-[#262626] text-[#8A8A85] text-xs font-medium">
-                      Level: {companyTrack?.level || 'All Levels'}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#8A8A85] flex items-center gap-1.5 font-medium">
-                    <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                    <span>Official Interview Guidelines & Frequency Tagged Problems</span>
-                  </p>
-                </div>
+                <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
+                  {company?.name} Track
+                </h1>
               </div>
 
-              {/* Right Progress Summary Card & Back CTA */}
-              <div className="flex items-center gap-4 flex-wrap md:flex-nowrap justify-between md:justify-end">
-                <div className="bg-[#171717] border border-[#262626] rounded-2xl p-3 min-w-[210px] space-y-1.5">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-[#FAFAFA]">Track Progress</span>
-                    <span className="font-mono font-extrabold text-[#EA5D3A]">{completionPercentage}%</span>
-                  </div>
-
-                  <div className="w-full bg-[#0A0A0A] h-2 rounded-full overflow-hidden border border-[#1F1F1F]">
-                    <div
-                      className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500 shadow-sm"
-                      style={{ width: `${completionPercentage}%` }}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[10px] text-[#8A8A85]">
-                    <span>{solvedCount} / {totalProblems} Solved</span>
-                    {revisionCount > 0 && (
-                      <span className="text-amber-400 font-semibold">{revisionCount} Needs Revision</span>
-                    )}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => navigate('/companies')}
-                  className="px-3.5 py-2 rounded-xl bg-[#171717] hover:bg-[#222222] border border-[#262626] text-xs font-bold text-[#8A8A85] hover:text-[#FAFAFA] transition-all flex items-center gap-1.5 flex-shrink-0"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  <span>Back</span>
-                </button>
-              </div>
+              <p className="text-xs md:text-sm text-[#9CA3AF]">
+                Official interview guidelines & frequency-tagged DSA problem checklist for {company?.name}.
+              </p>
             </div>
 
-            {/* ── 2. Segmented Role Track Switcher Bar ── */}
-            <div className="pt-4 border-t border-[#1F1F1F] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#8A8A85] flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                <span>Select Target Role Track:</span>
-              </span>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 flex-1 max-w-2xl">
-                {[
-                  {
-                    title: 'Intern Track',
-                    badge: 'Internship',
-                    icon: GraduationCap
-                  },
-                  {
-                    title: 'Campus Placement',
-                    badge: 'Placement Sprint',
-                    icon: Flame
-                  },
-                  {
-                    title: 'Senior Level Track',
-                    badge: 'System Design & SDE',
-                    icon: Briefcase
-                  }
-                ].map((trackOpt, rIdx) => {
-                  const isActive = activeRoleIdx === rIdx;
-                  const IconComp = trackOpt.icon;
-                  const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
-                  const roleObj = compObj.roles[rIdx] || compObj.roles[0];
-                  const pCount = roleObj.problems ? roleObj.problems.length : 0;
-
-                  return (
-                    <button
-                      key={trackOpt.title}
-                      onClick={() => {
-                        setActiveRoleIdx(rIdx);
-                        setCompanyTrack({
-                          id: trackId,
-                          role: roleObj.role_name,
-                          level: roleObj.level,
-                          guidelines: roleObj.guidelines || {}
-                        });
-                        const localProbs = (roleObj.problems || []).map((p, idx) => ({
-                          id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
-                          title: p.title,
-                          leetcode_slug: p.leetcode_slug,
-                          difficulty: p.difficulty || "Medium",
-                          frequency_score: p.frequency_score || 5,
-                          topic_tags: p.topic_tags || [],
-                          step_name: roleObj.role_name
-                        }));
-                        setProblems(localProbs);
-                      }}
-                      className={`px-3.5 py-2.5 rounded-xl border text-xs transition-all flex items-center justify-between gap-2 text-left ${
-                        isActive
-                          ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] font-bold shadow-lg shadow-[#EA5D3A]/20'
-                          : 'bg-[#171717] border border-[#262626] text-[#8A8A85] hover:text-[#FAFAFA] hover:border-[#EA5D3A]/40'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <IconComp className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? 'text-white' : 'text-[#EA5D3A]'}`} />
-                        <span className="truncate">{trackOpt.title}</span>
-                      </div>
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono flex-shrink-0 ${isActive ? 'bg-black/30 text-white font-bold' : 'bg-[#0A0A0A] text-[#8A8A85]'}`}>
-                        {pCount}
-                      </span>
-                    </button>
-                  );
-                })}
+            <div className="flex items-center gap-6 flex-shrink-0 self-start md:self-center bg-[#1F2937]/50 border border-[#30363D] p-4 rounded-lg">
+              <ProgressRing percentage={completionPercentage} size={76} strokeWidth={7} />
+              <div className="space-y-1">
+                <div className="text-xs font-medium text-[#9CA3AF]">Solved Progress</div>
+                <div className="text-sm font-bold text-white font-mono">{solvedCount} / {totalProblems}</div>
+                <div className="text-[11px] text-[#10B981] font-semibold">{totalProblems - solvedCount} Remaining</div>
               </div>
             </div>
           </div>
 
-          {/* ── 3. Collapsible Interview Guidelines Insights Box ── */}
-          <div className="bg-[#0E0E0E] border border-[#1F1F1F] rounded-2xl overflow-hidden shadow-lg">
-            <button
-              onClick={() => setOpenCategories(prev => ({ ...prev, __GUIDE_OPEN__: !(prev.__GUIDE_OPEN__ ?? false) }))}
-              className="w-full px-5 py-3.5 bg-[#131313] hover:bg-[#181818] border-b border-[#1F1F1F] flex items-center justify-between text-xs font-bold text-[#FAFAFA] transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#EA5D3A]" />
-                <span>Interview Insights & Format Guidelines ({company?.name})</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-[#8A8A85] hover:text-[#FAFAFA]">
-                <span className="text-[11px] font-semibold">
-                  {openCategories.__GUIDE_OPEN__ ? 'Hide Insights' : 'View Guidelines'}
-                </span>
-                {openCategories.__GUIDE_OPEN__ ? (
-                  <ChevronUp className="w-4 h-4 text-[#EA5D3A]" />
-                ) : (
-                  <ChevronDown className="w-4 h-4 text-[#8A8A85]" />
-                )}
-              </div>
-            </button>
+          {/* Role Track Switcher Bar */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {[
+              { title: 'Intern Track', icon: GraduationCap },
+              { title: 'Campus Placement', icon: Flame },
+              { title: 'Senior Level Track', icon: Briefcase }
+            ].map((trackOpt, rIdx) => {
+              const isActive = activeRoleIdx === rIdx;
+              const IconComp = trackOpt.icon;
+              const compObj = companiesData.find(c => c.slug === companySlug) || companiesData[0];
+              const roleObj = compObj.roles[rIdx] || compObj.roles[0];
+              const pCount = roleObj.problems ? roleObj.problems.length : 0;
 
-            {openCategories.__GUIDE_OPEN__ && (
-              <div className="p-5 md:p-6 space-y-6 animate-fadeIn bg-[#0E0E0E]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Interview Format */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-extrabold text-[#FAFAFA] uppercase tracking-wider">
-                      <Target className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                      <span>Interview Format Rounds</span>
-                    </div>
-                    <div className="space-y-2">
-                      {guidelines.interview_format && guidelines.interview_format.length > 0 ? (
-                        guidelines.interview_format.map((step, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-[#141414] border border-[#222222] flex items-start gap-2.5 text-xs text-[#E5E2E1]">
-                            <span className="w-4 h-4 rounded-full bg-[#EA5D3A]/20 text-[#EA5D3A] text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                              {idx + 1}
-                            </span>
-                            <p className="leading-snug">{step}</p>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-xs text-[#8A8A85]">Standard DSA & System Design rounds.</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Key Topics Weightage */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-extrabold text-[#FAFAFA] uppercase tracking-wider">
-                      <Award className="w-3.5 h-3.5 text-[#F97316]" />
-                      <span>Key Topics Weightage</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {guidelines.key_topics_weightage && Object.keys(guidelines.key_topics_weightage).length > 0 ? (
-                        Object.entries(guidelines.key_topics_weightage).map(([topic, weight]) => (
-                          <div
-                            key={topic}
-                            className="px-3 py-1.5 rounded-xl bg-[#141414] border border-[#222222] flex items-center gap-2 text-xs font-medium text-[#E5E2E1]"
-                          >
-                            <span>{topic}</span>
-                            <span className="px-1.5 py-0.5 rounded bg-[#EA5D3A]/20 text-[#EA5D3A] font-bold text-[10px]">
-                              {weight}
-                            </span>
-                          </div>
-                        ))
-                      ) : (
-                        <p className="text-xs text-[#8A8A85]">Arrays, Trees, Graphs, DP, System Design.</p>
-                      )}
-                    </div>
-
-                    {/* Behavioral Focus */}
-                    {guidelines.behavioral_focus && (
-                      <div className="pt-3 border-t border-[#1F1F1F] space-y-1">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
-                          <MessageSquare className="w-3 h-3" />
-                          <span>Culture & Behavioral Focus</span>
-                        </div>
-                        <p className="text-xs text-[#8A8A85] italic leading-relaxed bg-[#141414] p-2.5 rounded-xl border border-[#222222]">
-                          "{guidelines.behavioral_focus}"
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Common Rejection Points */}
-                {guidelines.common_rejection_reasons && guidelines.common_rejection_reasons.length > 0 && (
-                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-1.5">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-rose-400">
-                      <AlertTriangle className="w-3.5 h-3.5" />
-                      <span>Common Rejection Points</span>
-                    </div>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-[#E5E2E1]">
-                      {guidelines.common_rejection_reasons.map((reason, i) => (
-                        <li key={i} className="flex items-start gap-1.5">
-                          <span className="text-rose-400 font-bold">•</span>
-                          <span>{reason}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
+              return (
+                <button
+                  key={trackOpt.title}
+                  onClick={() => {
+                    setActiveRoleIdx(rIdx);
+                    setCompanyTrack({
+                      id: trackId,
+                      role: roleObj.role_name,
+                      level: roleObj.level,
+                      guidelines: roleObj.guidelines || {}
+                    });
+                    const localProbs = (roleObj.problems || []).map((p, idx) => ({
+                      id: `local-prob-${compObj.slug}-${rIdx}-${idx}-${p.leetcode_slug}`,
+                      title: p.title,
+                      leetcode_slug: p.leetcode_slug,
+                      difficulty: p.difficulty || "Medium",
+                      frequency_score: p.frequency_score || 5,
+                      topic_tags: p.topic_tags || [],
+                      step_name: roleObj.role_name
+                    }));
+                    setProblems(localProbs);
+                  }}
+                  className={`px-3.5 py-2 rounded-md text-xs font-medium transition-all whitespace-nowrap border flex items-center gap-2 ${
+                    isActive
+                      ? 'bg-[#1F2937] text-white border-[#EA5D3A] shadow-sm font-semibold'
+                      : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'
+                  }`}
+                >
+                  <IconComp className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EA5D3A]'}`} />
+                  <span>{trackOpt.title}</span>
+                  <span className="px-1.5 py-0.2 rounded bg-[#111827] text-[#9CA3AF] text-[10px] font-mono">
+                    {pCount}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* MIDDLE SECTION: Filters & Search Controls */}
