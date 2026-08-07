@@ -34,6 +34,10 @@ const fetchUserTodayData = async (username) => {
       query getUserProfile($username: String!) {
         matchedUser(username: $username) {
           username
+          profile {
+            userAvatar
+            realName
+          }
           submitStatsGlobal {
             acSubmissionNum {
               difficulty
@@ -120,9 +124,11 @@ const fetchUserTodayData = async (username) => {
       });
 
       const todayCount = todayProblemSlugs.size;
+      const avatarUrl = data.matchedUser.profile?.userAvatar || null;
 
       return {
         username: cleanUsername,
+        avatarUrl,
         totalSolved,
         todayCount,
         easyCount,

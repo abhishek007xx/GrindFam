@@ -222,8 +222,17 @@ const LeaderboardTable = ({
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="relative">
-                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-xs border border-white/20 shadow-md`}>
-                        {initials}
+                      <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-xs border border-white/20 shadow-md overflow-hidden`}>
+                        {user.avatarUrl ? (
+                          <img
+                            src={user.avatarUrl}
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          />
+                        ) : (
+                          initials
+                        )}
                       </div>
                       {isGold && (
                         <div className="absolute -top-2 -right-1 text-amber-400 text-sm animate-pulse">

@@ -145,6 +145,14 @@ const getDashboardData = async (req, res) => {
 
           if (!lcData.error) {
             try {
+              if (lcData.avatarUrl) {
+                await supabase
+                  .from('profiles')
+                  .update({ avatar_url: lcData.avatarUrl })
+                  .eq('id', profile.id);
+                profile.avatar_url = lcData.avatarUrl;
+              }
+
               // Sync historical submission calendar into daily_activity
               await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, true);
 
@@ -224,6 +232,7 @@ const getDashboardData = async (req, res) => {
           id: profile.id,
           name: profile.name || profile.leetcode_username || 'Grinder',
           leetcodeUsername: profile.leetcode_username,
+          avatarUrl: profile.avatar_url || null,
           isSelf: profile.isSelf,
           relationshipId: profile.relationshipId,
           platformTotal,

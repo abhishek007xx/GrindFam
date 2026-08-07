@@ -300,16 +300,34 @@ export default function Sidebar({
           title={`${name} (@${handle})`}
           onClick={() => navigate('/settings')}
         >
-          <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20">
-            {initials}
+          <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 overflow-hidden flex-shrink-0">
+            {profile?.avatar_url || profile?.avatarUrl ? (
+              <img
+                src={profile.avatar_url || profile.avatarUrl}
+                alt={name}
+                className="w-full h-full object-cover"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+            ) : (
+              initials
+            )}
           </div>
         </div>
       ) : (
         <div className="p-2.5 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0 cursor-pointer" onClick={() => navigate('/settings')}>
-              <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0">
-                {initials}
+              <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
+                {profile?.avatar_url || profile?.avatarUrl ? (
+                  <img
+                    src={profile.avatar_url || profile.avatarUrl}
+                    alt={name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                ) : (
+                  initials
+                )}
               </div>
               <div className="min-w-0">
                 <p className="text-xs font-bold text-white dark:text-white light:text-slate-900 truncate leading-tight">
