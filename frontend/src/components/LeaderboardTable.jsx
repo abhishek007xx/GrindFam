@@ -67,26 +67,26 @@ const LeaderboardTable = ({
   const getRankDisplay = (rank) => {
     if (rank === 1) {
       return (
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 font-black text-xs border border-amber-500/40 shadow-sm shadow-amber-500/20">
-          👑 1
+        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-[#EA5D3A]/20 text-[#EA5D3A] font-bold text-xs border border-[#EA5D3A]/30">
+          #1
         </span>
       );
     }
     if (rank === 2) {
       return (
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-300/20 text-slate-200 font-black text-xs border border-slate-300/40">
-          🥈 2
+        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-slate-300/20 text-slate-200 font-bold text-xs border border-slate-300/40">
+          #2
         </span>
       );
     }
     if (rank === 3) {
       return (
-        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-700/30 text-amber-300 font-black text-xs border border-amber-600/40">
-          🥉 3
+        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-amber-700/30 text-amber-300 font-bold text-xs border border-amber-600/40">
+          #3
         </span>
       );
     }
-    return <span className="text-sm font-bold text-[#6e7681] ml-2">#{rank}</span>;
+    return <span className="text-xs font-semibold text-[#9CA3AF] ml-2">#{rank}</span>;
   };
 
   const getStatusBadge = (user) => {
@@ -136,7 +136,7 @@ const LeaderboardTable = ({
             className="absolute top-3 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-purple-600/90 border border-purple-400/50 text-white text-xs font-bold shadow-xl backdrop-blur-md flex items-center gap-2"
           >
             <Zap className="w-4 h-4 fill-white text-white animate-bounce" />
-            <span>Nudge sent to {nudgedUser}! Keep grinding! 💪</span>
+            <span>Nudge sent to {nudgedUser}! Keep grinding!</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -363,7 +363,7 @@ const LeaderboardTable = ({
 
       {/* Footer */}
       <div className="px-5 py-3 border-t border-[#21262d] flex items-center justify-between text-xs text-[#8b949e]">
-        <span>🔥 Hit {dailyTarget} problems daily to climb the leaderboard!</span>
+        <span>Hit {dailyTarget} problems daily to climb the leaderboard!</span>
         <span className="font-semibold text-[#EA5D3A] flex items-center gap-1 cursor-pointer hover:underline">
           {sortedLeaderboard.length} Squad Members Active <ArrowRight className="w-3 h-3" />
         </span>

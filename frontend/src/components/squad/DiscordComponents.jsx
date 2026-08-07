@@ -1,4 +1,5 @@
 import React from 'react';
+import { Crown } from 'lucide-react';
 
 export function SquadIcon({ squad, isActive, onClick }) {
   const letter = (squad?.name || 'S')[0].toUpperCase();
@@ -59,7 +60,7 @@ export function MemberCard({ member, isCurrentUser }) {
           {member.name}
         </span>
         {isAdmin && (
-          <span className="text-[10px] flex-shrink-0" title="Admin">👑</span>
+          <Crown className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" title="Admin" />
         )}
       </div>
     </div>

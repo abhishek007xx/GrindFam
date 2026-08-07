@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ExternalLink, Flame, CheckCircle2, MessageSquare } from 'lucide-react';
+import { X, ExternalLink, Flame, CheckCircle2, MessageSquare, Crown, Shield, GraduationCap } from 'lucide-react';
 import { supabase } from '../../supabase';
 import { useSquadStore } from '../../store/useSquadStore';
 
@@ -68,11 +68,11 @@ export default function MemberPopover({ member, onClose }) {
               }`} />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#dce5d9] flex items-center gap-1.5">
+              <h3 className="text-base font-bold text-[#F3F4F6] flex items-center gap-1.5">
                 {member.name}
-                {roles.includes('admin') && <span title="Admin">👑</span>}
-                {roles.includes('moderator') && <span title="Moderator">🛡️</span>}
-                {roles.includes('mentor') && <span title="Mentor">🎓</span>}
+                {roles.includes('admin') && <Crown className="w-4 h-4 text-amber-400" title="Admin" />}
+                {roles.includes('moderator') && <Shield className="w-4 h-4 text-blue-400" title="Moderator" />}
+                {roles.includes('mentor') && <GraduationCap className="w-4 h-4 text-purple-400" title="Mentor" />}
               </h3>
               <p className="text-xs text-[#869585]">@{leetcodeUser || 'grinder'}</p>
             </div>

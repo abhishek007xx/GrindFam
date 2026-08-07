@@ -71,7 +71,7 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
   const renderNavGroup = (items, label) => (
     <div className="mb-2">
       {label && (
-        <p className="px-3 pt-3 pb-1 text-[10px] font-semibold text-[#6B7280] uppercase tracking-wider">{label}</p>
+        <p className="px-3 pt-3 pb-1 text-[10px] font-semibold text-[#71717A] uppercase tracking-wider">{label}</p>
       )}
       {items.map((item) => {
         const isActive = (item.path && location.pathname === item.path) || activeSection === item.id;
@@ -79,13 +79,13 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
           <div
             key={item.id}
             onClick={() => handleClick(item)}
-            className={`flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium cursor-pointer transition-all ${
+            className={`flex items-center gap-3 px-3 py-2 text-xs font-medium cursor-pointer transition-all ${
               isActive
-                ? 'bg-[#EA5D3A]/10 text-[#EA5D3A] border-l-3 border-[#EA5D3A] rounded-l-none'
-                : 'text-[#9CA3AF] hover:text-white hover:bg-white/5'
+                ? 'bg-[#EA5D3A]/10 text-white border-l-2 border-[#EA5D3A] rounded-r-md'
+                : 'text-[#A1A1AA] hover:text-white hover:bg-white/5 rounded-md'
             }`}
           >
-            <item.icon className="w-4 h-4 flex-shrink-0" />
+            <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-[#EA5D3A]' : ''}`} />
             <span>{item.label}</span>
           </div>
         );
@@ -94,55 +94,55 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
   );
 
   return (
-    <div className="flex flex-col h-full p-4 gap-1 bg-[#0D1117] border-r border-[#1F2937]">
+    <div className="flex flex-col h-full p-4 gap-1 bg-[#09090B] border-r border-[#27272A]">
       {/* Logo */}
-      <div className="px-2 h-12 flex items-center border-b border-[#1F2937] cursor-pointer flex-shrink-0 mb-2" onClick={() => { onNavigate?.(); navigate('/'); }}>
+      <div className="px-2 h-12 flex items-center border-b border-[#27272A] cursor-pointer flex-shrink-0 mb-2" onClick={() => { onNavigate?.(); navigate('/'); }}>
         <div className="flex items-center gap-2.5">
-          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-md object-cover border border-[#30363D] flex-shrink-0" />
+          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-md object-cover border border-[#27272A] flex-shrink-0" />
           <div>
             <h1 className="text-sm font-bold text-white leading-tight">
               Grind<span className="text-[#EA5D3A]">Fam</span>
             </h1>
-            <p className="text-[9px] text-[#9CA3AF] font-medium leading-none">LeetCode Squad Tracker</p>
+            <p className="text-[9px] text-[#A1A1AA] font-medium leading-none">LeetCode Squad Tracker</p>
           </div>
         </div>
       </div>
 
       {/* Nav Groups */}
-      <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-[#30363D]">
+      <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-[#27272A]">
         {renderNavGroup(mainNavItems, null)}
         {renderNavGroup(socialNavItems, 'Social')}
         {renderNavGroup(settingsNavItems, 'Settings')}
       </nav>
 
       {/* Bottom User Profile */}
-      <div className="pt-3 border-t border-[#1F2937] space-y-3 flex-shrink-0">
+      <div className="pt-3 border-t border-[#27272A] space-y-3 flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
-              <span className="text-xs font-semibold text-[#F3F4F6] truncate">{name}</span>
-              <span className="px-1 py-0.2 rounded text-[8px] font-medium bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30 flex-shrink-0">You</span>
+              <span className="text-xs font-semibold text-[#F4F4F5] truncate">{name}</span>
+              <span className="px-1.5 py-0.2 rounded text-[8px] font-medium bg-[#27272A] text-[#A1A1AA] border border-[#3F3F46] flex-shrink-0">You</span>
             </div>
-            <p className="text-[10px] text-[#9CA3AF] flex items-center gap-1">
+            <p className="text-[10px] text-[#A1A1AA] flex items-center gap-1">
               Level {level} Grinder <Flame className="w-3 h-3 text-amber-500 inline" />
             </p>
           </div>
         </div>
 
-        {/* XP Bar — Muted Green Fill #10B981 */}
+        {/* XP Bar — Emerald Green Fill #10B981 */}
         <div>
-          <div className="progress-track h-1.5 bg-[#1F2937]">
+          <div className="progress-track h-1.5 bg-[#18181B] border border-[#27272A]">
             <div className="progress-fill h-full bg-[#10B981]" style={{ width: `${xpPercent}%` }}></div>
           </div>
-          <p className="text-[9px] text-[#9CA3AF] mt-1">XP {xpInLevel} / {xpMax}</p>
+          <p className="text-[9px] text-[#71717A] mt-1">XP {xpInLevel} / {xpMax}</p>
         </div>
 
         <button
           onClick={() => { onNavigate?.(); signOut(); }}
-          className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-[#9CA3AF] hover:text-white hover:bg-white/5 text-xs font-medium transition-all"
+          className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-[#A1A1AA] hover:text-white hover:bg-white/5 text-xs font-medium transition-all"
         >
           <LogOut className="w-4 h-4" />
           <span>Sign Out</span>

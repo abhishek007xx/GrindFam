@@ -46,9 +46,9 @@ const RecentActivity = ({ leaderboard = [] }) => {
       <div className="space-y-3.5">
         {activities.length === 0 ? (
           <div className="py-6 text-center">
-            <p className="text-2xl mb-2">😴</p>
-            <p className="text-xs text-[#6e7681] font-medium">No one has solved anything today yet</p>
-            <p className="text-[10px] text-[#484f58] mt-1">Be the first to start grinding!</p>
+            <Activity className="w-8 h-8 text-[#6B7280] mx-auto mb-2 opacity-50" />
+            <p className="text-xs text-[#9CA3AF] font-medium">No one has solved anything today yet</p>
+            <p className="text-[10px] text-[#6B7280] mt-1">Be the first to start grinding!</p>
           </div>
         ) : (
           activities.map((act, i) => (

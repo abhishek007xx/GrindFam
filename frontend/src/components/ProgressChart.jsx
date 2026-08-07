@@ -109,13 +109,10 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
 // Motivational Card
 export const MotivationalCard = ({ yourTodayCount = 0, dailyTarget = 5 }) => {
   let msg = 'Start solving to light up the board!';
-  let emoji = '🚀';
   if (yourTodayCount > 0 && yourTodayCount < dailyTarget) {
     msg = `${dailyTarget - yourTodayCount} more to hit today's target. Keep pushing!`;
-    emoji = '💪';
   } else if (yourTodayCount >= dailyTarget) {
-    msg = 'Target smashed! You\'re on fire today.';
-    emoji = '🔥';
+    msg = 'Target smashed! You\'re leading by example today.';
   }
 
   return (
@@ -124,10 +121,10 @@ export const MotivationalCard = ({ yourTodayCount = 0, dailyTarget = 5 }) => {
         <span className="text-base font-bold text-white">
           {yourTodayCount >= dailyTarget ? 'Target achieved!' : 'Keep the momentum!'}
         </span>
-        <Rocket className="w-5 h-5 text-[#22c55e]" />
+        <Rocket className="w-4 h-4 text-[#EA5D3A]" />
       </div>
-      <p className="text-xs text-[#8b949e] leading-relaxed">
-        {msg} {emoji}
+      <p className="text-xs text-[#9CA3AF] leading-relaxed">
+        {msg}
       </p>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X, Search, MessageSquare, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Search, ShieldCheck, Crown, MessageSquare } from 'lucide-react';
 import { useSquadStore } from '../../store/useSquadStore';
 import { useAuth } from '../../context/AuthContext';
 
@@ -61,9 +62,9 @@ export default function NewDMModal({ isOpen, onClose }) {
                     {getInitial(m.name)}
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-white group-hover:text-[#22c55e] flex items-center gap-1">
+                    <p className="text-xs font-bold text-white group-hover:text-[#EA5D3A] flex items-center gap-1">
                       {m.name}
-                      {m.role === 'admin' && <span title="Admin">👑</span>}
+                      {m.role === 'admin' && <Crown className="w-3.5 h-3.5 text-amber-400" title="Admin" />}
                     </p>
                     <p className="text-[10px] text-[#869585]">@{m.leetcode_username || 'grinder'}</p>
                   </div>

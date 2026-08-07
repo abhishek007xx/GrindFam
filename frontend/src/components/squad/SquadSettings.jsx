@@ -256,9 +256,9 @@ export default function SquadSettings() {
                     onChange={(e) => handleRoleChange(m.user_id, e.target.value)}
                     className="px-2.5 py-1 bg-[#1a221a] border border-[#3d4a3d] rounded-lg text-xs text-white focus:outline-none focus:border-[#22c55e]"
                   >
-                    <option value="admin">👑 Admin</option>
-                    <option value="moderator">🛡️ Moderator</option>
-                    <option value="mentor">🎓 Mentor</option>
+                    <option value="admin">Admin</option>
+                    <option value="moderator">Moderator</option>
+                    <option value="mentor">Mentor</option>
                     <option value="member">Member</option>
                   </select>
                 </div>

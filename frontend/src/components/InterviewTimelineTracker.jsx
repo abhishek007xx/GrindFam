@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Target, CheckCircle2, Flame, Edit3, X } from 'lucide-react';
+import { Target, CheckCircle2, Flame, Edit3, X, AlertTriangle } from 'lucide-react';
 import { companiesData } from '../lib/dataFallback';
 
 const STORAGE_KEY = 'grindfam_interview_target';
@@ -64,23 +64,27 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
   const progressPercent = Math.min(100, Math.round((solvedCount / Math.max(1, totalTrackProblems)) * 100));
 
   return (
-    <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 relative overflow-hidden">
-      {/* Brand Fox Mascot Watermark */}
+    <div className="relative overflow-hidden bg-[#121212] border border-[#27272A] border-t border-white/10 rounded-lg p-5 dot-grid-bg">
+      {/* Muted 6% Orange Radial Blur Glow in Corner */}
+      <div className="absolute -top-12 -right-12 w-56 h-56 rounded-full bg-[#EA5D3A]/[0.06] blur-3xl pointer-events-none" />
+
+      {/* Brand Mascot Watermark */}
       <img
         src="/logo.png"
         alt="GrindFam Fox"
-        className="absolute -bottom-6 -right-6 w-36 h-36 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
+        className="absolute -bottom-6 -right-6 w-36 h-36 object-contain opacity-[0.04] grayscale pointer-events-none select-none"
       />
 
-      {/* Header Bar — Title Case Typography */}
+      {/* Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 relative z-10">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-md bg-[#27272A] border border-[#3F3F46] text-[#F59E0B] flex items-center justify-center">
             <Target className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold text-[#EA5D3A] bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 px-2 py-0.5 rounded-full">
+              {/* Neutral Dark Pill for Badge */}
+              <span className="text-[10px] font-semibold text-[#A1A1AA] bg-[#27272A] border border-[#3F3F46] px-2 py-0.5 rounded-full">
                 Target Countdown
               </span>
               {savedSuccess && (
@@ -89,18 +93,18 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                 </span>
               )}
             </div>
-            <h2 className="text-base font-bold text-[#F3F4F6] tracking-tight mt-0.5">
-              {targetCompany} <span className="text-xs font-normal text-[#9CA3AF]">({targetRole})</span>
+            <h2 className="text-base font-bold text-[#F4F4F5] tracking-tight mt-0.5">
+              {targetCompany} <span className="text-xs font-normal text-[#A1A1AA]">({targetRole})</span>
             </h2>
           </div>
         </div>
 
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="px-3 py-1.5 rounded-md bg-[#1F2937] hover:bg-[#374151] text-[#9CA3AF] hover:text-white text-xs font-medium flex items-center gap-1.5 border border-[#30363D] transition-all"
+          className="px-3 py-1.5 rounded-md bg-[#18181B] hover:bg-[#27272A] text-[#A1A1AA] hover:text-white text-xs font-medium flex items-center gap-1.5 border border-[#27272A] transition-all"
         >
           {isEditing ? <X className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5" />}
-          <span>{isEditing ? 'Close' : 'Configure'}</span>
+          <span>{isEditing ? 'Close' : 'Configure Goal'}</span>
         </button>
       </div>
 
@@ -111,15 +115,15 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-4 p-4 rounded-lg bg-[#1F2937] border border-[#30363D] space-y-3"
+            className="mb-4 p-4 rounded-lg bg-[#18181B] border border-[#27272A] space-y-3 relative z-20"
           >
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#9CA3AF] mb-1">Target Company</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Target Company</label>
                 <select
                   value={targetCompany}
                   onChange={(e) => setTargetCompany(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#121212] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] focus:outline-none focus:border-[#EA5D3A]"
                 >
                   {companiesData.map(c => (
                     <option key={c.slug} value={c.company_name}>{c.company_name}</option>
@@ -128,25 +132,25 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9CA3AF] mb-1">Role Level Track</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Role Level Track</label>
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#121212] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] focus:outline-none focus:border-[#EA5D3A]"
                 >
-                  <option value="Intern">🎓 Intern Track (OA + Fundamentals)</option>
-                  <option value="Campus Placement">🚀 Campus Placement (3-Month Sprint)</option>
-                  <option value="Senior Level">💼 Lateral / Senior Level (System Design)</option>
+                  <option value="Intern">Intern Track (OA + Fundamentals)</option>
+                  <option value="Campus Placement">Campus Placement (3-Month Sprint)</option>
+                  <option value="Senior Level">Senior Level (System Design)</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#9CA3AF] mb-1">Target Interview Date</label>
+                <label className="block text-xs font-semibold text-[#A1A1AA] mb-1">Target Interview Date</label>
                 <input
                   type="date"
                   value={interviewDate}
                   onChange={(e) => setInterviewDate(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#121212] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] focus:outline-none focus:border-[#EA5D3A]"
                 />
               </div>
             </div>
@@ -163,37 +167,40 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
         )}
       </AnimatePresence>
 
-      {/* Asymmetrical Stat Bar with Title Case & Muted Gray Labels */}
-      <div className="bg-[#1F2937] border border-[#30363D] rounded-lg p-4 mb-4 relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        {/* Dominant Main Stat: Days Left & Daily Quota */}
+      {/* Asymmetrical Stat Bar with Amber Urgency Tint */}
+      <div className="bg-[#18181B] border border-[#27272A] rounded-lg p-4 mb-4 relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Dominant Main Stat: Amber/Yellow Countdown Warning (#F59E0B) */}
         <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-bold text-[#EA5D3A] font-mono tracking-tight">{daysLeft}</span>
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-[#F59E0B]" />
+            <span className="text-3xl font-bold text-[#F59E0B] font-mono tracking-tight">{daysLeft}</span>
+          </div>
           <div>
-            <p className="text-xs font-bold text-[#F3F4F6]">Days Remaining</p>
-            <p className="text-[11px] text-[#9CA3AF]">Target date: {new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+            <p className="text-xs font-bold text-[#F4F4F5]">Days Remaining</p>
+            <p className="text-[11px] text-[#A1A1AA]">Target date: {new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
           </div>
         </div>
 
-        {/* Secondary Stats: Muted Gray Text & Green Progress Indicator */}
-        <div className="flex items-center gap-4 text-xs border-t sm:border-t-0 sm:border-l border-[#30363D] pt-3 sm:pt-0 sm:pl-4">
+        {/* Secondary Stats */}
+        <div className="flex items-center gap-4 text-xs border-t sm:border-t-0 sm:border-l border-[#27272A] pt-3 sm:pt-0 sm:pl-4">
           <div>
-            <span className="text-[11px] text-[#9CA3AF] block font-medium">Required Pace</span>
-            <span className="font-semibold text-[#F3F4F6] flex items-center gap-1">
+            <span className="text-[11px] text-[#71717A] block font-medium">Required Pace</span>
+            <span className="font-semibold text-[#F4F4F5] flex items-center gap-1">
               <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" /> {dailyQuota} problems / day
             </span>
           </div>
 
-          <div className="h-6 w-px bg-[#30363D] hidden sm:block" />
+          <div className="h-6 w-px bg-[#27272A] hidden sm:block" />
 
           <div>
-            <span className="text-[11px] text-[#9CA3AF] block font-medium">Unsolved Target</span>
-            <span className="font-mono font-semibold text-[#F3F4F6]">{remainingProblems} left</span>
+            <span className="text-[11px] text-[#71717A] block font-medium">Unsolved Target</span>
+            <span className="font-mono font-semibold text-[#F4F4F5]">{remainingProblems} left</span>
           </div>
 
-          <div className="h-6 w-px bg-[#30363D] hidden sm:block" />
+          <div className="h-6 w-px bg-[#27272A] hidden sm:block" />
 
           <div>
-            <span className="text-[11px] text-[#9CA3AF] block font-medium">Track Progress</span>
+            <span className="text-[11px] text-[#71717A] block font-medium">Track Progress</span>
             <span className="font-mono font-semibold text-[#10B981]">{progressPercent}%</span>
           </div>
         </div>
@@ -201,16 +208,16 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
 
       {/* Semantic Green Progress Bar (#10B981) */}
       <div className="relative z-10 space-y-1.5">
-        <div className="flex items-center justify-between text-[11px] font-medium text-[#9CA3AF]">
+        <div className="flex items-center justify-between text-[11px] font-medium text-[#A1A1AA]">
           <span>
             {remainingProblems === 0
-              ? '🎉 All target problems solved!'
+              ? 'All target problems solved!'
               : `Solve ${dailyQuota} problem${dailyQuota > 1 ? 's' : ''} daily to hit your ${targetCompany} goal on schedule`
             }
           </span>
           <span className="font-mono font-semibold text-[#10B981]">{solvedCount} / {totalTrackProblems} Solved</span>
         </div>
-        <div className="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden border border-[#30363D]">
+        <div className="h-1.5 w-full bg-[#18181B] rounded-full overflow-hidden border border-[#27272A]">
           <div
             className="h-full bg-[#10B981] rounded-full transition-all duration-700"
             style={{ width: `${progressPercent}%` }}

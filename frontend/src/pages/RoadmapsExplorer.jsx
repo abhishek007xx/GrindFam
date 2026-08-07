@@ -143,10 +143,10 @@ export function RoadmapsExplorer() {
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-hide">
           {[
             { id: 'ALL', label: 'All Roadmaps', icon: Compass },
-            { id: 'ROLE', label: '🎓 Role Tracks', icon: GraduationCap },
-            { id: 'COMPANY', label: '🏢 Company Kits', icon: Building2 },
-            { id: 'SHEET', label: '📚 Creator Sheets', icon: BookOpen },
-            { id: 'DATABASE', label: '🗄️ Database & Cloud', icon: Database },
+            { id: 'ROLE', label: 'Role Tracks', icon: GraduationCap },
+            { id: 'COMPANY', label: 'Company Kits', icon: Building2 },
+            { id: 'SHEET', label: 'Creator Sheets', icon: BookOpen },
+            { id: 'DATABASE', label: 'Database & Cloud', icon: Database },
           ].map(cat => (
             <button
               key={cat.id}

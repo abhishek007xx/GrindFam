@@ -345,21 +345,21 @@ export function TrackDetail() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
                       {
-                        title: '🎓 Intern Track',
+                        title: 'Intern Track',
                         badge: 'Internship & Entry Level',
                         desc: 'OA Speed Prep, Foundational DSA & CS Fundamentals',
                         icon: Sparkles,
                         color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/40 text-emerald-400'
                       },
                       {
-                        title: '🚀 Campus Placement',
+                        title: 'Campus Placement',
                         badge: '3-Month Placement Sprint',
                         desc: 'Company OA Patterns, Top Frequency 50 & HR Round',
                         icon: Flame,
                         color: 'from-indigo-500/20 to-purple-500/10 border-indigo-500/40 text-indigo-400'
                       },
                       {
-                        title: '💼 Senior Level Track',
+                        title: 'Senior Level Track',
                         badge: 'System Design & Lateral',
                         desc: 'HLD, LLD, Leadership Principles & Salary Negotiation',
                         icon: Award,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Trophy, Flame, HelpCircle, Loader2, Award } from 'lucide-react';
+import { Trophy, Flame, HelpCircle, Loader2, Award, Crown } from 'lucide-react';
 import { supabase } from '../../supabase';
 
 export default function SquadLeaderboard() {
@@ -117,38 +117,39 @@ export default function SquadLeaderboard() {
           {/* Podium for Top 3 */}
           <div className="grid grid-cols-3 gap-3 pt-4 pb-2">
             {/* Rank 2 */}
+            {/* Rank 2 */}
             {topThree[1] ? (
-              <div className="p-4 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl flex flex-col items-center justify-end text-center mt-6">
-                <div className="text-2xl mb-1">🥈</div>
-                <div className="w-10 h-10 rounded-2xl bg-[#22d3ee] flex items-center justify-center text-[#0e150e] font-bold text-sm mb-2">
+              <div className="p-4 bg-[#1F2937] border border-[#30363D] rounded-lg flex flex-col items-center justify-end text-center mt-6">
+                <Award className="w-6 h-6 text-slate-300 mb-1" />
+                <div className="w-10 h-10 rounded-full bg-[#1F2937] border border-[#30363D] flex items-center justify-center text-white font-bold text-sm mb-2">
                   {getInitial(topThree[1].name)}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[1].name}</span>
-                <span className="text-sm font-extrabold text-[#22d3ee] mt-1">{topThree[1].points} pts</span>
+                <span className="text-sm font-extrabold text-slate-300 mt-1">{topThree[1].points} pts</span>
               </div>
             ) : <div />}
 
             {/* Rank 1 */}
             {topThree[0] ? (
-              <div className="p-5 bg-[#1a221a] border-2 border-[#22c55e] rounded-2xl flex flex-col items-center justify-end text-center shadow-lg shadow-[#22c55e]/10">
-                <div className="text-3xl mb-1">🥇</div>
-                <div className="w-12 h-12 rounded-2xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] font-extrabold text-base mb-2">
+              <div className="p-5 bg-[#1F2937] border-2 border-[#EA5D3A]/50 rounded-lg flex flex-col items-center justify-end text-center shadow-lg shadow-[#EA5D3A]/10">
+                <Trophy className="w-8 h-8 text-[#EA5D3A] mb-1" />
+                <div className="w-12 h-12 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-extrabold text-base mb-2">
                   {getInitial(topThree[0].name)}
                 </div>
                 <span className="text-sm font-extrabold text-white truncate max-w-full">{topThree[0].name}</span>
-                <span className="text-base font-black text-[#22c55e] mt-1">{topThree[0].points} pts</span>
+                <span className="text-base font-black text-[#EA5D3A] mt-1">{topThree[0].points} pts</span>
               </div>
             ) : <div />}
 
             {/* Rank 3 */}
             {topThree[2] ? (
-              <div className="p-4 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl flex flex-col items-center justify-end text-center mt-8">
-                <div className="text-2xl mb-1">🥉</div>
-                <div className="w-10 h-10 rounded-2xl bg-[#ff8b7c] flex items-center justify-center text-[#0e150e] font-bold text-sm mb-2">
+              <div className="p-4 bg-[#1F2937] border border-[#30363D] rounded-lg flex flex-col items-center justify-end text-center mt-8">
+                <Award className="w-6 h-6 text-amber-600 mb-1" />
+                <div className="w-10 h-10 rounded-full bg-[#1F2937] border border-[#30363D] flex items-center justify-center text-white font-bold text-sm mb-2">
                   {getInitial(topThree[2].name)}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[2].name}</span>
-                <span className="text-sm font-extrabold text-[#ff8b7c] mt-1">{topThree[2].points} pts</span>
+                <span className="text-sm font-extrabold text-amber-600 mt-1">{topThree[2].points} pts</span>
               </div>
             ) : <div />}
           </div>
@@ -160,22 +161,22 @@ export default function SquadLeaderboard() {
               return (
                 <div
                   key={m.userId}
-                  className={`p-3.5 rounded-xl border flex items-center justify-between gap-4 transition-all ${
+                  className={`p-3.5 rounded-lg border flex items-center justify-between gap-4 transition-all ${
                     isMe
-                      ? 'bg-[#22c55e]/10 border-[#22c55e]/50 ring-1 ring-[#22c55e]/30'
-                      : 'bg-[#1a221a] border-[#3d4a3d]'
+                      ? 'bg-[#EA5D3A]/10 border-[#EA5D3A]/40'
+                      : 'bg-[#161B22] border-[#30363D]'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="font-mono text-sm font-bold text-[#869585] w-6 text-center">#{m.rank}</span>
-                    <div className="w-8 h-8 rounded-xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold flex-shrink-0">
+                    <span className="font-mono text-sm font-bold text-[#9CA3AF] w-6 text-center">#{m.rank}</span>
+                    <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                       {getInitial(m.name)}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-bold text-white truncate">{m.name}</span>
-                        {isMe && <span className="text-[9px] bg-[#22c55e]/20 text-[#22c55e] px-1.5 py-0.5 rounded font-bold">YOU</span>}
-                        {m.role === 'admin' && <span title="Admin">👑</span>}
+                        {isMe && <span className="text-[9px] bg-[#EA5D3A]/20 text-[#EA5D3A] px-1.5 py-0.5 rounded font-bold">YOU</span>}
+                        {m.role === 'admin' && <Crown className="w-3.5 h-3.5 text-amber-400" title="Admin" />}
                       </div>
                       <div className="flex items-center gap-3 text-[10px] text-[#869585] mt-0.5">
                         <span className="text-[#22c55e] font-semibold">{m.solved} Solved</span>

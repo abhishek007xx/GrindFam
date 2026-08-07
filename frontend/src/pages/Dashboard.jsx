@@ -273,15 +273,15 @@ const Dashboard = () => {
 
           {/* Greeting Header */}
           <div className="mb-6">
-            <h2 className="text-2xl font-extrabold text-white flex items-center gap-2">
-              Hey {name.split(' ')[0]}! <span className="text-2xl">👋</span>
+            <h2 className="text-2xl font-bold text-[#F3F4F6]">
+              Hey {name.split(' ')[0]}!
             </h2>
-            <p className="text-sm text-[#8b949e] mt-0.5">
+            <p className="text-sm text-[#9CA3AF] mt-0.5">
               {yourTodayCount === 0
                 ? "Time to start grinding — your squad is counting on you!"
                 : yourTodayCount >= dailyTarget
-                  ? "Target smashed! You're leading by example today. 🔥"
-                  : `${dailyTarget - yourTodayCount} more to hit today's target. Let's go! 💪`
+                  ? "Target smashed! You're leading by example today."
+                  : `${dailyTarget - yourTodayCount} more to hit today's target. Keep grinding!`
               }
             </p>
           </div>

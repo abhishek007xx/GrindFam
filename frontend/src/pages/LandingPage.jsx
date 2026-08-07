@@ -235,9 +235,9 @@ export default function LandingPage() {
               }}
             >
               {[
-                { title: '🏢 50+ Company Tracks', desc: 'Curated problem sets for Google, Meta, Microsoft, Amazon.' },
-                { title: '🔥 Daily Squad Streaks', desc: 'Stay accountable with real-time squad leaderboards.' },
-                { title: '📊 Striver & NeetCode Sheets', desc: 'Track your progress across all legendary DSA sheets.' },
+                { title: '50+ Company Tracks', desc: 'Curated problem sets for Google, Meta, Microsoft, Amazon.' },
+                { title: 'Daily Squad Streaks', desc: 'Stay accountable with real-time squad leaderboards.' },
+                { title: 'Striver & NeetCode Sheets', desc: 'Track your progress across all legendary DSA sheets.' },
               ].map((card, i) => (
                 <div
                   key={i}
@@ -336,9 +336,9 @@ export default function LandingPage() {
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))', gap:'24px' }}>
             {[
-              { icon:'🏢', title:'Company Track', desc:'Curated problem sets for Google, Amazon, Meta, Microsoft and 50+ top companies.', featured:false },
-              { icon:'📚', title:'DSA Sheets', desc:'Track Striver A2Z, NeetCode 150, Blind 75, Love Babbar 450 and more legendary sheets.', featured:true },
-              { icon:'🏆', title:'Leaderboard', desc:'Compete with friends and your squad. Daily rankings, streak battles, peer accountability.', featured:false },
+              { icon: null, title:'Company Track', desc:'Curated problem sets for Google, Amazon, Meta, Microsoft and 50+ top companies.', featured:false },
+              { icon: null, title:'DSA Sheets', desc:'Track Striver A2Z, NeetCode 150, Blind 75, Love Babbar 450 and more legendary sheets.', featured:true },
+              { icon: null, title:'Leaderboard', desc:'Compete with friends and your squad. Daily rankings, streak battles, peer accountability.', featured:false },
             ].map((f,i)=>(
               <div key={i}
                 style={{ position:'relative', borderRadius:'20px', padding:'32px', border:f.featured?'1px solid rgba(255,107,44,0.4)':'1px solid rgba(255,255,255,0.06)', background:f.featured?'linear-gradient(145deg,#1a0f00,#0f0800)':'#121212', boxShadow:f.featured?'0 0 40px rgba(255,107,44,0.15)':'none' }}>
@@ -429,7 +429,7 @@ export default function LandingPage() {
                 </div>
                 <div style={{ flex:1, padding:'24px', background:'#0A0A0A' }}>
                   <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'12px', marginBottom:'20px' }}>
-                    {[{l:'Solved',v:'342',c:'#FF6B2C'},{l:'Streak',v:'21🔥',c:'#FFB347'},{l:'Target',v:'5/day',c:'#4ade80'},{l:'Rank',v:'Top 4%',c:'#60a5fa'}].map((s,i)=>(
+                    {[{l:'Solved',v:'342',c:'#FF6B2C'},{l:'Streak',v:'21 days',c:'#FFB347'},{l:'Target',v:'5/day',c:'#4ade80'},{l:'Rank',v:'Top 4%',c:'#60a5fa'}].map((s,i)=>(
                       <div key={i} style={{ background:'#121212', borderRadius:'12px', padding:'12px', border:'1px solid rgba(255,255,255,0.05)' }}>
                         <div style={{ fontSize:'10px', color:'#8A8A85', marginBottom:'4px' }}>{s.l}</div>
                         <div style={{ fontSize:'18px', fontWeight:'700', color:s.c }}>{s.v}</div>
@@ -502,16 +502,16 @@ export default function LandingPage() {
                   <span style={{ color:'white', fontWeight:'700' }}>Today's Leaderboard</span>
                   <span style={{ color:'#FF6B2C', fontSize:'11px', fontWeight:'700', background:'rgba(255,107,44,0.1)', padding:'4px 10px', borderRadius:'999px' }}>Live</span>
                 </div>
-                {[{name:'Aarav',solved:342,streak:21,medal:'🥇'},{name:'Priya',solved:298,streak:15,medal:'🥈'},{name:'Rohan',solved:276,streak:12,medal:'🥉'},{name:'Sneha',solved:241,streak:9,medal:'4️⃣'},{name:'Karan',solved:218,streak:7,medal:'5️⃣'}].map((entry,i)=>(
+                {[{name:'Aarav',solved:342,streak:21,rank:'#1'},{name:'Priya',solved:298,streak:15,rank:'#2'},{name:'Rohan',solved:276,streak:12,rank:'#3'},{name:'Sneha',solved:241,streak:9,rank:'#4'},{name:'Karan',solved:218,streak:7,rank:'#5'}].map((entry,i)=>(
                   <div key={i} style={{ display:'flex', alignItems:'center', gap:'12px', padding:'10px 12px', borderRadius:'12px', marginBottom:'6px', background:i===0?'rgba(255,107,44,0.08)':'transparent', border:i===0?'1px solid rgba(255,107,44,0.2)':'1px solid transparent' }}>
-                    <span style={{ fontSize:'18px', width:'28px', textAlign:'center' }}>{entry.medal}</span>
+                    <span style={{ fontSize:'12px', fontWeight:'700', color:'#FF6B2C', width:'28px', textAlign:'center' }}>{entry.rank}</span>
                     <div style={{ width:'32px', height:'32px', borderRadius:'50%', background:'linear-gradient(135deg,#FF6B2C,#FF8A3D)', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'12px', fontWeight:'700' }}>{entry.name[0]}</div>
                     <div style={{ flex:1 }}>
                       <div style={{ color:'white', fontSize:'14px', fontWeight:'600' }}>{entry.name}</div>
                       <div style={{ color:'#8A8A85', fontSize:'11px' }}>{entry.solved} solved</div>
                     </div>
                     <div style={{ textAlign:'right' }}>
-                      <div style={{ color:'#FF6B2C', fontSize:'14px', fontWeight:'700' }}>🔥{entry.streak}</div>
+                      <div style={{ color:'#FF6B2C', fontSize:'14px', fontWeight:'700' }}>{entry.streak} days</div>
                       <div style={{ color:'#8A8A85', fontSize:'11px' }}>streak</div>
                     </div>
                   </div>
