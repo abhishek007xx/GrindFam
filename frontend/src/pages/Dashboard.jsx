@@ -317,8 +317,8 @@ const Dashboard = () => {
               <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
                 <Loader2 className="w-7 h-7 animate-spin" />
               </div>
-              <p className="text-sm font-semibold text-[#e6edf3]">Syncing LeetCode submissions...</p>
-              <p className="text-xs text-[#6e7681]">Querying live data for your squad</p>
+              <p className="text-sm font-semibold text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900">Loading Dashboard...</p>
+              <p className="text-xs text-[#6e7681] dark:text-[#6e7681] light:text-slate-600">Fetching your progress and squad stats</p>
             </div>
           ) : error ? (
             <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">

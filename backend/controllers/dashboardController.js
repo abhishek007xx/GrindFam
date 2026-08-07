@@ -134,8 +134,8 @@ const getDashboardData = async (req, res) => {
 
         const hasDbHistory = activityRows.length > 0;
 
-        // Force sync OR initial seed sync if user has no DB activity history
-        if (forceSync || !hasDbHistory) {
+        // Live LeetCode GraphQL API calls ONLY when forceSync is explicitly true (user clicked Sync button)
+        if (forceSync) {
           const lcData = await fetchUserTodayData(profile.leetcode_username);
           todayCount = lcData.todayCount || 0;
           easyCount = lcData.easyCount || 0;
@@ -179,7 +179,7 @@ const getDashboardData = async (req, res) => {
             }
           }
         } else {
-          // ⚡ Fast DB Mode: Return cached data from Supabase without external LeetCode API call!
+          // ⚡ 100% Fast DB Mode: Return cached data from Supabase instantly without external LeetCode API call!
           const todayRow = activityRows.find(r => r.activity_date === todayDate);
           todayCount = todayRow ? (todayRow.solved_count || 0) : 0;
         }
