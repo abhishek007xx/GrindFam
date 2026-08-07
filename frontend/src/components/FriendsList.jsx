@@ -134,7 +134,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
           </button>
           <button
             onClick={onOpenAddFriend}
-            className="px-3.5 py-2 rounded-xl bg-[#22c55e] hover:bg-[#1ea34d] text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#22c55e]/20 transition-all"
+            className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#CC785C] to-[#DA7756] hover:from-[#B85C3E] hover:to-[#CC785C] text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#CC785C]/20 transition-all"
           >
             <UserPlus className="w-4 h-4" /> Add Friend
           </button>
@@ -150,7 +150,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
             placeholder="Search friends by name or LeetCode handle..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#161b22] border border-[#30363d] rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-[#22c55e] transition-all"
+            className="w-full bg-[#161b22] border border-[#30363d] rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-[#CC785C] transition-all"
           />
         </div>
       </div>
@@ -159,7 +159,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
       <div className="p-4">
         {loading ? (
           <div className="py-10 flex flex-col items-center justify-center gap-2 text-center">
-            <Loader2 className="w-6 h-6 animate-spin text-[#22c55e]" />
+            <Loader2 className="w-6 h-6 animate-spin text-[#CC785C]" />
             <p className="text-xs text-[#8b949e]">Loading your friends...</p>
           </div>
         ) : filteredFriends.length === 0 ? (
@@ -176,7 +176,7 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
             {!search && (
               <button
                 onClick={onOpenAddFriend}
-                className="mt-2 px-4 py-2 rounded-xl bg-[#22c55e] text-white text-xs font-bold flex items-center gap-1.5"
+                className="mt-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#CC785C] to-[#DA7756] hover:from-[#B85C3E] hover:to-[#CC785C] text-white text-xs font-bold flex items-center gap-1.5"
               >
                 <UserPlus className="w-4 h-4" /> Add Your First Friend
               </button>
@@ -201,12 +201,12 @@ const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => 
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="text-sm font-extrabold text-white truncate">{friend.name}</span>
-                        <ShieldCheck className="w-3.5 h-3.5 text-[#22c55e]" />
+                        <ShieldCheck className="w-3.5 h-3.5 text-[#CC785C]" />
                       </div>
                       <p className="text-xs text-[#8b949e] truncate">@{friend.leetcodeUsername || 'leetcode'}</p>
 
                       <div className="flex items-center gap-3 mt-1.5 text-[11px] text-[#8b949e]">
-                        <span className="flex items-center gap-1 text-[#22c55e] font-bold">
+                        <span className="flex items-center gap-1 text-[#CC785C] font-bold">
                           <CheckCircle2 className="w-3 h-3" /> Today: {friend.todayCount || 0}
                         </span>
                         <span className="flex items-center gap-1 font-semibold text-white">

@@ -109,7 +109,7 @@ const LeaderboardTable = ({
     }
     if (isTargetHit) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30 text-[10px] font-bold whitespace-nowrap">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/30 text-[10px] font-bold whitespace-nowrap">
           <CheckCircle2 className="w-3 h-3" /> Target Met
         </span>
       );
@@ -150,7 +150,7 @@ const LeaderboardTable = ({
           <div>
             <h2 className="text-[16px] font-extrabold text-white flex items-center gap-2">
               Squad Leaderboard
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/30">
                 Live
               </span>
             </h2>
@@ -164,7 +164,7 @@ const LeaderboardTable = ({
             onClick={() => setViewMode('today')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'today'
-                ? 'bg-[#22c55e] text-white shadow-md'
+                ? 'bg-[#CC785C] text-white shadow-md'
                 : 'text-[#8b949e] hover:text-white'
             }`}
           >
@@ -176,7 +176,7 @@ const LeaderboardTable = ({
             onClick={() => setViewMode('streak')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'streak'
-                ? 'bg-[#22c55e] text-white shadow-md'
+                ? 'bg-[#CC785C] text-white shadow-md'
                 : 'text-[#8b949e] hover:text-white'
             }`}
           >
@@ -188,7 +188,7 @@ const LeaderboardTable = ({
             onClick={() => setViewMode('allTime')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'allTime'
-                ? 'bg-[#22c55e] text-white shadow-md'
+                ? 'bg-[#CC785C] text-white shadow-md'
                 : 'text-[#8b949e] hover:text-white'
             }`}
           >
@@ -237,7 +237,7 @@ const LeaderboardTable = ({
                       <div className="flex items-center gap-1">
                         <span className="text-xs font-extrabold text-white truncate">{user.name}</span>
                         {user.isSelf && (
-                          <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#22c55e]/20 text-[#22c55e]">You</span>
+                          <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#CC785C]/20 text-[#CC785C]">You</span>
                         )}
                       </div>
                       <p className="text-[10px] text-[#8b949e]">@{user.leetcodeUsername || 'grinder'}</p>
@@ -263,9 +263,9 @@ const LeaderboardTable = ({
       <div className="grid grid-cols-[50px_1fr_80px_100px] sm:grid-cols-[50px_1fr_90px_1fr_90px_110px] items-center px-4 sm:px-5 py-2.5 text-[10px] sm:text-[11px] font-bold text-[#6e7681] uppercase tracking-wider border-b border-[#21262d]/60">
         <span>Rank</span>
         <span>Squad Member</span>
-        <span className={`text-center ${viewMode === 'today' ? 'text-[#22c55e]' : ''}`}>Today</span>
+        <span className={`text-center ${viewMode === 'today' ? 'text-[#CC785C]' : ''}`}>Today</span>
         <span className="hidden sm:block text-center">Daily Progress</span>
-        <span className={`hidden sm:block text-center ${viewMode === 'allTime' ? 'text-[#22c55e]' : ''}`}>All-Time</span>
+        <span className={`hidden sm:block text-center ${viewMode === 'allTime' ? 'text-[#CC785C]' : ''}`}>All-Time</span>
         <span className="text-center">Action</span>
       </div>
 
@@ -286,7 +286,7 @@ const LeaderboardTable = ({
 
             let rowBg = 'hover:bg-white/[0.02]';
             if (user.displayRank === 1) rowBg = 'bg-amber-500/[0.03] hover:bg-amber-500/[0.06]';
-            else if (user.isSelf) rowBg = 'bg-[#22c55e]/[0.03] hover:bg-[#22c55e]/[0.06]';
+            else if (user.isSelf) rowBg = 'bg-[#CC785C]/[0.03] hover:bg-[#CC785C]/[0.06]';
 
             return (
               <div
@@ -305,7 +305,7 @@ const LeaderboardTable = ({
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="text-xs sm:text-sm font-bold text-white truncate">{user.name}</span>
                       {user.isSelf && (
-                        <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30 flex-shrink-0">You</span>
+                        <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/30 flex-shrink-0">You</span>
                       )}
                       {user.badge && (
                         <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
@@ -319,7 +319,7 @@ const LeaderboardTable = ({
 
                 {/* Today's Solved */}
                 <div className="text-center">
-                  <span className={`text-sm font-black font-mono ${viewMode === 'today' ? 'text-[#22c55e]' : 'text-white'}`}>
+                  <span className={`text-sm font-black font-mono ${viewMode === 'today' ? 'text-[#CC785C]' : 'text-white'}`}>
                     {user.todayCount}
                   </span>
                 </div>
@@ -327,7 +327,7 @@ const LeaderboardTable = ({
                 {/* Progress Bar — hidden on mobile */}
                 <div className="hidden sm:block px-2">
                   <div className="flex items-center gap-2.5">
-                    <span className={`text-xs font-bold font-mono min-w-[36px] ${isTargetHit ? 'text-[#22c55e]' : 'text-[#8b949e]'}`}>
+                    <span className={`text-xs font-bold font-mono min-w-[36px] ${isTargetHit ? 'text-[#CC785C]' : 'text-[#8b949e]'}`}>
                       {progressPercent}%
                     </span>
                     <div className="flex-1 progress-track h-2">
@@ -336,8 +336,8 @@ const LeaderboardTable = ({
                         style={{
                           width: `${barWidth}%`,
                           background: isOverachieved
-                            ? 'linear-gradient(90deg, #22c55e, #f59e0b)'
-                            : 'linear-gradient(90deg, #22c55e, #16a34a)'
+                            ? 'linear-gradient(90deg, #CC785C, #DA7756)'
+                            : 'linear-gradient(90deg, #CC785C, #DA7756)'
                         }}
                       ></div>
                     </div>
@@ -346,7 +346,7 @@ const LeaderboardTable = ({
 
                 {/* All-Time Total — hidden on mobile */}
                 <div className="hidden sm:block text-center font-mono">
-                  <span className={`text-sm font-bold ${viewMode === 'allTime' ? 'text-[#22c55e]' : 'text-white'}`}>
+                  <span className={`text-sm font-bold ${viewMode === 'allTime' ? 'text-[#CC785C]' : 'text-white'}`}>
                     {user.error ? '—' : (user.platformTotal || 0)}
                   </span>
                 </div>
@@ -364,7 +364,7 @@ const LeaderboardTable = ({
       {/* Footer */}
       <div className="px-5 py-3 border-t border-[#21262d] flex items-center justify-between text-xs text-[#8b949e]">
         <span>🔥 Hit {dailyTarget} problems daily to climb the leaderboard!</span>
-        <span className="font-semibold text-[#22c55e] flex items-center gap-1 cursor-pointer hover:underline">
+        <span className="font-semibold text-[#CC785C] flex items-center gap-1 cursor-pointer hover:underline">
           {sortedLeaderboard.length} Squad Members Active <ArrowRight className="w-3 h-3" />
         </span>
       </div>

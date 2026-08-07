@@ -44,13 +44,13 @@ const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }
                   style={{
                     height: val > 0 ? `${Math.max(height, 8)}%` : '3px',
                     background: val > 0
-                      ? (isToday ? '#22c55e' : 'rgba(34,197,94,0.6)')
+                      ? (isToday ? '#CC785C' : 'rgba(204,120,92,0.6)')
                       : '#21262d',
-                    boxShadow: isToday && val > 0 ? '0 0 12px rgba(34,197,94,0.4)' : 'none'
+                    boxShadow: isToday && val > 0 ? '0 0 12px rgba(204,120,92,0.4)' : 'none'
                   }}
                 ></div>
               </div>
-              <span className={`text-[10px] font-medium ${isToday ? 'text-[#22c55e] font-bold' : 'text-[#6e7681]'}`}>{day}</span>
+              <span className={`text-[10px] font-medium ${isToday ? 'text-[#CC785C] font-bold' : 'text-[#6e7681]'}`}>{day}</span>
             </div>
           );
         })}

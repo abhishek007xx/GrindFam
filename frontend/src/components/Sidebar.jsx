@@ -90,7 +90,7 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
             onClick={() => handleClick(item)}
             className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all ${
               isActive
-                ? 'bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30'
+                ? 'bg-[#CC785C]/12 text-[#CC785C] border-l-3 border-[#CC785C] rounded-l-none'
                 : 'text-[#8b949e] hover:text-white hover:bg-white/5'
             }`}
           >
@@ -110,7 +110,7 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
           <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-lg object-cover shadow-sm border border-[#30363d] flex-shrink-0" />
           <div>
             <h1 className="text-sm font-extrabold text-white leading-tight">
-              Grind<span className="text-[#22c55e]">Fam</span>
+              Grind<span className="text-[#CC785C]">Fam</span>
             </h1>
             <p className="text-[9px] text-[#8b949e] font-medium leading-none">LeetCode Squad Tracker</p>
           </div>
@@ -127,13 +127,13 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
       {/* Bottom User Profile */}
       <div className="pt-3 border-t border-[#21262d] space-y-3 flex-shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white font-bold text-xs border border-white/20 flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-[#CC785C] flex items-center justify-center text-white font-bold text-xs border border-white/20 flex-shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
               <span className="text-xs font-bold text-white truncate">{name}</span>
-              <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#22c55e]/15 text-[#22c55e] border border-[#22c55e]/30 flex-shrink-0">You</span>
+              <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/30 flex-shrink-0">You</span>
             </div>
             <p className="text-[10px] text-[#8b949e] flex items-center gap-1">
               Level {level} Grinder <Flame className="w-3 h-3 text-amber-500 inline" />
