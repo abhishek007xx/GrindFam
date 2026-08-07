@@ -567,20 +567,34 @@ export const useSquadStore = create((set, get) => ({
     try {
       const { data: msgs, error } = await supabase
         .from('dm_messages')
-        .select('*, profiles!dm_messages_sender_id_fkey(username, leetcode_username)')
+        .select('*')
         .eq('thread_id', threadId)
         .order('created_at', { ascending: true });
 
       if (error) throw error;
 
-      const enriched = (msgs || []).map(m => ({
-        ...m,
-        author_name: m.profiles?.username || m.profiles?.leetcode_username || 'User'
-      }));
+      const senderIds = [...new Set((msgs || []).map(m => m.sender_id))];
+      let profileMap = {};
+      if (senderIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, username, leetcode_username')
+          .in('id', senderIds);
+        (profiles || []).forEach(p => { profileMap[p.id] = p; });
+      }
+
+      const enriched = (msgs || []).map(m => {
+        const prof = profileMap[m.sender_id] || {};
+        return {
+          ...m,
+          author_name: prof.username || prof.leetcode_username || 'User'
+        };
+      });
 
       set({ dmMessages: enriched });
     } catch (err) {
       console.error('Error fetching DM messages:', err);
+      set({ dmMessages: [] });
     }
   },
 
