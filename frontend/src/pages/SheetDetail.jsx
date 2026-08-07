@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import NotesModal from '../components/NotesModal';
 import YouTubeModal from '../components/YouTubeModal';
 import {

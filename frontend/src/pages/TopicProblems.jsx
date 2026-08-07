@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import {
   ArrowLeft, ExternalLink, Search, Hash, CheckCircle, Check,
   RotateCcw, Building2, FileCode2, Sparkles, Filter

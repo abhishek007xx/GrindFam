@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
+import { companiesData } from '../lib/dataFallback';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import { Building2, Search, ArrowRight, Sparkles, Layers, Flame, GraduationCap, Award, Briefcase } from 'lucide-react';
 

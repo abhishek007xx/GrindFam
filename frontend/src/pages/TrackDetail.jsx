@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import NotesModal from '../components/NotesModal';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import {

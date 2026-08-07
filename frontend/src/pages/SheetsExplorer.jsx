@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { sheetsData } from '../lib/dataFallback';
+import { useAuth } from '../context/AuthContext';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
   Sparkles, BookOpen, Flame
