@@ -271,20 +271,20 @@ export function TrackDetail() {
 
       {loading ? (
         <div className="space-y-6 animate-pulse">
-          <div className="h-56 bg-[#141211]/60 border border-zinc-800/80 rounded-3xl" />
-          <div className="h-64 bg-[#141211]/60 border border-zinc-800/80 rounded-3xl" />
+          <div className="h-32 bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl" />
+          <div className="h-64 bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl" />
         </div>
       ) : (
         <>
-          {/* TOP SECTION: Requirement Card with Warm Orangish Theme */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#1b1715] via-[#141211] to-[#0d0c0c] border border-[#EA5D3A]/30 rounded-3xl p-6 md:p-8 shadow-2xl space-y-8">
-            {/* Glow Orbs */}
-            <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#EA5D3A]/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#F97316]/10 rounded-full blur-3xl pointer-events-none" />
+          {/* ── 1. Compact Hero Header Banner ── */}
+          <div className="relative overflow-hidden bg-[#0E0E0E] border border-[#1F1F1F] rounded-3xl p-5 md:p-6 shadow-xl space-y-5">
+            {/* Subtle Glow Spheres */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#EA5D3A]/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-zinc-800/90">
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              {/* Left Company Details */}
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-2xl bg-[#1b1817] border border-[#EA5D3A]/30 p-3 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-lg shadow-black/50">
+                <div className="w-14 h-14 rounded-2xl bg-[#171717] border border-[#262626] p-2.5 flex items-center justify-center flex-shrink-0 shadow-md">
                   {company?.logo_url ? (
                     <img
                       src={company.logo_url}
@@ -298,80 +298,82 @@ export function TrackDetail() {
                       }}
                     />
                   ) : null}
-                  <span className="font-extrabold text-[#EA5D3A] text-xl hidden">{company?.name?.slice(0, 2).toUpperCase()}</span>
+                  <span className="font-extrabold text-[#EA5D3A] text-lg hidden">{company?.name?.slice(0, 2).toUpperCase()}</span>
                 </div>
-                <div>
+
+                <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">{company?.name}</h1>
-                    <span className="px-3 py-1 rounded-full bg-[#EA5D3A]/15 border border-[#EA5D3A]/40 text-[#EA5D3A] text-xs font-bold">
-                      {companyTrack?.role}
+                    <h1 className="text-2xl font-extrabold text-[#FAFAFA] tracking-tight">{company?.name}</h1>
+                    <span className="px-2.5 py-0.5 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] text-xs font-bold">
+                      {companyTrack?.role || 'DSA Track'}
                     </span>
-                    <span className="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs font-medium">
-                      Level: {companyTrack?.level}
+                    <span className="px-2.5 py-0.5 rounded-lg bg-[#171717] border border-[#262626] text-[#8A8A85] text-xs font-medium">
+                      Level: {companyTrack?.level || 'All Levels'}
                     </span>
                   </div>
-                  <p className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+                  <p className="text-xs text-[#8A8A85] flex items-center gap-1.5 font-medium">
                     <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                    <span>Official Interview Guidelines & DSA Frequency Roadmap</span>
+                    <span>Official Interview Guidelines & Frequency Tagged Problems</span>
                   </p>
                 </div>
               </div>
 
-              {/* Progress Summary Card */}
-              <div className="bg-[#0e0c0c]/80 border border-[#EA5D3A]/25 rounded-2xl p-4 min-w-[260px] space-y-2 backdrop-blur-md">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-white">Track Progress</span>
-                  <span className="font-mono font-extrabold text-[#EA5D3A]">{completionPercentage}%</span>
+              {/* Right Progress Summary Card & Back CTA */}
+              <div className="flex items-center gap-4 flex-wrap md:flex-nowrap justify-between md:justify-end">
+                <div className="bg-[#171717] border border-[#262626] rounded-2xl p-3 min-w-[210px] space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-[#FAFAFA]">Track Progress</span>
+                    <span className="font-mono font-extrabold text-[#EA5D3A]">{completionPercentage}%</span>
+                  </div>
+
+                  <div className="w-full bg-[#0A0A0A] h-2 rounded-full overflow-hidden border border-[#1F1F1F]">
+                    <div
+                      className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500 shadow-sm"
+                      style={{ width: `${completionPercentage}%` }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] text-[#8A8A85]">
+                    <span>{solvedCount} / {totalProblems} Solved</span>
+                    {revisionCount > 0 && (
+                      <span className="text-amber-400 font-semibold">{revisionCount} Needs Revision</span>
+                    )}
+                  </div>
                 </div>
 
-                <div className="w-full bg-zinc-900 h-2.5 rounded-full overflow-hidden border border-zinc-800">
-                  <div
-                    className="bg-gradient-to-r from-[#EA5D3A] via-[#F97316] to-[#FF5722] h-full rounded-full transition-all duration-500 shadow-sm shadow-[#EA5D3A]/50"
-                    style={{ width: `${completionPercentage}%` }}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between text-[11px] text-zinc-400">
-                  <span>{solvedCount} / {totalProblems} Solved</span>
-                  {revisionCount > 0 && (
-                    <span className="text-amber-400 font-semibold">{revisionCount} Needs Revision</span>
-                  )}
-                </div>
+                <button
+                  onClick={() => navigate('/companies')}
+                  className="px-3.5 py-2 rounded-xl bg-[#171717] hover:bg-[#222222] border border-[#262626] text-xs font-bold text-[#8A8A85] hover:text-[#FAFAFA] transition-all flex items-center gap-1.5 flex-shrink-0"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  <span>Back</span>
+                </button>
               </div>
             </div>
 
-            {/* PROMINENT TRACK SELECTION OPTIONS SECTION */}
-            <div className="relative z-10 space-y-3 pt-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  <span>Select Role Track Options:</span>
-                </span>
-                <span className="text-[11px] text-[#EA5D3A] font-semibold">3 Specialized Hiring Kits</span>
-              </div>
+            {/* ── 2. Segmented Role Track Switcher Bar ── */}
+            <div className="pt-4 border-t border-[#1F1F1F] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#8A8A85] flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                <span>Select Target Role Track:</span>
+              </span>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 flex-1 max-w-2xl">
                 {[
                   {
                     title: 'Intern Track',
-                    badge: 'Internship & Entry Level',
-                    desc: 'OA Speed Prep, Foundational DSA & CS Fundamentals',
-                    icon: GraduationCap,
-                    color: 'from-[#EA5D3A]/20 via-[#F97316]/10 to-transparent border-[#EA5D3A]/50 text-[#EA5D3A]'
+                    badge: 'Internship',
+                    icon: GraduationCap
                   },
                   {
                     title: 'Campus Placement',
-                    badge: '3-Month Placement Sprint',
-                    desc: 'Company OA Patterns, Top Frequency 50 & Technical Rounds',
-                    icon: Flame,
-                    color: 'from-[#F97316]/20 via-[#FF5722]/10 to-transparent border-[#F97316]/50 text-[#F97316]'
+                    badge: 'Placement Sprint',
+                    icon: Flame
                   },
                   {
                     title: 'Senior Level Track',
-                    badge: 'System Design & Lateral',
-                    desc: 'HLD, LLD, Leadership Principles & Compensation Prep',
-                    icon: Briefcase,
-                    color: 'from-[#FF5722]/20 via-[#EA5D3A]/10 to-transparent border-[#FF5722]/50 text-[#FF5722]'
+                    badge: 'System Design & SDE',
+                    icon: Briefcase
                   }
                 ].map((trackOpt, rIdx) => {
                   const isActive = activeRoleIdx === rIdx;
@@ -381,7 +383,7 @@ export function TrackDetail() {
                   const pCount = roleObj.problems ? roleObj.problems.length : 0;
 
                   return (
-                    <div
+                    <button
                       key={trackOpt.title}
                       onClick={() => {
                         setActiveRoleIdx(rIdx);
@@ -402,120 +404,129 @@ export function TrackDetail() {
                         }));
                         setProblems(localProbs);
                       }}
-                      className={`p-4.5 rounded-2xl border cursor-pointer transition-all duration-300 relative overflow-hidden flex flex-col justify-between group ${
+                      className={`px-3.5 py-2.5 rounded-xl border text-xs transition-all flex items-center justify-between gap-2 text-left ${
                         isActive
-                          ? `bg-gradient-to-br ${trackOpt.color} shadow-xl ring-2 ring-[#EA5D3A]/50 scale-[1.02]`
-                          : 'bg-[#151312]/80 hover:bg-[#1b1817] border-zinc-800 opacity-80 hover:opacity-100'
+                          ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] font-bold shadow-lg shadow-[#EA5D3A]/20'
+                          : 'bg-[#171717] border border-[#262626] text-[#8A8A85] hover:text-[#FAFAFA] hover:border-[#EA5D3A]/40'
                       }`}
                     >
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0d0c0c]/80 border border-zinc-800 ${isActive ? 'text-white' : 'text-zinc-400'}`}>
-                            {trackOpt.badge}
-                          </span>
-                          <IconComp className={`w-4 h-4 ${isActive ? 'text-white' : 'text-zinc-500'}`} />
-                        </div>
-
-                        <div>
-                          <h4 className={`text-sm font-extrabold ${isActive ? 'text-white' : 'text-zinc-200 group-hover:text-white'}`}>
-                            {trackOpt.title}
-                          </h4>
-                          <p className="text-[11px] text-zinc-400 mt-1 leading-snug">
-                            {trackOpt.desc}
-                          </p>
-                        </div>
+                      <div className="flex items-center gap-2 min-w-0">
+                        <IconComp className={`w-3.5 h-3.5 flex-shrink-0 ${isActive ? 'text-white' : 'text-[#EA5D3A]'}`} />
+                        <span className="truncate">{trackOpt.title}</span>
                       </div>
-
-                      <div className="pt-3 mt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs">
-                        <span className="text-zinc-400 font-mono text-[11px]">{pCount} Curated Problems</span>
-                        <span className={`font-bold flex items-center gap-1 ${isActive ? 'text-white' : 'text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform'}`}>
-                          {isActive ? 'Active Track' : 'Select Track'} →
-                        </span>
-                      </div>
-                    </div>
+                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-mono flex-shrink-0 ${isActive ? 'bg-black/30 text-white font-bold' : 'bg-[#0A0A0A] text-[#8A8A85]'}`}>
+                        {pCount}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
             </div>
+          </div>
 
-            {/* Guidelines Breakdown */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4 border-t border-zinc-800/90">
-              {/* Interview Format */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-bold text-white">
-                  <Target className="w-4 h-4 text-[#EA5D3A]" />
-                  <span>Interview Format</span>
-                </div>
-                <div className="space-y-2">
-                  {guidelines.interview_format && guidelines.interview_format.length > 0 ? (
-                    guidelines.interview_format.map((step, idx) => (
-                      <div key={idx} className="p-3 rounded-xl bg-[#161413] border border-zinc-800/80 flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full bg-[#EA5D3A]/20 text-[#EA5D3A] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
-                          {idx + 1}
-                        </span>
-                        <p className="text-xs text-zinc-200 leading-relaxed">{step}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-xs text-zinc-500">Standard DSA & System Design rounds.</p>
-                  )}
-                </div>
+          {/* ── 3. Collapsible Interview Guidelines Insights Box ── */}
+          <div className="bg-[#0E0E0E] border border-[#1F1F1F] rounded-2xl overflow-hidden shadow-lg">
+            <button
+              onClick={() => setOpenCategories(prev => ({ ...prev, __GUIDE_OPEN__: !(prev.__GUIDE_OPEN__ ?? false) }))}
+              className="w-full px-5 py-3.5 bg-[#131313] hover:bg-[#181818] border-b border-[#1F1F1F] flex items-center justify-between text-xs font-bold text-[#FAFAFA] transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#EA5D3A]" />
+                <span>Interview Insights & Format Guidelines ({company?.name})</span>
               </div>
-
-              {/* Key Topics Weightage */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-bold text-white">
-                  <Award className="w-4 h-4 text-[#F97316]" />
-                  <span>Key Topics Weightage</span>
-                </div>
-                <div className="flex flex-wrap gap-2.5">
-                  {guidelines.key_topics_weightage && Object.keys(guidelines.key_topics_weightage).length > 0 ? (
-                    Object.entries(guidelines.key_topics_weightage).map(([topic, weight]) => (
-                      <div
-                        key={topic}
-                        className="px-3.5 py-2 rounded-xl bg-[#161413] border border-zinc-800 flex items-center gap-2 text-xs font-medium text-zinc-200"
-                      >
-                        <span>{topic}</span>
-                        <span className="px-2 py-0.5 rounded-md bg-[#EA5D3A]/20 text-[#EA5D3A] font-bold text-[11px]">
-                          {weight}
-                        </span>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-xs text-zinc-500">Arrays, Trees, Graphs, DP, System Design.</p>
-                  )}
-                </div>
-
-                {/* Behavioral Focus */}
-                {guidelines.behavioral_focus && (
-                  <div className="pt-4 border-t border-zinc-800/80 space-y-1.5">
-                    <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>Behavioral & Culture Focus</span>
-                    </div>
-                    <p className="text-xs text-zinc-300 italic leading-relaxed bg-[#161413] p-3 rounded-xl border border-zinc-800/80">
-                      "{guidelines.behavioral_focus}"
-                    </p>
-                  </div>
+              <div className="flex items-center gap-1.5 text-[#8A8A85] hover:text-[#FAFAFA]">
+                <span className="text-[11px] font-semibold">
+                  {openCategories.__GUIDE_OPEN__ ? 'Hide Insights' : 'View Guidelines'}
+                </span>
+                {openCategories.__GUIDE_OPEN__ ? (
+                  <ChevronUp className="w-4 h-4 text-[#EA5D3A]" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-[#8A8A85]" />
                 )}
               </div>
-            </div>
+            </button>
 
-            {/* Common Rejection Reasons */}
-            {guidelines.common_rejection_reasons && guidelines.common_rejection_reasons.length > 0 && (
-              <div className="relative z-10 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/25 space-y-2">
-                <div className="flex items-center gap-2 text-xs font-bold text-rose-400">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Common Rejection Points</span>
+            {openCategories.__GUIDE_OPEN__ && (
+              <div className="p-5 md:p-6 space-y-6 animate-fadeIn bg-[#0E0E0E]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Interview Format */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-extrabold text-[#FAFAFA] uppercase tracking-wider">
+                      <Target className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                      <span>Interview Format Rounds</span>
+                    </div>
+                    <div className="space-y-2">
+                      {guidelines.interview_format && guidelines.interview_format.length > 0 ? (
+                        guidelines.interview_format.map((step, idx) => (
+                          <div key={idx} className="p-2.5 rounded-xl bg-[#141414] border border-[#222222] flex items-start gap-2.5 text-xs text-[#E5E2E1]">
+                            <span className="w-4 h-4 rounded-full bg-[#EA5D3A]/20 text-[#EA5D3A] text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                              {idx + 1}
+                            </span>
+                            <p className="leading-snug">{step}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-xs text-[#8A8A85]">Standard DSA & System Design rounds.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Key Topics Weightage */}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 text-xs font-extrabold text-[#FAFAFA] uppercase tracking-wider">
+                      <Award className="w-3.5 h-3.5 text-[#F97316]" />
+                      <span>Key Topics Weightage</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {guidelines.key_topics_weightage && Object.keys(guidelines.key_topics_weightage).length > 0 ? (
+                        Object.entries(guidelines.key_topics_weightage).map(([topic, weight]) => (
+                          <div
+                            key={topic}
+                            className="px-3 py-1.5 rounded-xl bg-[#141414] border border-[#222222] flex items-center gap-2 text-xs font-medium text-[#E5E2E1]"
+                          >
+                            <span>{topic}</span>
+                            <span className="px-1.5 py-0.5 rounded bg-[#EA5D3A]/20 text-[#EA5D3A] font-bold text-[10px]">
+                              {weight}
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-xs text-[#8A8A85]">Arrays, Trees, Graphs, DP, System Design.</p>
+                      )}
+                    </div>
+
+                    {/* Behavioral Focus */}
+                    {guidelines.behavioral_focus && (
+                      <div className="pt-3 border-t border-[#1F1F1F] space-y-1">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400">
+                          <MessageSquare className="w-3 h-3" />
+                          <span>Culture & Behavioral Focus</span>
+                        </div>
+                        <p className="text-xs text-[#8A8A85] italic leading-relaxed bg-[#141414] p-2.5 rounded-xl border border-[#222222]">
+                          "{guidelines.behavioral_focus}"
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-zinc-300">
-                  {guidelines.common_rejection_reasons.map((reason, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-rose-400 font-bold">•</span>
-                      <span>{reason}</span>
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Common Rejection Points */}
+                {guidelines.common_rejection_reasons && guidelines.common_rejection_reasons.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-rose-400">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      <span>Common Rejection Points</span>
+                    </div>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-[#E5E2E1]">
+                      {guidelines.common_rejection_reasons.map((reason, i) => (
+                        <li key={i} className="flex items-start gap-1.5">
+                          <span className="text-rose-400 font-bold">•</span>
+                          <span>{reason}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
