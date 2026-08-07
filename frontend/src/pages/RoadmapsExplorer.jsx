@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllRoadmaps } from '../lib/roadmapDataLoader';
+import { getRoadmapIconInfo } from '../lib/iconHelper';
 import { motion } from 'framer-motion';
 import {
   Search, Bookmark, ArrowRight, CheckCircle2, Lock,
   Sparkles, Trophy, Clock, Compass, Layers, Play, Award,
-  BarChart2, User, BookOpen
+  BarChart2, User, BookOpen, Terminal, Code, Database, Server
 } from 'lucide-react';
 
-/* ── Circular Progress Ring (same component used by SheetsExplorer) ── */
+/* ── Circular Progress Ring ── */
 function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D3A' }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -19,7 +20,7 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#1F1F1F" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#21262D" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -29,9 +30,48 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
           className="transition-all duration-700 ease-out"
         />
       </svg>
-      <span className="absolute text-[11px] font-bold text-[#FAFAFA] font-mono">
+      <span className="absolute text-[11px] font-bold text-[#F3F4F6] font-mono">
         {percentage}%
       </span>
+    </div>
+  );
+}
+
+/* ── Helper: Roadmap Card Icon Render ── */
+function RoadmapBadgeIcon({ roadmap }) {
+  const iconInfo = getRoadmapIconInfo(roadmap);
+
+  if (iconInfo.url) {
+    return (
+      <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] p-1 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform bg-white/5">
+        <img
+          src={iconInfo.url}
+          alt={roadmap.title}
+          className="w-full h-full object-contain"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+            if (e.currentTarget.nextSibling) {
+              e.currentTarget.nextSibling.style.display = 'flex';
+            }
+          }}
+        />
+        <div className="w-full h-full items-center justify-center font-bold text-[#EA5D3A] text-xs hidden">
+          {iconInfo.fallbackText}
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback Role / System icon
+  return (
+    <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] text-[#EA5D3A] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+      {roadmap.category?.toLowerCase().includes('database') ? (
+        <Database className="w-5 h-5" />
+      ) : roadmap.category?.toLowerCase().includes('backend') ? (
+        <Server className="w-5 h-5" />
+      ) : (
+        <Code className="w-5 h-5" />
+      )}
     </div>
   );
 }
@@ -40,8 +80,6 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
 function buildStages(steps, completedStepNumbers) {
   if (!steps || steps.length === 0) return [];
 
-  // Find the boundary: all completed steps form "Completed" stages,
-  // then 1 stage for "In Progress", then remaining as "Locked"
   const completed = [];
   const inProgress = [];
   const locked = [];
@@ -50,7 +88,6 @@ function buildStages(steps, completedStepNumbers) {
     if (completedStepNumbers.includes(step.stepNumber)) {
       completed.push(step);
     } else if (inProgress.length === 0) {
-      // First uncompleted step is "in progress"
       inProgress.push(step);
     } else {
       locked.push(step);
@@ -58,7 +95,6 @@ function buildStages(steps, completedStepNumbers) {
   });
 
   const stages = [];
-
   if (completed.length > 0) {
     stages.push({ label: 'Completed Milestones', status: 'completed', steps: completed });
   }
@@ -66,7 +102,6 @@ function buildStages(steps, completedStepNumbers) {
     stages.push({ label: 'Currently Learning', status: 'active', steps: inProgress });
   }
   if (locked.length > 0) {
-    // Show max 3 locked steps as preview
     stages.push({ label: 'Upcoming Milestones', status: 'locked', steps: locked.slice(0, 3), totalLocked: locked.length });
   }
 
@@ -77,7 +112,6 @@ function buildStages(steps, completedStepNumbers) {
 function deriveSkillBreakdown(steps, completedStepNumbers) {
   if (!steps || steps.length === 0) return [];
 
-  // Collect all unique topics across all steps
   const topicStepMap = {};
   steps.forEach(step => {
     const topics = step.topics || [];
@@ -92,7 +126,6 @@ function deriveSkillBreakdown(steps, completedStepNumbers) {
     });
   });
 
-  // Pick top 4 topics by frequency
   const sorted = Object.entries(topicStepMap)
     .sort((a, b) => b[1].total - a[1].total)
     .slice(0, 4);
@@ -163,19 +196,14 @@ export function RoadmapsExplorer() {
     });
   }, [roadmaps, searchQuery, selectedCategory]);
 
-  // Active roadmap computed data
   const activeRoadmap = roadmaps.find(r => r.id === activeRoadmapId) || null;
   const activeCompleted = activeRoadmapId ? (completedStepsMap[activeRoadmapId] || []) : [];
   const activeTotalSteps = activeRoadmap?.steps?.length || 0;
   const activePercent = activeTotalSteps > 0 ? Math.round((activeCompleted.length / activeTotalSteps) * 100) : 0;
 
-  // Dynamic stages for the active roadmap timeline
   const stages = activeRoadmap ? buildStages(activeRoadmap.steps, activeCompleted) : [];
-
-  // Dynamic skill breakdown
   const skillBreakdown = activeRoadmap ? deriveSkillBreakdown(activeRoadmap.steps, activeCompleted) : [];
 
-  // Animation variants
   const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.04 } } };
   const cardVariants = { hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.25 } } };
 
@@ -235,9 +263,8 @@ export function RoadmapsExplorer() {
         ))}
       </div>
 
-      {/* ── Main Grid: Cards Left + Analytics Right ── */}
+      {/* ── Main Grid ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-
         {/* Left: Roadmap Cards Grid (8 cols) */}
         <div className="lg:col-span-8">
           {filteredRoadmaps.length === 0 ? (
@@ -271,19 +298,23 @@ export function RoadmapsExplorer() {
                     }`}
                   >
                     <div className="space-y-3">
-                      {/* Top: Badge + Follow Button */}
+                      {/* Top: Icon + Badge + Progress Ring */}
                       <div className="flex items-start justify-between gap-3">
-                        <div className="space-y-1 pr-2">
-                          <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
-                            {rm.category}
-                          </span>
-                          <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug">
-                            {rm.title}
-                          </h3>
-                          <p className="text-xs text-[#9CA3AF] flex items-center gap-1">
-                            <User className="w-3 h-3 text-[#6B7280]" />
-                            <span>{rm.creator}</span>
-                          </p>
+                        <div className="flex items-start gap-3 min-w-0 pr-2">
+                          <RoadmapBadgeIcon roadmap={rm} />
+
+                          <div className="space-y-0.5 min-w-0">
+                            <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
+                              {rm.category}
+                            </span>
+                            <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
+                              {rm.title}
+                            </h3>
+                            <p className="text-xs text-[#9CA3AF] flex items-center gap-1 truncate">
+                              <User className="w-3 h-3 text-[#6B7280] flex-shrink-0" />
+                              <span>{rm.creator}</span>
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex-shrink-0 group-hover:scale-105 transition-transform">
@@ -328,11 +359,11 @@ export function RoadmapsExplorer() {
           )}
         </div>
 
-        {/* ── Right Sidebar: Active Path Analytics (4 cols) ── */}
+        {/* ── Right Sidebar: Active Path Analytics ── */}
         <aside className="lg:col-span-4 space-y-4">
           {activeRoadmap ? (
             <>
-              {/* Active Path Quick View */}
+              {/* Active Path Quick View with Icon */}
               <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-[#21262D]">
                   <h3 className="text-xs font-bold text-[#F3F4F6] uppercase tracking-wider flex items-center gap-1.5">
@@ -344,9 +375,12 @@ export function RoadmapsExplorer() {
                   </span>
                 </div>
 
-                <div>
-                  <h4 className="text-sm font-bold text-[#F3F4F6] leading-snug">{activeRoadmap.title}</h4>
-                  <p className="text-[11px] text-[#9CA3AF] mt-0.5">{activeRoadmap.creator}</p>
+                <div className="flex items-start gap-3">
+                  <RoadmapBadgeIcon roadmap={activeRoadmap} />
+                  <div>
+                    <h4 className="text-sm font-bold text-[#F3F4F6] leading-snug">{activeRoadmap.title}</h4>
+                    <p className="text-[11px] text-[#9CA3AF] mt-0.5">{activeRoadmap.creator}</p>
+                  </div>
                 </div>
 
                 {/* Overall Progress */}
@@ -403,12 +437,10 @@ export function RoadmapsExplorer() {
                 </h3>
 
                 <div className="relative pl-5 space-y-4">
-                  {/* Vertical connector line */}
                   <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-[#21262D]" />
 
                   {stages.map((stage, stageIdx) => (
                     <div key={stageIdx} className="relative">
-                      {/* Node dot */}
                       <div className={`absolute -left-5 top-1 w-3 h-3 rounded-full border-2 ${
                         stage.status === 'completed'
                           ? 'bg-[#10B981] border-[#10B981]'
@@ -417,7 +449,6 @@ export function RoadmapsExplorer() {
                           : 'bg-[#21262D] border-[#30363D]'
                       }`} />
 
-                      {/* Stage label */}
                       <div className="mb-2">
                         <span className={`text-[11px] font-bold uppercase tracking-wider ${
                           stage.status === 'completed' ? 'text-[#10B981]'
@@ -430,7 +461,6 @@ export function RoadmapsExplorer() {
                         </span>
                       </div>
 
-                      {/* Step items */}
                       <div className="space-y-1.5">
                         {stage.steps.map((step, idx) => (
                           <div
@@ -463,7 +493,7 @@ export function RoadmapsExplorer() {
                 </div>
               </div>
 
-              {/* Skill Breakdown (derived from real topic data) */}
+              {/* Skill Breakdown */}
               {skillBreakdown.length > 0 && (
                 <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-5 space-y-3">
                   <h3 className="text-xs font-bold text-[#F3F4F6] uppercase tracking-wider pb-3 border-b border-[#21262D]">

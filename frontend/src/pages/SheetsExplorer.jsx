@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { getCreatorAvatarUrl } from '../lib/iconHelper';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
   BookOpen
@@ -146,7 +147,7 @@ export function SheetsExplorer() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Header Banner — Soft Dark Slate (#161B22, #30363D) */}
+      {/* Header Banner */}
       <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
         <img
           src="/logo.png"
@@ -220,6 +221,7 @@ export function SheetsExplorer() {
         >
           {filteredSheets.map((s, idx) => {
             const stats = sheetStats[s.id] || { total: s.total_problems || 0, solved: 0, percentage: 0 };
+            const avatarUrl = getCreatorAvatarUrl(s.creator);
 
             return (
               <motion.div
@@ -230,17 +232,39 @@ export function SheetsExplorer() {
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1 pr-2">
-                      <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
-                        #{idx + 1} Sheet
-                      </span>
-                      <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug">
-                        {s.name}
-                      </h3>
-                      <p className="text-xs text-[#9CA3AF] flex items-center gap-1">
-                        <User className="w-3 h-3 text-[#6B7280]" />
-                        <span>{s.creator}</span>
-                      </p>
+                    <div className="flex items-start gap-3 min-w-0 pr-2">
+                      {/* Creator Avatar / Logo Box */}
+                      <div className="w-11 h-11 rounded-lg bg-[#1F2937] border border-[#30363D] p-1 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform">
+                        {avatarUrl ? (
+                          <img
+                            src={avatarUrl}
+                            alt={s.creator}
+                            className="w-full h-full object-cover rounded"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                              if (e.currentTarget.nextSibling) {
+                                e.currentTarget.nextSibling.style.display = 'flex';
+                              }
+                            }}
+                          />
+                        ) : null}
+                        <div className={`w-full h-full items-center justify-center font-bold text-[#EA5D3A] text-xs ${avatarUrl ? 'hidden' : 'flex'}`}>
+                          {s.creator.slice(0, 2).toUpperCase()}
+                        </div>
+                      </div>
+
+                      <div className="space-y-0.5 min-w-0">
+                        <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
+                          #{idx + 1} Sheet
+                        </span>
+                        <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
+                          {s.name}
+                        </h3>
+                        <p className="text-xs text-[#9CA3AF] flex items-center gap-1 truncate">
+                          <User className="w-3 h-3 text-[#6B7280] flex-shrink-0" />
+                          <span>{s.creator}</span>
+                        </p>
+                      </div>
                     </div>
 
                     <div className="flex-shrink-0 group-hover:scale-105 transition-transform">

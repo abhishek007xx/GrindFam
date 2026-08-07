@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { getCompanyLogoUrl } from '../lib/iconHelper';
 import {
   Building2, Search, ArrowRight, CheckCircle2,
   BookOpen
@@ -166,6 +167,7 @@ export function CompaniesGrid() {
 
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
+      {/* Header Banner */}
       <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
         <div className="relative z-10 max-w-2xl space-y-2.5">
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
@@ -181,6 +183,7 @@ export function CompaniesGrid() {
         </div>
       </div>
 
+      {/* Search & Filter Bar */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
@@ -215,6 +218,7 @@ export function CompaniesGrid() {
         </div>
       </div>
 
+      {/* Grid View with Company Logos */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map(n => (
@@ -241,6 +245,7 @@ export function CompaniesGrid() {
               percentage: 0,
               tracksCount: comp.company_tracks?.length || 3
             };
+            const logoUrl = getCompanyLogoUrl(comp.name, comp.logo_url);
 
             return (
               <motion.div
@@ -254,16 +259,36 @@ export function CompaniesGrid() {
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
-                    <div className="space-y-1 pr-2 min-w-0">
-                      <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
-                        #{idx + 1} Company
-                      </span>
-                      <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
-                        {comp.name}
-                      </h3>
-                      <p className="text-xs text-[#9CA3AF] flex items-center gap-1 font-mono">
-                        <span>Intern, Campus & SDE</span>
-                      </p>
+                    <div className="flex items-start gap-3 min-w-0 pr-2">
+                      {/* Company Logo Icon Box */}
+                      <div className="w-11 h-11 rounded-lg bg-[#1F2937] border border-[#30363D] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform bg-white/5">
+                        <img
+                          src={logoUrl}
+                          alt={comp.name}
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            if (e.currentTarget.nextSibling) {
+                              e.currentTarget.nextSibling.style.display = 'flex';
+                            }
+                          }}
+                        />
+                        <div className="w-full h-full items-center justify-center font-bold text-[#EA5D3A] text-xs hidden">
+                          {comp.name.slice(0, 2).toUpperCase()}
+                        </div>
+                      </div>
+
+                      <div className="space-y-0.5 min-w-0">
+                        <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
+                          #{idx + 1} Company
+                        </span>
+                        <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
+                          {comp.name}
+                        </h3>
+                        <p className="text-xs text-[#9CA3AF] flex items-center gap-1 font-mono">
+                          <span>Intern, Campus & SDE</span>
+                        </p>
+                      </div>
                     </div>
 
                     <div className="flex-shrink-0 group-hover:scale-105 transition-transform">
