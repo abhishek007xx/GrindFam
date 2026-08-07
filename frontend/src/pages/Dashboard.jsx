@@ -163,6 +163,10 @@ const Dashboard = () => {
     } finally { setLoading(false); setRefreshing(false); }
   }, [token, authLoading]);
 
+  useEffect(() => {
+    fetchDashboard();
+  }, [fetchDashboard]);
+
   // ─── Manual Force Sync LeetCode Submissions ───
   const handleManualSyncLeetCode = useCallback(async () => {
     if (!token) return;
