@@ -30,26 +30,6 @@ export default function ProblemAnalytics({ stats }) {
 
   return (
     <div className="space-y-6">
-      {/* AI Weakness Alert Badge Banner */}
-      <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-zinc-900 to-zinc-900 border border-amber-500/30 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center flex-shrink-0">
-            <BrainCircuit className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                AI Weakness Alert
-              </span>
-              <span className="text-xs text-zinc-400 font-medium">Automatic Pattern Diagnosis</span>
-            </div>
-            <p className="text-xs font-semibold text-zinc-200 mt-1">
-              Focus Needed: Dynamic Programming & Graphs completion is below 25%. Solve 5 medium DP questions to improve interview readiness.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 1. Difficulty Breakdown & Acceptance Ratio Grid */}
         <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
