@@ -2,17 +2,28 @@ import { useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
 /**
- * Custom hook managing real-time Supabase subscriptions for Community feeds,
- * active squad messages, and direct messages. Automatically unsubscribes on unmount.
+ * High-Performance, Stable Realtime Subscription Hook.
+ * Uses refs for callback functions to prevent unnecessary WebSocket teardowns and re-subscriptions.
  */
 export function useCommunityRealtime({ squadId, dmThreadId, onSquadMessage, onDMMessage, onPresenceChange }) {
+  const squadMessageCbRef = useRef(onSquadMessage);
+  const dmMessageCbRef = useRef(onDMMessage);
+  const presenceCbRef = useRef(onPresenceChange);
+
+  // Keep callback refs updated on every render without triggering effect re-runs
+  useEffect(() => {
+    squadMessageCbRef.current = onSquadMessage;
+    dmMessageCbRef.current = onDMMessage;
+    presenceCbRef.current = onPresenceChange;
+  });
+
   const squadChannelRef = useRef(null);
   const dmChannelRef = useRef(null);
 
+  // 1. Squad Realtime Subscription
   useEffect(() => {
     if (!squadId) return;
 
-    // 1. Subscribe to active squad messages
     const channelName = `squad_realtime_${squadId}`;
     const channel = supabase.channel(channelName, {
       config: {
@@ -30,15 +41,15 @@ export function useCommunityRealtime({ squadId, dmThreadId, onSquadMessage, onDM
           filter: `squad_id=eq.${squadId}`
         },
         (payload) => {
-          if (onSquadMessage) {
-            onSquadMessage(payload.new);
+          if (squadMessageCbRef.current) {
+            squadMessageCbRef.current(payload.new);
           }
         }
       )
       .on('presence', { event: 'sync' }, () => {
-        if (onPresenceChange) {
+        if (presenceCbRef.current) {
           const state = channel.presenceState();
-          onPresenceChange(state);
+          presenceCbRef.current(state);
         }
       })
       .subscribe();
@@ -48,14 +59,15 @@ export function useCommunityRealtime({ squadId, dmThreadId, onSquadMessage, onDM
     return () => {
       if (squadChannelRef.current) {
         supabase.removeChannel(squadChannelRef.current);
+        squadChannelRef.current = null;
       }
     };
-  }, [squadId, onSquadMessage, onPresenceChange]);
+  }, [squadId]);
 
+  // 2. DM Realtime Subscription
   useEffect(() => {
     if (!dmThreadId) return;
 
-    // 2. Subscribe to active DM thread
     const dmChannelName = `dm_realtime_${dmThreadId}`;
     const dmChannel = supabase.channel(dmChannelName);
 
@@ -69,8 +81,8 @@ export function useCommunityRealtime({ squadId, dmThreadId, onSquadMessage, onDM
           filter: `thread_id=eq.${dmThreadId}`
         },
         (payload) => {
-          if (onDMMessage) {
-            onDMMessage(payload.new);
+          if (dmMessageCbRef.current) {
+            dmMessageCbRef.current(payload.new);
           }
         }
       )
@@ -81,9 +93,10 @@ export function useCommunityRealtime({ squadId, dmThreadId, onSquadMessage, onDM
     return () => {
       if (dmChannelRef.current) {
         supabase.removeChannel(dmChannelRef.current);
+        dmChannelRef.current = null;
       }
     };
-  }, [dmThreadId, onDMMessage]);
+  }, [dmThreadId]);
 }
 
 export default useCommunityRealtime;
