@@ -19,11 +19,11 @@ const mainNavItems = [
   { id: 'companies', label: 'Company Tracks', icon: Building2, path: '/companies' },
   { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
   { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmaps' },
-  { id: 'squad', label: 'Squad Hub', icon: Users, path: '/squad' },
   { id: 'topics', label: 'Topics', icon: Hash, path: '/topics/Array' },
 ];
 
 const socialNavItems = [
+  { id: 'squad', label: 'Squad Hub', icon: Users, path: '/squad' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'friends', label: 'Friends', icon: Shield, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/', scrollTo: 'add-friend-section' },

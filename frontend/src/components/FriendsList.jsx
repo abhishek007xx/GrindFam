@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../supabase';
 import { Users, UserMinus, Flame, CheckCircle2, UserPlus, Search, RefreshCw, Loader2, ShieldCheck } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 
@@ -19,28 +21,84 @@ const avatarGradients = [
 ];
 
 const FriendsList = ({ token, onRemoveFriend, removingId, onOpenAddFriend }) => {
+  const { session } = useAuth();
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
-  const fetchFriends = async () => {
-    if (!token) return;
+  const fetchFriends = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE_URL}/friends`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setFriends(res.data?.friends || []);
+      if (token) {
+        const res = await axios.get(`${API_BASE_URL}/friends`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setFriends(res.data?.friends || []);
+        setLoading(false);
+        return;
+      }
     } catch (err) {
-      console.error('Error fetching friends list:', err);
+      console.warn('Backend friends endpoint unavailable, using Supabase direct query:', err);
+    }
+
+    // Direct Supabase fallback
+    try {
+      const userId = session?.user?.id;
+      if (!userId) { setLoading(false); return; }
+
+      const { data: friendRows } = await supabase
+        .from('friends')
+        .select('friend_id')
+        .eq('user_id', userId);
+
+      const friendIds = (friendRows || []).map(f => f.friend_id);
+      if (friendIds.length === 0) {
+        setFriends([]);
+        setLoading(false);
+        return;
+      }
+
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, username, leetcode_username')
+        .in('id', friendIds);
+
+      const { data: progress } = await supabase
+        .from('user_progress')
+        .select('user_id, status, solved_at')
+        .in('user_id', friendIds)
+        .eq('status', 'solved');
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      const todayMap = {};
+      const totalMap = {};
+
+      (progress || []).forEach(p => {
+        totalMap[p.user_id] = (totalMap[p.user_id] || 0) + 1;
+        if (p.solved_at && p.solved_at.startsWith(todayStr)) {
+          todayMap[p.user_id] = (todayMap[p.user_id] || 0) + 1;
+        }
+      });
+
+      const formatted = (profiles || []).map(p => ({
+        id: p.id,
+        name: p.username || p.leetcode_username || 'Friend',
+        leetcodeUsername: p.leetcode_username || p.username || '',
+        todayCount: todayMap[p.id] || 0,
+        platformTotal: totalMap[p.id] || 0
+      }));
+
+      setFriends(formatted);
+    } catch (fallbackErr) {
+      console.error('Supabase friends query error:', fallbackErr);
     } finally {
       setLoading(false);
     }
-  };
+  }, [token, session]);
 
   useEffect(() => {
     fetchFriends();
-  }, [token]);
+  }, [fetchFriends]);
 
   const filteredFriends = friends.filter(f =>
     (f.name || '').toLowerCase().includes(search.toLowerCase()) ||

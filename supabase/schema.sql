@@ -84,6 +84,34 @@ CREATE POLICY "Allow user update own progress" ON public.user_progress FOR UPDAT
 CREATE POLICY "Allow user delete own progress" ON public.user_progress FOR DELETE USING (auth.uid() = user_id);
 
 -- ============================================================
+-- FRIENDS SYSTEM TABLE
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS public.friends (
+  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  friend_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  PRIMARY KEY (user_id, friend_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_friends_user ON public.friends (user_id);
+CREATE INDEX IF NOT EXISTS idx_friends_friend ON public.friends (friend_id);
+
+ALTER TABLE public.friends ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Users read own friends" ON public.friends;
+CREATE POLICY "Users read own friends" ON public.friends
+  FOR SELECT USING (auth.uid() = user_id OR auth.uid() = friend_id);
+
+DROP POLICY IF EXISTS "Users insert own friends" ON public.friends;
+CREATE POLICY "Users insert own friends" ON public.friends
+  FOR INSERT WITH CHECK (auth.uid() = user_id OR auth.uid() = friend_id);
+
+DROP POLICY IF EXISTS "Users delete own friends" ON public.friends;
+CREATE POLICY "Users delete own friends" ON public.friends
+  FOR DELETE USING (auth.uid() = user_id OR auth.uid() = friend_id);
+
+-- ============================================================
 -- SQUAD SYSTEM TABLES
 -- ============================================================
 
