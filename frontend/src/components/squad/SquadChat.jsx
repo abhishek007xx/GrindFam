@@ -179,7 +179,6 @@ export default function SquadChat() {
                   {group.messages.map((msg) => {
                     const isAuthor = msg.user_id === session?.user?.id;
                     const canDeleteThis = canDeleteAnyMessage || isAuthor;
-                    const hasHeart = reactions[msg.id];
 
                     return (
                       <div key={msg.id || msg.created_at} className="relative group/msg">
