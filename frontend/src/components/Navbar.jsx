@@ -7,7 +7,7 @@ import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Calendar, Bell, ChevronDown, Search, ExternalLink,
-  X, FileCode2, Building2, Hash, Settings, LogOut, Menu
+  X, FileCode2, Building2, Hash, Settings, LogOut, Menu, RefreshCw
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -346,14 +346,25 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
 
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
-        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-semibold">
+        {/* Manual LeetCode Refresh / Sync Button */}
+        <button
+          onClick={onRefresh}
+          disabled={refreshing}
+          className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-zinc-800 text-xs font-semibold text-zinc-200 hover:border-[#EA5D3A] hover:text-white transition-all disabled:opacity-50"
+          title="Manual sync LeetCode submissions data"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 text-[#EA5D3A] ${refreshing ? 'animate-spin' : ''}`} />
+          <span>{refreshing ? 'Syncing...' : 'Sync LeetCode'}</span>
+        </button>
+
+        <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-[#27272A] text-xs font-semibold">
           <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-[#6e7681]'}>
+          <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-zinc-500'}>
             {streakDays > 0 ? `${streakDays} Day Streak` : 'No Streak'}
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-medium text-[#8b949e]">
+        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] border border-[#27272A] text-xs font-medium text-zinc-400">
           <Calendar className="w-3.5 h-3.5" />
           <span>{dateStr}</span>
         </div>

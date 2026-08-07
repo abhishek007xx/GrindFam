@@ -160,6 +160,24 @@ const Dashboard = () => {
     } finally { setLoading(false); setRefreshing(false); }
   }, [token]);
 
+  // ─── Manual Force Sync LeetCode Submissions ───
+  const handleManualSyncLeetCode = useCallback(async () => {
+    if (!token) return;
+    setRefreshing(true);
+    setError(null);
+    try {
+      const response = await axios.post(`${API_BASE_URL}/dashboard/sync`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setDashboardData(response.data);
+      if (response.data?.dailyTarget) setDailyTarget(response.data.dailyTarget);
+    } catch (err) {
+      setError(err.response?.data?.error || err.message || 'Failed to sync LeetCode data.');
+    } finally {
+      setRefreshing(false);
+    }
+  }, [token]);
+
   // Handle URL search params for tab switching & smooth scrolling (?tab=leaderboard|friends|addFriend|squad)
   useEffect(() => {
     const tab = searchParams.get('tab');
@@ -322,6 +340,8 @@ const Dashboard = () => {
                   stats={dashboardData.stats}
                   dailyTarget={dailyTarget}
                   onEditTarget={() => setIsEditModalOpen(true)}
+                  onSyncLeetCode={handleManualSyncLeetCode}
+                  refreshing={refreshing}
                 />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
