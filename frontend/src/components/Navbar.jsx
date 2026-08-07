@@ -302,13 +302,9 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                           className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-[#0d1117] cursor-pointer transition-colors border-b border-[#21262d]/50 last:border-b-0"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 ${
-                              result.source_type === 'company'
-                                ? 'bg-indigo-500/10 border border-indigo-500/20'
-                                : 'bg-[#EA5D3A]/10 border border-[#EA5D3A]/20'
-                            }`}>
+                            <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 bg-[#181818] border border-white/10 text-[#8b949e]">
                               {result.source_type === 'company'
-                                ? <Building2 className="w-3 h-3 text-indigo-400" />
+                                ? <Building2 className="w-3 h-3 text-[#8b949e]" />
                                 : <FileCode2 className="w-3 h-3 text-[#EA5D3A]" />
                               }
                             </div>

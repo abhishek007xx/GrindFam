@@ -68,21 +68,20 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
   const progressPercent = Math.min(100, Math.round((solvedCount / Math.max(1, totalTrackProblems)) * 100));
 
   return (
-    <div className="dash-card p-6 bg-gradient-to-br from-[#161b22] via-[#1c2128] to-[#0d1117] border border-[#30363d] rounded-2xl shadow-xl relative overflow-hidden">
-      {/* Decorative Glow */}
-      <div className="absolute -top-16 -right-16 w-40 h-40 bg-[#EA5D3A]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="dash-card p-5 bg-[#121212] border border-white/[0.08] rounded-xl relative overflow-hidden">
+      {/* Subtle corner radial glow in brand orange only */}
+      <div className="absolute top-0 right-0 w-48 h-48 bg-[radial-gradient(circle_at_100%_0%,rgba(234,93,58,0.08),transparent_70%)] pointer-events-none" />
 
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6 relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-5 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
-            <Target className="w-6 h-6 animate-pulse" />
+          <div className="p-2.5 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
+            <Target className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-[#EA5D3A] uppercase tracking-widest bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 px-2 py-0.5 rounded-full">
-                Interview Timeline Tracker
+              <span className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-widest bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 px-2 py-0.5 rounded-md">
+                Interview Target
               </span>
               {savedSuccess && (
                 <span className="text-[10px] text-[#EA5D3A] font-semibold flex items-center gap-1">
@@ -90,18 +89,18 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                 </span>
               )}
             </div>
-            <h2 className="text-xl font-extrabold text-white mt-0.5 flex items-center gap-2">
-              Target: <span className="text-white font-bold">{targetCompany}</span> ({targetRole})
+            <h2 className="text-lg font-black text-white uppercase tracking-tight mt-0.5">
+              Target: {targetCompany} <span className="text-xs font-semibold text-[#8b949e] font-sans">({targetRole})</span>
             </h2>
           </div>
         </div>
 
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="px-3.5 py-2 rounded-xl bg-transparent hover:bg-white/5 text-[#8b949e] hover:text-[#EA5D3A] text-xs font-semibold flex items-center gap-1.5 border border-[#30363d] hover:border-[#EA5D3A] transition-all"
+          className="px-3 py-1.5 rounded-lg bg-[#181818] hover:bg-[#202020] text-[#8b949e] hover:text-white text-xs font-semibold flex items-center gap-1.5 border border-white/10 transition-all"
         >
-          {isEditing ? <X className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5 text-[#EA5D3A]" />}
-          <span>{isEditing ? 'Close Settings' : 'Configure Target'}</span>
+          {isEditing ? <X className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5" />}
+          <span>{isEditing ? 'Close' : 'Configure Target'}</span>
         </button>
       </div>
 
@@ -112,15 +111,15 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-6 p-4 rounded-xl bg-[#0d1117] border border-[#30363d] space-y-4"
+            className="mb-5 p-4 rounded-lg bg-[#161b22] border border-[#30363d] space-y-4"
           >
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase mb-1.5">Target Company</label>
+                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Target Company</label>
                 <select
                   value={targetCompany}
                   onChange={(e) => setTargetCompany(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 >
                   {companiesData.map(c => (
                     <option key={c.slug} value={c.company_name}>{c.company_name}</option>
@@ -129,11 +128,11 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase mb-1.5">Role Level Track</label>
+                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Role Level Track</label>
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 >
                   <option value="Intern">🎓 Intern Track (OA + Fundamentals)</option>
                   <option value="Campus Placement">🚀 Campus Placement (3-Month Sprint)</option>
@@ -142,12 +141,12 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase mb-1.5">Target Interview Date</label>
+                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Target Interview Date</label>
                 <input
                   type="date"
                   value={interviewDate}
                   onChange={(e) => setInterviewDate(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 />
               </div>
             </div>
@@ -155,58 +154,52 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
             <div className="flex justify-end pt-2">
               <button
                 onClick={handleSave}
-                className="px-5 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-[#EA5D3A]/20"
+                className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-[#EA5D3A]/20"
               >
-                Save Timeline Target
+                Save Target
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {/* Metric 1: Days Left */}
-        <div className="p-4 rounded-xl bg-[#0d1117]/80 border border-[#30363d] flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-            <Clock className="w-5 h-5" />
-          </div>
+      {/* Unified Stat Row with Clean Dividers (No 4 separate colored boxes!) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#21262d] bg-[#0d1117] border border-[#21262d] rounded-lg overflow-hidden mb-5">
+        {/* Stat 1: Days Remaining (Neutral) */}
+        <div className="p-3.5 flex items-center gap-3">
+          <Clock className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
           <div>
-            <p className="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Days Remaining</p>
-            <p className="text-xl font-black text-white">{daysLeft} <span className="text-xs font-normal text-[#8b949e]">days</span></p>
+            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Days Left</p>
+            <p className="text-base font-extrabold text-white leading-tight">{daysLeft} <span className="text-[11px] font-medium text-[#6e7681]">days</span></p>
           </div>
         </div>
 
-        {/* Metric 2: Problems Left */}
-        <div className="p-4 rounded-xl bg-[#0d1117]/80 border border-[#30363d] flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            <Building2 className="w-5 h-5" />
-          </div>
+        {/* Stat 2: Unsolved Target (Neutral) */}
+        <div className="p-3.5 flex items-center gap-3">
+          <Building2 className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
           <div>
-            <p className="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Unsolved Target</p>
-            <p className="text-xl font-black text-white">{remainingProblems} <span className="text-xs font-normal text-[#8b949e]">problems</span></p>
+            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Unsolved</p>
+            <p className="text-base font-extrabold text-white leading-tight">{remainingProblems} <span className="text-[11px] font-medium text-[#6e7681]">problems</span></p>
           </div>
         </div>
 
-        {/* Metric 3: Daily Quota */}
-        <div className="p-4 rounded-xl bg-[#0d1117]/80 border border-[#EA5D3A]/30 flex items-center gap-3 relative overflow-hidden bg-gradient-to-r from-[#EA5D3A]/10 to-transparent">
-          <div className="p-2.5 rounded-xl bg-[#EA5D3A]/20 text-[#EA5D3A] border border-[#EA5D3A]/30">
-            <Flame className="w-5 h-5" />
+        {/* Stat 3: Daily Target Quota (Emphasized Brand Accent) */}
+        <div className="p-3.5 flex items-center gap-3 bg-[#EA5D3A]/[0.06]">
+          <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 text-[#EA5D3A] flex items-center justify-center flex-shrink-0">
+            <Flame className="w-4 h-4" />
           </div>
           <div>
-            <p className="text-[10px] font-bold text-[#EA5D3A] uppercase tracking-wider">Daily Target Quota</p>
-            <p className="text-xl font-black text-white">{dailyQuota} <span className="text-xs font-semibold text-[#EA5D3A]">/ day</span></p>
+            <p className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-wider">Daily Quota</p>
+            <p className="text-base font-black text-white leading-tight">{dailyQuota} <span className="text-[11px] font-bold text-[#EA5D3A]">/ day</span></p>
           </div>
         </div>
 
-        {/* Metric 4: Target Progress */}
-        <div className="p-4 rounded-xl bg-[#0d1117]/80 border border-[#30363d] flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-teal-500/10 text-teal-400 border border-teal-500/20">
-            <Zap className="w-5 h-5" />
-          </div>
+        {/* Stat 4: Overall Progress (Neutral) */}
+        <div className="p-3.5 flex items-center gap-3">
+          <Zap className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
           <div>
-            <p className="text-[10px] font-bold text-[#8b949e] uppercase tracking-wider">Overall Progress</p>
-            <p className="text-xl font-black text-white">{progressPercent}% <span className="text-xs font-normal text-[#8b949e]">done</span></p>
+            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Progress</p>
+            <p className="text-base font-extrabold text-white leading-tight">{progressPercent}% <span className="text-[11px] font-medium text-[#6e7681]">done</span></p>
           </div>
         </div>
       </div>
@@ -214,16 +207,16 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
       {/* Progress Bar & Status Banner */}
       <div>
         <div className="flex items-center justify-between text-xs mb-1.5">
-          <span className="font-semibold text-white flex items-center gap-1.5">
+          <span className="font-medium text-[#8b949e] flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-[#EA5D3A]" />
             {remainingProblems === 0
               ? '🎉 All target problems solved! You are 100% interview ready!'
-              : `Solve ${dailyQuota} problem${dailyQuota > 1 ? 's' : ''} daily to complete your ${targetCompany} target by ${new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+              : `Solve ${dailyQuota} problem${dailyQuota > 1 ? 's' : ''} daily to complete your target by ${new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
             }
           </span>
           <span className="font-mono font-bold text-[#EA5D3A]">{solvedCount} / {totalTrackProblems} Solved</span>
         </div>
-        <div className="progress-track h-2 bg-[#0d1117] rounded-full overflow-hidden border border-[#30363d]">
+        <div className="progress-track h-2 bg-[#0d1117] rounded-full overflow-hidden border border-[#21262d]">
           <div
             className="progress-fill h-full bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] transition-all duration-700"
             style={{ width: `${progressPercent}%` }}

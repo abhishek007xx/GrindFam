@@ -144,7 +144,7 @@ const LeaderboardTable = ({
       {/* Header with View Mode Filter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-[#21262d]">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+          <div className="p-2 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
             <Trophy className="w-5 h-5" />
           </div>
           <div>

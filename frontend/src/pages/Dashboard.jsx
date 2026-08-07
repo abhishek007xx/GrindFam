@@ -444,7 +444,7 @@ const Dashboard = () => {
           <div className="text-center py-6 border-t border-[#21262d] mt-4">
             <p className="text-xs text-[#6e7681] flex items-center justify-center gap-1.5">
               © {new Date().getFullYear()} GrindFam. Built for consistency. Built for the squad.
-              <Heart className="w-3 h-3 text-purple-400 fill-purple-400" />
+              <Heart className="w-3 h-3 text-[#EA5D3A] fill-[#EA5D3A]" />
             </p>
           </div>
       {/* Edit Target Modal */}
