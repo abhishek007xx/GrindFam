@@ -213,22 +213,33 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
   return (
     <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white flex-shrink-0">
-      {/* Left side: Hamburger button + Logo (Mobile only) */}
-      <div className="flex items-center gap-2.5 lg:hidden">
+      {/* Left side: Primary Logo + Collapse Button + Mobile Menu */}
+      <div className="flex items-center gap-3">
         <button
           onClick={onToggleSidebar}
-          className="p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+          className="lg:hidden p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
           aria-label="Toggle navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] dark:border-[#30363d] light:border-slate-200 flex-shrink-0" />
-          <span className="text-base font-extrabold text-white dark:text-white light:text-slate-900">
+          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-lg object-cover border border-[#30363d] dark:border-[#30363d] light:border-slate-200 flex-shrink-0" />
+          <span className="text-base font-extrabold text-white dark:text-white light:text-slate-900 tracking-tight">
             Grind<span className="text-[#EA5D3A]">Fam</span>
           </span>
         </div>
+
+        {onToggleCollapse && (
+          <button
+            onClick={onToggleCollapse}
+            className="hidden lg:flex items-center p-1.5 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer ml-1"
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isCollapsed ? <PanelLeftOpen className="w-4.5 h-4.5" /> : <PanelLeftClose className="w-4.5 h-4.5" />}
+          </button>
+        )}
       </div>
 
       {/* Global Search Bar */}

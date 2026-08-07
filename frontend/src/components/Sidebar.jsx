@@ -106,40 +106,9 @@ export default function Sidebar({
   );
 
   return (
-    <div className={`flex flex-col h-full py-3 gap-2 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 transition-all duration-300 ${
-      isCollapsed ? 'px-2' : 'px-4'
+    <div className={`flex flex-col h-full py-4 gap-2 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 transition-all duration-300 ${
+      isCollapsed ? 'px-2' : 'px-3'
     }`}>
-      {/* Logo Header */}
-      <div
-        className={`h-16 flex items-center justify-between border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 flex-shrink-0 mb-1 ${
-          isCollapsed ? 'justify-center px-1' : 'px-2'
-        }`}
-      >
-        <div
-          className="flex items-center gap-2.5 cursor-pointer min-w-0"
-          onClick={() => { onNavigate?.(); navigate('/'); }}
-          title={isCollapsed ? "GrindFam Home" : undefined}
-        >
-          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-md object-cover border border-[#27272A] dark:border-[#27272A] light:border-slate-200 flex-shrink-0" />
-          {!isCollapsed && (
-            <h1 className="text-base font-bold text-white dark:text-white light:text-slate-900 tracking-tight truncate">
-              Grind<span className="text-[#EA5D3A]">Fam</span>
-            </h1>
-          )}
-        </div>
-
-        {onToggleCollapse && (
-          <button
-            onClick={(e) => { e.stopPropagation(); onToggleCollapse(); }}
-            className="p-1.5 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer"
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? <PanelLeftOpen className="w-4.5 h-4.5" /> : <PanelLeftClose className="w-4.5 h-4.5" />}
-          </button>
-        )}
-      </div>
-
       {/* Nav Groups */}
       <nav className="flex-1 overflow-y-auto space-y-1 scrollbar-thin scrollbar-thumb-[#27272A]">
         {renderNavGroup(mainNavItems, null)}
