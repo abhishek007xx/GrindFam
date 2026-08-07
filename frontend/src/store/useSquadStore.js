@@ -42,7 +42,18 @@ export const useSquadStore = create((set, get) => ({
 
       const squadIds = (memberRows || []).map(m => m.squad_id);
       if (squadIds.length === 0) {
-        set({ mySquads: [], activeSquad: null, members: [], loading: false });
+        // Fetch public community squads to set a default active squad
+        const { data: publicSquads } = await supabase
+          .from('squads').select('*').eq('squad_type', 'community').limit(1);
+          
+        if (publicSquads && publicSquads.length > 0) {
+          const defaultSquad = publicSquads[0];
+          set({ mySquads: [defaultSquad], activeSquad: defaultSquad, members: [], loading: false });
+          get().fetchSquadData(defaultSquad.id);
+          get().subscribeRealtime(defaultSquad.id);
+        } else {
+          set({ mySquads: [], activeSquad: null, members: [], loading: false });
+        }
         return;
       }
 

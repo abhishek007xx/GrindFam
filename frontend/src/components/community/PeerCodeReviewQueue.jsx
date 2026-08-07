@@ -4,6 +4,40 @@ import { MessageSquare, ThumbsUp, Code, Send, Plus, X, Loader2, CheckCircle } fr
 import { useSquadStore } from '../../store/useSquadStore';
 import { useAuth } from '../../context/AuthContext';
 
+const DEFAULT_SAMPLE_REVIEWS = [
+  {
+    id: 'sample-review-1',
+    author_name: 'AlgoNinja_92',
+    problem_title: '3Sum (Medium)',
+    notes: 'Looking for feedback on spatial complexity — can we optimize memory overhead?',
+    status: 'pending',
+    kudos_count: 5,
+    created_at: new Date().toISOString(),
+    code_snippet: `function threeSum(nums) {
+  nums.sort((a, b) => a - b);
+  const res = [];
+  for (let i = 0; i < nums.length - 2; i++) {
+    if (i > 0 && nums[i] === nums[i - 1]) continue;
+    let l = i + 1, r = nums.length - 1;
+    while (l < r) {
+      const sum = nums[i] + nums[l] + nums[r];
+      if (sum === 0) {
+        res.push([nums[i], nums[l], nums[r]]);
+        while (l < r && nums[l] === nums[l + 1]) l++;
+        while (l < r && nums[r] === nums[r - 1]) r--;
+        l++; r--;
+      } else if (sum < 0) l++;
+      else r--;
+    }
+  }
+  return res;
+}`,
+    annotations: [
+      { id: 'ann-1', line_number: 2, reviewer_name: 'GraphMaster', comment_text: 'Sorting in-place O(N log N) is fine, space complexity is O(1) auxiliary.' }
+    ]
+  }
+];
+
 export function PeerCodeReviewQueue() {
   const { session } = useAuth();
   const { 
@@ -40,14 +74,20 @@ export function PeerCodeReviewQueue() {
     e.preventDefault();
     if (!problemTitle.trim() || !codeSnippet.trim() || submitting) return;
     
+    const targetSquadId = activeSquad?.id;
+    if (!targetSquadId) {
+      alert('Please join or select a Squad Pod before submitting code for review!');
+      return;
+    }
+
     setSubmitting(true);
     try {
       await submitPeerReview({
-        squadId: activeSquad.id,
+        squadId: targetSquadId,
         problemTitle,
-        difficulty: 'Medium', // Default for now
+        difficulty: 'Medium',
         codeSnippet,
-        language: 'javascript', // Default for now
+        language: 'javascript',
         notes
       });
       setShowSubmitModal(false);
@@ -84,15 +124,17 @@ export function PeerCodeReviewQueue() {
     await giveKudos(reviewId);
   };
 
-  // Filter logic memoized for performance
+  // Filter logic memoized for performance with fallback to default sample reviews
+  const reviewsToDisplay = peerReviews.length > 0 ? peerReviews : DEFAULT_SAMPLE_REVIEWS;
+
   const filteredReviews = useMemo(() => {
-    return peerReviews.filter(review => {
+    return reviewsToDisplay.filter(review => {
       if (activeTab === 'all') return true;
       if (activeTab === 'approved') return review.status === 'approved';
       if (activeTab === 'pending') return review.status === 'pending' && review.author_id !== session?.user?.id;
       return true;
     });
-  }, [peerReviews, activeTab, session?.user?.id]);
+  }, [reviewsToDisplay, activeTab, session?.user?.id]);
 
   return (
     <div className="space-y-6" aria-live="polite">

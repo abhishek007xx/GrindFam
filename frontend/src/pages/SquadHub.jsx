@@ -114,9 +114,6 @@ export default function SquadHub() {
         {/* Mode C: Squad Cohort & Peer Review Space */}
         {activeCommunityMode === 'squad' && (
           <div className="space-y-6">
-            {/* Peer Code Review Queue */}
-            <PeerCodeReviewQueue />
-
             {/* Squad Active Workspace */}
             <div className="bg-[#161B22] border border-[#30363D] rounded-xl p-5 space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-[#21262D]">
@@ -128,7 +125,7 @@ export default function SquadHub() {
                 </div>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="px-3 py-1.5 bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1"
+                  className="px-3 py-1.5 bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs rounded-lg transition-all flex items-center gap-1 shadow-md shadow-[#EA5D3A]/20"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Join / Create Squad</span>
@@ -158,7 +155,7 @@ export default function SquadHub() {
                   </div>
 
                   {/* Channel Content Canvas */}
-                  <div className="lg:col-span-9 bg-[#0D1117] border border-[#21262D] rounded-lg p-4">
+                  <div className="lg:col-span-9 bg-[#0D1117] border border-[#21262D] rounded-lg p-4 min-h-[500px]">
                     {activeChannel === 'general' && <SquadChat />}
                     {activeChannel === 'code-sharing' && <PeerCodeReviewQueue />}
                     {activeChannel === 'leaderboard' && <SquadLeaderboard />}
@@ -166,10 +163,21 @@ export default function SquadHub() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12 bg-[#0D1117] border border-[#21262D] rounded-lg p-6 space-y-2">
-                  <Compass className="w-8 h-8 text-[#6B7280] mx-auto" />
-                  <h4 className="text-sm font-bold text-[#F3F4F6]">No Active Squad Selected</h4>
-                  <p className="text-xs text-[#9CA3AF]">Join a community squad or create your own study cohort.</p>
+                <div className="text-center py-16 bg-[#0D1117] border border-[#21262D] rounded-lg p-6 space-y-4">
+                  <Compass className="w-10 h-10 text-[#EA5D3A] mx-auto animate-bounce" />
+                  <div className="space-y-1">
+                    <h4 className="text-base font-bold text-[#F3F4F6]">No Active Squad Selected</h4>
+                    <p className="text-xs text-[#9CA3AF] max-w-sm mx-auto">
+                      Join a study cohort to unlock live squad chat, code reviews, and leaderboard battles!
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="px-5 py-2.5 bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs rounded-xl shadow-lg transition-all inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Explore & Join Pods</span>
+                  </button>
                 </div>
               )}
             </div>
