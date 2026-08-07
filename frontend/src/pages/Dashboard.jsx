@@ -363,33 +363,30 @@ const Dashboard = () => {
               </button>
             </div>
           ) : (
-            <>
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
-                {/* Left Column (Primary Focus & Action) */}
-                <div className="xl:col-span-2 space-y-8">
-                  {/* Zone 1: Daily Focus & Actionable Targets */}
-                  <div className="space-y-6">
-                    <StatsCards
-                      stats={dashboardData.stats}
-                      dailyTarget={dailyTarget}
-                      onEditTarget={() => setIsEditModalOpen(true)}
-                      onSyncLeetCode={handleManualSyncLeetCode}
-                      refreshing={refreshing}
-                    />
+            <div className="space-y-8">
+              {/* Zone 1: Daily Focus & Actionable Targets */}
+              <div className="space-y-6">
+                <StatsCards
+                  stats={dashboardData.stats}
+                  dailyTarget={dailyTarget}
+                  onEditTarget={() => setIsEditModalOpen(true)}
+                  onSyncLeetCode={handleManualSyncLeetCode}
+                  refreshing={refreshing}
+                />
 
-                    {/* Moved Heatmap up for instant dopamine & consistency visualization */}
-                    <div className="mb-2">
-                      <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
-                    </div>
+                {/* Heatmap Card */}
+                <div className="w-full">
+                  <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
+                </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
-                      <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
-                    </div>
-                  </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
+                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
+                </div>
+              </div>
 
               {/* Zone 2: Deep Problem-Solving Analytics */}
-              <div className="mb-8 space-y-4">
+              <div className="space-y-4">
                 <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
@@ -403,7 +400,7 @@ const Dashboard = () => {
               </div>
 
               {/* Zone 3: Revision, Retention & Sheet Tracking */}
-              <div className="mb-8 space-y-4">
+              <div className="space-y-4">
                 <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
                   <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
                     <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
@@ -416,36 +413,34 @@ const Dashboard = () => {
                 <SpacedRepetitionVault />
               </div>
 
+              {/* Zone 4: Contests & Gamification */}
+              <div className="space-y-4">
+                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
+                    <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Contests & Gamification</h2>
+                    <p className="text-[10px] text-[#6B7280]">Contest rating curve, XP level badges & upcoming schedules</p>
+                  </div>
+                </div>
+                <ContestsGamification platformTotal={yourPlatformTotal} />
+              </div>
+
+              {/* Zone 5: Social Drive & Squad Standings */}
+              <div className="space-y-4">
+                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
+                    <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Social Drive & Squad Standings</h2>
+                    <p className="text-[10px] text-[#6B7280]">Leaderboard rankings, active squad standings & friend activities</p>
+                  </div>
                 </div>
 
-                {/* Right Column (Social Drive, Contests & Gamification) */}
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                        <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Contests & Gamification</h2>
-                        <p className="text-[10px] text-[#6B7280]">Contest rating curve & XP level badges</p>
-                      </div>
-                    </div>
-                    <ContestsGamification platformTotal={yourPlatformTotal} />
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                        <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                      </div>
-                      <div>
-                        <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Social & Squad Drive</h2>
-                        <p className="text-[10px] text-[#6B7280]">Live calendar & squad standings</p>
-                      </div>
-                    </div>
-
                 {/* Social Category Hub Navigation */}
-                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#333333] rounded-xl mt-4">
+                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#333333] rounded-xl">
                   <div className="flex flex-wrap items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#333333]">
                     <button
                       onClick={() => handleTabChange('leaderboard')}
@@ -582,11 +577,8 @@ const Dashboard = () => {
                     <AddFriend onAddFriend={handleAddFriend} />
                   </div>
                 )}
-
-                  </div>
-                </div>
               </div>
-            </>
+            </div>
           )}
 
           {/* Footer */}
