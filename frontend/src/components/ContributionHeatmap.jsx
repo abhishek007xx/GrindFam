@@ -157,7 +157,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
       </div>
 
       {/* Heatmap Grid */}
-      <div className="overflow-x-auto pb-2 -mx-1 px-1">
+      <div className="overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         <div className="min-w-[750px]">
           {/* Month labels row */}
           <div className="flex ml-9 mb-1.5" style={{ gap: `${cellGap}px` }}>

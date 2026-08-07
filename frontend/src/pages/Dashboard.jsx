@@ -395,7 +395,7 @@ const Dashboard = () => {
           {/* TAB 1: OVERVIEW (Main Dashboard Tab as requested) */}
           {activeMainTab === 'overview' && (
             <div className="space-y-6 animate-fadeIn">
-              {/* Row 1: Squad members & hit target row */}
+              {/* Row 1: Slim Squad members & hit target row */}
               <StatsCards
                 stats={dashboardData.stats}
                 dailyTarget={dailyTarget}
@@ -404,32 +404,22 @@ const Dashboard = () => {
                 refreshing={refreshing}
               />
 
-              {/* Row 2: Heatmap & Daily Checklist Grid */}
+              {/* Row 2: Weekly Progress & Daily Micro Goals */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <div className="xl:col-span-2">
-                  <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
+                  <WeeklyProgress
+                    yourTodayCount={yourTodayCount}
+                    dailyTarget={dailyTarget}
+                    platformTotal={yourPlatformTotal}
+                    weeklyData={weeklyData}
+                  />
                 </div>
                 <div className="xl:col-span-1">
                   <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                 </div>
               </div>
 
-              {/* Row 3: Weekly Progress Bar Chart & Target Donut Graph */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <WeeklyProgress
-                  yourTodayCount={yourTodayCount}
-                  dailyTarget={dailyTarget}
-                  platformTotal={yourPlatformTotal}
-                  weeklyData={weeklyData}
-                />
-                <ProgressChart
-                  yourTodayCount={yourTodayCount}
-                  dailyTarget={dailyTarget}
-                  weeklyData={weeklyData}
-                />
-              </div>
-
-              {/* Row 4: Leaderboard Table & Recent Activity */}
+              {/* Row 3: Leaderboard Table & Recent Activity */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" id="leaderboard-section">
                 <div className="xl:col-span-2">
                   <LeaderboardTable
@@ -442,6 +432,11 @@ const Dashboard = () => {
                 <div className="xl:col-span-1">
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
                 </div>
+              </div>
+
+              {/* Row 4: All-Time Contribution Heatmap at the Bottom (Full Width, No Scrollbar) */}
+              <div className="w-full">
+                <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
               </div>
             </div>
           )}
