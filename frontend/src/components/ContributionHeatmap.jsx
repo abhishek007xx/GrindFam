@@ -132,15 +132,20 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellSize = 12;
   const cellGap = 3;
 
+  const yearlyPercent = Math.min(100, Math.round(((stats.activeDays || 0) / 365) * 100));
+  const circleRadius = 26;
+  const circumference = 2 * Math.PI * circleRadius;
+  const strokeDashoffset = circumference * (1 - yearlyPercent / 100);
+
   return (
     <div className="dash-card p-4 sm:p-6 border border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white rounded-2xl shadow-sm" id="activity-section">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
-            <GitCommit className="w-4 h-4" />
+      {/* Header with Circular Yearly Donut Ring */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
+            <GitCommit className="w-5 h-5" />
           </div>
-          <div className="min-w-0">
+          <div>
             <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 flex items-center gap-2 flex-wrap">
               <span>All-Time Contribution Progress</span>
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-[#10B981] border border-emerald-500/30 font-semibold">
@@ -153,7 +158,29 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#10B981] flex-shrink-0" />}
+        {/* ⭕ Gol Circular Donut Ring (Yearly Grind Consistency %) */}
+        <div className="flex items-center gap-3 bg-[#141414] dark:bg-[#141414] light:bg-slate-100 px-3.5 py-2 rounded-xl border border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 flex-shrink-0 shadow-sm">
+          <div className="relative w-11 h-11 flex-shrink-0">
+            <svg viewBox="0 0 64 64" className="w-full h-full -rotate-90">
+              <circle cx="32" cy="32" r={circleRadius} fill="none" stroke="#262626" strokeWidth="5" />
+              <circle
+                cx="32" cy="32" r={circleRadius}
+                fill="none" stroke="#10B981" strokeWidth="5"
+                strokeLinecap="round"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                style={{ transition: 'stroke-dashoffset 0.8s ease-out' }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center font-mono text-[10px] font-black text-white dark:text-white light:text-slate-900">
+              {yearlyPercent}%
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold text-white dark:text-white light:text-slate-900 tracking-tight">Yearly Consistency</p>
+            <p className="text-[10px] text-[#10B981] font-semibold">{stats.activeDays || 0} of 365 Days Active</p>
+          </div>
+        </div>
       </div>
 
       {/* Heatmap Grid */}
@@ -227,35 +254,42 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
         </div>
       </div>
 
-      {/* Stats Row — Responsive */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-5 border-t border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
+      {/* Stats Row — 5 Responsive Columns including Donut Consistency */}
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4 pt-4 border-t border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
           </div>
-          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.totalSolved || 0}</p>
+          <p className="text-base font-extrabold text-white dark:text-white light:text-slate-900">{stats.totalSolved || 0}</p>
           <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Total Solved</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Calendar className="w-3.5 h-3.5 text-blue-500" />
           </div>
-          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.activeDays || 0}</p>
+          <p className="text-base font-extrabold text-white dark:text-white light:text-slate-900">{stats.activeDays || 0}</p>
           <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Active Days</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Flame className="w-3.5 h-3.5 text-amber-500" />
           </div>
-          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.currentStreak || 0}</p>
+          <p className="text-base font-extrabold text-white dark:text-white light:text-slate-900">{stats.currentStreak || 0}</p>
           <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Current Streak</p>
         </div>
         <div className="text-center">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Award className="w-3.5 h-3.5 text-yellow-500" />
           </div>
-          <p className="text-lg font-extrabold text-white dark:text-white light:text-slate-900">{stats.longestStreak || 0}</p>
+          <p className="text-base font-extrabold text-white dark:text-white light:text-slate-900">{stats.longestStreak || 0}</p>
           <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Longest Streak</p>
+        </div>
+        <div className="text-center col-span-2 sm:col-span-1">
+          <div className="flex items-center justify-center gap-1.5 mb-1">
+            <GitCommit className="w-3.5 h-3.5 text-[#10B981]" />
+          </div>
+          <p className="text-base font-extrabold text-[#10B981]">{yearlyPercent}%</p>
+          <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Yearly Consistency</p>
         </div>
       </div>
 
