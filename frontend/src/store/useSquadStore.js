@@ -927,5 +927,246 @@ export const useSquadStore = create((set, get) => ({
       .subscribe();
 
     set({ dmRealtimeChannel: channel });
+  },
+
+  // ─── Peer Review Actions ───
+  fetchPeerReviews: async (squadId) => {
+    if (!squadId) return;
+    try {
+      // 1. Fetch reviews
+      const { data: reviews, error: revErr } = await supabase
+        .from('peer_reviews')
+        .select('*')
+        .eq('squad_id', squadId)
+        .order('created_at', { ascending: false });
+      
+      if (revErr) throw revErr;
+
+      // 2. Fetch annotations for these reviews
+      const reviewIds = (reviews || []).map(r => r.id);
+      let annotationsByReview = {};
+      
+      if (reviewIds.length > 0) {
+        const { data: annotations, error: annErr } = await supabase
+          .from('line_annotations')
+          .select('*')
+          .in('review_id', reviewIds);
+          
+        if (annErr) throw annErr;
+        
+        (annotations || []).forEach(ann => {
+          if (!annotationsByReview[ann.review_id]) {
+            annotationsByReview[ann.review_id] = [];
+          }
+          annotationsByReview[ann.review_id].push(ann);
+        });
+      }
+
+      // 3. Resolve profiles for authors and reviewers
+      const allUserIds = new Set([
+        ...(reviews || []).map(r => r.author_id),
+        ...Object.values(annotationsByReview).flat().map(a => a.reviewer_id)
+      ]);
+      
+      const profileMap = {};
+      if (allUserIds.size > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, username, leetcode_username')
+          .in('id', Array.from(allUserIds));
+          
+        (profiles || []).forEach(p => { profileMap[p.id] = p; });
+      }
+
+      // 4. Stitch everything together
+      const enrichedReviews = (reviews || []).map(r => {
+        const authorProf = profileMap[r.author_id] || {};
+        const enrichedAnnotations = (annotationsByReview[r.id] || []).map(a => {
+          const revProf = profileMap[a.reviewer_id] || {};
+          return {
+            ...a,
+            reviewer_name: revProf.username || revProf.leetcode_username || 'Reviewer'
+          };
+        });
+
+        return {
+          ...r,
+          author_name: authorProf.username || authorProf.leetcode_username || 'Grinder',
+          annotations: enrichedAnnotations
+        };
+      });
+
+      set({ peerReviews: enrichedReviews });
+    } catch (err) {
+      console.error('Error fetching peer reviews:', err);
+    }
+  },
+
+  submitPeerReview: async (payload) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const { squadId, problemTitle, difficulty, codeSnippet, language, notes } = payload;
+    
+    // Optimistic Update
+    const tempId = `temp-review-${Date.now()}`;
+    const newReview = {
+      id: tempId,
+      squad_id: squadId,
+      author_id: user.id,
+      problem_title: problemTitle,
+      difficulty: difficulty || 'Medium',
+      code_snippet: codeSnippet,
+      language: language || 'javascript',
+      notes: notes || null,
+      status: 'pending',
+      kudos_count: 0,
+      created_at: new Date().toISOString(),
+      author_name: 'You', // Optimistic author
+      annotations: [],
+      isPending: true
+    };
+    
+    set((s) => ({ peerReviews: [newReview, ...s.peerReviews] }));
+
+    try {
+      const { data, error } = await supabase
+        .from('peer_reviews')
+        .insert([{
+          squad_id: squadId,
+          author_id: user.id,
+          problem_title: problemTitle,
+          difficulty: difficulty || 'Medium',
+          code_snippet: codeSnippet,
+          language: language || 'javascript',
+          notes: notes || null,
+          status: 'pending'
+        }])
+        .select()
+        .single();
+        
+      if (error) throw error;
+      
+      // Update temp ID with real ID
+      set((s) => ({
+        peerReviews: s.peerReviews.map(r => r.id === tempId ? { ...r, ...data, isPending: false, author_name: newReview.author_name } : r)
+      }));
+    } catch (err) {
+      console.error('Error submitting review:', err);
+      // Remove optimistic update on failure
+      set((s) => ({ peerReviews: s.peerReviews.filter(r => r.id !== tempId) }));
+    }
+  },
+
+  addLineAnnotation: async (payload) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    
+    const { reviewId, lineNumber, commentText } = payload;
+    
+    // Optimistic Update
+    const tempId = `temp-ann-${Date.now()}`;
+    const newAnnotation = {
+      id: tempId,
+      review_id: reviewId,
+      reviewer_id: user.id,
+      line_number: lineNumber,
+      comment_text: commentText,
+      created_at: new Date().toISOString(),
+      reviewer_name: 'You', // Optimistic reviewer
+      isPending: true
+    };
+
+    set((s) => ({
+      peerReviews: s.peerReviews.map(r => {
+        if (r.id === reviewId) {
+          return { ...r, annotations: [...r.annotations, newAnnotation].sort((a, b) => a.line_number - b.line_number) };
+        }
+        return r;
+      })
+    }));
+
+    try {
+      const { data, error } = await supabase
+        .from('line_annotations')
+        .insert([{
+          review_id: reviewId,
+          reviewer_id: user.id,
+          line_number: lineNumber,
+          comment_text: commentText
+        }])
+        .select()
+        .single();
+        
+      if (error) throw error;
+      
+      // Update temp ID with real ID
+      set((s) => ({
+        peerReviews: s.peerReviews.map(r => {
+          if (r.id === reviewId) {
+            return {
+              ...r,
+              annotations: r.annotations.map(a => a.id === tempId ? { ...a, ...data, isPending: false } : a)
+            };
+          }
+          return r;
+        })
+      }));
+    } catch (err) {
+      console.error('Error adding annotation:', err);
+      // Remove optimistic update on failure
+      set((s) => ({
+        peerReviews: s.peerReviews.map(r => {
+          if (r.id === reviewId) {
+            return { ...r, annotations: r.annotations.filter(a => a.id !== tempId) };
+          }
+          return r;
+        })
+      }));
+    }
+  },
+
+  giveKudos: async (reviewId) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Optimistic update
+    set((s) => ({
+      peerReviews: s.peerReviews.map(r => {
+        if (r.id === reviewId) {
+          return { ...r, kudos_count: (r.kudos_count || 0) + 1 };
+        }
+        return r;
+      })
+    }));
+
+    try {
+      // Fetch current kudos first
+      const { data, error } = await supabase
+        .from('peer_reviews')
+        .select('kudos_count')
+        .eq('id', reviewId)
+        .single();
+        
+      if (error) throw error;
+      
+      // Update with +1
+      await supabase
+        .from('peer_reviews')
+        .update({ kudos_count: (data.kudos_count || 0) + 1 })
+        .eq('id', reviewId);
+        
+    } catch (err) {
+      console.error('Error giving kudos:', err);
+      // Rollback optimistic update on failure
+      set((s) => ({
+        peerReviews: s.peerReviews.map(r => {
+          if (r.id === reviewId) {
+            return { ...r, kudos_count: Math.max(0, (r.kudos_count || 1) - 1) };
+          }
+          return r;
+        })
+      }));
+    }
   }
 }));
