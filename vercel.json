@@ -7,7 +7,7 @@
       "destination": "/api/index.js"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!assets/|.*\\.(?:js|css|png|jpg|jpeg|gif|ico|svg|json|woff2?)).*)",
       "destination": "/index.html"
     }
   ]

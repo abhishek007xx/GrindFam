@@ -7,6 +7,7 @@ export default defineConfig(({ mode }) => {
   const target = rawUrl.replace(/\/api\/?$/, '');
 
   return {
+    base: '/',
     plugins: [react()],
     server: {
       port: 3000,
@@ -21,4 +22,3 @@ export default defineConfig(({ mode }) => {
     }
   };
 });
-
