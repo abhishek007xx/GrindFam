@@ -8,7 +8,8 @@ import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Calendar, Bell, ChevronDown, Search, ExternalLink,
-  X, FileCode2, Building2, Hash, Settings, LogOut, Menu, RefreshCw, Sun, Moon
+  X, FileCode2, Building2, Hash, Settings, LogOut, Menu, RefreshCw, Sun, Moon,
+  PanelLeftClose, PanelLeftOpen
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -18,7 +19,7 @@ const getInitials = (name = '') => {
   return name.slice(0, 2).toUpperCase();
 };
 
-const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) => {
+const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, refreshing, platformTotal = 0 }) => {
   const navigate = useNavigate();
   const { profile, user, signOut } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -211,20 +212,31 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
   };
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] bg-[#0B0C10] flex-shrink-0">
-      {/* Left side: Hamburger button (mobile) + Logo */}
-      <div className="flex items-center gap-3">
+    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white flex-shrink-0">
+      {/* Left side: Hamburger button (mobile) + Collapse Button (desktop) + Logo */}
+      <div className="flex items-center gap-2.5">
         <button
           onClick={onToggleSidebar}
-          className="lg:hidden p-2 rounded-xl text-[#8b949e] hover:text-white hover:bg-white/5 transition-colors"
+          className="lg:hidden p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
           aria-label="Toggle navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
+        {onToggleCollapse && (
+          <button
+            onClick={onToggleCollapse}
+            className="hidden lg:flex items-center p-2 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer"
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+          </button>
+        )}
+
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] flex-shrink-0" />
-          <span className="text-base font-extrabold text-white">
+          <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] dark:border-[#30363d] light:border-slate-200 flex-shrink-0" />
+          <span className="text-base font-extrabold text-white dark:text-white light:text-slate-900">
             Grind<span className="text-[#EA5D3A]">Fam</span>
           </span>
         </div>

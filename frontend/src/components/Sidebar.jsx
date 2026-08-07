@@ -131,11 +131,11 @@ export default function Sidebar({
         {onToggleCollapse && (
           <button
             onClick={(e) => { e.stopPropagation(); onToggleCollapse(); }}
-            className="p-1.5 rounded-lg text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors flex-shrink-0"
+            className="p-1.5 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer"
             title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
-            {isCollapsed ? <PanelLeftOpen className="w-4 h-4 text-[#EA5D3A]" /> : <PanelLeftClose className="w-4 h-4" />}
+            {isCollapsed ? <PanelLeftOpen className="w-4.5 h-4.5" /> : <PanelLeftClose className="w-4.5 h-4.5" />}
           </button>
         )}
       </div>
