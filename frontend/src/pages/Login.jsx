@@ -31,23 +31,23 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-      {/* Subtle ambient lighting & dot grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(234,88,12,0.1),transparent_70%)] pointer-events-none" />
+      {/* Barely perceptible warm ambient lighting & subtle grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(234,88,12,0.035),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 dot-grid opacity-10 pointer-events-none" />
 
-      <div className="w-full max-w-md bg-[#121212] p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-[#EA580C]/30 transition-all duration-300">
+      <div className="w-full max-w-md bg-[#121212] p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-white/15 transition-colors duration-300">
         <div className="text-center mb-7">
           <Link to="/" className="inline-flex items-center justify-center gap-2.5 mb-4 group text-decoration-none">
             <img
               src="/logo.png"
               alt="GrindFam Logo"
-              className="w-9 h-9 rounded-xl object-cover border border-white/10 shadow-[0_0_15px_rgba(234,88,12,0.3)] group-hover:scale-105 transition-transform"
+              className="w-9 h-9 rounded-xl object-cover border border-white/10 shadow-sm group-hover:scale-105 transition-transform"
             />
-            <span className="font-display font-black text-2xl tracking-tighter text-[#FAFAFA]">
+            <span className="font-black text-2xl tracking-tighter text-[#FAFAFA]">
               Grind<span className="text-[#F97316]">Fam</span>
             </span>
           </Link>
-          <h2 className="font-display font-black text-2xl text-white tracking-tighter uppercase">Welcome Back</h2>
+          <h2 className="font-black text-2xl text-white tracking-tighter uppercase">Welcome Back</h2>
           <p className="text-xs text-[#8A8A85] mt-1.5 font-medium tracking-tight">Sign in to track your daily LeetCode targets</p>
         </div>
 
@@ -61,7 +61,7 @@ const Login = () => {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={googleLoading || loading}
-          className="w-full py-2.5 px-4 bg-[#181818] hover:bg-[#202020] border border-white/10 hover:border-[#EA580C]/40 text-[#FAFAFA] font-medium rounded-xl text-sm transition-all flex items-center justify-center gap-3 mb-5 disabled:opacity-50 cursor-pointer shadow-sm"
+          className="w-full py-2.5 px-4 bg-[#181818] hover:bg-[#202020] border border-white/10 hover:border-white/20 text-[#FAFAFA] font-medium rounded-xl text-sm transition-all flex items-center justify-center gap-3 mb-5 disabled:opacity-50 cursor-pointer shadow-sm"
         >
           {googleLoading ? (
             <Loader2 className="w-4 h-4 animate-spin text-[#8A8A85]" />
@@ -85,8 +85,8 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-[11px] font-semibold text-[#8A8A85] uppercase tracking-wider mb-1.5">Email</label>
-            <div className="relative group">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#EA580C] transition-colors" />
+            <div className="relative">
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
                 className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#FAFAFA] placeholder-[#525252] focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C]/40 text-sm tracking-[-0.01em] transition-all" />
             </div>
@@ -94,12 +94,12 @@ const Login = () => {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label className="block text-[11px] font-semibold text-[#8A8A85] uppercase tracking-wider">Password</label>
-              <Link to="/forgot-password" className="text-xs text-[#EA580C] hover:text-[#F97316] hover:underline font-semibold transition-colors">
+              <Link to="/forgot-password" className="text-xs text-[#8A8A85] hover:text-[#FAFAFA] hover:underline font-medium transition-colors">
                 Forgot Password?
               </Link>
             </div>
-            <div className="relative group">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#EA580C] transition-colors" />
+            <div className="relative">
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
               <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••"
                 className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#FAFAFA] placeholder-[#525252] focus:outline-none focus:border-[#EA580C] focus:ring-1 focus:ring-[#EA580C]/40 text-sm tracking-[-0.01em] transition-all" />
             </div>
@@ -112,7 +112,7 @@ const Login = () => {
         </form>
 
         <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-[#8A8A85]">
-          Don't have an account? <Link to="/register" className="text-[#EA580C] hover:text-[#F97316] hover:underline font-semibold transition-colors">Register</Link>
+          Don't have an account? <Link to="/register" className="text-[#F97316]/90 hover:text-[#F97316] hover:underline font-semibold transition-colors">Register</Link>
         </div>
       </div>
     </div>

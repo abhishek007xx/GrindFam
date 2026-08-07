@@ -43,23 +43,23 @@ const ResetPassword = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-      {/* Subtle ambient lighting & dot grid */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(234,88,12,0.1),transparent_70%)] pointer-events-none" />
+      {/* Barely perceptible warm ambient lighting & subtle grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(234,88,12,0.035),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 dot-grid opacity-10 pointer-events-none" />
 
-      <div className="w-full max-w-md bg-[#121212] p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-[#EA580C]/30 transition-all duration-300">
+      <div className="w-full max-w-md bg-[#121212] p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-white/15 transition-colors duration-300">
         <div className="text-center mb-7">
           <Link to="/" className="inline-flex items-center justify-center gap-2.5 mb-4 group text-decoration-none">
             <img
               src="/logo.png"
               alt="GrindFam Logo"
-              className="w-9 h-9 rounded-xl object-cover border border-white/10 shadow-[0_0_15px_rgba(234,88,12,0.3)] group-hover:scale-105 transition-transform"
+              className="w-9 h-9 rounded-xl object-cover border border-white/10 shadow-sm group-hover:scale-105 transition-transform"
             />
-            <span className="font-display font-black text-2xl tracking-tighter text-[#FAFAFA]">
+            <span className="font-black text-2xl tracking-tighter text-[#FAFAFA]">
               Grind<span className="text-[#F97316]">Fam</span>
             </span>
           </Link>
-          <h2 className="font-display font-black text-2xl text-white tracking-tighter uppercase">Set New Password</h2>
+          <h2 className="font-black text-2xl text-white tracking-tighter uppercase">Set New Password</h2>
           <p className="text-xs text-[#8A8A85] mt-1.5 font-medium tracking-tight">Please enter your new password below</p>
         </div>
 
@@ -83,8 +83,8 @@ const ResetPassword = () => {
               <label className="block text-[11px] font-semibold text-[#8A8A85] uppercase tracking-wider mb-1.5">
                 New Password
               </label>
-              <div className="relative group">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#EA580C] transition-colors" />
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
                 <input
                   type="password"
                   required
@@ -101,8 +101,8 @@ const ResetPassword = () => {
               <label className="block text-[11px] font-semibold text-[#8A8A85] uppercase tracking-wider mb-1.5">
                 Confirm New Password
               </label>
-              <div className="relative group">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#EA580C] transition-colors" />
+              <div className="relative">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
                 <input
                   type="password"
                   required
@@ -128,7 +128,7 @@ const ResetPassword = () => {
 
         <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-[#8A8A85]">
           Back to{' '}
-          <Link to="/login" className="text-[#EA580C] hover:text-[#F97316] hover:underline font-semibold transition-colors">
+          <Link to="/login" className="text-[#F97316]/90 hover:text-[#F97316] hover:underline font-semibold transition-colors">
             Sign In
           </Link>
         </div>
