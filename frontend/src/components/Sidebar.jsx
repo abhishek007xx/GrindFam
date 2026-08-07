@@ -94,7 +94,7 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
   );
 
   return (
-    <div className="flex flex-col h-full px-4 py-3 gap-2 bg-[#09090B] border-r border-[#27272A]">
+    <div className="flex flex-col h-full px-4 py-3 gap-2 bg-[#0B0C10] border-r border-[#27272A]">
       {/* Logo Header */}
       <div
         className="px-2 h-16 flex items-center border-b border-[#27272A] cursor-pointer flex-shrink-0 mb-1"

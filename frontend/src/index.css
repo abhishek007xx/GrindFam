@@ -5,21 +5,21 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { margin: 0; background-color: #09090B; }
+body { margin: 0; background-color: #0B0C10; }
 
 :root {
-  /* Codolio Style Dark Zinc Palette */
-  --color-bg:               #09090B; /* Deep Jet Black */
-  --color-surface:          #121318; /* Codolio Sleek Surface #121318 */
-  --color-surface-elevated: #18181B; /* Elevated Zinc */
-  --color-border:           rgba(39, 39, 42, 0.8); /* Zinc-800/80 */
-  --color-border-hover:     #3F3F46; /* Zinc-700 */
-  --color-text:             #F4F4F5; /* Crisp White */
-  --color-text-muted:       #A1A1AA; /* Light Gray Zinc-400 */
-  --color-text-dim:         #71717A; /* Muted Gray Zinc-500 */
-  --color-accent:           #EA5D3A; /* Controlled Accent */
-  --color-accent-hover:     #F2704E;
-  --color-success:          #10B981; /* Emerald Green */
+  /* Codolio Style Deep Charcoal Black Palette */
+  --color-bg:               #0B0C10; /* Deep Charcoal Black */
+  --color-surface:          #121318; /* Elevated Zinc/Carbon #121318 */
+  --color-surface-elevated: #18181B;
+  --color-border:           #27272A; /* Ultra-subtle Zinc #27272A / rgba(255,255,255,0.08) */
+  --color-border-hover:     #3F3F46;
+  --color-text:             #FFFFFF; /* Pure White */
+  --color-text-muted:       #A1A1AA; /* Light Gray Body Text */
+  --color-text-dim:         #71717A; /* Muted Slate Secondary Metrics */
+  --color-accent:           #F97316; /* Restrained Accent Orange */
+  --color-accent-hover:     #EA580C;
+  --color-success:          #10B981; /* Emerald Green Solved Metric */
 
   --sidebar-width:          240px;
   --navbar-height:          64px;
@@ -41,21 +41,21 @@ body { margin: 0; background-color: #09090B; }
     @apply text-zinc-200 min-h-screen antialiased;
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     letter-spacing: -0.015em;
-    background-color: var(--color-bg);
+    background-color: #0B0C10;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: rgba(234, 93, 58, 0.25);
+    background-color: rgba(249, 115, 22, 0.25);
     color: #ffffff;
   }
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
-    -webkit-text-fill-color: #F4F4F5 !important;
+    -webkit-text-fill-color: #FFFFFF !important;
     -webkit-box-shadow: 0 0 0px 1000px #121318 inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
@@ -67,10 +67,10 @@ body { margin: 0; background-color: #09090B; }
   }
 }
 
-/* Codolio Sleek Zinc Surface Cards */
+/* Codolio Sleek Surface Cards (#121318, rounded-2xl, no neon glow) */
 .dash-card {
   background: #121318;
-  border: 1px solid rgba(39, 39, 42, 0.8);
+  border: 1px solid #27272A;
   border-radius: 16px;
   padding: 20px;
 }
@@ -94,7 +94,7 @@ body { margin: 0; background-color: #09090B; }
 }
 .sidebar-nav-item.active {
   color: #ffffff;
-  background-color: rgba(234, 93, 58, 0.1);
+  background-color: rgba(249, 115, 22, 0.1);
   border-left: 2px solid var(--color-accent);
   border-radius: 0 6px 6px 0;
 }
@@ -102,7 +102,7 @@ body { margin: 0; background-color: #09090B; }
 /* Emerald Green Progress Fills */
 .progress-track {
   background-color: #18181B;
-  border: 1px solid rgba(39, 39, 42, 0.8);
+  border: 1px solid #27272A;
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -118,7 +118,7 @@ body { margin: 0; background-color: #09090B; }
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: #0B0C10;
 }
 ::-webkit-scrollbar-thumb {
   background: #27272A;

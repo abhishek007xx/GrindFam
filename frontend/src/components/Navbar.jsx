@@ -209,7 +209,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
   };
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#30363d] bg-[#0d1117] flex-shrink-0">
+    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] bg-[#0B0C10] flex-shrink-0">
       {/* Left side: Hamburger button (mobile) + Logo */}
       <div className="flex items-center gap-3">
         <button
