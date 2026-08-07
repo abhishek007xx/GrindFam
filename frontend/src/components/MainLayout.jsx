@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function MainLayout({ children, onRefresh, refreshing, platformTotal = 0 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,12 +26,28 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
   return (
     <div className="h-screen w-full flex bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-slate-50 text-zinc-200 dark:text-zinc-200 light:text-slate-900 overflow-hidden">
       {/* Desktop Collapsible Sidebar Container */}
-      <div className={`hidden lg:block ${isCollapsed ? 'w-16' : 'w-64'} flex-shrink-0 border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 overflow-y-auto bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white transition-all duration-300 ease-in-out`}>
-        <Sidebar
-          platformTotal={platformTotal}
-          isCollapsed={isCollapsed}
-          onToggleCollapse={toggleCollapse}
-        />
+      <div className={`relative hidden lg:block ${isCollapsed ? 'w-16' : 'w-64'} flex-shrink-0 border-r border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white transition-all duration-300 ease-in-out z-20`}>
+        {/* Sleek Floating Collapse Toggle Button on Border Line */}
+        <button
+          onClick={toggleCollapse}
+          className="absolute -right-3 top-5 z-40 w-6 h-6 rounded-full bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-300 text-[#EA5D3A] hover:bg-[#EA5D3A] hover:text-white transition-all shadow-md flex items-center justify-center cursor-pointer group"
+          title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+          ) : (
+            <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+          )}
+        </button>
+
+        <div className="h-full overflow-y-auto">
+          <Sidebar
+            platformTotal={platformTotal}
+            isCollapsed={isCollapsed}
+            onToggleCollapse={toggleCollapse}
+          />
+        </div>
       </div>
 
       {/* Mobile Drawer Overlay */}

@@ -229,17 +229,6 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
             Grind<span className="text-[#EA5D3A]">Fam</span>
           </span>
         </div>
-
-        {onToggleCollapse && (
-          <button
-            onClick={onToggleCollapse}
-            className="hidden lg:flex items-center p-1.5 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer ml-1"
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? <PanelLeftOpen className="w-4.5 h-4.5" /> : <PanelLeftClose className="w-4.5 h-4.5" />}
-          </button>
-        )}
       </div>
 
       {/* Global Search Bar */}
