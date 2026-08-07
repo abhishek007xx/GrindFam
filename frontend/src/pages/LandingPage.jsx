@@ -101,7 +101,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="bg-[#0A0A0A] text-[#F5F5F0] min-h-screen overflow-x-hidden antialiased" style={S.page}>
+    <div className="bg-[#0A0A0A] text-[#F5F5F0] min-h-screen overflow-x-clip antialiased" style={S.page}>
 
       {/* ── GLOBAL KEYFRAMES ─────────────────────────────────────── */}
       <style>{`

@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * ScrollLockSection — True Screen Locking Engine with Zero Snap-Back
+ * ScrollLockSection — Apple-Style CSS Sticky Scroll Pinning Engine
  *
- * - Locks document viewport 100% while scrubbing 192 frames
- * - Safety guard (canExitBackRef) prevents trailing trackpad momentum from snapping back to Section 1
- * - Smooth lerp physics for ultra-fluid 60fps frame updates
- * - Multi-section support (Hero, How It Works, Pricing/CTA)
+ * - Pins container to viewport (position: sticky; top: 0) while user scrolls
+ * - Frame sequence scrubs 0% -> 100% as user scrolls through outer container height
+ * - Unpins naturally when animation completes, smoothly revealing next section
+ * - 0-glitch, 60fps performance with smooth lerp physics
  */
 export default function ScrollLockSection({
   children,
   totalScrollUnits = 2800,
+  scrollDistance,
   onProgress,
   playerRef,
   className = '',
@@ -18,134 +19,38 @@ export default function ScrollLockSection({
   id,
 }) {
   const sectionRef = useRef(null);
-  const isActiveRef = useRef(false);
-  const isDoneRef = useRef(false);
-  const canExitBackRef = useRef(false);
-  const lockTimeRef = useRef(0);
-
-  const targetAccRef = useRef(0);
-  const currentAccRef = useRef(0);
-  const rafIdRef = useRef(null);
-  const lastProgressRef = useRef(-1);
   const [progressState, setProgressState] = useState(0);
+  const targetPRef = useRef(0);
+  const currentPRef = useRef(0);
+  const lastEmittedPRef = useRef(-1);
+  const rafIdRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // -- Lock Page --
-    const lock = (fromBelow = false) => {
-      if (isActiveRef.current) return;
+    const updateTarget = () => {
+      const rect = section.getBoundingClientRect();
+      const totalDist = rect.height - window.innerHeight;
+      if (totalDist <= 0) return;
 
-      lockTimeRef.current = Date.now();
-      isActiveRef.current = true;
+      const scrolled = -rect.top;
+      const rawP = scrolled / totalDist;
+      targetPRef.current = Math.max(0, Math.min(1, rawP));
+    };
 
-      if (fromBelow) {
-        isDoneRef.current = false;
-        canExitBackRef.current = true;
-        targetAccRef.current = totalScrollUnits;
-        currentAccRef.current = totalScrollUnits;
+    const loop = () => {
+      const diff = targetPRef.current - currentPRef.current;
+      if (Math.abs(diff) > 0.0001) {
+        currentPRef.current += diff * 0.25; // Smooth 60fps lerp
       } else {
-        targetAccRef.current = 0;
-        currentAccRef.current = 0;
-        canExitBackRef.current = false; // Prevent immediate reverse snap on entry
+        currentPRef.current = targetPRef.current;
       }
 
-      const top = section.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: Math.round(top), behavior: 'instant' });
-      document.documentElement.style.overflow = 'hidden';
+      const p = Math.max(0, Math.min(1, currentPRef.current));
 
-      startPhysicsLoop();
-    };
-
-    // -- Unlock Page --
-    const unlock = (autoAdvance = false) => {
-      if (!isActiveRef.current) return;
-      isActiveRef.current = false;
-      document.documentElement.style.overflow = '';
-
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-        rafIdRef.current = null;
-      }
-
-      if (autoAdvance) {
-        requestAnimationFrame(() => {
-          const next = section.nextElementSibling;
-          if (next) {
-            next.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-          }
-        });
-      }
-    };
-
-    // Track scroll direction for entry detection
-    let prevScrollY = window.scrollY;
-    let lastDirection = 1;
-    const trackScroll = () => {
-      if (window.scrollY !== prevScrollY) {
-        lastDirection = window.scrollY > prevScrollY ? 1 : -1;
-        prevScrollY = window.scrollY;
-      }
-    };
-    window.addEventListener('scroll', trackScroll, { passive: true });
-
-    // IntersectionObserver to trigger lock when section enters viewport
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Cooldown check (don't lock if unlocked less than 400ms ago)
-        if (Date.now() - lockTimeRef.current < 400) return;
-
-        if (entry.isIntersecting && entry.intersectionRatio > 0.85) {
-          const fromBelow = lastDirection === -1;
-          lock(fromBelow);
-        }
-      },
-      { threshold: [0, 0.5, 0.85, 1.0] }
-    );
-    observer.observe(section);
-
-    // Physics Loop
-    const stepPhysics = () => {
-      if (!isActiveRef.current) return;
-
-      const diff = targetAccRef.current - currentAccRef.current;
-
-      if (Math.abs(diff) > 0.05) {
-        currentAccRef.current += diff * 0.18;
-      } else {
-        currentAccRef.current = targetAccRef.current;
-      }
-
-      // Enable exit-back after user has scrolled forward past 150 units
-      if (currentAccRef.current > 150) {
-        canExitBackRef.current = true;
-      }
-
-      // Check if user scrolled back past start (acc < -60) AND exit is allowed
-      if (currentAccRef.current < -60 && targetAccRef.current < -60 && canExitBackRef.current) {
-        targetAccRef.current = 0;
-        currentAccRef.current = 0;
-        if (playerRef?.current?.setProgress) playerRef.current.setProgress(0);
-        onProgress?.(0);
-        setProgressState(0);
-        unlock(false);
-
-        requestAnimationFrame(() => {
-          const prev = section.previousElementSibling;
-          if (prev) prev.scrollIntoView({ behavior: 'smooth' });
-          else window.scrollBy({ top: -150, behavior: 'smooth' });
-        });
-        return;
-      }
-
-      const clampedAcc = Math.max(0, Math.min(totalScrollUnits, currentAccRef.current));
-      const p = clampedAcc / totalScrollUnits;
-
-      if (Math.abs(p - lastProgressRef.current) > 0.001) {
-        lastProgressRef.current = p;
+      if (Math.abs(p - lastEmittedPRef.current) > 0.0005) {
+        lastEmittedPRef.current = p;
         if (playerRef?.current?.setProgress) {
           playerRef.current.setProgress(p);
         }
@@ -153,88 +58,47 @@ export default function ScrollLockSection({
         setProgressState(p);
       }
 
-      // Reached 100% completion going forward
-      if (targetAccRef.current >= totalScrollUnits + 120 && !isDoneRef.current) {
-        isDoneRef.current = true;
-        unlock(true);
-        return;
-      }
-
-      if (Math.abs(diff) > 0.05 || isActiveRef.current) {
-        rafIdRef.current = requestAnimationFrame(stepPhysics);
-      } else {
-        rafIdRef.current = null;
-      }
+      rafIdRef.current = requestAnimationFrame(loop);
     };
 
-    const startPhysicsLoop = () => {
-      if (!rafIdRef.current) {
-        rafIdRef.current = requestAnimationFrame(stepPhysics);
-      }
-    };
-
-    // Wheel Handler
-    const handleWheel = (e) => {
-      if (!isActiveRef.current) return;
-      e.preventDefault();
-      e.stopPropagation();
-
-      let delta = e.deltaY;
-      if (e.deltaMode === 1) delta *= 16;
-      if (e.deltaMode === 2) delta *= 300;
-
-      const clampedDelta = Math.max(-80, Math.min(80, delta));
-      targetAccRef.current += clampedDelta;
-
-      const minAcc = canExitBackRef.current ? -100 : 0;
-      targetAccRef.current = Math.max(minAcc, Math.min(totalScrollUnits + 180, targetAccRef.current));
-
-      startPhysicsLoop();
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-
-    // Touch Support
-    let touchStartY = 0;
-    const handleTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
-    const handleTouchMove = (e) => {
-      if (!isActiveRef.current) return;
-      e.preventDefault();
-      const dy = touchStartY - e.touches[0].clientY;
-      touchStartY = e.touches[0].clientY;
-
-      const clampedDelta = Math.max(-50, Math.min(50, dy * 1.8));
-      targetAccRef.current += clampedDelta;
-
-      const minAcc = canExitBackRef.current ? -100 : 0;
-      targetAccRef.current = Math.max(minAcc, Math.min(totalScrollUnits + 180, targetAccRef.current));
-
-      startPhysicsLoop();
-    };
-
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('scroll', updateTarget, { passive: true });
+    window.addEventListener('resize', updateTarget, { passive: true });
+    updateTarget();
+    rafIdRef.current = requestAnimationFrame(loop);
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('scroll', trackScroll);
+      window.removeEventListener('scroll', updateTarget);
+      window.removeEventListener('resize', updateTarget);
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
-      observer.disconnect();
-      document.documentElement.style.overflow = '';
     };
-  }, [totalScrollUnits, playerRef, onProgress]);
+  }, [playerRef, onProgress]);
+
+  // Calculate sticky track height (e.g. 280vh for 2800 units)
+  const trackHeight = style.height || scrollDistance || `${Math.max(200, Math.round(totalScrollUnits / 10))}vh`;
 
   return (
     <div
       id={id}
       ref={sectionRef}
       className={`relative ${className}`}
-      style={{ height: '100vh', overflow: 'hidden', ...style }}
+      style={{
+        height: trackHeight,
+        position: 'relative',
+        ...style,
+      }}
     >
-      {typeof children === 'function' ? children(progressState) : children}
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+          width: '100%',
+          overflow: 'hidden',
+          zIndex: 10,
+        }}
+      >
+        {typeof children === 'function' ? children(progressState) : children}
+      </div>
     </div>
   );
 }
-
