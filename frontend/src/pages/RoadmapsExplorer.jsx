@@ -40,14 +40,15 @@ function ProgressRing({ percentage, size = 52, strokeWidth = 4.5, color = '#EA5D
 /* ── Helper: Roadmap Card Icon Render ── */
 function RoadmapBadgeIcon({ roadmap }) {
   const iconInfo = getRoadmapIconInfo(roadmap);
+  const iconUrl = iconInfo.url;
 
-  if (iconInfo.url) {
-    return (
-      <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] p-1 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform bg-white/5">
+  return (
+    <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform">
+      {iconUrl ? (
         <img
-          src={iconInfo.url}
+          src={iconUrl}
           alt={roadmap.title}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain rounded"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
             if (e.currentTarget.nextSibling) {
@@ -55,23 +56,10 @@ function RoadmapBadgeIcon({ roadmap }) {
             }
           }}
         />
-        <div className="w-full h-full items-center justify-center font-bold text-[#EA5D3A] text-xs hidden">
-          {iconInfo.fallbackText}
-        </div>
+      ) : null}
+      <div className={`w-full h-full items-center justify-center font-bold text-[#EA5D3A] text-xs ${iconUrl ? 'hidden' : 'flex'}`}>
+        {iconInfo.fallbackText}
       </div>
-    );
-  }
-
-  // Fallback Role / System icon
-  return (
-    <div className="w-10 h-10 rounded-lg bg-[#1F2937] border border-[#30363D] text-[#EA5D3A] flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
-      {roadmap.category?.toLowerCase().includes('database') ? (
-        <Database className="w-5 h-5" />
-      ) : roadmap.category?.toLowerCase().includes('backend') ? (
-        <Server className="w-5 h-5" />
-      ) : (
-        <Code className="w-5 h-5" />
-      )}
     </div>
   );
 }
