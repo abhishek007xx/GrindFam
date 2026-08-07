@@ -458,13 +458,10 @@ export function TopicProblems() {
                       </div>
 
                       {/* Difficulty */}
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold w-fit ${
-                        prob.difficulty === 'Easy'
-                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                          : prob.difficulty === 'Medium'
-                          ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                          : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                      }`}>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-[#8b949e] font-medium">
+                        <span className={`w-2 h-2 rounded-full inline-block ${
+                          prob.difficulty === 'Easy' ? 'bg-[#22c55e]' : prob.difficulty === 'Medium' ? 'bg-[#eab308]' : 'bg-[#ef4444]'
+                        }`} />
                         {prob.difficulty}
                       </span>
 
