@@ -76,44 +76,44 @@ export default function SquadManagerModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70" onClick={onClose}>
-      <div className="w-full max-w-[440px] bg-[#36393f] rounded-md shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between p-4 pb-0">
-          <h2 className="text-xl font-bold text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+      <div className="w-full max-w-md bg-[#1a221a] border border-[#3d4a3d] rounded-2xl shadow-2xl p-6 space-y-4" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between pb-3 border-b border-[#3d4a3d]">
+          <h2 className="text-lg font-bold text-white">
             {activeTab === 'create' ? 'Create a Squad' : 'Join a Squad'}
           </h2>
-          <button onClick={onClose} className="text-[#72767d] hover:text-white transition-colors">
-            <X className="w-6 h-6" />
+          <button onClick={onClose} className="text-[#869585] hover:text-white transition-colors">
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {activeSquad && (
-          <div className="mx-4 mt-4 p-3 bg-[#2f3136] rounded-lg">
-            <div className="flex items-center justify-between mb-2">
+          <div className="p-4 bg-[#091009] border border-[#3d4a3d] rounded-xl space-y-3">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-2xl bg-[#5865f2] flex items-center justify-center text-white text-xs font-bold">
+                <div className="w-8 h-8 rounded-xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
                   {(activeSquad.name || 'S')[0].toUpperCase()}
                 </div>
                 <div>
-                  <span className="text-sm font-semibold text-white">{activeSquad.name}</span>
-                  <span className={`ml-2 text-[10px] px-1.5 py-0.5 rounded text-white ${activeSquad.squad_type === 'community' ? 'bg-[#3ba55d]' : 'bg-[#5865f2]'}`}>
-                    {activeSquad.squad_type === 'community' ? 'PUBLIC' : 'PRIVATE'}
+                  <span className="text-xs font-bold text-white">{activeSquad.name}</span>
+                  <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded uppercase font-bold bg-[#22c55e]/20 text-[#22c55e]">
+                    {activeSquad.squad_type || 'private'}
                   </span>
                 </div>
               </div>
               <button onClick={handleLeave} disabled={loading}
-                className="text-[11px] font-medium text-[#ed4245] hover:text-white hover:bg-[#ed4245] px-2 py-1 rounded transition-colors flex items-center gap-1">
+                className="px-2 py-1 rounded text-xs font-bold text-[#ff8b7c] hover:bg-[#ff8b7c]/20 border border-[#ff8b7c]/30 flex items-center gap-1">
                 <LogOut className="w-3 h-3" /> Leave
               </button>
             </div>
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2">
               <button onClick={handleCopyCode}
-                className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-[#40444b] hover:bg-[#4f545c] text-[#dcddde] rounded text-xs font-medium transition-colors">
-                {copied ? <Check className="w-3 h-3 text-[#3ba55d]" /> : <Hash className="w-3 h-3" />}
+                className="flex-1 flex items-center justify-center gap-1.5 py-1.5 bg-[#1a221a] border border-[#3d4a3d] text-[#dce5d9] rounded-lg text-xs font-semibold">
+                {copied ? <Check className="w-3 h-3 text-[#22c55e]" /> : <Hash className="w-3 h-3" />}
                 {copied ? 'Copied!' : activeSquad.invite_code || activeSquad.code}
               </button>
               <button onClick={handleCopyLink}
-                className="flex items-center gap-1.5 py-1.5 px-3 bg-[#5865f2] hover:bg-[#4752c4] text-white rounded text-xs font-medium transition-colors">
+                className="flex items-center gap-1.5 py-1.5 px-3 bg-[#22c55e] text-[#0e150e] rounded-lg text-xs font-bold">
                 {copiedLink ? <Check className="w-3 h-3" /> : <Link2 className="w-3 h-3" />}
                 {copiedLink ? 'Copied!' : 'Invite Link'}
               </button>
@@ -121,79 +121,65 @@ export default function SquadManagerModal({ isOpen, onClose }) {
           </div>
         )}
 
-        <div className="flex mx-4 mt-4 bg-[#2f3136] rounded-lg p-0.5">
+        <div className="flex bg-[#091009] border border-[#3d4a3d] rounded-xl p-1">
           <button onClick={() => setActiveTab('join')}
-            className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-1.5 ${activeTab === 'join' ? 'bg-[#5865f2] text-white' : 'text-[#96989d] hover:text-[#dcddde]'}`}>
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${activeTab === 'join' ? 'bg-[#22c55e] text-[#0e150e]' : 'text-[#869585]'}`}>
             <LogIn className="w-4 h-4" /> Join Squad
           </button>
           <button onClick={() => setActiveTab('create')}
-            className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-center gap-1.5 ${activeTab === 'create' ? 'bg-[#5865f2] text-white' : 'text-[#96989d] hover:text-[#dcddde]'}`}>
+            className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${activeTab === 'create' ? 'bg-[#22c55e] text-[#0e150e]' : 'text-[#869585]'}`}>
             <Plus className="w-4 h-4" /> Create Squad
           </button>
         </div>
 
         {message && (
-          <div className={`mx-4 mt-3 p-2 rounded text-xs font-medium ${message.type === 'success' ? 'bg-[#3ba55d]/20 text-[#3ba55d]' : 'bg-[#ed4245]/20 text-[#ed4245]'}`}>
+          <div className={`p-3 rounded-xl text-xs font-bold ${message.type === 'success' ? 'bg-[#22c55e]/20 text-[#22c55e]' : 'bg-[#ff8b7c]/20 text-[#ff8b7c]'}`}>
             {message.text}
           </div>
         )}
 
-        <div className="p-4">
-          {activeTab === 'join' ? (
-            <form onSubmit={handleJoin} className="space-y-3">
-              <div>
-                <label className="text-xs font-bold uppercase text-[#b9bbbe] mb-2 block">Invite Code</label>
-                <input type="text" value={squadCodeInput} onChange={(e) => setSquadCodeInput(e.target.value)}
-                  placeholder="A1B2C3D4" required
-                  className="w-full px-3 py-2.5 bg-[#202225] border border-[#040405] rounded text-[15px] text-white placeholder-[#72767d] font-mono uppercase tracking-widest text-center focus:outline-none focus:border-[#5865f2]" />
-              </div>
-              <button type="submit" disabled={loading}
-                className="w-full py-2.5 bg-[#5865f2] hover:bg-[#4752c4] text-white rounded text-sm font-medium disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
-                Join Squad
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleCreate} className="space-y-3">
-              <div>
-                <label className="text-xs font-bold uppercase text-[#b9bbbe] mb-2 block">Squad Type</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <button type="button" onClick={() => setSquadType('private')}
-                    className={`p-3 rounded-lg border-2 text-left transition-all ${squadType === 'private' ? 'border-[#5865f2] bg-[#5865f2]/10' : 'border-[#40444b] bg-[#2f3136] hover:border-[#4f545c]'}`}>
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-white mb-0.5">
-                      <Lock className="w-4 h-4 text-[#5865f2]" /> Private
-                    </div>
-                    <p className="text-[11px] text-[#96989d]">Friends only · Max 10</p>
-                  </button>
-                  <button type="button" onClick={() => setSquadType('community')}
-                    className={`p-3 rounded-lg border-2 text-left transition-all ${squadType === 'community' ? 'border-[#3ba55d] bg-[#3ba55d]/10' : 'border-[#40444b] bg-[#2f3136] hover:border-[#4f545c]'}`}>
-                    <div className="flex items-center gap-1.5 text-sm font-semibold text-white mb-0.5">
-                      <Globe className="w-4 h-4 text-[#3ba55d]" /> Community
-                    </div>
-                    <p className="text-[11px] text-[#96989d]">Public · Max 100</p>
-                  </button>
+        {activeTab === 'join' ? (
+          <form onSubmit={handleJoin} className="space-y-4">
+            <input type="text" value={squadCodeInput} onChange={(e) => setSquadCodeInput(e.target.value)}
+              placeholder="Enter Squad Invite Code (e.g. A1B2C3D4)" required
+              className="w-full px-4 py-3 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white placeholder-[#869585] text-center font-mono uppercase tracking-widest focus:outline-none focus:border-[#22c55e]" />
+            <button type="submit" disabled={loading}
+              className="w-full py-3 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold disabled:opacity-40 transition-all flex items-center justify-center gap-2">
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
+              Join Squad
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleCreate} className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <button type="button" onClick={() => setSquadType('private')}
+                className={`p-3 rounded-xl border text-left transition-all ${squadType === 'private' ? 'bg-[#22c55e]/15 border-[#22c55e]/50 ring-1 ring-[#22c55e]/30' : 'bg-[#091009] border-[#3d4a3d]'}`}>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-white mb-1">
+                  <Lock className="w-3.5 h-3.5 text-[#22c55e]" /> 🔒 Private
                 </div>
-              </div>
-              <div>
-                <label className="text-xs font-bold uppercase text-[#b9bbbe] mb-2 block">Squad Name</label>
-                <input type="text" value={squadNameInput} onChange={(e) => setSquadNameInput(e.target.value)}
-                  placeholder="e.g. LeetCode Legends" required
-                  className="w-full px-3 py-2.5 bg-[#202225] border border-[#040405] rounded text-[15px] text-white placeholder-[#72767d] focus:outline-none focus:border-[#5865f2]" />
-              </div>
-              <div>
-                <label className="text-xs font-bold uppercase text-[#b9bbbe] mb-2 block">Goal / Description</label>
-                <input type="text" value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}
-                  placeholder="e.g. Amazon SDE-1 Oct 2026"
-                  className="w-full px-3 py-2.5 bg-[#202225] border border-[#040405] rounded text-[15px] text-white placeholder-[#72767d] focus:outline-none focus:border-[#5865f2]" />
-              </div>
-              <button type="submit" disabled={loading}
-                className="w-full py-2.5 bg-[#5865f2] hover:bg-[#4752c4] text-white rounded text-sm font-medium disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
-                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-                Create Squad
+                <p className="text-[10px] text-[#869585]">Close friends (max 10)</p>
               </button>
-            </form>
-          )}
-        </div>
+              <button type="button" onClick={() => setSquadType('community')}
+                className={`p-3 rounded-xl border text-left transition-all ${squadType === 'community' ? 'bg-[#22d3ee]/15 border-[#22d3ee]/50 ring-1 ring-[#22d3ee]/30' : 'bg-[#091009] border-[#3d4a3d]'}`}>
+                <div className="flex items-center gap-1.5 text-xs font-bold text-white mb-1">
+                  <Globe className="w-3.5 h-3.5 text-[#22d3ee]" /> 🌍 Community
+                </div>
+                <p className="text-[10px] text-[#869585]">Public prep (max 100)</p>
+              </button>
+            </div>
+            <input type="text" value={squadNameInput} onChange={(e) => setSquadNameInput(e.target.value)}
+              placeholder="Squad Name" required
+              className="w-full px-4 py-3 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white placeholder-[#869585] focus:outline-none focus:border-[#22c55e]" />
+            <input type="text" value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)}
+              placeholder="Description / Goal (e.g. Amazon SDE-1)"
+              className="w-full px-4 py-3 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white placeholder-[#869585] focus:outline-none focus:border-[#22c55e]" />
+            <button type="submit" disabled={loading}
+              className="w-full py-3 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold disabled:opacity-40 transition-all flex items-center justify-center gap-2">
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+              Create Squad
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

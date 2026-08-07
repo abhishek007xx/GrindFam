@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Trophy, Flame, HelpCircle, Loader2, Hash } from 'lucide-react';
+import { Trophy, Flame, HelpCircle, Loader2, Award } from 'lucide-react';
 import { supabase } from '../../supabase';
 
 export default function SquadLeaderboard() {
@@ -13,17 +13,35 @@ export default function SquadLeaderboard() {
   useEffect(() => {
     if (!activeSquad || members.length === 0) { setLoading(false); return; }
 
-    const build = async () => {
+    const buildLeaderboard = async () => {
       setLoading(true);
       try {
         const userIds = members.map(m => m.user_id);
+
+        // Fetch solved problems with problem details for difficulty point calculation
         const { data: progressData } = await supabase
-          .from('user_progress').select('user_id, status')
-          .in('user_id', userIds).eq('status', 'solved');
+          .from('user_progress')
+          .select('user_id, solved_at, problem_id, problems(difficulty)')
+          .in('user_id', userIds)
+          .eq('status', 'solved');
 
-        const solvedMap = {};
-        (progressData || []).forEach(p => { solvedMap[p.user_id] = (solvedMap[p.user_id] || 0) + 1; });
+        // Aggregate points, solved count, and calculate streak per user
+        const statsMap = {};
+        userIds.forEach(uid => { statsMap[uid] = { solved: 0, points: 0, dates: [] }; });
 
+        (progressData || []).forEach(p => {
+          if (statsMap[p.user_id]) {
+            statsMap[p.user_id].solved += 1;
+            const diff = p.problems?.difficulty || 'Easy';
+            const pts = diff === 'Hard' ? 35 : diff === 'Medium' ? 20 : 10;
+            statsMap[p.user_id].points += pts;
+            if (p.solved_at) {
+              statsMap[p.user_id].dates.push(p.solved_at.split('T')[0]);
+            }
+          }
+        });
+
+        // Snippet help points
         const { data: snippetData } = await supabase
           .from('squad_code_snippets').select('user_id').eq('squad_id', activeSquad.id);
 
@@ -31,73 +49,153 @@ export default function SquadLeaderboard() {
         (snippetData || []).forEach(s => { helpsMap[s.user_id] = (helpsMap[s.user_id] || 0) + 1; });
 
         const entries = members.map(m => {
-          const solved = solvedMap[m.user_id] || 0;
+          const userStat = statsMap[m.user_id] || { solved: 0, points: 0, dates: [] };
           const helps = helpsMap[m.user_id] || 0;
-          return { userId: m.user_id, name: m.name || 'Grinder', role: m.role, weekly_solved: solved, helps, points: (solved * 10) + (helps * 5) };
+          const totalPoints = userStat.points + (helps * 5);
+
+          // Compute streak
+          const sortedDates = [...new Set(userStat.dates)].sort();
+          let streak = 0;
+          if (sortedDates.length > 0) {
+            streak = 1;
+            for (let i = sortedDates.length - 1; i > 0; i--) {
+              const curr = new Date(sortedDates[i]);
+              const prev = new Date(sortedDates[i - 1]);
+              const diffDays = Math.round((curr - prev) / (1000 * 60 * 60 * 24));
+              if (diffDays === 1) streak++;
+              else break;
+            }
+          }
+
+          return {
+            userId: m.user_id,
+            name: m.name || 'Grinder',
+            role: m.role,
+            solved: userStat.solved,
+            streak,
+            helps,
+            points: totalPoints
+          };
         });
+
         entries.sort((a, b) => b.points - a.points);
         entries.forEach((e, i) => { e.rank = i + 1; });
         setLeaderboard(entries);
-      } catch (err) { console.error(err); }
-      finally { setLoading(false); }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
-    build();
+
+    buildLeaderboard();
   }, [activeSquad, members]);
 
   const getInitial = (name) => (name || '?')[0].toUpperCase();
-  const getMedal = (r) => r === 1 ? '🥇' : r === 2 ? '🥈' : r === 3 ? '🥉' : `#${r}`;
-  const maxPoints = leaderboard.length > 0 ? (leaderboard[0].points || 1) : 1;
+  const topThree = leaderboard.slice(0, 3);
+  const remainingList = leaderboard.slice(3);
 
-  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#5865f2] animate-spin" /></div>;
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#22c55e] animate-spin" /></div>;
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-[15px] font-semibold text-white flex items-center gap-2">
-        <Trophy className="w-4 h-4 text-[#faa61a]" /> Squad Leaderboard
-      </h3>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <Trophy className="w-5 h-5 text-[#ff8b7c]" /> Squad Leaderboard
+        </h3>
+        <span className="text-xs text-[#869585]">Points: Easy=10, Med=20, Hard=35</span>
+      </div>
 
       {leaderboard.length === 0 ? (
-        <div className="text-center py-12">
-          <Hash className="w-10 h-10 text-[#40444b] mx-auto mb-3" />
-          <p className="text-sm text-[#96989d]">No data yet. Start solving!</p>
+        <div className="text-center py-16 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl">
+          <Trophy className="w-12 h-12 text-[#3d4a3d] mx-auto mb-3" />
+          <p className="text-sm font-bold text-white">No leaderboard activity yet</p>
+          <p className="text-xs text-[#869585] mt-1">Solve problems to climb the squad ranks!</p>
         </div>
       ) : (
-        <div className="space-y-2">
-          {leaderboard.map((m) => {
-            const isMe = m.userId === profile?.id;
-            return (
-              <div key={m.userId} className={`p-3 rounded-lg flex items-center gap-3 transition-colors hover:bg-[#42464d] ${isMe ? 'bg-[#42464d] ring-1 ring-[#5865f2]/40' : 'bg-[#2f3136]'}`}>
-                <span className="text-xl font-black min-w-[36px] text-center">{getMedal(m.rank)}</span>
-                <div className="w-9 h-9 rounded-full bg-[#5865f2] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                  {getInitial(m.name)}
+        <>
+          {/* Podium for Top 3 */}
+          <div className="grid grid-cols-3 gap-3 pt-4 pb-2">
+            {/* Rank 2 */}
+            {topThree[1] ? (
+              <div className="p-4 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl flex flex-col items-center justify-end text-center mt-6">
+                <div className="text-2xl mb-1">🥈</div>
+                <div className="w-10 h-10 rounded-2xl bg-[#22d3ee] flex items-center justify-center text-[#0e150e] font-bold text-sm mb-2">
+                  {getInitial(topThree[1].name)}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-semibold text-white truncate">{m.name}</span>
-                    {isMe && <span className="text-[9px] bg-[#5865f2]/30 text-[#5865f2] px-1.5 py-0.5 rounded font-bold">YOU</span>}
-                    {m.role === 'admin' && <span className="text-[10px]">👑</span>}
-                  </div>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <span className="text-[11px] text-[#3ba55d] flex items-center gap-1">
-                      <Flame className="w-3 h-3" /> {m.weekly_solved} solved
-                    </span>
-                    <span className="text-[11px] text-[#96989d] flex items-center gap-1">
-                      <HelpCircle className="w-3 h-3" /> {m.helps} helps
-                    </span>
-                  </div>
-                  <div className="mt-1.5 h-1 bg-[#202225] rounded-full overflow-hidden">
-                    <div className="h-full rounded-full bg-[#5865f2] transition-all duration-500"
-                      style={{ width: `${Math.min(100, (m.points / maxPoints) * 100)}%` }} />
-                  </div>
-                </div>
-                <div className="text-right flex-shrink-0">
-                  <span className="text-lg font-bold text-[#5865f2]">{m.points}</span>
-                  <p className="text-[9px] text-[#72767d] uppercase font-bold">pts</p>
-                </div>
+                <span className="text-xs font-bold text-white truncate max-w-full">{topThree[1].name}</span>
+                <span className="text-sm font-extrabold text-[#22d3ee] mt-1">{topThree[1].points} pts</span>
               </div>
-            );
-          })}
-        </div>
+            ) : <div />}
+
+            {/* Rank 1 */}
+            {topThree[0] ? (
+              <div className="p-5 bg-[#1a221a] border-2 border-[#22c55e] rounded-2xl flex flex-col items-center justify-end text-center shadow-lg shadow-[#22c55e]/10">
+                <div className="text-3xl mb-1">🥇</div>
+                <div className="w-12 h-12 rounded-2xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] font-extrabold text-base mb-2">
+                  {getInitial(topThree[0].name)}
+                </div>
+                <span className="text-sm font-extrabold text-white truncate max-w-full">{topThree[0].name}</span>
+                <span className="text-base font-black text-[#22c55e] mt-1">{topThree[0].points} pts</span>
+              </div>
+            ) : <div />}
+
+            {/* Rank 3 */}
+            {topThree[2] ? (
+              <div className="p-4 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl flex flex-col items-center justify-end text-center mt-8">
+                <div className="text-2xl mb-1">🥉</div>
+                <div className="w-10 h-10 rounded-2xl bg-[#ff8b7c] flex items-center justify-center text-[#0e150e] font-bold text-sm mb-2">
+                  {getInitial(topThree[2].name)}
+                </div>
+                <span className="text-xs font-bold text-white truncate max-w-full">{topThree[2].name}</span>
+                <span className="text-sm font-extrabold text-[#ff8b7c] mt-1">{topThree[2].points} pts</span>
+              </div>
+            ) : <div />}
+          </div>
+
+          {/* Full Table */}
+          <div className="space-y-2">
+            {leaderboard.map((m) => {
+              const isMe = m.userId === profile?.id;
+              return (
+                <div
+                  key={m.userId}
+                  className={`p-3.5 rounded-xl border flex items-center justify-between gap-4 transition-all ${
+                    isMe
+                      ? 'bg-[#22c55e]/10 border-[#22c55e]/50 ring-1 ring-[#22c55e]/30'
+                      : 'bg-[#1a221a] border-[#3d4a3d]'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="font-mono text-sm font-bold text-[#869585] w-6 text-center">#{m.rank}</span>
+                    <div className="w-8 h-8 rounded-xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold flex-shrink-0">
+                      {getInitial(m.name)}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-white truncate">{m.name}</span>
+                        {isMe && <span className="text-[9px] bg-[#22c55e]/20 text-[#22c55e] px-1.5 py-0.5 rounded font-bold">YOU</span>}
+                        {m.role === 'admin' && <span title="Admin">👑</span>}
+                      </div>
+                      <div className="flex items-center gap-3 text-[10px] text-[#869585] mt-0.5">
+                        <span className="text-[#22c55e] font-semibold">{m.solved} Solved</span>
+                        <span>•</span>
+                        <span className="text-[#ff8b7c] font-semibold flex items-center gap-0.5">
+                          <Flame className="w-3 h-3" /> {m.streak}d streak
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-right flex-shrink-0">
+                    <span className="text-base font-extrabold text-[#22c55e]">{m.points}</span>
+                    <span className="text-[10px] text-[#869585] block font-semibold uppercase">pts</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
     </div>
   );

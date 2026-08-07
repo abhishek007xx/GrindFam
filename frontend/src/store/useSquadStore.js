@@ -99,11 +99,28 @@ export const useSquadStore = create((set, get) => ({
 
       const userIds = [...new Set((memberRows || []).map(m => m.user_id))];
       let profileMap = {};
+      let userProgressMap = {};
+
       if (userIds.length > 0) {
         const { data: profiles } = await supabase
           .from('profiles').select('id, username, leetcode_username, discord_username')
           .in('id', userIds);
         (profiles || []).forEach(p => { profileMap[p.id] = p; });
+
+        // Activity check for presence
+        const { data: progress } = await supabase
+          .from('user_progress').select('user_id, solved_at')
+          .in('user_id', userIds);
+        (progress || []).forEach(p => {
+          if (p.solved_at) {
+            const date = new Date(p.solved_at);
+            const now = new Date();
+            const hoursDiff = (now - date) / (1000 * 60 * 60);
+            if (hoursDiff <= 24) {
+              userProgressMap[p.user_id] = true;
+            }
+          }
+        });
       }
 
       const members = (memberRows || []).map(m => {
@@ -113,7 +130,8 @@ export const useSquadStore = create((set, get) => ({
           name: prof.username || prof.leetcode_username || 'Grinder',
           username: prof.username || prof.leetcode_username || '',
           leetcode_username: prof.leetcode_username || '',
-          discord_username: prof.discord_username || ''
+          discord_username: prof.discord_username || '',
+          isOnline: Boolean(userProgressMap[m.user_id])
         };
       });
 
@@ -240,6 +258,23 @@ export const useSquadStore = create((set, get) => ({
     if (!user) return;
     const { error } = await supabase
       .from('squad_members').delete().eq('squad_id', squadId).eq('user_id', user.id);
+    if (error) throw error;
+    set({ activeSquad: null, members: [], messages: [], snippets: [], challenges: [] });
+    await get().loadMySquads();
+  },
+
+  updateSquadSettings: async (squadId, { name, goal, description, squad_type }) => {
+    const { error } = await supabase
+      .from('squads')
+      .update({ name, goal, description, squad_type })
+      .eq('id', squadId);
+    if (error) throw error;
+    await get().loadMySquads();
+    set((s) => ({ activeSquad: s.activeSquad ? { ...s.activeSquad, name, goal, description, squad_type } : null }));
+  },
+
+  deleteSquad: async (squadId) => {
+    const { error } = await supabase.from('squads').delete().eq('id', squadId);
     if (error) throw error;
     set({ activeSquad: null, members: [], messages: [], snippets: [], challenges: [] });
     await get().loadMySquads();
