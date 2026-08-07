@@ -349,17 +349,6 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
-        {/* Manual LeetCode Refresh / Sync Button */}
-        <button
-          onClick={onRefresh}
-          disabled={refreshing}
-          className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-zinc-800 dark:border-zinc-800 light:border-slate-200 text-xs font-semibold text-zinc-200 dark:text-zinc-200 light:text-slate-700 hover:border-[#EA5D3A] hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-all disabled:opacity-50 shadow-sm"
-          title="Manual sync LeetCode submissions data"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 text-[#EA5D3A] ${refreshing ? 'animate-spin' : ''}`} />
-          <span>{refreshing ? 'Syncing...' : 'Sync LeetCode'}</span>
-        </button>
-
         <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-semibold shadow-sm">
           <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
           <span className={streakDays > 0 ? 'text-[#EA5D3A]' : 'text-zinc-500 dark:text-zinc-500 light:text-slate-500'}>

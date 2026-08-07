@@ -294,19 +294,31 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-fadeIn">
 
-          {/* Greeting Header */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-[#F3F4F6] dark:text-[#F3F4F6] light:text-slate-900">
-              Hey {name.split(' ')[0]}!
-            </h2>
-            <p className="text-sm text-[#9CA3AF] dark:text-[#9CA3AF] light:text-slate-600 mt-0.5">
-              {yourTodayCount === 0
-                ? "Time to start grinding — your squad is counting on you!"
-                : yourTodayCount >= dailyTarget
-                  ? "Target smashed! You're leading by example today."
-                  : `${dailyTarget - yourTodayCount} more to hit today's target. Keep grinding!`
-              }
-            </p>
+          {/* Greeting Header with Prominent Sync Button */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-[#F3F4F6] dark:text-[#F3F4F6] light:text-slate-900">
+                Hey {name.split(' ')[0]}! 👋
+              </h2>
+              <p className="text-sm text-[#9CA3AF] dark:text-[#9CA3AF] light:text-slate-600 mt-0.5">
+                {yourTodayCount === 0
+                  ? "Time to start grinding — your squad is counting on you!"
+                  : yourTodayCount >= dailyTarget
+                    ? "Target smashed! You're leading by example today."
+                    : `${dailyTarget - yourTodayCount} more to hit today's target. Keep grinding!`
+                }
+              </p>
+            </div>
+
+            <button
+              onClick={handleManualSync}
+              disabled={refreshing}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs shadow-md shadow-[#EA5D3A]/20 transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer border border-orange-400/30"
+              title="Sync latest submissions from LeetCode"
+            >
+              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+              <span>{refreshing ? 'Syncing LeetCode...' : 'Sync LeetCode Data'}</span>
+            </button>
           </div>
 
           {/* ═══════════════════════════════════════════════════════════ */}
