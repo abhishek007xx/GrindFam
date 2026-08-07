@@ -19,10 +19,10 @@ export function YouTubeModal({ isOpen, onClose, videoUrl, problemTitle }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="w-full max-w-4xl bg-[#0d1117] border border-[#30363d] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+          className="w-full max-w-4xl bg-[#141414] border border-[#333333] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#21262d] bg-[#161b22]/60">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#2C2C2C] bg-[#1E1E1E]/60">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500">
                 <Youtube className="w-4 h-4" />
@@ -31,7 +31,7 @@ export function YouTubeModal({ isOpen, onClose, videoUrl, problemTitle }) {
                 <h3 className="text-sm font-bold text-white truncate max-w-[500px]">
                   Concept Tutorial: {problemTitle}
                 </h3>
-                <p className="text-[11px] text-[#8b949e]">Watch video explanation & step-by-step walk-through</p>
+                <p className="text-[11px] text-[#A3A3A3]">Watch video explanation & step-by-step walk-through</p>
               </div>
             </div>
 
@@ -40,14 +40,14 @@ export function YouTubeModal({ isOpen, onClose, videoUrl, problemTitle }) {
                 href={videoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#161b22] hover:bg-white/5 border border-[#30363d] text-xs font-semibold text-[#8b949e] hover:text-white transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#1E1E1E] hover:bg-white/5 border border-[#333333] text-xs font-semibold text-[#A3A3A3] hover:text-white transition-colors"
               >
                 <span>Open in YouTube</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
               <button
                 onClick={onClose}
-                className="p-1.5 rounded-xl text-[#8b949e] hover:text-white hover:bg-white/5 transition-colors"
+                className="p-1.5 rounded-xl text-[#A3A3A3] hover:text-white hover:bg-white/5 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -69,7 +69,7 @@ export function YouTubeModal({ isOpen, onClose, videoUrl, problemTitle }) {
                 <Youtube className="w-16 h-16 text-red-500 mx-auto opacity-80 animate-pulse" />
                 <div>
                   <h4 className="text-base font-bold text-white">Search Tutorial on YouTube</h4>
-                  <p className="text-xs text-[#8b949e] mt-1 max-w-md mx-auto">
+                  <p className="text-xs text-[#A3A3A3] mt-1 max-w-md mx-auto">
                     Click the button below to view the top video explanation for "{problemTitle}".
                   </p>
                 </div>

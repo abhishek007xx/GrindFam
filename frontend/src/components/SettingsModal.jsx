@@ -102,10 +102,10 @@ const SettingsModal = ({ isOpen, onClose }) => {
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="w-full max-w-lg bg-[#121318] border border-[#27272A] rounded-2xl shadow-2xl overflow-hidden"
+          className="w-full max-w-lg bg-[#1E1E1E] border border-[#333333] rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Modal Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-[#27272A]">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#333333]">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
                 <Settings className="w-5 h-5" />
@@ -124,7 +124,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex border-b border-[#27272A] px-6 bg-[#09090B]">
+          <div className="flex border-b border-[#333333] px-6 bg-[#141414]">
             <button
               onClick={() => { setActiveTab('password'); setError(null); setSuccess(false); }}
               className={`flex items-center gap-2 py-3 px-4 text-xs font-semibold border-b-2 transition-all ${
@@ -182,7 +182,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                         value={newPassword}
                         onChange={(e) => setNewPassword(e.target.value)}
                         placeholder="Min 6 characters"
-                        className="w-full pl-10 pr-4 py-2.5 bg-[#09090B] border border-[#27272A] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A] text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A] text-sm"
                       />
                     </div>
                   </div>
@@ -200,7 +200,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         placeholder="Confirm new password"
-                        className="w-full pl-10 pr-4 py-2.5 bg-[#09090B] border border-[#27272A] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A] text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A] text-sm"
                       />
                     </div>
                   </div>
@@ -209,7 +209,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2.5 rounded-xl border border-[#27272A] text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                      className="px-4 py-2.5 rounded-xl border border-[#333333] text-xs font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
                     >
                       Cancel
                     </button>
@@ -228,8 +228,8 @@ const SettingsModal = ({ isOpen, onClose }) => {
 
             {activeTab === 'profile' && (
               <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-[#09090B] border border-[#27272A] space-y-4">
-                  <div className="flex items-center gap-3 pb-3 border-b border-[#27272A]">
+                <div className="p-4 rounded-xl bg-[#141414] border border-[#333333] space-y-4">
+                  <div className="flex items-center gap-3 pb-3 border-b border-[#333333]">
                     <div className="p-2 rounded-lg bg-[#EA5D3A]/10 text-[#EA5D3A]">
                       <User className="w-4 h-4" />
                     </div>
@@ -239,7 +239,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 pb-3 border-b border-[#27272A]">
+                  <div className="flex items-center gap-3 pb-3 border-b border-[#333333]">
                     <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
                       <Mail className="w-4 h-4" />
                     </div>
@@ -275,7 +275,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
                             value={editLcUsername}
                             onChange={(e) => setEditLcUsername(e.target.value)}
                             placeholder="e.g. Iamkartikeyan"
-                            className="w-full pl-10 pr-4 py-2 bg-[#121318] border border-[#27272A] rounded-xl text-white font-mono text-xs focus:outline-none focus:border-[#EA5D3A]"
+                            className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E] border border-[#333333] rounded-xl text-white font-mono text-xs focus:outline-none focus:border-[#EA5D3A]"
                           />
                         </div>
                         <button

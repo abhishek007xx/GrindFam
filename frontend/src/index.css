@@ -5,18 +5,18 @@
 @tailwind utilities;
 
 html, body, #root { height: 100%; }
-body { margin: 0; background-color: #0B0C10; }
+body { margin: 0; background-color: #141414; }
 
 :root {
   /* Codolio Style Deep Charcoal Black Palette */
-  --color-bg:               #0B0C10; /* Deep Charcoal Black */
-  --color-surface:          #121318; /* Elevated Zinc/Carbon #121318 */
-  --color-surface-elevated: #18181B;
-  --color-border:           #27272A; /* Ultra-subtle Zinc #27272A / rgba(255,255,255,0.08) */
-  --color-border-hover:     #3F3F46;
+  --color-bg:               #141414; /* Deep Charcoal Black */
+  --color-surface:          #1E1E1E; /* Elevated Zinc/Carbon #1E1E1E */
+  --color-surface-elevated: #262626;
+  --color-border:           #333333; /* Ultra-subtle Zinc #333333 / rgba(255,255,255,0.08) */
+  --color-border-hover:     #444444;
   --color-text:             #FFFFFF; /* Pure White */
-  --color-text-muted:       #A1A1AA; /* Light Gray Body Text */
-  --color-text-dim:         #71717A; /* Muted Slate Secondary Metrics */
+  --color-text-muted:       #A3A3A3; /* Light Gray Body Text */
+  --color-text-dim:         #737373; /* Muted Slate Secondary Metrics */
   --color-accent:           #F97316; /* Restrained Accent Orange */
   --color-accent-hover:     #EA580C;
   --color-success:          #10B981; /* Emerald Green Solved Metric */
@@ -48,25 +48,25 @@ html.light #root {
 
 /* 1. Main Card & Page Surface Backgrounds (Case-Insensitive) */
 html.light .dash-card,
-html.light [class*="bg-[#0b0c10]" i],
+html.light [class*="bg-[#141414]" i],
 html.light [class*="bg-[#0a0a0a]" i],
-html.light [class*="bg-[#0d1117]" i],
-html.light [class*="bg-[#0a0e17]" i],
-html.light [class*="bg-[#121318]" i],
-html.light [class*="bg-[#161b22]" i],
-html.light [class*="bg-[#18181b]" i],
+html.light [class*="bg-[#141414]" i],
+html.light [class*="bg-[#141414]" i],
+html.light [class*="bg-[#1E1E1E]" i],
+html.light [class*="bg-[#1E1E1E]" i],
+html.light [class*="bg-[#262626]" i],
 html.light [class*="bg-[#121212]" i],
 html.light [class*="bg-[#131313]" i],
-html.light [class*="bg-[#09090b]" i],
-html.light [class*="bg-[#16171e]" i] {
+html.light [class*="bg-[#141414]" i],
+html.light [class*="bg-[#141417]" i] {
   background-color: #FFFFFF !important;
 }
 
 /* 2. Inset / Sub-card / Button / Input Backgrounds (Case-Insensitive) */
-html.light [class*="bg-[#1f2937]" i],
-html.light [class*="bg-[#1c2333]" i],
-html.light [class*="bg-[#21262d]" i],
-html.light [class*="bg-[#30363d]" i],
+html.light [class*="bg-[#262626]" i],
+html.light [class*="bg-[#262626]" i],
+html.light [class*="bg-[#2C2C2C]" i],
+html.light [class*="bg-[#333333]" i],
 html.light [class*="bg-[#181818]" i],
 html.light [class*="bg-[#111827]" i],
 html.light [class*="bg-zinc-950"],
@@ -92,20 +92,20 @@ html.light [class*="to-[#121212]"] {
 /* 4. Table Rows & Dropdown Hover States (Case-Insensitive) */
 html.light table tr,
 html.light table tbody tr:hover,
-html.light [class*="hover:bg-[#0d1117]" i]:hover,
-html.light [class*="hover:bg-[#21262d]" i]:hover,
-html.light [class*="hover:bg-[#161b22]" i]:hover,
-html.light [class*="hover:bg-[#1f2937]" i]:hover,
+html.light [class*="hover:bg-[#141414]" i]:hover,
+html.light [class*="hover:bg-[#2C2C2C]" i]:hover,
+html.light [class*="hover:bg-[#1E1E1E]" i]:hover,
+html.light [class*="hover:bg-[#262626]" i]:hover,
 html.light [class*="hover:bg-zinc-800"]:hover {
   background-color: #F8FAFC !important;
 }
 
 /* 5. Border Overrides (Case-Insensitive) */
-html.light [class*="border-[#27272a]" i],
-html.light [class*="border-[#30363d]" i],
-html.light [class*="border-[#21262d]" i],
+html.light [class*="border-[#333333]" i],
+html.light [class*="border-[#333333]" i],
+html.light [class*="border-[#2C2C2C]" i],
 html.light [class*="border-[#4b5563]" i],
-html.light [class*="border-[#1f2937]" i],
+html.light [class*="border-[#262626]" i],
 html.light [class*="border-zinc-800"],
 html.light [class*="border-zinc-700"],
 html.light [class*="border-zinc-600"],
@@ -121,9 +121,9 @@ html.light .text-white,
 html.light .text-zinc-100,
 html.light .text-zinc-200,
 html.light .text-zinc-300,
-html.light [class*="text-[#f3f4f6]" i],
+html.light [class*="text-[#F4F4F5]" i],
 html.light [class*="text-[#e5e7eb]" i],
-html.light [class*="text-[#e6edf3]" i],
+html.light [class*="text-[#F4F4F5]" i],
 html.light [class*="text-[#fafafa]" i],
 html.light [class*="text-[#f5f5f0]" i] {
   color: #0F172A !important;
@@ -132,16 +132,16 @@ html.light [class*="text-[#f5f5f0]" i] {
 html.light .text-zinc-400,
 html.light .text-zinc-500,
 html.light [class*="text-[#9ca3af]" i],
-html.light [class*="text-[#8b949e]" i],
+html.light [class*="text-[#A3A3A3]" i],
 html.light [class*="text-[#6b7280]" i],
-html.light [class*="text-[#6e7681]" i],
-html.light [class*="text-[#484f58]" i] {
+html.light [class*="text-[#737373]" i],
+html.light [class*="text-[#444444]" i] {
   color: #475569 !important;
 }
 
 /* 7. SVG Progress Ring Track Color in Light Mode */
-html.light circle[stroke="#21262D"],
-html.light circle[stroke="#21262d"] {
+html.light circle[stroke="#2C2C2C"],
+html.light circle[stroke="#2C2C2C"] {
   stroke: #E2E8F0 !important;
 }
 
@@ -197,7 +197,7 @@ html, body, div, header, nav, aside, main, button {
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     letter-spacing: -0.015em;
-    background-color: #0B0C10;
+    background-color: #141414;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -219,7 +219,7 @@ html, body, div, header, nav, aside, main, button {
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
     -webkit-text-fill-color: #FFFFFF !important;
-    -webkit-box-shadow: 0 0 0px 1000px #121318 inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px #1E1E1E inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -230,10 +230,10 @@ html, body, div, header, nav, aside, main, button {
   }
 }
 
-/* Codolio Sleek Surface Cards (#121318, rounded-2xl, no neon glow) */
+/* Codolio Sleek Surface Cards (#1E1E1E, rounded-2xl, no neon glow) */
 .dash-card {
-  background: #121318;
-  border: 1px solid #27272A;
+  background: #1E1E1E;
+  border: 1px solid #333333;
   border-radius: 16px;
   padding: 20px;
 }
@@ -242,8 +242,8 @@ html, body, div, header, nav, aside, main, button {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .dash-card-hover:hover {
-  border-color: #3F3F46;
-  background-color: #16171E;
+  border-color: #444444;
+  background-color: #141417;
 }
 
 /* Sidebar Navigation Items */
@@ -264,8 +264,8 @@ html, body, div, header, nav, aside, main, button {
 
 /* Emerald Green Progress Fills */
 .progress-track {
-  background-color: #18181B;
-  border: 1px solid #27272A;
+  background-color: #262626;
+  border: 1px solid #333333;
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -281,12 +281,14 @@ html, body, div, header, nav, aside, main, button {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0C10;
+  background: #141414;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272A;
+  background: #333333;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3F3F46;
+  background: #444444;
 }
+
+

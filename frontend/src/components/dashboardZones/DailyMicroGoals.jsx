@@ -78,7 +78,7 @@ export default function DailyMicroGoals({ onXPEarned }) {
   const progressPercent = Math.min(100, Math.round((completedCount / Math.max(1, goals.length)) * 100));
 
   return (
-    <div className="dash-card bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
+    <div className="dash-card bg-[#1E1E1E] border border-[#333333] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
       {/* Header Bar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -131,7 +131,7 @@ export default function DailyMicroGoals({ onXPEarned }) {
             className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
               item.completed
                 ? 'bg-zinc-900/60 border-zinc-800/80 text-zinc-400 line-through'
-                : 'bg-[#18181B] border-[#27272A] hover:border-zinc-700 text-zinc-200'
+                : 'bg-[#262626] border-[#333333] hover:border-zinc-700 text-zinc-200'
             }`}
           >
             <div className="flex items-center gap-3 min-w-0">

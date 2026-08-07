@@ -61,7 +61,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
+      <div className="h-screen bg-[#141414] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -80,7 +80,7 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
+      <div className="h-screen bg-[#141414] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -99,7 +99,7 @@ const HomeOrLanding = () => {
 
   if (loading) {
     return (
-      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
+      <div className="h-screen bg-[#141414] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );

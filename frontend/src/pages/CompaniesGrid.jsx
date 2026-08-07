@@ -22,7 +22,7 @@ function ProgressRing({ percentage = 0, size = 56, strokeWidth = 5 }) {
       <svg width={size} height={size} className="transform -rotate-90">
         <circle
           cx={size / 2} cy={size / 2} r={radius}
-          stroke="#21262D" strokeWidth={strokeWidth} fill="transparent"
+          stroke="#2C2C2C" strokeWidth={strokeWidth} fill="transparent"
         />
         <circle
           cx={size / 2} cy={size / 2} r={radius}
@@ -32,7 +32,7 @@ function ProgressRing({ percentage = 0, size = 56, strokeWidth = 5 }) {
           className="transition-all duration-700 ease-out"
         />
       </svg>
-      <span className="absolute text-xs font-semibold text-[#F3F4F6] font-mono">
+      <span className="absolute text-xs font-semibold text-[#F4F4F5] font-mono">
         {percentage}%
       </span>
     </div>
@@ -168,18 +168,18 @@ export function CompaniesGrid() {
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
+      <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] p-6 md:p-8">
         <img
           src="/logo.png"
           alt="GrindFam Mascot"
           className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
         />
         <div className="relative z-10 max-w-2xl space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#262626] border border-[#333333] text-[#9CA3AF] text-xs font-medium">
             <Building2 className="w-3.5 h-3.5 text-[#EA5D3A]" />
             <span>Popularity Ranked Company Prep Kits</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
             Company DSA Tracks
           </h1>
           <p className="text-xs md:text-sm text-[#9CA3AF] leading-relaxed">
@@ -197,7 +197,7 @@ export function CompaniesGrid() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search companies or tracks..."
-            className="w-full pl-10 pr-4 py-2 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full pl-10 pr-4 py-2 bg-[#1E1E1E] border border-[#333333] rounded-md text-xs text-[#F4F4F5] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
         </div>
 
@@ -213,8 +213,8 @@ export function CompaniesGrid() {
               onClick={() => setRoleFilter(filter.id)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${
                 roleFilter === filter.id
-                  ? 'bg-[#1F2937] text-white border-[#EA5D3A] shadow-sm font-semibold'
-                  : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'
+                  ? 'bg-[#262626] text-white border-[#EA5D3A] shadow-sm font-semibold'
+                  : 'bg-[#1E1E1E] text-[#9CA3AF] border-[#333333] hover:text-white hover:border-[#4B5563]'
               }`}
             >
               {filter.label}
@@ -227,13 +227,13 @@ export function CompaniesGrid() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map(n => (
-            <div key={n} className="h-50 rounded-lg bg-[#161B22]/50 border border-[#30363D] animate-pulse p-5 space-y-3" />
+            <div key={n} className="h-50 rounded-lg bg-[#1E1E1E]/50 border border-[#333333] animate-pulse p-5 space-y-3" />
           ))}
         </div>
       ) : filteredCompanies.length === 0 ? (
-        <div className="text-center py-12 bg-[#161B22] border border-[#30363D] rounded-lg p-6 space-y-2">
+        <div className="text-center py-12 bg-[#1E1E1E] border border-[#333333] rounded-lg p-6 space-y-2">
           <Building2 className="w-10 h-10 text-[#6B7280] mx-auto" />
-          <h3 className="text-sm font-semibold text-[#F3F4F6]">No Companies Found</h3>
+          <h3 className="text-sm font-semibold text-[#F4F4F5]">No Companies Found</h3>
           <p className="text-xs text-[#9CA3AF]">Try adjusting your search query or role filter.</p>
         </div>
       ) : (
@@ -260,13 +260,13 @@ export function CompaniesGrid() {
                   const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
                   navigate(`/company/${comp.slug}/${firstTrackId}`);
                 }}
-                className="group relative bg-[#161B22] border border-[#30363D] hover:border-[#4B5563] rounded-lg p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between"
+                className="group relative bg-[#1E1E1E] border border-[#333333] hover:border-[#4B5563] rounded-lg p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between"
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3 min-w-0 pr-2">
                       {/* Company Logo Icon Box */}
-                      <div className="w-11 h-11 rounded-lg bg-[#1F2937] border border-[#30363D] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform bg-white/5">
+                      <div className="w-11 h-11 rounded-lg bg-[#262626] border border-[#333333] p-1.5 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform bg-white/5">
                         <img
                           src={logoUrl}
                           alt={comp.name}
@@ -284,10 +284,10 @@ export function CompaniesGrid() {
                       </div>
 
                       <div className="space-y-0.5 min-w-0">
-                        <span className="px-2 py-0.5 rounded bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-[10px] font-medium">
+                        <span className="px-2 py-0.5 rounded bg-[#262626] border border-[#333333] text-[#9CA3AF] text-[10px] font-medium">
                           #{idx + 1} Company
                         </span>
-                        <h3 className="text-base font-bold text-[#F3F4F6] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
+                        <h3 className="text-base font-bold text-[#F4F4F5] group-hover:text-[#EA5D3A] transition-colors leading-snug truncate">
                           {comp.name}
                         </h3>
                         <p className="text-xs text-[#9CA3AF] flex items-center gap-1 font-mono">
@@ -301,7 +301,7 @@ export function CompaniesGrid() {
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-[#21262D] flex items-center justify-between text-xs text-[#9CA3AF]">
+                  <div className="pt-3 border-t border-[#2C2C2C] flex items-center justify-between text-xs text-[#9CA3AF]">
                     <div className="flex items-center gap-1.5">
                       <BookOpen className="w-3.5 h-3.5 text-[#6B7280]" />
                       <span>{stats.total} Problems</span>

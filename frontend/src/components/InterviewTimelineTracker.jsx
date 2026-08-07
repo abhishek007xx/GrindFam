@@ -64,7 +64,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
   const progressPercent = Math.min(100, Math.round((solvedCount / Math.max(1, totalTrackProblems)) * 100));
 
   return (
-    <div className="dash-card relative overflow-hidden bg-[#121318] border border-[#27272A] rounded-2xl p-5 hover:border-zinc-500 transition-all shadow-sm">
+    <div className="dash-card relative overflow-hidden bg-[#1E1E1E] border border-[#333333] rounded-2xl p-5 hover:border-zinc-500 transition-all shadow-sm">
       {/* Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 relative z-10">
         <div className="flex items-center gap-2.5">
@@ -112,7 +112,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                 <select
                   value={targetCompany}
                   onChange={(e) => setTargetCompany(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#121318] dark:bg-[#121318] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
                 >
                   {companiesData.map(c => (
                     <option key={c.slug} value={c.company_name}>{c.company_name}</option>
@@ -125,7 +125,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#121318] dark:bg-[#121318] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
                 >
                   <option value="Intern">Intern Track (OA + Fundamentals)</option>
                   <option value="Campus Placement">Campus Placement (3-Month Sprint)</option>
@@ -139,7 +139,7 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                   type="date"
                   value={interviewDate}
                   onChange={(e) => setInterviewDate(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#121318] dark:bg-[#121318] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-zinc-800 dark:border-zinc-800 light:border-slate-300 rounded-lg text-xs text-zinc-100 dark:text-zinc-100 light:text-slate-900 focus:outline-none focus:border-[#EA5D3A]"
                 />
               </div>
             </div>

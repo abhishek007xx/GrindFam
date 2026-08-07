@@ -212,19 +212,19 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
   };
 
   return (
-    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white flex-shrink-0">
+    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#141414] dark:bg-[#141414] light:bg-white flex-shrink-0">
       {/* Left side: Primary Logo + Collapse Button + Mobile Menu */}
       <div className="flex items-center gap-3">
         <button
           onClick={onToggleSidebar}
-          className="lg:hidden p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+          className="lg:hidden p-2 rounded-xl text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
           aria-label="Toggle navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-lg object-cover border border-[#30363d] dark:border-[#30363d] light:border-slate-200 flex-shrink-0" />
+          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-lg object-cover border border-[#333333] dark:border-[#333333] light:border-slate-200 flex-shrink-0" />
           <span className="text-base font-extrabold text-white dark:text-white light:text-slate-900 tracking-tight">
             Grind<span className="text-[#EA5D3A]">Fam</span>
           </span>
@@ -234,7 +234,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
       {/* Global Search Bar */}
       <div className="relative flex-1 max-w-md mx-4" ref={searchRef}>
         <div className="relative flex items-center">
-          <Search className="absolute left-3 w-4 h-4 text-[#6e7681] dark:text-[#6e7681] light:text-slate-400" />
+          <Search className="absolute left-3 w-4 h-4 text-[#737373] dark:text-[#737373] light:text-slate-400" />
           <input
             ref={inputRef}
             type="text"
@@ -242,17 +242,17 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
             onChange={handleSearchChange}
             onFocus={() => setIsSearchOpen(true)}
             placeholder="Search problems, topics, sheets..."
-            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] dark:bg-[#161b22] light:bg-slate-50 border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-xl text-xs text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 placeholder-[#6e7681] dark:placeholder-[#6e7681] light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
+            className="w-full pl-9 pr-8 py-1.5 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl text-xs text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900 placeholder-[#737373] dark:placeholder-[#737373] light:placeholder-slate-400 focus:outline-none focus:border-[#EA5D3A] transition-all shadow-sm"
           />
           {searchQuery ? (
             <button
               onClick={handleClearSearch}
               className="absolute right-2 p-1 rounded hover:bg-white/5 transition-colors"
             >
-              <X className="w-3.5 h-3.5 text-[#6e7681]" />
+              <X className="w-3.5 h-3.5 text-[#737373]" />
             </button>
           ) : (
-            <span className="absolute right-2 px-1.5 py-0.5 bg-[#21262d] dark:bg-[#21262d] light:bg-slate-200 border border-[#30363d] dark:border-[#30363d] light:border-slate-300 rounded text-[9px] text-[#6e7681] dark:text-[#6e7681] light:text-slate-600 font-mono hidden sm:inline-block">
+            <span className="absolute right-2 px-1.5 py-0.5 bg-[#2C2C2C] dark:bg-[#2C2C2C] light:bg-slate-200 border border-[#333333] dark:border-[#333333] light:border-slate-300 rounded text-[9px] text-[#737373] dark:text-[#737373] light:text-slate-600 font-mono hidden sm:inline-block">
               Ctrl+K
             </span>
           )}
@@ -266,18 +266,18 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.15 }}
-              className="absolute top-full left-0 mt-1.5 w-full min-w-[320px] max-w-[420px] bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50"
+              className="absolute top-full left-0 mt-1.5 w-full min-w-[320px] max-w-[420px] bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50"
             >
               {searchLoading ? (
                 <div className="p-4 text-center">
                   <div className="w-4 h-4 border-2 border-[#EA5D3A] border-t-transparent rounded-full animate-spin mx-auto mb-1" />
-                  <span className="text-xs text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">Searching...</span>
+                  <span className="text-xs text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">Searching...</span>
                 </div>
               ) : (
                 <>
                   {topicResults.length > 0 && (
-                    <div className="px-3 py-2.5 border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200">
-                      <p className="text-[9px] font-bold text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 uppercase tracking-widest mb-2">Topics</p>
+                    <div className="px-3 py-2.5 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
+                      <p className="text-[9px] font-bold text-[#737373] dark:text-[#737373] light:text-slate-500 uppercase tracking-widest mb-2">Topics</p>
                       <div className="flex flex-wrap gap-1.5">
                         {topicResults.map(tag => (
                           <button
@@ -295,26 +295,26 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
                   {searchResults.length > 0 && (
                     <div className="max-h-[320px] overflow-y-auto">
-                      <p className="px-3 pt-2.5 pb-1 text-[9px] font-bold text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 uppercase tracking-widest">
+                      <p className="px-3 pt-2.5 pb-1 text-[9px] font-bold text-[#737373] dark:text-[#737373] light:text-slate-500 uppercase tracking-widest">
                         Problems ({searchResults.length})
                       </p>
                       {searchResults.map((result, idx) => (
                         <div
                           key={result.id || idx}
                           onClick={() => handleResultClick(result)}
-                          className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-[#0d1117] dark:hover:bg-[#0d1117] light:hover:bg-slate-100 cursor-pointer transition-colors border-b border-[#21262d]/50 dark:border-[#21262d]/50 light:border-slate-200 last:border-b-0"
+                          className="flex items-center justify-between gap-3 px-3 py-2 hover:bg-[#141414] dark:hover:bg-[#141414] light:hover:bg-slate-100 cursor-pointer transition-colors border-b border-[#2C2C2C]/50 dark:border-[#2C2C2C]/50 light:border-slate-200 last:border-b-0"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 bg-[#181818] dark:bg-[#181818] light:bg-slate-100 border border-white/10 dark:border-white/10 light:border-slate-200 text-[#8b949e]">
+                            <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 bg-[#181818] dark:bg-[#181818] light:bg-slate-100 border border-white/10 dark:border-white/10 light:border-slate-200 text-[#A3A3A3]">
                               {result.source_type === 'company'
-                                ? <Building2 className="w-3 h-3 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600" />
+                                ? <Building2 className="w-3 h-3 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600" />
                                 : <FileCode2 className="w-3 h-3 text-[#EA5D3A]" />
                               }
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs font-medium text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 truncate">{result.title}</p>
+                              <p className="text-xs font-medium text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900 truncate">{result.title}</p>
                               {result.source_name && (
-                                <p className="text-[9px] text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 truncate">from {result.source_name}</p>
+                                <p className="text-[9px] text-[#737373] dark:text-[#737373] light:text-slate-500 truncate">from {result.source_name}</p>
                               )}
                             </div>
                           </div>
@@ -328,7 +328,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
                               }`}>
                               {result.difficulty}
                             </span>
-                            <ExternalLink className="w-3 h-3 text-[#484f58]" />
+                            <ExternalLink className="w-3 h-3 text-[#444444]" />
                           </div>
                         </div>
                       ))}
@@ -337,7 +337,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
                   {searchResults.length === 0 && topicResults.length === 0 && searchQuery.length >= 2 && (
                     <div className="py-6 text-center">
-                      <p className="text-xs text-[#6e7681] dark:text-[#6e7681] light:text-slate-500">No results found for "{searchQuery}"</p>
+                      <p className="text-xs text-[#737373] dark:text-[#737373] light:text-slate-500">No results found for "{searchQuery}"</p>
                     </div>
                   )}
                 </>
@@ -356,19 +356,19 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#121318] dark:bg-[#121318] light:bg-slate-50 border border-[#27272A] dark:border-[#27272A] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 shadow-sm">
+        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 shadow-sm">
           <Calendar className="w-3.5 h-3.5" />
           <span>{dateStr}</span>
         </div>
 
-        <button className="relative p-2 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 transition-colors">
+        <button className="relative p-2 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 transition-colors">
           <Bell className="w-4 h-4" />
         </button>
 
         {/* Dark / Light Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl border border-zinc-800/80 dark:border-zinc-800/80 light:border-slate-200 bg-[#121318] dark:bg-[#121318] light:bg-slate-50 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-amber-400 hover:border-amber-500/40 transition-all flex items-center justify-center relative group shadow-sm"
+          className="p-2 rounded-xl border border-zinc-800/80 dark:border-zinc-800/80 light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-amber-400 hover:border-amber-500/40 transition-all flex items-center justify-center relative group shadow-sm"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           aria-label="Toggle Theme"
         >

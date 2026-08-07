@@ -142,7 +142,7 @@ const LeaderboardTable = ({
       </AnimatePresence>
 
       {/* Header with View Mode Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="flex items-center gap-2.5">
           <div className="p-2 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
             <Trophy className="w-5 h-5" />
@@ -154,18 +154,18 @@ const LeaderboardTable = ({
                 Live
               </span>
             </h2>
-            <p className="text-[11px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">Compete with friends to hit 5 a day</p>
+            <p className="text-[11px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">Compete with friends to hit 5 a day</p>
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center bg-[#0d1117] dark:bg-[#0d1117] light:bg-slate-100 p-1 rounded-xl border border-[#21262d] dark:border-[#21262d] light:border-slate-200 self-start sm:self-auto shadow-sm">
+        <div className="flex items-center bg-[#141414] dark:bg-[#141414] light:bg-slate-100 p-1 rounded-xl border border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 self-start sm:self-auto shadow-sm">
           <button
             onClick={() => setViewMode('today')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'today'
                 ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -177,7 +177,7 @@ const LeaderboardTable = ({
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'streak'
                 ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
             }`}
           >
             <Flame className="w-3.5 h-3.5 text-amber-400" />
@@ -189,7 +189,7 @@ const LeaderboardTable = ({
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
               viewMode === 'allTime'
                 ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
@@ -200,7 +200,7 @@ const LeaderboardTable = ({
 
       {/* 👑 Top 3 Podium Cards */}
       {topThree.length > 0 && (
-        <div className="p-4 bg-gradient-to-b from-[#161b22]/70 to-[#0d1117]/40 dark:from-[#161b22]/70 dark:to-[#0d1117]/40 light:from-slate-100/80 light:to-slate-50/50 border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200">
+        <div className="p-4 bg-gradient-to-b from-[#1E1E1E]/70 to-[#141414]/40 dark:from-[#1E1E1E]/70 dark:to-[#141414]/40 light:from-slate-100/80 light:to-slate-50/50 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {topThree.map((user, idx) => {
               const isGold = idx === 0;
@@ -248,7 +248,7 @@ const LeaderboardTable = ({
                           <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#EA5D3A]/20 text-[#EA5D3A]">You</span>
                         )}
                       </div>
-                      <p className="text-[10px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">@{user.leetcodeUsername || 'grinder'}</p>
+                      <p className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">@{user.leetcodeUsername || 'grinder'}</p>
                     </div>
                   </div>
 
@@ -256,7 +256,7 @@ const LeaderboardTable = ({
                     <span className="text-base font-black font-mono text-white dark:text-white light:text-slate-900 leading-tight block">
                       {viewMode === 'allTime' ? user.platformTotal : viewMode === 'streak' ? `${user.streak || 0}d` : `${user.todayCount}/${dailyTarget}`}
                     </span>
-                    <span className="text-[9px] font-bold text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">
+                    <span className="text-[9px] font-bold text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">
                       {viewMode === 'allTime' ? 'Total' : viewMode === 'streak' ? 'Streak' : 'Today'}
                     </span>
                   </div>
@@ -268,7 +268,7 @@ const LeaderboardTable = ({
       )}
 
       {/* Table Header */}
-      <div className="grid grid-cols-[50px_1fr_80px_100px] sm:grid-cols-[50px_1fr_90px_1fr_90px_110px] items-center px-4 sm:px-5 py-2.5 text-[10px] sm:text-[11px] font-bold text-[#6e7681] dark:text-[#6e7681] light:text-slate-500 uppercase tracking-wider border-b border-[#21262d]/60 dark:border-[#21262d]/60 light:border-slate-200 bg-[#0d1117]/30 dark:bg-[#0d1117]/30 light:bg-slate-50">
+      <div className="grid grid-cols-[50px_1fr_80px_100px] sm:grid-cols-[50px_1fr_90px_1fr_90px_110px] items-center px-4 sm:px-5 py-2.5 text-[10px] sm:text-[11px] font-bold text-[#737373] dark:text-[#737373] light:text-slate-500 uppercase tracking-wider border-b border-[#2C2C2C]/60 dark:border-[#2C2C2C]/60 light:border-slate-200 bg-[#141414]/30 dark:bg-[#141414]/30 light:bg-slate-50">
         <span>Rank</span>
         <span>Squad Member</span>
         <span className={`text-center ${viewMode === 'today' ? 'text-[#EA5D3A]' : ''}`}>Today</span>
@@ -278,9 +278,9 @@ const LeaderboardTable = ({
       </div>
 
       {/* Rows */}
-      <div className="divide-y divide-[#21262d]/50 dark:divide-[#21262d]/50 light:divide-slate-200">
+      <div className="divide-y divide-[#2C2C2C]/50 dark:divide-[#2C2C2C]/50 light:divide-slate-200">
         {sortedLeaderboard.length === 0 ? (
-          <div className="py-12 text-center text-sm text-[#6e7681]">
+          <div className="py-12 text-center text-sm text-[#737373]">
             No grinders in your squad yet. Click "Add Friend" below to build your squad!
           </div>
         ) : (
@@ -321,7 +321,7 @@ const LeaderboardTable = ({
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#8b949e] dark:text-[#8b949e] light:text-slate-500 truncate">@{user.leetcodeUsername || 'leetcode'}</p>
+                    <p className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 truncate">@{user.leetcodeUsername || 'leetcode'}</p>
                   </div>
                 </div>
 
@@ -335,7 +335,7 @@ const LeaderboardTable = ({
                 {/* Progress Bar — hidden on mobile */}
                 <div className="hidden sm:block px-2">
                   <div className="flex items-center gap-2.5">
-                    <span className={`text-xs font-bold font-mono min-w-[36px] ${isTargetHit ? 'text-[#EA5D3A]' : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-500'}`}>
+                    <span className={`text-xs font-bold font-mono min-w-[36px] ${isTargetHit ? 'text-[#EA5D3A]' : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500'}`}>
                       {progressPercent}%
                     </span>
                     <div className="flex-1 progress-track h-2 bg-zinc-800 dark:bg-zinc-800 light:bg-slate-200 border border-zinc-700 dark:border-zinc-700 light:border-slate-300 rounded-full overflow-hidden">
@@ -370,7 +370,7 @@ const LeaderboardTable = ({
       </div>
 
       {/* Footer */}
-      <div className="px-5 py-3 border-t border-[#21262d] dark:border-[#21262d] light:border-slate-200 flex items-center justify-between text-xs text-[#8b949e] dark:text-[#8b949e] light:text-slate-500">
+      <div className="px-5 py-3 border-t border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 flex items-center justify-between text-xs text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">
         <span>Hit {dailyTarget} problems daily to climb the leaderboard!</span>
         <span className="font-semibold text-[#EA5D3A] flex items-center gap-1 cursor-pointer hover:underline">
           {sortedLeaderboard.length} Squad Members Active <ArrowRight className="w-3 h-3" />

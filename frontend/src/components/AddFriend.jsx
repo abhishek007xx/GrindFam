@@ -50,19 +50,19 @@ const AddFriend = ({ onAddFriend }) => {
           </div>
           <div>
             <h3 className="text-sm font-bold text-white">Add Friend to Squad</h3>
-            <p className="text-[10px] text-[#6e7681]">Enter their registered handle or email</p>
+            <p className="text-[10px] text-[#737373]">Enter their registered handle or email</p>
           </div>
         </div>
 
         {/* Mode Switcher Tabs */}
-        <div className="flex bg-[#0d1117] p-1 rounded-lg border border-[#30363d] text-xs">
+        <div className="flex bg-[#141414] p-1 rounded-lg border border-[#333333] text-xs">
           <button
             type="button"
             onClick={() => setMode('username')}
             className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
               mode === 'username'
-                ? 'bg-[#21262d] text-[#EA5D3A] font-semibold'
-                : 'text-[#8b949e] hover:text-white'
+                ? 'bg-[#2C2C2C] text-[#EA5D3A] font-semibold'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
             <AtSign className="w-3 h-3" /> Handle
@@ -72,8 +72,8 @@ const AddFriend = ({ onAddFriend }) => {
             onClick={() => setMode('email')}
             className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1 ${
               mode === 'email'
-                ? 'bg-[#21262d] text-[#EA5D3A] font-semibold'
-                : 'text-[#8b949e] hover:text-white'
+                ? 'bg-[#2C2C2C] text-[#EA5D3A] font-semibold'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
             <Mail className="w-3 h-3" /> Email
@@ -83,7 +83,7 @@ const AddFriend = ({ onAddFriend }) => {
 
       <form onSubmit={handleSubmit} className="flex gap-2.5">
         <div className="relative flex-1">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#6e7681]">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#737373]">
             {mode === 'email' ? (
               <Mail className="w-3.5 h-3.5" />
             ) : (
@@ -96,7 +96,7 @@ const AddFriend = ({ onAddFriend }) => {
             onChange={handleInputChange}
             placeholder={mode === 'email' ? 'friend@example.com' : 'leetcode_username'}
             required
-            className="w-full pl-8 pr-3 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] focus:border-transparent text-sm font-mono transition-all"
+            className="w-full pl-8 pr-3 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-[#F4F4F5] placeholder-[#444444] focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] focus:border-transparent text-sm font-mono transition-all"
           />
         </div>
         <button

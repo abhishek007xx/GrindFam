@@ -15,7 +15,7 @@ export function CommunityNav({ activeMode, onSelectMode, streakCount = 0, isShie
   return (
     <nav
       aria-label="Grind Hub Primary Navigation"
-      className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#161B22] border border-[#30363D] rounded-xl p-2.5 shadow-md relative"
+      className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#1E1E1E] border border-[#333333] rounded-xl p-2.5 shadow-md relative"
     >
       {/* 3 Spatial Mode Tabs with Linear-style Animated Pill Indicator */}
       <div
@@ -35,7 +35,7 @@ export function CommunityNav({ activeMode, onSelectMode, streakCount = 0, isShie
               aria-selected={isActive}
               aria-controls={mode.ariaControl}
               onClick={() => onSelectMode(mode.id)}
-              className={`relative px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#161B22] ${
+              className={`relative px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1E1E1E] ${
                 isActive ? 'text-white font-extrabold' : 'text-[#9CA3AF] hover:text-white'
               }`}
             >
@@ -43,7 +43,7 @@ export function CommunityNav({ activeMode, onSelectMode, streakCount = 0, isShie
               {isActive && (
                 <motion.div
                   layoutId="activeCommunityTabIndicator"
-                  className="absolute inset-0 bg-[#1F2937] border border-[#EA5D3A]/60 rounded-lg shadow-sm shadow-[#EA5D3A]/10"
+                  className="absolute inset-0 bg-[#262626] border border-[#EA5D3A]/60 rounded-lg shadow-sm shadow-[#EA5D3A]/10"
                   transition={{ type: 'spring', stiffness: 380, damping: 26 }}
                 />
               )}
@@ -67,13 +67,13 @@ export function CommunityNav({ activeMode, onSelectMode, streakCount = 0, isShie
       </div>
 
       {/* Persistent Streak & Habit Counter Status Pill */}
-      <div className="flex items-center gap-3 w-full sm:w-auto justify-end border-t sm:border-t-0 border-[#21262D] pt-2 sm:pt-0">
+      <div className="flex items-center gap-3 w-full sm:w-auto justify-end border-t sm:border-t-0 border-[#2C2C2C] pt-2 sm:pt-0">
         <div
           aria-label={`Current Daily Streak: ${streakCount} days`}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold shadow-sm transition-all ${
             streakCount > 0
               ? 'bg-[#EA5D3A]/15 border-[#EA5D3A]/30 text-[#EA5D3A]'
-              : 'bg-[#1F2937] border-[#30363D] text-[#6B7280]'
+              : 'bg-[#262626] border-[#333333] text-[#6B7280]'
           }`}
         >
           <Flame
