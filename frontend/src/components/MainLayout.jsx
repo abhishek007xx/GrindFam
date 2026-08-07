@@ -6,7 +6,7 @@ export default function MainLayout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <div className="h-screen w-full flex bg-[#0a0e17] text-[#c9d1d9] overflow-hidden">
-      <div className="hidden lg:block w-64 flex-shrink-0 border-r border-[#30363d] bg-[#0d1117] overflow-y-auto">
+      <div className="hidden lg:block w-64 flex-shrink-0 border-r border-[#30363d] overflow-y-auto bg-[#0d1117]">
         <Sidebar />
       </div>
       {mobileOpen && (
@@ -19,8 +19,8 @@ export default function MainLayout({ children }) {
       )}
       <div className="flex-1 flex flex-col min-w-0">
         <Navbar onToggleSidebar={() => setMobileOpen(o => !o)} />
-        <main className="flex-1 overflow-y-auto">
-          <div className="max-w-7xl mx-auto w-full p-4 md:p-6 lg:p-8">{children}</div>
+        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+          <div className="max-w-7xl mx-auto w-full max-w-full p-4 md:p-6 lg:p-8">{children}</div>
         </main>
       </div>
     </div>
