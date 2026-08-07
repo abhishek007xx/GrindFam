@@ -30,14 +30,25 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4 auth-bg">
-      <div className="w-full max-w-md bg-[#161b22] p-8 rounded-2xl border border-[#30363d] shadow-2xl shadow-black/40 relative z-10 animate-fadeSlideUp">
+    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden">
+      {/* Subtle ambient lighting & dot grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(249,115,22,0.14),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 dot-grid opacity-15 pointer-events-none" />
+
+      <div className="w-full max-w-md bg-[#121212]/90 backdrop-blur-xl p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-[#F97316]/25 hover:shadow-[0_0_30px_rgba(249,115,22,0.12)] transition-all duration-300">
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 mb-4">
-            <span className="text-[#22c55e] font-black text-lg">&lt;&gt;</span>
-          </div>
-          <h2 className="text-xl font-extrabold text-white">Welcome Back</h2>
-          <p className="text-xs text-[#8b949e] mt-1">Sign in to track your daily LeetCode targets</p>
+          <Link to="/" className="inline-flex items-center justify-center gap-2.5 mb-4 group text-decoration-none">
+            <img
+              src="/logo.png"
+              alt="GrindFam Logo"
+              className="w-10 h-10 rounded-xl object-cover border border-white/10 shadow-[0_0_20px_rgba(249,115,22,0.4)] group-hover:scale-105 transition-transform"
+            />
+            <span className="text-2xl font-black tracking-tight text-white">
+              Grind<span className="bg-gradient-to-r from-[#F97316] to-[#FDBA74] bg-clip-text text-transparent">Fam</span>
+            </span>
+          </Link>
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase">Welcome Back</h2>
+          <p className="text-xs text-[#8A8A85] mt-1.5 font-medium">Sign in to track your daily LeetCode targets</p>
         </div>
 
         {error && (
@@ -50,10 +61,10 @@ const Login = () => {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={googleLoading || loading}
-          className="w-full py-2.5 px-4 bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] hover:border-[#8b949e]/50 text-white font-medium rounded-xl text-sm transition-all flex items-center justify-center gap-3 mb-5 disabled:opacity-50"
+          className="w-full py-2.5 px-4 bg-[#181818] hover:bg-[#222222] border border-white/10 hover:border-[#F97316]/50 hover:shadow-[0_0_15px_rgba(249,115,22,0.15)] text-white font-medium rounded-xl text-sm transition-all flex items-center justify-center gap-3 mb-5 disabled:opacity-50 cursor-pointer"
         >
           {googleLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin text-[#8b949e]" />
+            <Loader2 className="w-4 h-4 animate-spin text-[#8A8A85]" />
           ) : (
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -66,42 +77,42 @@ const Login = () => {
         </button>
 
         <div className="relative flex items-center justify-center mb-5">
-          <div className="border-t border-[#30363d] w-full"></div>
-          <span className="bg-[#161b22] px-3 text-xs text-[#8b949e] uppercase font-semibold">Or</span>
-          <div className="border-t border-[#30363d] w-full"></div>
+          <div className="border-t border-white/10 w-full"></div>
+          <span className="bg-[#121212] px-3 text-[11px] text-[#8A8A85] uppercase font-bold tracking-wider">Or</span>
+          <div className="border-t border-white/10 w-full"></div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#484f58]" />
+            <label className="block text-[11px] font-bold text-[#8A8A85] uppercase tracking-wider mb-1.5">Email</label>
+            <div className="relative group">
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#F97316] transition-colors" />
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm" />
+                className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#F5F5F0] placeholder-[#525252] focus:outline-none focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316]/30 text-sm transition-all" />
             </div>
           </div>
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider">Password</label>
-              <Link to="/forgot-password" className="text-xs text-[#22c55e] hover:underline font-medium">
+              <label className="block text-[11px] font-bold text-[#8A8A85] uppercase tracking-wider">Password</label>
+              <Link to="/forgot-password" className="text-xs text-[#F97316] hover:text-[#FDBA74] hover:underline font-semibold transition-colors">
                 Forgot Password?
               </Link>
             </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#484f58]" />
+            <div className="relative group">
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#F97316] transition-colors" />
               <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm" />
+                className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#F5F5F0] placeholder-[#525252] focus:outline-none focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316]/30 text-sm transition-all" />
             </div>
           </div>
           <button type="submit" disabled={loading || googleLoading}
-            className="w-full py-3 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 mt-5 disabled:opacity-50">
+            className="w-full py-3 bg-gradient-to-r from-[#F97316] via-[#FF8A3D] to-[#FDBA74] hover:brightness-110 text-white font-bold rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 mt-5 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] disabled:opacity-50 cursor-pointer">
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
             <span>{loading ? 'Signing In...' : 'Sign In'}</span>
           </button>
         </form>
 
-        <div className="mt-6 pt-5 border-t border-[#21262d] text-center text-xs text-[#8b949e]">
-          Don't have an account? <Link to="/register" className="text-[#22c55e] hover:underline font-semibold">Register</Link>
+        <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-[#8A8A85]">
+          Don't have an account? <Link to="/register" className="text-[#F97316] hover:text-[#FDBA74] hover:underline font-bold transition-colors">Register</Link>
         </div>
       </div>
     </div>

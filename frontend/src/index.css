@@ -287,30 +287,31 @@ body { margin: 0; background-color: #0a0e17; }
 .auth-bg {
   position: relative;
   overflow: hidden;
+  background-color: #0A0A0A;
 }
 .auth-bg::before,
 .auth-bg::after {
   content: '';
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.15;
+  filter: blur(120px);
+  opacity: 0.22;
   pointer-events: none;
 }
 .auth-bg::before {
-  width: 400px;
-  height: 400px;
-  background: #22c55e;
-  top: -100px;
+  width: 450px;
+  height: 450px;
+  background: #F97316;
+  top: -120px;
   right: -100px;
   animation: floatOrb 8s ease-in-out infinite;
 }
 .auth-bg::after {
-  width: 350px;
-  height: 350px;
-  background: #6366f1;
-  bottom: -80px;
-  left: -80px;
+  width: 400px;
+  height: 400px;
+  background: #FF8A3D;
+  bottom: -100px;
+  left: -100px;
   animation: floatOrb 10s ease-in-out infinite reverse;
 }
 

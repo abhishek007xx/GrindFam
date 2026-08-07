@@ -42,14 +42,25 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4 auth-bg">
-      <div className="w-full max-w-md bg-[#161b22] p-8 rounded-2xl border border-[#30363d] shadow-2xl shadow-black/40 relative z-10 animate-fadeSlideUp">
+    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden">
+      {/* Subtle ambient lighting & dot grid */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(249,115,22,0.14),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 dot-grid opacity-15 pointer-events-none" />
+
+      <div className="w-full max-w-md bg-[#121212]/90 backdrop-blur-xl p-8 rounded-2xl border border-white/[0.08] shadow-[0_12px_40px_rgba(0,0,0,0.6)] relative z-10 animate-fadeSlideUp hover:border-[#F97316]/25 hover:shadow-[0_0_30px_rgba(249,115,22,0.12)] transition-all duration-300">
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 mb-4">
-            <KeyRound className="w-6 h-6 text-[#22c55e]" />
-          </div>
-          <h2 className="text-xl font-extrabold text-white">Set New Password</h2>
-          <p className="text-xs text-[#8b949e] mt-1">Please enter your new password below</p>
+          <Link to="/" className="inline-flex items-center justify-center gap-2.5 mb-4 group text-decoration-none">
+            <img
+              src="/logo.png"
+              alt="GrindFam Logo"
+              className="w-10 h-10 rounded-xl object-cover border border-white/10 shadow-[0_0_20px_rgba(249,115,22,0.4)] group-hover:scale-105 transition-transform"
+            />
+            <span className="text-2xl font-black tracking-tight text-white">
+              Grind<span className="bg-gradient-to-r from-[#F97316] to-[#FDBA74] bg-clip-text text-transparent">Fam</span>
+            </span>
+          </Link>
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase">Set New Password</h2>
+          <p className="text-xs text-[#8A8A85] mt-1.5 font-medium">Please enter your new password below</p>
         </div>
 
         {error && (
@@ -61,19 +72,19 @@ const ResetPassword = () => {
 
         {success ? (
           <div className="text-center space-y-4">
-            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs flex items-center justify-center gap-2">
-              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+            <div className="p-4 rounded-xl bg-[#F97316]/10 border border-[#F97316]/25 text-[#FDBA74] text-xs flex items-center justify-center gap-2">
+              <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-[#F97316]" />
               <span>Password updated successfully! Redirecting to Sign In...</span>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-bold text-[#8A8A85] uppercase tracking-wider mb-1.5">
                 New Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#484f58]" />
+              <div className="relative group">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#F97316] transition-colors" />
                 <input
                   type="password"
                   required
@@ -81,17 +92,17 @@ const ResetPassword = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min 6 characters"
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#F5F5F0] placeholder-[#525252] focus:outline-none focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316]/30 text-sm transition-all"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-bold text-[#8A8A85] uppercase tracking-wider mb-1.5">
                 Confirm New Password
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#484f58]" />
+              <div className="relative group">
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681] group-focus-within:text-[#F97316] transition-colors" />
                 <input
                   type="password"
                   required
@@ -99,7 +110,7 @@ const ResetPassword = () => {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm new password"
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:ring-2 focus:ring-[#22c55e] text-sm"
+                  className="w-full pl-10 pr-4 py-2.5 bg-[#151515] border border-white/10 rounded-xl text-[#F5F5F0] placeholder-[#525252] focus:outline-none focus:border-[#F97316] focus:ring-2 focus:ring-[#F97316]/30 text-sm transition-all"
                 />
               </div>
             </div>
@@ -107,7 +118,7 @@ const ResetPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#22c55e] hover:bg-[#16a34a] text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 mt-5 disabled:opacity-50"
+              className="w-full py-3 bg-gradient-to-r from-[#F97316] via-[#FF8A3D] to-[#FDBA74] hover:brightness-110 text-white font-bold rounded-xl text-sm transition-all duration-200 flex items-center justify-center gap-2 mt-5 shadow-[0_0_25px_rgba(249,115,22,0.4)] hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] disabled:opacity-50 cursor-pointer"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <KeyRound className="w-4 h-4" />}
               <span>{loading ? 'Updating Password...' : 'Update Password'}</span>
@@ -115,9 +126,9 @@ const ResetPassword = () => {
           </form>
         )}
 
-        <div className="mt-6 pt-5 border-t border-[#21262d] text-center text-xs text-[#8b949e]">
+        <div className="mt-6 pt-5 border-t border-white/10 text-center text-xs text-[#8A8A85]">
           Back to{' '}
-          <Link to="/login" className="text-[#22c55e] hover:underline font-semibold">
+          <Link to="/login" className="text-[#F97316] hover:text-[#FDBA74] hover:underline font-bold transition-colors">
             Sign In
           </Link>
         </div>
