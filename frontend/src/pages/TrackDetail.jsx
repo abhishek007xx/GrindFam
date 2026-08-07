@@ -520,13 +520,6 @@ export function TrackDetail() {
             )}
           </div>
 
-          {/* 🎯 Interview Timeline Tracker for Company */}
-          <InterviewTimelineTracker
-            totalTrackProblems={problems.length || 50}
-            solvedCount={solvedCount}
-            companyName={company?.name}
-          />
-
           {/* MIDDLE SECTION: Filters & Search Controls */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-[#121110] border border-zinc-800/80 rounded-2xl p-4 shadow-lg">
             <div className="relative w-full md:w-80">
