@@ -352,7 +352,11 @@ export default function Portfolio() {
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Hero Banner */}
       <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EA5D3A]/5 via-transparent to-transparent pointer-events-none" />
+        <img
+          src="/logo.png"
+          alt="GrindFam Mascot"
+          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
+        />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xl border-2 border-[#EA5D3A]/30 shadow-lg overflow-hidden flex-shrink-0">

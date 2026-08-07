@@ -296,7 +296,11 @@ const Dashboard = () => {
 
       {/* Greeting Header */}
           <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#EA5D3A]/5 via-transparent to-transparent pointer-events-none" />
+            <img
+              src="/logo.png"
+              alt="GrindFam Mascot"
+              className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
+            />
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium mb-2">
                 <Zap className="w-3.5 h-3.5 text-[#EA5D3A]" />

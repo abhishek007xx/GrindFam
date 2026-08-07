@@ -211,7 +211,11 @@ export function RoadmapsExplorer() {
     <div className="space-y-6 animate-fadeIn">
       {/* ── Header Banner ── */}
       <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#EA5D3A]/8 rounded-full blur-3xl pointer-events-none" />
+        <img
+          src="/logo.png"
+          alt="GrindFam Mascot"
+          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
+        />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-2xl space-y-2">
