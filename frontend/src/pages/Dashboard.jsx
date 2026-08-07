@@ -374,14 +374,18 @@ const Dashboard = () => {
                   refreshing={refreshing}
                 />
 
-                {/* Heatmap Card */}
-                <div className="w-full">
-                  <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
+                {/* Heatmap & Daily Checklist Grid */}
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                  <div className="xl:col-span-2">
+                    <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
+                  </div>
+                  <div className="xl:col-span-1">
+                    <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="w-full">
                   <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
-                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                 </div>
               </div>
 
@@ -499,21 +503,27 @@ const Dashboard = () => {
 
                 {/* Active Social Tab View */}
                 {socialTab === 'leaderboard' && (
-                  <div className="grid-dashboard-main mb-6" id="leaderboard-section">
-                    <LeaderboardTable
-                      leaderboard={dashboardData.leaderboard}
+                  <div className="space-y-6 mb-6" id="leaderboard-section">
+                    {/* Weekly Progress ABOVE Leaderboard */}
+                    <WeeklyProgress
+                      yourTodayCount={yourTodayCount}
                       dailyTarget={dailyTarget}
-                      onRemoveFriend={handleRemoveFriend}
-                      removingId={removingId}
+                      platformTotal={yourPlatformTotal}
+                      weeklyData={weeklyData}
                     />
-                    <div className="flex flex-col gap-4">
-                      <WeeklyProgress
-                        yourTodayCount={yourTodayCount}
-                        dailyTarget={dailyTarget}
-                        platformTotal={yourPlatformTotal}
-                        weeklyData={weeklyData}
-                      />
-                      <RecentActivity leaderboard={dashboardData.leaderboard} />
+
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                      <div className="xl:col-span-2">
+                        <LeaderboardTable
+                          leaderboard={dashboardData.leaderboard}
+                          dailyTarget={dailyTarget}
+                          onRemoveFriend={handleRemoveFriend}
+                          removingId={removingId}
+                        />
+                      </div>
+                      <div className="xl:col-span-1">
+                        <RecentActivity leaderboard={dashboardData.leaderboard} />
+                      </div>
                     </div>
                   </div>
                 )}
