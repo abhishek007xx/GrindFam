@@ -1,20 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { Send, ExternalLink, ArrowLeft } from 'lucide-react';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Send, MessageSquare, ExternalLink, Smile, Plus } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
-export default function DMChat() {
+export default function DMChat({ threadId, otherUser }) {
   const { session } = useAuth();
-  const { activeDM, dmMessages, sendDM } = useSquadStore();
+  const { activeDMThread, dmMessages, sendDM, markDMRead } = useSquadStore();
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef(null);
 
+  const targetThreadId = threadId || activeDMThread?.id;
+  const partner = otherUser || {
+    username: activeDMThread?.partnerName || 'User',
+    leetcode_username: activeDMThread?.leetcode_username || ''
+  };
+
+  useEffect(() => {
+    if (targetThreadId) {
+      markDMRead(targetThreadId);
+    }
+  }, [targetThreadId, dmMessages, markDMRead]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [dmMessages]);
-
-  if (!activeDM) return null;
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -30,24 +40,31 @@ export default function DMChat() {
     }
   };
 
-  const getInitial = (name) => (name || 'U')[0].toUpperCase();
-  const partnerName = activeDM.partnerName || 'User';
+  const partnerInitial = (partner.username || partner.partnerName || 'U')[0].toUpperCase();
 
   return (
-    <div className="flex flex-col h-full bg-[#111315]">
-      {/* Header Bar */}
-      <div className="h-12 px-4 flex items-center justify-between border-b border-[#3d4a3d] bg-[#161d16] shadow-sm flex-shrink-0">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-full bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold flex-shrink-0">
-            {getInitial(partnerName)}
+    <div className="flex flex-col h-[600px] bg-[#0d1117] border border-[#30363d] rounded-xl overflow-hidden">
+      {/* Header */}
+      <div className="p-4 border-b border-[#30363d] bg-[#161b22] flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => useSquadStore.setState({ activeDMThread: null })}
+            className="p-1.5 text-[#8b949e] hover:text-white rounded-lg transition-colors md:hidden"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold text-sm shadow">
+            {partnerInitial}
           </div>
-          <span className="text-[15px] font-bold text-white truncate">{partnerName}</span>
-          <span className="text-xs text-[#869585] font-mono">Direct Message</span>
+          <div>
+            <div className="font-semibold text-white">{partner.username || partner.partnerName}</div>
+            <div className="text-xs text-[#8b949e]">Direct Message</div>
+          </div>
         </div>
 
-        {activeDM.leetcode_username && (
+        {partner.leetcode_username && (
           <a
-            href={`https://leetcode.com/u/${activeDM.leetcode_username}`}
+            href={`https://leetcode.com/u/${partner.leetcode_username}`}
             target="_blank"
             rel="noreferrer"
             className="text-xs text-[#22c55e] hover:underline flex items-center gap-1 font-semibold"
@@ -58,65 +75,45 @@ export default function DMChat() {
         )}
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-thin scrollbar-thumb-[#3d4a3d]">
-        {dmMessages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="w-14 h-14 rounded-full bg-[#22c55e]/15 border border-[#22c55e]/30 flex items-center justify-center text-[#22c55e] mb-3">
-              <MessageSquare className="w-7 h-7" />
-            </div>
-            <h3 className="text-lg font-bold text-white">This is the start of your direct messages with {partnerName}</h3>
-            <p className="text-xs text-[#869585] max-w-sm mt-1">Send a message to start chatting 1-on-1.</p>
-          </div>
-        ) : (
-          dmMessages.map((msg, idx) => {
-            const isMe = msg.sender_id === session?.user?.id;
-            return (
-              <div key={msg.id || idx} className={`flex gap-3 px-2 py-1 rounded-lg hover:bg-[#1a1d21] ${isMe ? 'flex-row-reverse' : ''}`}>
-                <div className="w-8 h-8 rounded-full bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold flex-shrink-0">
-                  {getInitial(isMe ? 'You' : partnerName)}
-                </div>
-                <div className={`max-w-[70%] ${isMe ? 'text-right' : ''}`}>
-                  <div className="flex items-center gap-2 mb-0.5 justify-start">
-                    <span className="text-xs font-bold text-white">{isMe ? 'You' : partnerName}</span>
-                    <span className="text-[10px] text-[#869585]">
-                      {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  <div className={`text-xs px-3.5 py-2 rounded-2xl inline-block text-left whitespace-pre-wrap break-words ${
-                    isMe ? 'bg-[#22c55e] text-[#0e150e] font-medium' : 'bg-[#23272b] text-[#dce5d9] border border-[#30363d]'
-                  }`}>
-                    {msg.content}
-                  </div>
+      {/* Messages Feed */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-[#30363d]">
+        {dmMessages.map(msg => {
+          const isMe = msg.sender_id === session?.user?.id;
+          return (
+            <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[70%] px-4 py-2.5 rounded-2xl ${
+                isMe ? 'bg-emerald-600 text-white font-medium shadow-md shadow-emerald-600/10' : 'bg-[#161b22] border border-[#30363d] text-[#e6edf3]'
+              }`}>
+                <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
+                <div className="text-[10px] opacity-70 mt-1 text-right">
+                  {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </div>
               </div>
-            );
-          })
-        )}
+            </div>
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
-      <div className="px-4 pb-6 pt-0 flex-shrink-0">
-        <form onSubmit={handleSend} className="flex items-center bg-[#23272b] border border-[#30363d] rounded-xl focus-within:border-[#22c55e]">
-          <button type="button" className="p-3 text-[#869585] hover:text-white">
-            <Plus className="w-5 h-5" />
-          </button>
+      {/* Input Form */}
+      <form onSubmit={handleSend} className="p-4 border-t border-[#30363d] bg-[#161b22] flex-shrink-0">
+        <div className="flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            placeholder={`Message @${partnerName}`}
-            className="flex-1 bg-transparent text-xs text-[#dce5d9] placeholder-[#869585] outline-none py-2.5"
+            placeholder={`Message ${partner.username || partner.partnerName}...`}
+            className="flex-1 px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-sm text-white placeholder-[#8b949e] focus:outline-none focus:border-emerald-500 transition-colors"
           />
-          <button type="button" className="p-3 text-[#869585] hover:text-white">
-            <Smile className="w-5 h-5" />
+          <button
+            type="submit"
+            disabled={!newMessage.trim() || sending}
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold disabled:opacity-50 transition-all flex items-center justify-center shadow-md shadow-emerald-600/20"
+          >
+            <Send className="w-4 h-4" />
           </button>
-          <button type="submit" disabled={!newMessage.trim() || sending} className="p-3 text-[#22c55e] disabled:opacity-30">
-            <Send className="w-5 h-5" />
-          </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

@@ -1,63 +1,66 @@
 import React from 'react';
-import { MessageSquare, Plus } from 'lucide-react';
+import { MessageCircle, Plus } from 'lucide-react';
 import { useSquadStore } from '../../store/useSquadStore';
+import { useAuth } from '../../context/AuthContext';
 
 export default function DMList({ onOpenNewDM }) {
-  const { dmThreads, activeDM, openDM } = useSquadStore();
-
-  const getInitial = (name) => (name || 'G')[0].toUpperCase();
+  const { dmThreads, openDM } = useSquadStore();
+  const { session } = useAuth();
 
   return (
-    <div className="mb-4">
-      <div className="flex items-center justify-between px-1 mb-1 group">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
-          DIRECT MESSAGES
-        </span>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-bold text-white">Direct Messages</h3>
         <button
           onClick={onOpenNewDM}
-          className="p-1 text-[#869585] hover:text-[#dce5d9] rounded hover:bg-[#1a221a] transition-colors"
-          title="New Direct Message"
+          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-semibold flex items-center gap-1 transition-all shadow-md shadow-emerald-600/20"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" /> New Message
         </button>
       </div>
 
-      {dmThreads.length === 0 ? (
-        <p className="text-[11px] text-[#869585] px-2 italic py-1">No direct messages yet</p>
-      ) : (
-        <div className="space-y-0.5">
-          {dmThreads.map((thread) => {
-            const isActive = activeDM?.id === thread.id;
+      <div className="space-y-2">
+        {dmThreads.length === 0 ? (
+          <div className="text-center py-8 text-[#6e7681] bg-[#161b22] border border-[#30363d] rounded-2xl p-6">
+            <MessageCircle className="w-12 h-12 mx-auto mb-3 opacity-50 text-emerald-400" />
+            <p className="font-bold text-white">No conversations yet</p>
+            <p className="text-sm mt-1 text-[#8b949e]">Start chatting with a community member</p>
+          </div>
+        ) : (
+          dmThreads.map(thread => {
+            const partnerName = thread.partnerName || 'User';
+            const partnerInitial = (partnerName[0] || 'U').toUpperCase();
+
             return (
               <button
                 key={thread.id}
                 onClick={() => openDM(thread.partnerId)}
-                className={`w-full flex items-center justify-between px-2 py-1.5 rounded-lg text-xs transition-all text-left ${
-                  isActive
-                    ? 'bg-[#242c24] text-white font-semibold'
-                    : 'text-[#bccbb9] hover:bg-[#1a221a] hover:text-[#dce5d9]'
-                }`}
+                className="w-full p-3.5 bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] rounded-xl text-left transition-all group flex items-center justify-between"
               >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-6 h-6 rounded-full bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-[10px] font-bold flex-shrink-0">
-                    {getInitial(thread.partnerName)}
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-bold flex-shrink-0 shadow-md">
+                    {partnerInitial}
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs truncate font-medium">{thread.partnerName}</p>
-                    <p className="text-[10px] text-[#869585] truncate leading-none mt-0.5">{thread.lastMessage}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-white truncate group-hover:text-emerald-400 transition-colors">
+                      {partnerName}
+                    </div>
+                    <div className="text-xs text-[#8b949e] truncate">
+                      {thread.lastMessage || 'No messages yet'}
+                    </div>
                   </div>
                 </div>
 
-                {thread.unreadCount > 0 && !isActive && (
-                  <span className="bg-[#22c55e] text-[#0e150e] text-[10px] font-bold px-1.5 py-0.2 rounded-full flex-shrink-0">
+                {thread.unreadCount > 0 && (
+                  <div className="w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center text-xs text-white font-bold flex-shrink-0 shadow">
                     {thread.unreadCount}
-                  </span>
+                  </div>
                 )}
               </button>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
     </div>
   );
 }
