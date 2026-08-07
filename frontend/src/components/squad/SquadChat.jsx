@@ -5,7 +5,11 @@ import { Plus, Smile, Send, Hash, Copy, Heart, Reply, Trash2 } from 'lucide-reac
 
 export default function SquadChat() {
   const { session } = useAuth();
-  const { messages, sendMessage, deleteMessage, sendTypingEvent, typingUsers, activeChannel, activeSquad } = useSquadStore();
+  const {
+    activeSquad, messages, sendMessage, deleteMessage, sendTypingEvent,
+    typingUsers, activeChannel, fetchSquadData, subscribeRealtime, unsubscribeRealtime
+  } = useSquadStore();
+
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [reactions, setReactions] = useState({});
@@ -14,9 +18,18 @@ export default function SquadChat() {
   const inputRef = useRef(null);
   const typingTimeout = useRef(null);
 
-  const currentUserRole = activeSquad?.role || 'member';
-  const currentRolesArray = activeSquad?.roles || [currentUserRole];
+  const squadId = activeSquad?.id;
+  const currentRolesArray = activeSquad?.roles || [activeSquad?.role || 'member'];
   const canDeleteAnyMessage = currentRolesArray.includes('admin') || currentRolesArray.includes('moderator');
+
+  useEffect(() => {
+    if (!squadId) return;
+    fetchSquadData(squadId);
+    subscribeRealtime(squadId);
+    return () => {
+      unsubscribeRealtime();
+    };
+  }, [squadId, fetchSquadData, subscribeRealtime, unsubscribeRealtime]);
 
   const scrollToBottomIfNear = useCallback(() => {
     const el = scrollContainerRef.current;
@@ -122,7 +135,7 @@ export default function SquadChat() {
   const channelName = activeChannel || 'general';
 
   return (
-    <div className="flex flex-col h-full bg-[#111315]">
+    <div className="flex flex-col h-full bg-[#0a0e17]">
       {/* Message Feed */}
       <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-[#30363d]">
         {messages.length === 0 ? (
@@ -130,8 +143,8 @@ export default function SquadChat() {
             <div className="w-16 h-16 rounded-2xl bg-[#22c55e] flex items-center justify-center mb-4 text-[#0e150e]">
               <Hash className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-bold text-[#dce5d9] mb-2">Welcome to #{channelName}!</h3>
-            <p className="text-[#869585] text-sm max-w-md">
+            <h3 className="text-2xl font-bold text-[#e6edf3] mb-2">Welcome to #{channelName}!</h3>
+            <p className="text-[#8b949e] text-sm max-w-md">
               This is the start of the #{channelName} channel. Start the conversation with your community!
             </p>
           </div>
@@ -150,7 +163,7 @@ export default function SquadChat() {
                 {showDate && (
                   <div className="flex items-center gap-2 my-4">
                     <div className="flex-1 h-px bg-[#30363d]" />
-                    <span className="text-[11px] font-semibold text-[#869585] px-1">
+                    <span className="text-[11px] font-semibold text-[#8b949e] px-1">
                       {formatDateSeparator(msg.created_at)}
                     </span>
                     <div className="flex-1 h-px bg-[#30363d]" />
@@ -164,16 +177,16 @@ export default function SquadChat() {
                     </span>
                   </div>
                 ) : (
-                  <div className={`group relative flex gap-4 py-1 px-4 -mx-4 hover:bg-[#1a1d21] rounded-lg transition-colors ${showHeader ? 'mt-3' : ''}`}>
+                  <div className={`group relative flex gap-4 py-1 px-4 -mx-4 hover:bg-[#161b22] rounded-lg transition-colors ${showHeader ? 'mt-3' : ''}`}>
                     {/* Hover toolbar */}
-                    <div className="absolute right-4 -top-3 hidden group-hover:flex items-center gap-1 bg-[#23272b] border border-[#30363d] rounded-lg px-1.5 py-1 shadow-lg z-10">
-                      <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#869585] hover:text-white rounded" title="Copy Text">
+                    <div className="absolute right-4 -top-3 hidden group-hover:flex items-center gap-1 bg-[#161b22] border border-[#30363d] rounded-lg px-1.5 py-1 shadow-lg z-10">
+                      <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#8b949e] hover:text-white rounded" title="Copy Text">
                         <Copy className="w-3.5 h-3.5" />
                       </button>
-                      <button onClick={() => handleToggleHeart(msgId)} className={`p-1 rounded ${hasHeart ? 'text-[#ff8b7c]' : 'text-[#869585] hover:text-white'}`} title="React">
+                      <button onClick={() => handleToggleHeart(msgId)} className={`p-1 rounded ${hasHeart ? 'text-[#ff8b7c]' : 'text-[#8b949e] hover:text-white'}`} title="React">
                         <Heart className={`w-3.5 h-3.5 ${hasHeart ? 'fill-current' : ''}`} />
                       </button>
-                      <button onClick={() => handleReplyUser(msg.author_name)} className="p-1 text-[#869585] hover:text-white rounded" title="Reply">
+                      <button onClick={() => handleReplyUser(msg.author_name)} className="p-1 text-[#8b949e] hover:text-white rounded" title="Reply">
                         <Reply className="w-3.5 h-3.5" />
                       </button>
                       {canDeleteThis && (
@@ -192,7 +205,7 @@ export default function SquadChat() {
                       </div>
                     ) : (
                       <div className="flex-shrink-0 w-10 flex items-center justify-center">
-                        <span className="text-[10px] text-[#869585] opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="text-[10px] text-[#8b949e] opacity-0 group-hover:opacity-100 transition-opacity">
                           {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -201,19 +214,19 @@ export default function SquadChat() {
                     <div className="flex-1 min-w-0">
                       {showHeader && (
                         <div className="flex items-center gap-2 mb-0.5">
-                          <span className="text-[15px] font-semibold text-[#dce5d9] hover:underline cursor-pointer">
+                          <span className="text-[15px] font-semibold text-[#e6edf3] hover:underline cursor-pointer">
                             {msg.author_name}
                           </span>
-                          <span className="text-[11px] text-[#869585]">
+                          <span className="text-[11px] text-[#8b949e]">
                             {formatTime(msg.created_at)}
                           </span>
                         </div>
                       )}
-                      <div className="text-[15px] text-[#dce5d9] leading-relaxed break-words whitespace-pre-wrap">
+                      <div className="text-[15px] text-[#e6edf3] leading-relaxed break-words whitespace-pre-wrap">
                         {msg.content}
                       </div>
                       {hasHeart && (
-                        <div className="inline-flex items-center gap-1 bg-[#23272b] border border-[#ff8b7c]/40 px-2 py-0.5 rounded-full text-xs text-[#ff8b7c] mt-1">
+                        <div className="inline-flex items-center gap-1 bg-[#161b22] border border-[#ff8b7c]/40 px-2 py-0.5 rounded-full text-xs text-[#ff8b7c] mt-1">
                           ❤️ 1
                         </div>
                       )}
@@ -230,7 +243,7 @@ export default function SquadChat() {
       {/* Input Bar */}
       <div className="px-4 pb-6 pt-0 flex-shrink-0">
         {typingUsers.length > 0 && (
-          <div className="text-[11px] text-[#869585] mb-1 h-4 flex items-center gap-1.5 px-1">
+          <div className="text-[11px] text-[#8b949e] mb-1 h-4 flex items-center gap-1.5 px-1">
             <span className="inline-flex gap-0.5">
               <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-1.5 h-1.5 bg-[#22c55e] rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
@@ -241,8 +254,8 @@ export default function SquadChat() {
           </div>
         )}
         <form onSubmit={handleSend} className="relative">
-          <div className="flex items-center bg-[#23272b] border border-[#30363d] rounded-xl focus-within:border-[#22d3ee] transition-colors">
-            <button type="button" className="p-3 text-[#869585] hover:text-white transition-colors flex-shrink-0">
+          <div className="flex items-center bg-[#161b22] border border-[#30363d] rounded-xl focus-within:border-[#22d3ee] transition-colors">
+            <button type="button" className="p-3 text-[#8b949e] hover:text-white transition-colors flex-shrink-0">
               <Plus className="w-5 h-5" />
             </button>
             <input
@@ -251,9 +264,9 @@ export default function SquadChat() {
               value={newMessage}
               onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }}
               placeholder={`Message #${channelName}`}
-              className="flex-1 bg-transparent text-[15px] text-[#dce5d9] placeholder-[#869585] outline-none py-2.5"
+              className="flex-1 bg-transparent text-[15px] text-[#e6edf3] placeholder-[#8b949e] outline-none py-2.5"
             />
-            <button type="button" className="p-3 text-[#869585] hover:text-white transition-colors flex-shrink-0">
+            <button type="button" className="p-3 text-[#8b949e] hover:text-white transition-colors flex-shrink-0">
               <Smile className="w-5 h-5" />
             </button>
             <button

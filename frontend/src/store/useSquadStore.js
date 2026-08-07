@@ -18,11 +18,11 @@ export const useSquadStore = create((set, get) => ({
 
   // Private DM State
   dmThreads: [],
-  activeDM: null,
+  activeDMThread: null,
   dmMessages: [],
-  realtimeDMChannel: null,
+  dmRealtimeChannel: null,
 
-  setActiveChannel: (channel) => set({ activeChannel: channel, activeDM: null }),
+  setActiveChannel: (channel) => set({ activeChannel: channel, activeDMThread: null }),
   toggleMemberList: () => set((s) => ({ showMemberList: !s.showMemberList })),
 
   // ─── Squads & Community Actions ───
@@ -100,7 +100,7 @@ export const useSquadStore = create((set, get) => ({
     const { mySquads } = get();
     const target = mySquads.find(s => s.id === squadId);
     if (!target) return;
-    set({ activeSquad: target, activeChannel: 'general', activeDM: null });
+    set({ activeSquad: target, activeChannel: 'general', activeDMThread: null });
     await get().fetchSquadData(squadId);
     get().subscribeRealtime(squadId);
   },
@@ -148,13 +148,13 @@ export const useSquadStore = create((set, get) => ({
         };
       });
 
-      // 2. Fetch Chat History (last 50 messages) with profile resolution
+      // 2. Fetch Chat History (last 80 messages) with profile resolution
       const { data: rawMessages } = await supabase
         .from('squad_messages')
         .select('*, profiles(username, leetcode_username)')
         .eq('squad_id', squadId)
         .order('created_at', { ascending: false })
-        .limit(50);
+        .limit(80);
 
       const enrichedMessages = (rawMessages || []).map(m => {
         const prof = m.profiles || {};
@@ -260,7 +260,7 @@ export const useSquadStore = create((set, get) => ({
       }
     }
 
-    if (!targetSquad) throw new Error(`No squad found matching code "${codeOrId}".`);
+    if (!targetSquad) throw new Error(`No community squad found matching code "${codeOrId}".`);
 
     const { error: joinErr } = await supabase
       .from('squad_members').insert([{
@@ -296,7 +296,7 @@ export const useSquadStore = create((set, get) => ({
     set((s) => ({ activeSquad: s.activeSquad ? { ...s.activeSquad, name, goal, description, squad_type } : null }));
   },
 
-  updateMemberRole: async (squadId, targetUserId, newRolesArray) => {
+  setMemberRole: async (squadId, targetUserId, newRolesArray) => {
     const primaryRole = newRolesArray.includes('admin') ? 'admin' : newRolesArray.includes('moderator') ? 'moderator' : newRolesArray.includes('mentor') ? 'mentor' : 'member';
     const { error } = await supabase
       .from('squad_members')
@@ -335,7 +335,6 @@ export const useSquadStore = create((set, get) => ({
       author_name
     };
 
-    // Optimistic append
     set({ messages: [...messages, tempMessage] });
 
     try {
@@ -352,13 +351,11 @@ export const useSquadStore = create((set, get) => ({
 
       if (error) throw error;
 
-      // Replace temp message with actual inserted message
       set((s) => ({
         messages: s.messages.map(m => m.id === tempId ? { ...data, author_name } : m)
       }));
     } catch (err) {
       console.error('Failed to send message:', err);
-      // Rollback on error
       set({ messages: messages.filter(m => m.id !== tempId) });
       throw err;
     }
@@ -409,7 +406,7 @@ export const useSquadStore = create((set, get) => ({
       }, async (payload) => {
         const newMsg = payload.new;
         const currentMessages = get().messages;
-        if (currentMessages.some(m => m.id === newMsg.id)) return; // Deduplicate
+        if (currentMessages.some(m => m.id === newMsg.id)) return;
 
         const { data: prof } = await supabase.from('profiles')
           .select('username, leetcode_username').eq('id', newMsg.user_id).maybeSingle();
@@ -521,7 +518,7 @@ export const useSquadStore = create((set, get) => ({
       const { data: { user } } = await supabase.auth.getUser();
       if (!user || !partnerId) return;
 
-      // Normalize pair order
+      // Normalize pair (smaller UUID = participant_a)
       const [partA, partB] = [user.id, partnerId].sort();
 
       let targetThread = null;
@@ -557,10 +554,10 @@ export const useSquadStore = create((set, get) => ({
         leetcode_username: partnerProf?.leetcode_username || ''
       };
 
-      set({ activeDM: activeObj, activeChannel: null });
+      set({ activeDMThread: activeObj, activeChannel: 'dms' });
       await get().fetchDMMessages(targetThread.id);
       await get().markDMRead(targetThread.id);
-      get().subscribeDMs();
+      get().subscribeDMs(targetThread.id);
     } catch (err) {
       console.error('Error opening DM:', err);
     }
@@ -588,14 +585,14 @@ export const useSquadStore = create((set, get) => ({
   },
 
   sendDM: async (content) => {
-    const { activeDM, dmMessages } = get();
+    const { activeDMThread, dmMessages } = get();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!activeDM || !user || !content.trim()) return;
+    if (!activeDMThread || !user || !content.trim()) return;
 
     const tempId = `temp-dm-${Date.now()}`;
     const tempMsg = {
       id: tempId,
-      thread_id: activeDM.id,
+      thread_id: activeDMThread.id,
       sender_id: user.id,
       content: content.trim(),
       created_at: new Date().toISOString(),
@@ -609,7 +606,7 @@ export const useSquadStore = create((set, get) => ({
       const { data, error } = await supabase
         .from('dm_messages')
         .insert([{
-          thread_id: activeDM.id,
+          thread_id: activeDMThread.id,
           sender_id: user.id,
           content: content.trim()
         }])
@@ -642,19 +639,16 @@ export const useSquadStore = create((set, get) => ({
     get().loadDMThreads();
   },
 
-  subscribeDMs: () => {
-    const { activeDM } = get();
-    if (!activeDM) return;
-
-    if (get().realtimeDMChannel) {
-      supabase.removeChannel(get().realtimeDMChannel);
+  subscribeDMs: (threadId) => {
+    if (get().dmRealtimeChannel) {
+      supabase.removeChannel(get().dmRealtimeChannel);
     }
 
     const channel = supabase
-      .channel(`dm-realtime-${activeDM.id}`)
+      .channel(`dm-realtime-${threadId}`)
       .on('postgres_changes', {
         event: 'INSERT', schema: 'public', table: 'dm_messages',
-        filter: `thread_id=eq.${activeDM.id}`
+        filter: `thread_id=eq.${threadId}`
       }, async (payload) => {
         const newMsg = payload.new;
         const currentMsgs = get().dmMessages;
@@ -668,10 +662,10 @@ export const useSquadStore = create((set, get) => ({
           dmMessages: [...s.dmMessages.filter(m => !m.id.toString().startsWith('temp-dm-')), { ...newMsg, author_name }]
         }));
 
-        get().markDMRead(activeDM.id);
+        get().markDMRead(threadId);
       })
       .subscribe();
 
-    set({ realtimeDMChannel: channel });
+    set({ dmRealtimeChannel: channel });
   }
 }));
