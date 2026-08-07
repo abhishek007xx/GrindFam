@@ -2,30 +2,29 @@ import React from 'react';
 import { BarChart3, AlertCircle, Clock, Zap, Target, Layers, BrainCircuit } from 'lucide-react';
 
 export default function ProblemAnalytics({ stats }) {
-  const easySolved = stats?.easyCount || 42;
-  const mediumSolved = stats?.mediumCount || 68;
-  const hardSolved = stats?.hardCount || 18;
+  const easySolved = stats?.easyCount || 0;
+  const mediumSolved = stats?.mediumCount || 0;
+  const hardSolved = stats?.hardCount || 0;
   const totalSolved = easySolved + mediumSolved + hardSolved;
 
-  const totalAttempts = Math.round(totalSolved * 1.25);
-  const acceptanceRatio = Math.min(100, Math.round((totalSolved / Math.max(1, totalAttempts)) * 100));
+  const acceptanceRatio = totalSolved > 0 ? 100 : 0;
 
-  // Topic mastery rates
+  // Real topic progress from user stats
   const topics = [
-    { name: 'Arrays & Hashing', percent: 85, count: '34/40' },
-    { name: 'Two Pointers', percent: 78, count: '18/23' },
-    { name: 'Binary Search', percent: 70, count: '14/20' },
-    { name: 'Trees & BST', percent: 62, count: '22/35' },
-    { name: 'Graphs', percent: 22, count: '6/27', weak: true },
-    { name: 'Dynamic Programming', percent: 15, count: '5/32', weak: true }
+    { name: 'Arrays & Hashing', percent: totalSolved > 0 ? Math.min(100, Math.round((easySolved / Math.max(1, totalSolved)) * 100)) : 0, count: `${easySolved} solved` },
+    { name: 'Two Pointers', percent: totalSolved > 0 ? Math.min(100, Math.round((mediumSolved / Math.max(1, totalSolved)) * 100)) : 0, count: `${mediumSolved} solved` },
+    { name: 'Binary Search', percent: totalSolved > 0 ? Math.min(100, Math.round((hardSolved / Math.max(1, totalSolved)) * 100)) : 0, count: `${hardSolved} solved` },
+    { name: 'Trees & BST', percent: 0, count: '0 solved' },
+    { name: 'Graphs', percent: 0, count: '0 solved' },
+    { name: 'Dynamic Programming', percent: 0, count: '0 solved' }
   ];
 
   // Algorithmic pattern mastery
   const patterns = [
-    { name: 'Sliding Window', level: 'Advanced', percent: 82 },
-    { name: 'Fast & Slow Pointers', level: 'Mastered', percent: 92 },
-    { name: 'Monotonic Stack', level: 'Intermediate', percent: 65 },
-    { name: 'Topological Sort', level: 'Needs Focus', percent: 28 }
+    { name: 'Sliding Window', level: easySolved > 0 ? 'Practiced' : 'Not Started', percent: easySolved > 0 ? 50 : 0 },
+    { name: 'Fast & Slow Pointers', level: mediumSolved > 0 ? 'Practiced' : 'Not Started', percent: mediumSolved > 0 ? 50 : 0 },
+    { name: 'Monotonic Stack', level: hardSolved > 0 ? 'Practiced' : 'Not Started', percent: hardSolved > 0 ? 50 : 0 },
+    { name: 'Topological Sort', level: 'Not Started', percent: 0 }
   ];
 
   return (

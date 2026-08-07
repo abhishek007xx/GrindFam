@@ -28,7 +28,8 @@ const UPCOMING_CONTESTS = [
   }
 ];
 
-export default function ContestsGamification({ platformTotal = 0, currentXP = 250 }) {
+export default function ContestsGamification({ platformTotal = 0 }) {
+  const currentXP = (platformTotal % 10) * 50;
   const [reminders, setReminders] = useState({});
 
   const toggleReminder = (id) => {

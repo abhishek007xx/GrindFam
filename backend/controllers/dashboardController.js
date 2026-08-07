@@ -213,12 +213,10 @@ const getDashboardData = async (req, res) => {
           if (todayCount > 0) streak = 1;
         }
 
-        // Breakdown estimates for DB mode
-        if (!easyCount && !mediumCount && !hardCount && platformTotal > 0) {
-          easyCount = Math.round(platformTotal * 0.45);
-          mediumCount = Math.round(platformTotal * 0.45);
-          hardCount = Math.max(0, platformTotal - easyCount - mediumCount);
-        }
+        // Real counts directly from LeetCode / Supabase without dummy multipliers
+        easyCount = easyCount || 0;
+        mediumCount = mediumCount || 0;
+        hardCount = hardCount || 0;
 
         const targetHit = todayCount >= dailyTarget;
 

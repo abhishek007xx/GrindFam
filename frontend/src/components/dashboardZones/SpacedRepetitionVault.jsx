@@ -5,20 +5,11 @@ import { RefreshCw, BookOpen, Bookmark, Building2, CheckCircle2, Play, Star, Spa
 export default function SpacedRepetitionVault() {
   const navigate = useNavigate();
 
-  // Spaced Repetition Queue Items (7, 14, 30 days interval)
-  const [revisionQueue, setRevisionQueue] = useState([
-    { id: 'rev-1', title: '3Sum', slug: '3sum', lastSolved: '7 days ago', dueIn: 'Today', difficulty: 'Medium', tag: 'Two Pointers' },
-    { id: 'rev-2', title: 'Course Schedule II', slug: 'course-schedule-ii', lastSolved: '14 days ago', dueIn: 'Today', difficulty: 'Medium', tag: 'Topological Sort' },
-    { id: 'rev-3', title: 'Trapping Rain Water', slug: 'trapping-rain-water', lastSolved: '30 days ago', dueIn: 'Tomorrow', difficulty: 'Hard', tag: 'Monotonic Stack' }
-  ]);
+  // Real Spaced Repetition Queue Items (default empty until user adds bookmarks)
+  const [revisionQueue, setRevisionQueue] = useState([]);
 
-  // Bookmarked questions vault
-  const [bookmarks] = useState([
-    { title: 'LRU Cache', category: 'Tricky Logic', difficulty: 'Medium', slug: 'lru-cache' },
-    { title: 'Merge k Sorted Lists', category: 'Must Revise', difficulty: 'Hard', slug: 'merge-k-sorted-lists' },
-    { title: 'Subarray Sum Equals K', category: 'Optimized Approach', difficulty: 'Medium', slug: 'subarray-sum-equals-k' },
-    { title: 'Word Search II', category: 'Company Favorite', difficulty: 'Hard', slug: 'word-search-ii' }
-  ]);
+  // Real Bookmarked questions vault (default empty until user adds bookmarks)
+  const [bookmarks, setBookmarks] = useState([]);
 
   const handleResolve = (id) => {
     setRevisionQueue(prev => prev.filter(q => q.id !== id));
