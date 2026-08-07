@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import SettingsModal from './SettingsModal';
 import {
   LayoutDashboard, Building2, FileCode2, Map, Hash, Trophy, Users, UserPlus, Pencil,
-  Activity, Settings, Flame, Shield
+  Activity, Settings, Flame, Shield, Sun, Moon
 } from 'lucide-react';
 
 const mainNavItems = [
@@ -31,6 +32,7 @@ const settingsNavItems = [
 export default function Sidebar({ activeSection = null, onNavigate, onEditTarget, onOpenSquadModal, platformTotal = 0 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const level = Math.max(1, Math.floor(platformTotal / 10) + 1);
@@ -122,13 +124,22 @@ export default function Sidebar({ activeSection = null, onNavigate, onEditTarget
             Level {level} Grinder
             <Flame className="w-3.5 h-3.5 text-amber-500" />
           </span>
-          <button
-            onClick={() => navigate('/settings')}
-            className="p-1 rounded text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
-            title="Settings"
-          >
-            <Settings className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={toggleTheme}
+              className="p-1 rounded text-zinc-400 hover:text-amber-400 hover:bg-white/5 transition-colors"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-indigo-400" />}
+            </button>
+            <button
+              onClick={() => navigate('/settings')}
+              className="p-1 rounded text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+              title="Settings"
+            >
+              <Settings className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
         {/* XP Progress Bar */}
