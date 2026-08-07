@@ -375,9 +375,84 @@ export const useSquadStore = create((set, get) => ({
   },
 
   deleteMessage: async (msgId) => {
-    const { error } = await supabase.from('squad_messages').delete().eq('id', msgId);
-    if (error) throw error;
-    set((s) => ({ messages: s.messages.filter(m => m.id !== msgId) }));
+    try {
+      set({ messages: get().messages.filter(m => m.id !== msgId) });
+      await supabase.from('squad_messages').delete().eq('id', msgId);
+    } catch (err) {
+      console.error('Error deleting message:', err);
+    }
+  },
+
+  addReaction: async (msgId, emojiStr) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Optimistic Update
+    set((state) => ({
+      messages: state.messages.map(m => {
+        if (m.id === msgId) {
+          const currentReactions = m.reactions || {};
+          const usersForEmoji = currentReactions[emojiStr] || [];
+          const hasReacted = usersForEmoji.includes(user.id);
+          
+          let newUsersForEmoji;
+          if (hasReacted) {
+            newUsersForEmoji = usersForEmoji.filter(id => id !== user.id);
+          } else {
+            newUsersForEmoji = [...usersForEmoji, user.id];
+          }
+
+          const newReactions = { ...currentReactions };
+          if (newUsersForEmoji.length === 0) {
+            delete newReactions[emojiStr];
+          } else {
+            newReactions[emojiStr] = newUsersForEmoji;
+          }
+
+          return { ...m, reactions: newReactions };
+        }
+        return m;
+      })
+    }));
+
+    try {
+      // Fetch current reactions
+      const { data, error } = await supabase
+        .from('squad_messages')
+        .select('reactions')
+        .eq('id', msgId)
+        .single();
+      if (error) throw error;
+
+      const currentReactions = data.reactions || {};
+      const usersForEmoji = currentReactions[emojiStr] || [];
+      const hasReacted = usersForEmoji.includes(user.id);
+      
+      let newUsersForEmoji;
+      if (hasReacted) {
+        newUsersForEmoji = usersForEmoji.filter(id => id !== user.id);
+      } else {
+        newUsersForEmoji = [...usersForEmoji, user.id];
+      }
+
+      const newReactions = { ...currentReactions };
+      if (newUsersForEmoji.length === 0) {
+        delete newReactions[emojiStr];
+      } else {
+        newReactions[emojiStr] = newUsersForEmoji;
+      }
+
+      await supabase
+        .from('squad_messages')
+        .update({ reactions: newReactions })
+        .eq('id', msgId);
+
+    } catch (err) {
+      console.error('Error adding reaction:', err);
+      // Re-fetch squad data to correct the state
+      const squadId = get().activeSquad?.id;
+      if (squadId) get().fetchSquadData(squadId);
+    }
   },
 
   sendTypingEvent: async () => {

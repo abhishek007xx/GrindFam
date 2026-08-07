@@ -1,16 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { supabase } from '../supabase';
 
-/**
- * useArenaMatchmaking — Battle Arena match state machine hook.
- * 
- * States: idle → searching → matched → in_progress → completed
- * 
- * Currently operates in demo/simulation mode with realistic timing.
- * When Supabase Realtime matchmaking is ready, the `startMatch` function
- * will switch to broadcasting a search event and listening for match responses.
- */
-
 const MATCH_STATES = {
   IDLE: 'idle',
   SEARCHING: 'searching',
@@ -18,14 +8,6 @@ const MATCH_STATES = {
   IN_PROGRESS: 'in_progress',
   COMPLETED: 'completed'
 };
-
-const DEMO_OPPONENTS = [
-  { name: 'AlgoNinja_92', elo: 1520, tier: 'Gold' },
-  { name: 'CodeSprint_X', elo: 1580, tier: 'Gold' },
-  { name: 'DSADemon_44', elo: 1490, tier: 'Silver' },
-  { name: 'GraphMaster_7', elo: 1610, tier: 'Platinum' },
-  { name: 'StackOverflow_Pro', elo: 1550, tier: 'Gold' },
-];
 
 const DEMO_PROBLEMS = [
   'Two Sum (Easy)',
@@ -37,7 +19,7 @@ const DEMO_PROBLEMS = [
   'LRU Cache (Medium)',
 ];
 
-export function useArenaMatchmaking(userId) {
+export function useArenaMatchmaking(userId, userName = 'You') {
   const [matchState, setMatchState] = useState(MATCH_STATES.IDLE);
   const [matchType, setMatchType] = useState('1v1');
   const [opponent, setOpponent] = useState(null);
@@ -50,6 +32,7 @@ export function useArenaMatchmaking(userId) {
 
   const searchTimeoutRef = useRef(null);
   const matchTimeoutRef = useRef(null);
+  const channelRef = useRef(null);
 
   // Fetch match history from Supabase
   const fetchMatchHistory = useCallback(async () => {
@@ -62,45 +45,124 @@ export function useArenaMatchmaking(userId) {
         .order('created_at', { ascending: false })
         .limit(10);
 
-      if (!error && data) {
-        setMatchHistory(data);
-      }
-    } catch (_) {
-      // Table may not exist yet; use empty history
-    }
+      if (!error && data) setMatchHistory(data);
+    } catch (_) {}
   }, [userId]);
 
   useEffect(() => {
     fetchMatchHistory();
   }, [fetchMatchHistory]);
 
+  const cleanupChannel = () => {
+    if (channelRef.current) {
+      supabase.removeChannel(channelRef.current);
+      channelRef.current = null;
+    }
+  };
+
   const startMatch = useCallback((type = '1v1') => {
+    if (!userId) return;
+    
     setMatchType(type);
     setMatchState(MATCH_STATES.SEARCHING);
     setOpponent(null);
     setMatchProblem(null);
     setMatchResult(null);
+    
+    cleanupChannel();
 
-    // Simulate matchmaking delay (1.5–2.5 seconds)
-    const searchDelay = 1500 + Math.random() * 1000;
-    searchTimeoutRef.current = setTimeout(() => {
-      const opp = DEMO_OPPONENTS[Math.floor(Math.random() * DEMO_OPPONENTS.length)];
-      const prob = DEMO_PROBLEMS[Math.floor(Math.random() * DEMO_PROBLEMS.length)];
-
-      setOpponent(opp);
-      setMatchProblem(prob);
-      setMatchState(MATCH_STATES.MATCHED);
-
-      // Auto-transition to in_progress after 1 second reveal
-      matchTimeoutRef.current = setTimeout(() => {
-        setMatchState(MATCH_STATES.IN_PROGRESS);
+    if (type === 'ghost') {
+      // Async ghost match always uses mock
+      searchTimeoutRef.current = setTimeout(() => {
+        setOpponent({ name: 'Ghost_Bot', elo: eloRating, tier: leagueTier });
+        setMatchProblem(DEMO_PROBLEMS[Math.floor(Math.random() * DEMO_PROBLEMS.length)]);
+        setMatchState(MATCH_STATES.MATCHED);
+        matchTimeoutRef.current = setTimeout(() => setMatchState(MATCH_STATES.IN_PROGRESS), 1500);
       }, 1000);
-    }, searchDelay);
-  }, []);
+      return;
+    }
+
+    // Live 1v1 uses Realtime Broadcast
+    const channel = supabase.channel('arena-matchmaking', {
+      config: { broadcast: { ack: true } }
+    });
+
+    channelRef.current = channel;
+
+    channel.on('broadcast', { event: 'search' }, (payload) => {
+      // Someone else is searching! Let's match with them.
+      if (payload.payload.userId !== userId && matchState === MATCH_STATES.SEARCHING) {
+        // Send a 'matched' event back to them
+        channel.send({
+          type: 'broadcast',
+          event: 'matched',
+          payload: { 
+            opponentId: payload.payload.userId, 
+            myId: userId,
+            myName: userName,
+            myElo: eloRating,
+            problem: DEMO_PROBLEMS[Math.floor(Math.random() * DEMO_PROBLEMS.length)]
+          }
+        });
+      }
+    });
+
+    channel.on('broadcast', { event: 'matched' }, (payload) => {
+      // Someone sent us a match!
+      if (payload.payload.opponentId === userId && matchState === MATCH_STATES.SEARCHING) {
+        clearTimeout(searchTimeoutRef.current);
+        setOpponent({ name: payload.payload.myName, elo: payload.payload.myElo, tier: 'Unknown' });
+        setMatchProblem(payload.payload.problem);
+        setMatchState(MATCH_STATES.MATCHED);
+        
+        // Let them know we accepted
+        channel.send({
+          type: 'broadcast',
+          event: 'match_accepted',
+          payload: { opponentId: payload.payload.myId, myName: userName, myElo: eloRating }
+        });
+
+        matchTimeoutRef.current = setTimeout(() => setMatchState(MATCH_STATES.IN_PROGRESS), 1500);
+      }
+    });
+
+    channel.on('broadcast', { event: 'match_accepted' }, (payload) => {
+      if (payload.payload.opponentId === userId && matchState === MATCH_STATES.SEARCHING) {
+        clearTimeout(searchTimeoutRef.current);
+        setOpponent({ name: payload.payload.myName, elo: payload.payload.myElo, tier: 'Unknown' });
+        setMatchProblem(DEMO_PROBLEMS[0]); // Assume problem is passed or sync it
+        setMatchState(MATCH_STATES.MATCHED);
+        matchTimeoutRef.current = setTimeout(() => setMatchState(MATCH_STATES.IN_PROGRESS), 1500);
+      }
+    });
+
+    channel.subscribe((status) => {
+      if (status === 'SUBSCRIBED') {
+        // Broadcast that we are searching
+        channel.send({
+          type: 'broadcast',
+          event: 'search',
+          payload: { userId, userName, eloRating }
+        });
+
+        // Fallback to bot if no one is found in 8 seconds
+        searchTimeoutRef.current = setTimeout(() => {
+          if (matchState === MATCH_STATES.SEARCHING) {
+            setOpponent({ name: 'AlgoNinja_92', elo: eloRating - 10, tier: leagueTier });
+            setMatchProblem(DEMO_PROBLEMS[Math.floor(Math.random() * DEMO_PROBLEMS.length)]);
+            setMatchState(MATCH_STATES.MATCHED);
+            matchTimeoutRef.current = setTimeout(() => setMatchState(MATCH_STATES.IN_PROGRESS), 1500);
+          }
+        }, 8000);
+      }
+    });
+
+  }, [userId, userName, eloRating, matchState, leagueTier]);
 
   const cancelSearch = useCallback(() => {
     if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     if (matchTimeoutRef.current) clearTimeout(matchTimeoutRef.current);
+    cleanupChannel();
     setMatchState(MATCH_STATES.IDLE);
     setOpponent(null);
     setMatchProblem(null);
@@ -108,6 +170,7 @@ export function useArenaMatchmaking(userId) {
 
   const completeMatch = useCallback(async (won = true) => {
     const eloChange = won ? Math.floor(20 + Math.random() * 30) : -Math.floor(10 + Math.random() * 15);
+    cleanupChannel();
 
     setMatchResult({
       won,
@@ -119,7 +182,6 @@ export function useArenaMatchmaking(userId) {
     setEloRating(prev => Math.max(0, prev + eloChange));
     setMatchState(MATCH_STATES.COMPLETED);
 
-    // Persist match result to Supabase
     if (userId) {
       try {
         await supabase.from('arena_matches').insert([{
@@ -132,9 +194,7 @@ export function useArenaMatchmaking(userId) {
           status: 'completed'
         }]);
         fetchMatchHistory();
-      } catch (_) {
-        // Silently ignore if table doesn't exist yet
-      }
+      } catch (_) {}
     }
   }, [matchProblem, opponent, matchType, userId, fetchMatchHistory]);
 
@@ -145,29 +205,19 @@ export function useArenaMatchmaking(userId) {
     setMatchResult(null);
   }, []);
 
-  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
       if (matchTimeoutRef.current) clearTimeout(matchTimeoutRef.current);
+      cleanupChannel();
     };
   }, []);
 
   return {
-    matchState,
-    matchType,
-    setMatchType,
-    opponent,
-    matchProblem,
-    matchResult,
-    matchHistory,
-    eloRating,
-    leagueTier,
-    userRank,
-    startMatch,
-    cancelSearch,
-    completeMatch,
-    resetMatch,
+    matchState, matchType, setMatchType,
+    opponent, matchProblem, matchResult, matchHistory,
+    eloRating, leagueTier, userRank,
+    startMatch, cancelSearch, completeMatch, resetMatch,
     MATCH_STATES
   };
 }

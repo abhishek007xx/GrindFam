@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Plus, Smile, Send, Hash, Copy, Heart, Reply, Trash2, Loader2, AlertCircle } from 'lucide-react';
+import { Plus, Smile, Send, Hash, Copy, Reply, Trash2, Loader2, AlertCircle } from 'lucide-react';
+import EmojiPicker from 'emoji-picker-react';
 
 export default function SquadChat() {
   const { session } = useAuth();
   const {
-    activeSquad, messages, sendMessage, deleteMessage, sendTypingEvent,
+    activeSquad, messages, sendMessage, deleteMessage, sendTypingEvent, addReaction,
     typingUsers, activeChannel, fetchSquadData, subscribeRealtime, unsubscribeRealtime
   } = useSquadStore();
 
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [errorToast, setErrorToast] = useState(null);
-  const [reactions, setReactions] = useState({});
+  const [showEmojiPickerForMsg, setShowEmojiPickerForMsg] = useState(null);
 
   const messagesEndRef = useRef(null);
   const scrollContainerRef = useRef(null);
@@ -83,11 +84,13 @@ export default function SquadChat() {
     navigator.clipboard.writeText(text);
   };
 
-  const handleToggleHeart = (msgId) => {
-    setReactions(prev => ({
-      ...prev,
-      [msgId]: !prev[msgId]
-    }));
+  const handleToggleReaction = async (msgId, emoji) => {
+    try {
+      await addReaction(msgId, emoji);
+      setShowEmojiPickerForMsg(null);
+    } catch (err) {
+      console.error('Error adding reaction:', err);
+    }
   };
 
   const handleReplyUser = (authorName) => {
@@ -180,30 +183,72 @@ export default function SquadChat() {
 
                     return (
                       <div key={msg.id || msg.created_at} className="relative group/msg">
-                        <div className="text-sm text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 leading-relaxed break-words whitespace-pre-wrap flex items-center justify-between">
+                        <div className="text-sm text-[#e6edf3] dark:text-[#e6edf3] light:text-slate-900 leading-relaxed break-words whitespace-pre-wrap flex flex-col">
                           <span>{msg.content}</span>
                           
-                          <div className="opacity-0 group-hover/msg:opacity-100 flex items-center gap-1 bg-[#161b22] dark:bg-[#161b22] light:bg-white border border-[#30363d] dark:border-[#30363d] light:border-slate-200 rounded-lg px-1.5 py-0.5 shadow transition-opacity">
-                            <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 rounded" title="Copy">
-                              <Copy className="w-3.5 h-3.5" />
-                            </button>
-                            <button onClick={() => handleToggleHeart(msg.id)} className={`p-1 rounded ${hasHeart ? 'text-[#ff8b7c]' : 'text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white'}`} title="React">
-                              <Heart className={`w-3.5 h-3.5 ${hasHeart ? 'fill-current' : ''}`} />
-                            </button>
-                            <button onClick={() => handleReplyUser(group.author_name)} className="p-1 text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 rounded" title="Reply">
-                              <Reply className="w-3.5 h-3.5" />
-                            </button>
-                            {canDeleteThis && (
-                              <button onClick={() => handleDelete(msg.id)} className="p-1 text-red-400 hover:text-red-300 rounded" title="Delete">
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            )}
-                          </div>
+                          {/* Render Actual Reactions from DB */}
+                          {msg.reactions && Object.keys(msg.reactions).length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {Object.entries(msg.reactions).map(([emoji, users]) => {
+                                const hasReacted = users.includes(session?.user?.id);
+                                return (
+                                  <button
+                                    key={emoji}
+                                    onClick={() => handleToggleReaction(msg.id, emoji)}
+                                    className={`px-1.5 py-0.5 rounded-md text-[11px] font-bold border transition-colors flex items-center gap-1 ${
+                                      hasReacted
+                                        ? 'bg-[#EA5D3A]/20 border-[#EA5D3A]/40 text-[#EA5D3A]'
+                                        : 'bg-[#1F2937]/50 border-[#30363D] text-[#9CA3AF] hover:text-[#F3F4F6] hover:bg-[#252D3B]'
+                                    }`}
+                                  >
+                                    <span>{emoji}</span>
+                                    <span>{users.length}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
 
-                        {hasHeart && (
-                          <div className="inline-flex items-center gap-1 bg-[#161b22] dark:bg-[#161b22] light:bg-slate-100 border border-[#ff8b7c]/40 px-2 py-0.5 rounded-full text-xs text-[#ff8b7c] mt-1">
-                            ❤️ 1
+                        <div className="opacity-0 group-hover/msg:opacity-100 flex items-center gap-1 absolute right-full top-0 pr-2 transition-opacity">
+                          <button
+                            onClick={() => setShowEmojiPickerForMsg(showEmojiPickerForMsg === msg.id ? null : msg.id)}
+                            className="p-1.5 rounded-lg text-[#6b7280] dark:text-[#6b7280] light:text-slate-400 hover:bg-[#1f2937] dark:hover:bg-[#1f2937] light:hover:bg-slate-200 hover:text-[#F3F4F6] transition-colors"
+                            title="React"
+                          >
+                            <Smile className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleCopyMessage(msg.content)}
+                            className="p-1.5 rounded-lg text-[#6b7280] dark:text-[#6b7280] light:text-slate-400 hover:bg-[#1f2937] dark:hover:bg-[#1f2937] light:hover:bg-slate-200 hover:text-[#e6edf3] transition-colors"
+                            title="Copy text"
+                          >
+                            <Copy className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleReplyUser(group.author_name)}
+                            className="p-1.5 rounded-lg text-[#6b7280] dark:text-[#6b7280] light:text-slate-400 hover:bg-[#1f2937] dark:hover:bg-[#1f2937] light:hover:bg-slate-200 hover:text-[#e6edf3] transition-colors"
+                            title="Reply"
+                          >
+                            <Reply className="w-3.5 h-3.5" />
+                          </button>
+                          {(canDeleteAnyMessage || msg.user_id === session?.user?.id) && (
+                            <button
+                              onClick={() => handleDelete(msg.id)}
+                              className="p-1.5 rounded-lg text-[#6b7280] dark:text-[#6b7280] light:text-slate-400 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+                              title="Delete message"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+
+                        {showEmojiPickerForMsg === msg.id && (
+                          <div className="absolute right-full top-8 z-50">
+                            <EmojiPicker
+                              theme="dark"
+                              onEmojiClick={(emojiData) => handleToggleReaction(msg.id, emojiData.emoji)}
+                            />
                           </div>
                         )}
                       </div>

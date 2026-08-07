@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.48.0",
     "axios": "^1.7.9",
+    "emoji-picker-react": "^4.19.1",
     "framer-motion": "^12.43.0",
     "lucide-react": "^0.475.0",
     "react": "^18.3.1",

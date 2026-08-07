@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Sparkles, Play, CheckCircle2, ArrowRight, ShieldCheck, Users, Circle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Play, CheckCircle2, ArrowRight, ShieldCheck, Users, Circle, X, Code, Zap } from 'lucide-react';
 
 export function TodayHabitHub({
   userStreak = 0,
@@ -16,6 +16,8 @@ export function TodayHabitHub({
 }) {
   const navigate = useNavigate();
   const xpPercent = Math.min(100, Math.round((dailyXp / targetXp) * 100));
+  const [showWarmupModal, setShowWarmupModal] = React.useState(false);
+  const [warmupCode, setWarmupCode] = React.useState('function twoSum(nums, target) {\n  \n}');
 
   // Online members (active in last 24h) memoized for performance
   const onlineMembers = useMemo(() => members.filter(m => m.isOnline), [members]);
@@ -55,7 +57,7 @@ export function TodayHabitHub({
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={() => navigate('/sheet/striver-s-a2z-dsa-course-sheet')}
+            onClick={() => setShowWarmupModal(true)}
             aria-label="Start 3-minute micro warmup problem"
             className="px-6 py-3 bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-extrabold text-xs rounded-xl shadow-lg shadow-[#EA5D3A]/25 transition-all flex items-center justify-center gap-2 flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#161B22]"
           >
@@ -222,6 +224,91 @@ export function TodayHabitHub({
           </button>
         </motion.article>
       </div>
+
+      {/* Frictionless Micro-Warmup Modal */}
+      <AnimatePresence>
+        {showWarmupModal && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-[#0a0e17]/80 backdrop-blur-sm z-50"
+              onClick={() => setShowWarmupModal(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="warmup-title"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[80vh] bg-[#0D1117] border border-[#30363D] rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            >
+              <div className="flex justify-between items-center p-4 border-b border-[#21262D] bg-[#161B22]">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-[#EA5D3A]/20 rounded-lg">
+                    <Zap className="w-5 h-5 text-[#EA5D3A]" />
+                  </div>
+                  <div>
+                    <h3 id="warmup-title" className="text-lg font-bold text-white">Daily 3-Min Warmup</h3>
+                    <p className="text-xs text-[#9CA3AF]">Two Sum (Easy) • Locks in {userStreak}-day streak</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowWarmupModal(false)}
+                  className="text-[#6B7280] hover:text-white transition-colors p-2 rounded-lg hover:bg-[#1F2937]"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
+                {/* Problem Description */}
+                <div className="p-6 border-r border-[#21262D] bg-[#0D1117] overflow-y-auto">
+                  <h4 className="text-xl font-bold text-[#F3F4F6] mb-4">1. Two Sum</h4>
+                  <div className="space-y-4 text-sm text-[#9CA3AF]">
+                    <p>Given an array of integers <code className="bg-[#1F2937] px-1.5 py-0.5 rounded text-[#F3F4F6]">nums</code> and an integer <code className="bg-[#1F2937] px-1.5 py-0.5 rounded text-[#F3F4F6]">target</code>, return indices of the two numbers such that they add up to <code className="bg-[#1F2937] px-1.5 py-0.5 rounded text-[#F3F4F6]">target</code>.</p>
+                    <p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+                    <div className="bg-[#161B22] border border-[#30363D] p-4 rounded-lg font-mono text-xs text-[#E6EDF3]">
+                      <p><strong className="text-white">Input:</strong> nums = [2,7,11,15], target = 9</p>
+                      <p><strong className="text-white">Output:</strong> [0,1]</p>
+                      <p><strong className="text-white">Explanation:</strong> Because nums[0] + nums[1] == 9, we return [0, 1].</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Code Editor Mock */}
+                <div className="flex flex-col bg-[#0A0E17]">
+                  <div className="p-2 bg-[#161B22] border-b border-[#21262D] flex items-center justify-between">
+                    <span className="text-xs font-bold text-[#9CA3AF] flex items-center gap-2">
+                      <Code className="w-4 h-4" /> JavaScript
+                    </span>
+                  </div>
+                  <textarea
+                    value={warmupCode}
+                    onChange={(e) => setWarmupCode(e.target.value)}
+                    className="flex-1 w-full bg-transparent p-4 text-sm font-mono text-[#E6EDF3] outline-none resize-none scrollbar-thin scrollbar-thumb-[#30363D]"
+                    spellCheck={false}
+                  />
+                  <div className="p-4 border-t border-[#21262D] bg-[#161B22] flex justify-end">
+                    <button
+                      onClick={() => {
+                        alert("Warmup completed! +50 XP and Streak locked.");
+                        setShowWarmupModal(false);
+                      }}
+                      className="px-6 py-2.5 bg-[#10B981] hover:bg-[#059669] text-white text-sm font-bold rounded-xl transition-colors flex items-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      Submit Warmup
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
