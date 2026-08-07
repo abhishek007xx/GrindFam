@@ -27,7 +27,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden">
+    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center p-4 auth-bg relative overflow-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
       {/* Subtle ambient lighting & dot grid */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(234,88,12,0.1),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 dot-grid opacity-10 pointer-events-none" />
