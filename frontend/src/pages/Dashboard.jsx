@@ -24,7 +24,7 @@ import ShareCardModal from '../components/ShareCardModal';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
   Flame, ArrowRight, RotateCcw, BookOpen, Building2, FileCode2,
-  Target, TrendingUp, Zap, Clock, ChevronRight, ExternalLink, Sparkles, Share2
+  Target, TrendingUp, Zap, Clock, ChevronRight, ExternalLink, Sparkles, Share2, Eye, Trophy
 } from 'lucide-react';
 
 import { API_BASE_URL } from '../config/api';
@@ -109,6 +109,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
+  const [activeMainTab, setActiveMainTab] = useState('overview'); // 'overview' | 'analytics' | 'vault' | 'contests' | 'social'
   const [dailyTarget, setDailyTarget] = useState(5);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -342,254 +343,196 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {/* ██  EXISTING: Leaderboard Section  ██ */}
-          {/* ═══════════════════════════════════════════════════════════ */}
-          {loading ? (
-            <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
-              <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
-                <Loader2 className="w-7 h-7 animate-spin" />
-              </div>
-              <p className="text-sm font-semibold text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900">Loading Dashboard...</p>
-              <p className="text-xs text-[#737373] dark:text-[#737373] light:text-slate-600">Fetching your progress and squad stats</p>
-            </div>
-          ) : error ? (
-            <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">
-              <AlertCircle className="w-8 h-8 text-amber-500" />
-              <h3 className="text-base font-bold text-white">Unable to Load Leaderboard</h3>
-              <p className="text-xs text-[#A3A3A3]">{error}</p>
-              <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#EA5D3A]/20">
-                <RefreshCw className="w-3.5 h-3.5" /> Try Again
+      {/* Top-Level Navigation Tabs (Matches Reference Design) */}
+      <div className="border-b border-[#30363D] mb-6 overflow-x-auto">
+        <nav className="flex space-x-6 min-w-max">
+          {[
+            { id: 'overview', label: 'Overview', icon: Eye },
+            { id: 'analytics', label: 'Analytics & Focus', icon: TrendingUp },
+            { id: 'vault', label: 'Vault & Revision', icon: BookOpen },
+            { id: 'contests', label: 'Contests & Leveling', icon: Trophy },
+            { id: 'social', label: 'Squad & Social', icon: Users },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeMainTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveMainTab(tab.id)}
+                className={`flex items-center gap-2 py-3 px-1 border-b-2 font-semibold text-sm transition-all cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? 'border-[#EA5D3A] text-[#EA5D3A]'
+                    : 'border-transparent text-[#9CA3AF] hover:text-white hover:border-zinc-600'
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#EA5D3A]' : 'text-[#9CA3AF]'}`} />
+                <span>{tab.label}</span>
               </button>
-            </div>
-          ) : (
-            <div className="space-y-8">
-              {/* Zone 1: Daily Focus & Actionable Targets */}
-              <div className="space-y-6">
-                <StatsCards
-                  stats={dashboardData.stats}
-                  dailyTarget={dailyTarget}
-                  onEditTarget={() => setIsEditModalOpen(true)}
-                  onSyncLeetCode={handleManualSyncLeetCode}
-                  refreshing={refreshing}
-                />
+            );
+          })}
+        </nav>
+      </div>
 
-                {/* Heatmap & Daily Checklist Grid */}
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                  <div className="xl:col-span-2">
-                    <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
-                  </div>
-                  <div className="xl:col-span-1">
-                    <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
-                  </div>
+      {loading ? (
+        <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
+          <div className="p-3.5 rounded-2xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A]">
+            <Loader2 className="w-7 h-7 animate-spin" />
+          </div>
+          <p className="text-sm font-semibold text-[#F4F4F5]">Loading Dashboard...</p>
+          <p className="text-xs text-[#737373]">Fetching your progress and squad stats</p>
+        </div>
+      ) : error ? (
+        <div className="min-h-[40vh] flex flex-col items-center justify-center gap-3 dash-card p-8 max-w-md mx-auto text-center">
+          <AlertCircle className="w-8 h-8 text-amber-500" />
+          <h3 className="text-base font-bold text-white">Unable to Load Leaderboard</h3>
+          <p className="text-xs text-[#A3A3A3]">{error}</p>
+          <button onClick={() => fetchDashboard()} className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white rounded-xl text-xs font-bold flex items-center gap-1.5 mt-2 shadow-md shadow-[#EA5D3A]/20">
+            <RefreshCw className="w-3.5 h-3.5" /> Try Again
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {/* TAB 1: OVERVIEW (Main Dashboard Tab as requested) */}
+          {activeMainTab === 'overview' && (
+            <div className="space-y-6 animate-fadeIn">
+              {/* Squad members & hit target row */}
+              <StatsCards
+                stats={dashboardData.stats}
+                dailyTarget={dailyTarget}
+                onEditTarget={() => setIsEditModalOpen(true)}
+                onSyncLeetCode={handleManualSyncLeetCode}
+                refreshing={refreshing}
+              />
+
+              {/* Heatmap & Daily Checklist Grid */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <div className="xl:col-span-2">
+                  <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
                 </div>
-
-                <div className="w-full">
-                  <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
+                <div className="xl:col-span-1">
+                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                 </div>
               </div>
 
-              {/* Zone 2: Deep Problem-Solving Analytics */}
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                    <TrendingUp className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Deep Problem-Solving Analytics</h2>
-                    <p className="text-[10px] text-[#6B7280]">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
-                  </div>
+              {/* Weekly Progress ABOVE Leaderboard */}
+              <WeeklyProgress
+                yourTodayCount={yourTodayCount}
+                dailyTarget={dailyTarget}
+                platformTotal={yourPlatformTotal}
+                weeklyData={weeklyData}
+              />
+
+              {/* Leaderboard Table & Recent Activity */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" id="leaderboard-section">
+                <div className="xl:col-span-2">
+                  <LeaderboardTable
+                    leaderboard={dashboardData.leaderboard}
+                    dailyTarget={dailyTarget}
+                    onRemoveFriend={handleRemoveFriend}
+                    removingId={removingId}
+                  />
                 </div>
-                <ProblemAnalytics stats={dashboardData.stats} />
-              </div>
-
-              {/* Zone 3: Revision, Retention & Sheet Tracking */}
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                    <BookOpen className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Revision, Retention & Sheet Tracking</h2>
-                    <p className="text-[10px] text-[#6B7280]">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
-                  </div>
+                <div className="xl:col-span-1">
+                  <RecentActivity leaderboard={dashboardData.leaderboard} />
                 </div>
-                <SpacedRepetitionVault />
-              </div>
-
-              {/* Zone 4: Contests & Gamification */}
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                    <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Contests & Gamification</h2>
-                    <p className="text-[10px] text-[#6B7280]">Contest rating curve, XP level badges & upcoming schedules</p>
-                  </div>
-                </div>
-                <ContestsGamification platformTotal={yourPlatformTotal} />
-              </div>
-
-              {/* Zone 5: Social Drive & Squad Standings */}
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] px-5 py-3 flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center flex-shrink-0">
-                    <Users className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                  </div>
-                  <div>
-                    <h2 className="text-sm font-bold text-[#F4F4F5] tracking-tight">Social Drive & Squad Standings</h2>
-                    <p className="text-[10px] text-[#6B7280]">Leaderboard rankings, active squad standings & friend activities</p>
-                  </div>
-                </div>
-
-                {/* Social Category Hub Navigation */}
-                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#333333] rounded-xl">
-                  <div className="flex flex-wrap items-center gap-2 bg-[#141414] p-1 rounded-lg border border-[#333333]">
-                    <button
-                      onClick={() => handleTabChange('leaderboard')}
-                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                        socialTab === 'leaderboard'
-                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      <span>Leaderboard</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleTabChange('squad')}
-                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                        socialTab === 'squad'
-                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      <span>Squad Hub</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleTabChange('friends')}
-                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                        socialTab === 'friends'
-                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      <span>Friends ({dashboardData.stats?.totalFriends || 0})</span>
-                    </button>
-
-                    <button
-                      onClick={() => handleTabChange('addFriend')}
-                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                        socialTab === 'addFriend'
-                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                          : 'text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      <span>Add Friend</span>
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setIsSquadModalOpen(true)}
-                      className="px-3 py-1.5 rounded-lg bg-[#262626] hover:bg-[#333333] border border-[#333333] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
-                    >
-                      <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
-                    </button>
-                  </div>
-                </div>
-
-                {/* Active Social Tab View */}
-                {socialTab === 'leaderboard' && (
-                  <div className="space-y-6 mb-6" id="leaderboard-section">
-                    {/* Weekly Progress ABOVE Leaderboard */}
-                    <WeeklyProgress
-                      yourTodayCount={yourTodayCount}
-                      dailyTarget={dailyTarget}
-                      platformTotal={yourPlatformTotal}
-                      weeklyData={weeklyData}
-                    />
-
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                      <div className="xl:col-span-2">
-                        <LeaderboardTable
-                          leaderboard={dashboardData.leaderboard}
-                          dailyTarget={dailyTarget}
-                          onRemoveFriend={handleRemoveFriend}
-                          removingId={removingId}
-                        />
-                      </div>
-                      <div className="xl:col-span-1">
-                        <RecentActivity leaderboard={dashboardData.leaderboard} />
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {socialTab === 'squad' && (
-                  <div className="space-y-6 mb-6">
-                    <div className="dash-card p-6 border border-[#333333] bg-[#121212] relative overflow-hidden">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <Shield className="w-5 h-5 text-[#EA5D3A]" />
-                            <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
-                          </div>
-                          <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
-                          <p className="text-xs text-zinc-400 mt-1">
-                            Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
-                          </p>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <button
-                            onClick={handleCopySquadCode}
-                            className="px-4 py-2.5 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold flex items-center gap-2 border border-[#333333] transition-all"
-                          >
-                            {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
-                            <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
-                          </button>
-
-                          <button
-                            onClick={() => setIsSquadModalOpen(true)}
-                            className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
-                          >
-                            <Users className="w-4 h-4" /> Manage Squad
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <LeaderboardTable
-                      leaderboard={dashboardData.leaderboard}
-                      dailyTarget={dailyTarget}
-                      onRemoveFriend={handleRemoveFriend}
-                      removingId={removingId}
-                    />
-                  </div>
-                )}
-
-                {socialTab === 'friends' && (
-                  <div className="space-y-6 mb-6">
-                    <FriendsList
-                      token={token}
-                      onRemoveFriend={handleRemoveFriend}
-                      removingId={removingId}
-                      onOpenAddFriend={() => handleTabChange('addFriend')}
-                    />
-                  </div>
-                )}
-
-                {socialTab === 'addFriend' && (
-                  <div className="mb-6 max-w-2xl mx-auto" id="add-friend-section">
-                    <AddFriend onAddFriend={handleAddFriend} />
-                  </div>
-                )}
               </div>
             </div>
           )}
+
+          {/* TAB 2: ANALYTICS & FOCUS */}
+          {activeMainTab === 'analytics' && (
+            <div className="space-y-6 animate-fadeIn">
+              <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
+              <ProblemAnalytics stats={dashboardData.stats} />
+            </div>
+          )}
+
+          {/* TAB 3: VAULT & REVISION */}
+          {activeMainTab === 'vault' && (
+            <div className="space-y-6 animate-fadeIn">
+              <SpacedRepetitionVault />
+            </div>
+          )}
+
+          {/* TAB 4: CONTESTS & LEVELING */}
+          {activeMainTab === 'contests' && (
+            <div className="space-y-6 animate-fadeIn">
+              <ContestsGamification platformTotal={yourPlatformTotal} />
+            </div>
+          )}
+
+          {/* TAB 5: SQUAD & SOCIAL */}
+          {activeMainTab === 'social' && (
+            <div className="space-y-6 animate-fadeIn">
+              <div className="dash-card p-6 border border-[#333333] bg-[#121212] relative overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Shield className="w-5 h-5 text-[#EA5D3A]" />
+                      <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
+                    </div>
+                    <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
+                    <p className="text-xs text-zinc-400 mt-1">
+                      Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={handleCopySquadCode}
+                      className="px-4 py-2.5 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold flex items-center gap-2 border border-[#333333] transition-all"
+                    >
+                      {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
+                      <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setIsSquadModalOpen(true)}
+                      className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
+                    >
+                      <Users className="w-4 h-4" /> Manage Squad
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Active Social Tab View */}
+              {socialTab === 'leaderboard' && (
+                <LeaderboardTable
+                  leaderboard={dashboardData.leaderboard}
+                  dailyTarget={dailyTarget}
+                  onRemoveFriend={handleRemoveFriend}
+                  removingId={removingId}
+                />
+              )}
+
+              {socialTab === 'squad' && (
+                <LeaderboardTable
+                  leaderboard={dashboardData.leaderboard}
+                  dailyTarget={dailyTarget}
+                  onRemoveFriend={handleRemoveFriend}
+                  removingId={removingId}
+                />
+              )}
+
+              {socialTab === 'friends' && (
+                <FriendsList
+                  token={token}
+                  onRemoveFriend={handleRemoveFriend}
+                  removingId={removingId}
+                  onOpenAddFriend={() => handleTabChange('addFriend')}
+                />
+              )}
+
+              {socialTab === 'addFriend' && (
+                <div className="max-w-2xl mx-auto" id="add-friend-section">
+                  <AddFriend onAddFriend={handleAddFriend} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
           {/* Footer */}
           <div className="text-center py-6 border-t border-[#2C2C2C] mt-4">
