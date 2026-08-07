@@ -1,31 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { InfographicRoadmapPath } from '../components/InfographicRoadmapPath';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import { getRoadmapById } from '../lib/roadmapDataLoader';
 import {
-  ArrowLeft, CheckCircle2, Bookmark, Sparkles, Code, ExternalLink,
-  BookOpen, Layers, Check, X
+  ArrowLeft, Bookmark, Layers, Check, X, ExternalLink, Route, Sparkles
 } from 'lucide-react';
-
-const bannerImageMap = {
-  'role-dsa-expert': '/assets/roadmaps/dsa.png',
-  'role-sde-intern': '/assets/roadmaps/dsa.png',
-  'role-campus-3mo': '/assets/roadmaps/dsa.png',
-  'role-senior-sde': '/assets/roadmaps/system_design.png',
-  'role-postgresql-dba': '/assets/roadmaps/system_design.png',
-  'role-frontend-dev': '/assets/roadmaps/fullstack.png',
-  'role-backend-dev': '/assets/roadmaps/system_design.png',
-  'role-fullstack': '/assets/roadmaps/fullstack.png',
-  'role-ai-ml-engineer': '/assets/roadmaps/ai_ml.png',
-  'company-google': '/assets/roadmaps/system_design.png',
-  'company-amazon': '/assets/roadmaps/system_design.png',
-  'company-meta': '/assets/roadmaps/fullstack.png',
-  'sheet-striver': '/assets/roadmaps/dsa.png',
-  'sheet-neetcode': '/assets/roadmaps/dsa.png'
-};
 
 export function RoadmapDetail() {
   const { roadmapId } = useParams();
@@ -88,108 +67,92 @@ export function RoadmapDetail() {
 
   if (!roadmap) {
     return (
-      <div className="page-shell">
-        <Sidebar activeSection="roadmaps" />
-        <div className="page-content">
-          <Navbar />
-          <main className="page-main-constrained text-center py-20">
-            <h2 className="text-xl font-bold text-white">Roadmap Not Found</h2>
-            <button
-              onClick={() => navigate('/roadmaps')}
-              className="mt-4 px-4 py-2 bg-[#22c55e] text-white rounded-xl text-xs font-bold"
-            >
-              Back to All Roadmaps
-            </button>
-          </main>
-        </div>
+      <div className="p-8 text-center space-y-4">
+        <h2 className="text-xl font-bold text-white">Roadmap Not Found</h2>
+        <button
+          onClick={() => navigate('/roadmaps')}
+          className="px-4 py-2 bg-[#22c55e] text-white rounded-xl text-xs font-bold"
+        >
+          Back to All Roadmaps
+        </button>
       </div>
     );
   }
 
   const progressPercent = Math.round((completedSteps.length / roadmap.steps.length) * 100) || 0;
-  const bannerImg = bannerImageMap[roadmap.id] || '/assets/roadmaps/dsa.png';
 
   return (
-    <div className="page-shell pb-20">
-      <Sidebar activeSection="roadmaps" />
+    <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto w-full">
+      {/* Back Navigation */}
+      <button
+        onClick={() => navigate('/roadmaps')}
+        className="flex items-center gap-2 text-xs font-semibold text-[#8b949e] hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back to All Roadmaps</span>
+      </button>
 
-      <div className="page-content">
-        <Navbar />
+      {/* Header Banner Card with Vector Infographic Gradient */}
+      <div className="relative bg-gradient-to-r from-emerald-950/70 via-[#161b22] to-cyan-950/60 border border-[#30363d] rounded-3xl p-8 shadow-2xl overflow-hidden">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
+          <Route className="w-64 h-64 text-[#22c55e]" />
+        </div>
 
-        <main className="page-main-constrained space-y-8 animate-fadeIn">
-          {/* Back Navigation */}
-          <button
-            onClick={() => navigate('/roadmaps')}
-            className="flex items-center gap-2 text-xs font-semibold text-[#8b949e] hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Roadmaps</span>
-          </button>
-
-          {/* Header Banner Card */}
-          <div className="relative bg-[#0d1117] border border-[#30363d] rounded-3xl overflow-hidden shadow-2xl">
-            <div className="relative h-48 md:h-64 w-full">
-              <img src={bannerImg} alt={roadmap.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-[#0d1117]/60 to-transparent" />
+        <div className="relative z-10 space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-3 py-1 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/30 text-[#22c55e] text-xs font-bold">
+                  {roadmap.category}
+                </span>
+                <span className="text-xs text-[#8b949e] font-medium">
+                  Source: <strong className="text-white">{roadmap.creator}</strong>
+                </span>
+              </div>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+                {roadmap.title}
+              </h1>
             </div>
 
-            <div className="p-8 -mt-20 relative z-10 space-y-6">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="px-3 py-1 rounded-full bg-[#22c55e]/20 border border-[#22c55e]/30 text-[#22c55e] text-xs font-bold">
-                      {roadmap.category}
-                    </span>
-                    <span className="text-xs text-[#8b949e] font-medium">
-                      Source: <strong className="text-white">{roadmap.creator}</strong>
-                    </span>
-                  </div>
-                  <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-                    {roadmap.title}
-                  </h1>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={toggleFollow}
-                    className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
-                      isFollowing
-                        ? 'bg-[#22c55e] text-[#0e150e] shadow-lg shadow-[#22c55e]/20'
-                        : 'bg-[#161b22] hover:bg-[#21262d] text-white border border-[#30363d]'
-                    }`}
-                  >
-                    <Bookmark className="w-4 h-4" />
-                    <span>{isFollowing ? 'Target Roadmap (Active)' : 'Follow Target Roadmap'}</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Progress Summary */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-[#8b949e]">Progress Breakdown</span>
-                  <span className="text-[#22c55e]">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
-                </div>
-                <div className="progress-track h-3">
-                  <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-                </div>
-              </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleFollow}
+                className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
+                  isFollowing
+                    ? 'bg-[#22c55e] text-[#0e150e] shadow-lg shadow-[#22c55e]/20'
+                    : 'bg-[#161b22] hover:bg-[#21262d] text-white border border-[#30363d]'
+                }`}
+              >
+                <Bookmark className="w-4 h-4" />
+                <span>{isFollowing ? 'Target Roadmap (Active)' : 'Follow Target Roadmap'}</span>
+              </button>
             </div>
           </div>
 
-          {/* Interactive Infographic Roadmap Canvas */}
-          <div className="bg-[#0d1117] border border-[#30363d] rounded-3xl p-6 shadow-2xl">
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <Layers className="w-5 h-5 text-[#22c55e]" /> Interactive Learning Roadmap
-            </h2>
-            <InfographicRoadmapPath
-              steps={roadmap.steps}
-              completedSteps={completedSteps}
-              onToggleStep={toggleStepCompleted}
-              onSelectStep={(step) => setSelectedStep(step)}
-            />
+          {/* Progress Summary */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold">
+              <span className="text-[#8b949e]">Progress Breakdown</span>
+              <span className="text-[#22c55e]">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
+            </div>
+            <div className="progress-track h-3">
+              <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+            </div>
           </div>
-        </main>
+        </div>
+      </div>
+
+      {/* Interactive Infographic Roadmap Canvas */}
+      <div className="bg-[#0d1117] border border-[#30363d] rounded-3xl p-6 shadow-2xl">
+        <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <Layers className="w-5 h-5 text-[#22c55e]" /> Interactive Learning Roadmap
+        </h2>
+        <InfographicRoadmapPath
+          steps={roadmap.steps}
+          completedSteps={completedSteps}
+          onToggleStep={toggleStepCompleted}
+          onSelectStep={(step) => setSelectedStep(step)}
+        />
       </div>
 
       {/* Step Detail Modal */}

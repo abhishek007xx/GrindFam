@@ -202,11 +202,6 @@ export default function LandingPage() {
           </div>
           {/* Card 4 */}
           <div className="glass-card rounded-premium p-8 glow-hover transition-all duration-300 flex flex-col h-full relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <span className="material-symbols-outlined text-6xl text-neon-accent" style={{ fontVariationSettings: "'FILL' 1" }}>
-                groups
-              </span>
-            </div>
             <span className="material-symbols-outlined text-neon-accent mb-6 text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
               groups
             </span>
