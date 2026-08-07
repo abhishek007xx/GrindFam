@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Shield, AlertTriangle, VolumeX, UserX, Copy, Check, Loader2, LogOut, Flag } from 'lucide-react';
+import { useSquadStore } from '../../store/useSquadStore';
+import { Shield, AlertTriangle, VolumeX, UserX, Copy, Check, Loader2, LogOut, Flag, MessageSquare } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
+export default function SquadSettings() {
+  const { session } = useAuth();
+  const { activeSquad, members, leaveSquad, fetchSquadData } = useSquadStore();
 
-export default function SquadSettings({ squadInfo, members, role, onRefresh }) {
-  const { session, profile } = useAuth();
-  const [reportingUser, setReportingUser] = useState(null);
-  const [reportReason, setReportReason] = useState('');
-  const [reportLoading, setReportLoading] = useState(false);
-  const [actionLoading, setActionLoading] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [discordLoading, setDiscordLoading] = useState(false);
+  const [discordUsername, setDiscordUsername] = useState('');
+  const [updatingDiscordUser, setUpdatingDiscordUser] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
-  const token = session?.access_token;
-  const isAdmin = role === 'leader';
+  const isAdmin = activeSquad?.role === 'admin' || activeSquad?.role === 'leader';
 
   const handleCopyCode = () => {
-    const code = squadInfo?.code || squadInfo?.id;
+    const code = activeSquad?.invite_code || activeSquad?.code;
     if (!code) return;
     navigator.clipboard.writeText(code);
     setCopied(true);
@@ -25,148 +24,112 @@ export default function SquadSettings({ squadInfo, members, role, onRefresh }) {
   };
 
   const handleLeave = async () => {
+    if (!activeSquad) return;
     if (!window.confirm('Are you sure you want to leave your squad?')) return;
     try {
-      await fetch(`${API_BASE}/api/squads/leave`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      onRefresh?.();
+      await leaveSquad(activeSquad.id);
     } catch (err) {
-      setFeedback({ type: 'error', text: 'Failed to leave squad.' });
+      setFeedback({ type: 'error', text: err.message || 'Failed to leave squad.' });
     }
   };
 
-  const handleMute = async (userId) => {
-    if (!isAdmin) return;
-    setActionLoading(userId);
+  const handleConnectDiscord = async () => {
+    if (!isAdmin || !activeSquad) return;
+    setDiscordLoading(true);
+    setFeedback(null);
     try {
-      const res = await fetch(`${API_BASE}/api/squads/mute/${userId}`, {
+      const res = await fetch('/api/discord/create-squad-channels', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.access_token}`
+        },
+        body: JSON.stringify({
+          squadId: activeSquad.id,
+          squadName: activeSquad.name
+        })
       });
       const data = await res.json();
-      setFeedback({ type: 'success', text: data.message });
-      onRefresh?.();
+      if (res.ok) {
+        setFeedback({ type: 'success', text: 'Discord server channels connected successfully!' });
+        fetchSquadData(activeSquad.id);
+      } else {
+        setFeedback({ type: 'error', text: data.error || 'Failed to connect Discord server.' });
+      }
     } catch (err) {
-      setFeedback({ type: 'error', text: 'Failed to mute/unmute member.' });
+      setFeedback({ type: 'error', text: 'Discord connection failed.' });
     } finally {
-      setActionLoading(null);
+      setDiscordLoading(false);
     }
-  };
-
-  const handleKick = async (userId) => {
-    if (!isAdmin) return;
-    if (!window.confirm('Are you sure you want to remove this member?')) return;
-    setActionLoading(userId);
-    try {
-      const res = await fetch(`${API_BASE}/api/squads/kick/${userId}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const data = await res.json();
-      setFeedback({ type: 'success', text: data.message });
-      onRefresh?.();
-    } catch (err) {
-      setFeedback({ type: 'error', text: 'Failed to remove member.' });
-    } finally {
-      setActionLoading(null);
-    }
-  };
-
-  const handleReport = async (e) => {
-    e.preventDefault();
-    if (!reportingUser || !reportReason.trim()) return;
-    setReportLoading(true);
-    try {
-      await fetch(`${API_BASE}/api/squads/report`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ reported_user_id: reportingUser, reason: reportReason.trim() })
-      });
-      setFeedback({ type: 'success', text: 'Report submitted. Squad admins will review.' });
-      setReportingUser(null);
-      setReportReason('');
-    } catch (err) {
-      setFeedback({ type: 'error', text: 'Failed to submit report.' });
-    } finally {
-      setReportLoading(false);
-    }
-  };
-
-  const getInitials = (name) => {
-    if (!name) return '?';
-    const parts = name.trim().split(' ');
-    return parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-[#e6edf3]">
       {/* Feedback */}
       {feedback && (
-        <div className={`p-3 rounded-xl text-xs font-bold ${feedback.type === 'success' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+        <div className={`p-3 rounded-xl text-xs font-bold ${feedback.type === 'success' ? 'bg-[#22c55e]/20 text-[#22c55e] border border-[#22c55e]/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
           {feedback.text}
         </div>
       )}
 
-      {/* Squad Info */}
+      {/* Squad Info & Invite Code */}
       <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
         <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-          <Shield className="w-4 h-4 text-emerald-400" />
+          <Shield className="w-4 h-4 text-[#22c55e]" />
           Squad Information & Invite Code
         </h3>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-[#0d1117] border border-[#30363d] rounded-xl">
           <div>
-            <h4 className="text-sm font-bold text-white">{squadInfo?.name}</h4>
-            <p className="text-xs text-[#8b949e]">{squadInfo?.goal || 'No target goal set'}</p>
+            <h4 className="text-sm font-bold text-white">{activeSquad?.name}</h4>
+            <p className="text-xs text-[#8b949e]">{activeSquad?.goal || activeSquad?.description || 'No goal set'}</p>
           </div>
-          <button onClick={handleCopyCode} className="flex items-center gap-2 px-4 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 rounded-xl text-xs font-bold transition-all border border-emerald-500/30">
-            <span className="font-mono">{squadInfo?.code}</span>
-            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+          <button onClick={handleCopyCode} className="flex items-center gap-2 px-4 py-2 bg-[#22c55e]/20 hover:bg-[#22c55e]/30 text-[#22c55e] rounded-xl text-xs font-bold transition-all border border-[#22c55e]/30">
+            <span className="font-mono">{activeSquad?.invite_code || activeSquad?.code}</span>
+            {copied ? <Check className="w-4 h-4 text-[#22c55e]" /> : <Copy className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Member Management & Moderation */}
+      {/* Admin Gated Discord Connection */}
+      {isAdmin && (
+        <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
+          <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 text-indigo-400" />
+            Discord Squad Integration (Admin)
+          </h3>
+          <p className="text-xs text-[#8b949e]">Automatically provision dedicated text and voice channels for this squad on GrindFam Discord server.</p>
+          <button
+            onClick={handleConnectDiscord}
+            disabled={discordLoading || Boolean(activeSquad?.discord_invite_url)}
+            className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold disabled:opacity-50 transition-all flex items-center gap-2"
+          >
+            {discordLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <MessageSquare className="w-4 h-4" />}
+            {activeSquad?.discord_invite_url ? 'Discord Channels Connected' : 'Connect Discord Server'}
+          </button>
+        </div>
+      )}
+
+      {/* Squad Roster */}
       <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
         <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-          <Shield className="w-4 h-4 text-emerald-400" />
-          Squad Roster & Moderation
+          <Shield className="w-4 h-4 text-[#22c55e]" />
+          Squad Roster
         </h3>
-
         <div className="space-y-2">
           {members.map((m) => {
-            const isMe = m.id === profile?.id;
+            const isMe = m.user_id === session?.user?.id;
             return (
-              <div key={m.id} className="p-3 bg-[#0d1117] border border-[#21262d] rounded-xl flex items-center justify-between gap-4">
+              <div key={m.user_id} className="p-3 bg-[#0d1117] border border-[#21262d] rounded-xl flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-[10px] font-bold">
-                    {getInitials(m.name)}
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#22c55e] to-teal-600 flex items-center justify-center text-white text-[10px] font-bold">
+                    {(m.name || 'M')[0].toUpperCase()}
                   </div>
                   <div>
                     <span className="text-xs font-bold text-white">{m.name}{isMe ? ' (You)' : ''}</span>
-                    {m.role === 'leader' && <span className="ml-2 text-[9px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-bold border border-amber-500/30">LEADER</span>}
-                    {m.is_muted && <span className="ml-2 text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-bold border border-red-500/30">MUTED</span>}
+                    {(m.role === 'admin' || m.role === 'leader') && (
+                      <span className="ml-2 text-[9px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-bold border border-amber-500/30">ADMIN</span>
+                    )}
                   </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {!isMe && (
-                    <button onClick={() => setReportingUser(m.id)} className="p-1.5 bg-[#161b22] hover:bg-[#21262d] text-[#8b949e] hover:text-amber-400 rounded-lg transition-colors" title="Report Member">
-                      <Flag className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-
-                  {isAdmin && !isMe && (
-                    <>
-                      <button onClick={() => handleMute(m.id)} disabled={actionLoading === m.id} className="p-1.5 bg-[#161b22] hover:bg-[#21262d] text-[#8b949e] hover:text-amber-400 rounded-lg transition-colors" title={m.is_muted ? 'Unmute' : 'Mute'}>
-                        <VolumeX className="w-3.5 h-3.5" />
-                      </button>
-                      <button onClick={() => handleKick(m.id)} disabled={actionLoading === m.id} className="p-1.5 bg-[#161b22] hover:bg-red-500/20 text-[#8b949e] hover:text-red-400 rounded-lg transition-colors" title="Kick Member">
-                        <UserX className="w-3.5 h-3.5" />
-                      </button>
-                    </>
-                  )}
                 </div>
               </div>
             );
@@ -174,30 +137,13 @@ export default function SquadSettings({ squadInfo, members, role, onRefresh }) {
         </div>
       </div>
 
-      {/* Report Modal */}
-      {reportingUser && (
-        <form onSubmit={handleReport} className="p-5 bg-[#161b22] border border-amber-500/40 rounded-2xl space-y-3">
-          <h4 className="text-xs font-bold text-amber-400 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4" />
-            Report Member to Squad Moderation
-          </h4>
-          <textarea value={reportReason} onChange={(e) => setReportReason(e.target.value)} placeholder="Reason for reporting..." rows={3} className="w-full p-3 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-amber-500/50" required />
-          <div className="flex justify-end gap-2">
-            <button type="button" onClick={() => setReportingUser(null)} className="px-3 py-1.5 text-xs text-[#8b949e] hover:text-white">Cancel</button>
-            <button type="submit" disabled={reportLoading} className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold">
-              {reportLoading ? 'Submitting...' : 'Submit Report'}
-            </button>
-          </div>
-        </form>
-      )}
-
       {/* Danger Zone */}
       <div className="p-5 bg-red-950/20 border border-red-500/30 rounded-2xl space-y-4">
         <h3 className="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
           <AlertTriangle className="w-4 h-4" />
           Danger Zone
         </h3>
-        <p className="text-xs text-[#8b949e]">Leaving the squad will remove your access to the squad chat, shared code, and weekly challenges.</p>
+        <p className="text-xs text-[#8b949e]">Leaving the squad will revoke your access to squad chat and challenges.</p>
         <button onClick={handleLeave} className="px-4 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-red-600/20 flex items-center gap-2">
           <LogOut className="w-4 h-4" />
           Leave Squad
