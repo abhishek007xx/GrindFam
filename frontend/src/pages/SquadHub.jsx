@@ -173,18 +173,18 @@ export default function SquadHub() {
         </div>
       </div>
 
-      {/* COLUMN 2: Channel & DM Sidebar (240px, bg #161b22) */}
+      {/* COLUMN 2: Channel & DM Sidebar (240px) */}
       {(activeSquad || activeDMThread) ? (
         <>
-          <div className={`w-60 bg-[#161b22] flex flex-col flex-shrink-0 border-r border-[#21262d] transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-14 max-md:bottom-0 max-md:z-40 ${
+          <div className={`w-60 bg-[#161b22] dark:bg-[#161b22] light:bg-white flex flex-col flex-shrink-0 border-r border-[#21262d] dark:border-[#21262d] light:border-slate-200 transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-14 max-md:bottom-0 max-md:z-40 ${
             channelSidebarOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
           }`}>
             {/* Header */}
-            <button className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] shadow-sm hover:bg-[#1a221a] transition-colors flex-shrink-0">
-              <span className="text-[15px] font-bold text-white truncate">
+            <button className="h-12 px-4 py-3 flex items-center justify-between border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200 shadow-sm hover:bg-[#1a221a] dark:hover:bg-[#1a221a] light:hover:bg-slate-100 transition-colors flex-shrink-0">
+              <span className="text-[15px] font-bold text-white dark:text-white light:text-slate-900 truncate">
                 {activeDMThread ? 'Direct Messages' : activeSquad?.name || 'Coding Community'}
               </span>
-              <ChevronDown className="w-4 h-4 text-[#869585] flex-shrink-0" />
+              <ChevronDown className="w-4 h-4 text-[#869585] dark:text-[#869585] light:text-slate-500 flex-shrink-0" />
             </button>
 
             {/* Channels & DM Section List */}
@@ -196,7 +196,7 @@ export default function SquadHub() {
               {activeSquad && (
                 <div>
                   <div className="flex items-center justify-between px-1 mb-1">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585] dark:text-[#869585] light:text-slate-500">
                       TEXT CHANNELS
                     </span>
                   </div>
@@ -216,7 +216,7 @@ export default function SquadHub() {
               {activeSquad && (
                 <div>
                   <div className="flex items-center justify-between px-1 mb-1">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585] dark:text-[#869585] light:text-slate-500">
                       VOICE CHANNELS
                     </span>
                   </div>
@@ -233,7 +233,7 @@ export default function SquadHub() {
                   {!activeSquad?.discord_invite_url && isAdmin && (
                     <button
                       onClick={() => setActiveChannel('settings')}
-                      className="w-full text-left text-[11px] text-[#22d3ee] px-2 mt-1 hover:underline flex items-center gap-1 font-semibold"
+                      className="w-full text-left text-[11px] text-[#22d3ee] dark:text-[#22d3ee] light:text-indigo-600 px-2 mt-1 hover:underline flex items-center gap-1 font-semibold"
                     >
                       + Connect Discord Server
                     </button>
@@ -243,19 +243,19 @@ export default function SquadHub() {
             </div>
 
             {/* Bottom User Panel */}
-            <div className="h-14 bg-[#091009] border-t border-[#21262d] px-3 flex items-center gap-2 flex-shrink-0">
+            <div className="h-14 bg-[#161b22] dark:bg-[#161b22] light:bg-slate-100 border-t border-[#21262d] dark:border-[#21262d] light:border-slate-200 px-3 flex items-center gap-2 flex-shrink-0">
               <div className="relative">
-                <div className="w-8 h-8 rounded-2xl bg-[#EA5D3A] flex items-center justify-center text-[#0e150e] text-xs font-bold">
+                <div className="w-8 h-8 rounded-2xl bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold shadow-sm">
                   {(profile?.username || profile?.leetcode_username || 'U')[0].toUpperCase()}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-[#091009] bg-[#EA5D3A]" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-[#161b22] light:border-slate-100 bg-[#EA5D3A]" />
               </div>
 
               <div className="flex-1 min-w-0">
-                <p className="text-[13px] font-bold text-white truncate leading-tight">
+                <p className="text-[13px] font-bold text-white dark:text-white light:text-slate-900 truncate leading-tight">
                   {profile?.username || profile?.leetcode_username || 'User'}
                 </p>
-                <div className="flex items-center gap-1 text-[10px] text-[#ff8b7c] font-semibold">
+                <div className="flex items-center gap-1 text-[10px] text-[#ff8b7c] dark:text-[#ff8b7c] light:text-amber-600 font-semibold">
                   <Flame className="w-3 h-3" />
                   <span>{userStreak}d streak</span>
                 </div>
@@ -264,7 +264,7 @@ export default function SquadHub() {
               {activeSquad && (
                 <button
                   onClick={() => setActiveChannel('settings')}
-                  className="p-1.5 text-[#869585] hover:text-white rounded-lg hover:bg-[#1a221a] transition-colors"
+                  className="p-1.5 text-slate-600 dark:text-[#869585] hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-200 dark:hover:bg-[#1a221a] transition-colors"
                   title="Community Settings"
                 >
                   <Settings className="w-4 h-4" />
@@ -344,24 +344,26 @@ export default function SquadHub() {
           /* ACTIVE COMMUNITY SQUAD MAIN VIEW */
           <>
             {/* Channel Header Bar */}
-            <div className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] bg-[#161b22] shadow-sm flex-shrink-0">
+            <div className="h-14 px-4 py-3 flex items-center justify-between border-b border-[#21262d] dark:border-[#21262d] light:border-slate-200 bg-[#161b22] dark:bg-[#161b22] light:bg-white shadow-sm flex-shrink-0">
               <div className="flex items-center gap-2 min-w-0">
                 <button
                   onClick={() => setChannelSidebarOpen(!channelSidebarOpen)}
-                  className="md:hidden p-1.5 text-[#869585] hover:text-white rounded-lg"
+                  className="p-1.5 text-[#869585] dark:text-[#869585] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 rounded-lg hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors md:hidden"
                 >
                   <Menu className="w-5 h-5" />
                 </button>
-                <Hash className="w-5 h-5 text-[#869585] flex-shrink-0" />
-                <span className="text-[15px] font-bold text-white">{activeChannel}</span>
-                {CHANNEL_TOPICS[activeChannel] && (
-                  <>
-                    <div className="w-px h-5 bg-[#21262d] mx-2 max-md:hidden" />
-                    <span className="text-xs text-[#869585] truncate max-md:hidden">
-                      {CHANNEL_TOPICS[activeChannel]}
-                    </span>
-                  </>
-                )}
+
+                <div className="w-6 h-6 rounded-lg bg-[#EA5D3A]/15 text-[#EA5D3A] flex items-center justify-center font-bold text-xs flex-shrink-0">
+                  #
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-bold text-white dark:text-white light:text-slate-900 truncate">
+                    {activeChannel === 'settings' ? 'Community Settings' : activeChannel}
+                  </h3>
+                  <p className="text-[11px] text-[#869585] dark:text-[#869585] light:text-slate-500 truncate hidden sm:block">
+                    {CHANNEL_TOPICS[activeChannel] || 'Coding prep channel'}
+                  </p>
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
