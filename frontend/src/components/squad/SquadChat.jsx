@@ -1,21 +1,35 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Plus, Smile, Send, Hash, Copy, Heart, Reply } from 'lucide-react';
+import { Plus, Smile, Send, Hash, Copy, Heart, Reply, Trash2 } from 'lucide-react';
 
 export default function SquadChat() {
   const { session } = useAuth();
-  const { messages, sendMessage, sendTypingEvent, typingUsers, activeChannel } = useSquadStore();
+  const { messages, sendMessage, deleteMessage, sendTypingEvent, typingUsers, activeChannel, activeSquad } = useSquadStore();
   const [newMessage, setNewMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [reactions, setReactions] = useState({});
   const messagesEndRef = useRef(null);
+  const scrollContainerRef = useRef(null);
   const inputRef = useRef(null);
   const typingTimeout = useRef(null);
 
+  const currentUserRole = activeSquad?.role || 'member';
+  const currentRolesArray = activeSquad?.roles || [currentUserRole];
+  const canDeleteAnyMessage = currentRolesArray.includes('admin') || currentRolesArray.includes('moderator');
+
+  const scrollToBottomIfNear = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 150;
+    if (isNearBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, []);
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    scrollToBottomIfNear();
+  }, [messages, scrollToBottomIfNear]);
 
   const handleTyping = useCallback(() => {
     if (typingTimeout.current) return;
@@ -36,6 +50,14 @@ export default function SquadChat() {
       console.error('Failed to send:', err);
     } finally {
       setSending(false);
+    }
+  };
+
+  const handleDelete = async (msgId) => {
+    try {
+      await deleteMessage(msgId);
+    } catch (err) {
+      console.error('Error deleting message:', err);
     }
   };
 
@@ -102,7 +124,7 @@ export default function SquadChat() {
   return (
     <div className="flex flex-col h-full bg-[#111315]">
       {/* Message Feed */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-[#30363d]">
+      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 pb-4 scrollbar-thin scrollbar-thumb-[#30363d]">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center pt-20">
             <div className="w-16 h-16 rounded-2xl bg-[#22c55e] flex items-center justify-center mb-4 text-[#0e150e]">
@@ -110,7 +132,7 @@ export default function SquadChat() {
             </div>
             <h3 className="text-2xl font-bold text-[#dce5d9] mb-2">Welcome to #{channelName}!</h3>
             <p className="text-[#869585] text-sm max-w-md">
-              This is the start of the #{channelName} channel. Start the conversation with your squad!
+              This is the start of the #{channelName} channel. Start the conversation with your community!
             </p>
           </div>
         ) : (
@@ -120,6 +142,8 @@ export default function SquadChat() {
             const isSystem = msg.message_type === 'system';
             const msgId = msg.id || idx;
             const hasHeart = reactions[msgId];
+            const isAuthor = msg.user_id === session?.user?.id;
+            const canDeleteThis = canDeleteAnyMessage || isAuthor;
 
             return (
               <React.Fragment key={msgId}>
@@ -141,7 +165,7 @@ export default function SquadChat() {
                   </div>
                 ) : (
                   <div className={`group relative flex gap-4 py-1 px-4 -mx-4 hover:bg-[#1a1d21] rounded-lg transition-colors ${showHeader ? 'mt-3' : ''}`}>
-                    {/* Hover action toolbar */}
+                    {/* Hover toolbar */}
                     <div className="absolute right-4 -top-3 hidden group-hover:flex items-center gap-1 bg-[#23272b] border border-[#30363d] rounded-lg px-1.5 py-1 shadow-lg z-10">
                       <button onClick={() => handleCopyMessage(msg.content)} className="p-1 text-[#869585] hover:text-white rounded" title="Copy Text">
                         <Copy className="w-3.5 h-3.5" />
@@ -152,6 +176,11 @@ export default function SquadChat() {
                       <button onClick={() => handleReplyUser(msg.author_name)} className="p-1 text-[#869585] hover:text-white rounded" title="Reply">
                         <Reply className="w-3.5 h-3.5" />
                       </button>
+                      {canDeleteThis && (
+                        <button onClick={() => handleDelete(msg.id)} className="p-1 text-red-400 hover:text-red-300 rounded" title="Delete Message">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                     </div>
 
                     {showHeader ? (

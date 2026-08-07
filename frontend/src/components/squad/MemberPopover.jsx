@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, ExternalLink, Flame, Trophy, CheckCircle2 } from 'lucide-react';
+import { X, ExternalLink, Flame, CheckCircle2, MessageSquare } from 'lucide-react';
 import { supabase } from '../../supabase';
+import { useSquadStore } from '../../store/useSquadStore';
 
 export default function MemberPopover({ member, onClose }) {
+  const { openDM } = useSquadStore();
   const [stats, setStats] = useState({ solved: 0, streak: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +20,6 @@ export default function MemberPopover({ member, onClose }) {
           .eq('status', 'solved');
 
         const solved = (progress || []).length;
-        // Compute streak days from dates
         const dates = [...new Set((progress || []).map(p => p.solved_at ? p.solved_at.split('T')[0] : null).filter(Boolean))].sort();
         let streak = 0;
         if (dates.length > 0) {
@@ -45,6 +46,12 @@ export default function MemberPopover({ member, onClose }) {
 
   const leetcodeUser = member.leetcode_username || member.username || '';
   const initial = (member.name || 'G')[0].toUpperCase();
+  const roles = member.roles || [member.role || 'member'];
+
+  const handleMessage = () => {
+    openDM(member.user_id);
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
@@ -63,7 +70,9 @@ export default function MemberPopover({ member, onClose }) {
             <div>
               <h3 className="text-base font-bold text-[#dce5d9] flex items-center gap-1.5">
                 {member.name}
-                {member.role === 'admin' && <span title="Admin">👑</span>}
+                {roles.includes('admin') && <span title="Admin">👑</span>}
+                {roles.includes('moderator') && <span title="Moderator">🛡️</span>}
+                {roles.includes('mentor') && <span title="Mentor">🎓</span>}
               </h3>
               <p className="text-xs text-[#869585]">@{leetcodeUser || 'grinder'}</p>
             </div>
@@ -91,18 +100,27 @@ export default function MemberPopover({ member, onClose }) {
           </div>
         </div>
 
-        {/* LeetCode Button */}
-        {leetcodeUser && (
-          <a
-            href={`https://leetcode.com/u/${leetcodeUser}`}
-            target="_blank"
-            rel="noreferrer"
-            className="w-full py-2.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md"
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleMessage}
+            className="flex-1 py-2.5 bg-[#22d3ee] hover:bg-[#00cbe6] text-[#0e150e] text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
           >
-            <span>View LeetCode Profile</span>
-            <ExternalLink className="w-4 h-4" />
-          </a>
-        )}
+            <MessageSquare className="w-4 h-4" />
+            <span>Message</span>
+          </button>
+          {leetcodeUser && (
+            <a
+              href={`https://leetcode.com/u/${leetcodeUser}`}
+              target="_blank"
+              rel="noreferrer"
+              className="flex-1 py-2.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all"
+            >
+              <span>LeetCode</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

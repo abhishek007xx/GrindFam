@@ -1,7 +1,11 @@
 import React from 'react';
 
 export default function MemberCard({ member, isCurrentUser, onClick }) {
-  const isAdmin = member.role === 'admin';
+  const roles = member.roles || [member.role || 'member'];
+  const isAdmin = roles.includes('admin');
+  const isModerator = roles.includes('moderator');
+  const isMentor = roles.includes('mentor');
+
   const initial = (member.name || 'G')[0].toUpperCase();
   const isOnline = member.isOnline;
 
@@ -18,13 +22,14 @@ export default function MemberCard({ member, isCurrentUser, onClick }) {
           isOnline ? 'bg-[#22c55e]' : 'bg-[#869585]'
         }`} />
       </div>
+
       <div className="flex items-center gap-1 min-w-0">
         <span className={`text-sm truncate ${isCurrentUser ? 'text-white font-medium' : 'text-[#bccbb9] group-hover:text-[#dce5d9]'}`}>
           {member.name}
         </span>
-        {isAdmin && (
-          <span className="text-[10px] flex-shrink-0" title="Admin">👑</span>
-        )}
+        {isAdmin && <span className="text-[11px] flex-shrink-0" title="Admin">👑</span>}
+        {isModerator && <span className="text-[11px] flex-shrink-0" title="Moderator">🛡️</span>}
+        {isMentor && <span className="text-[11px] flex-shrink-0" title="Mentor">🎓</span>}
       </div>
     </div>
   );

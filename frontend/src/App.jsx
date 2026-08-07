@@ -34,7 +34,7 @@ const DeepLinkJoinHandler = ({ children }) => {
         joinByCode(code)
           .then(() => {
             alert(`Successfully joined squad!`);
-            navigate('/squad');
+            navigate('/community');
           })
           .catch((err) => {
             alert(err.message || 'Failed to join squad via deep link.');
@@ -219,15 +219,16 @@ function App() {
               }
             />
             <Route
-              path="/squad"
+              path="/community"
               element={
                 <ProtectedRoute>
-                  <AppLayout activeSection="squad">
+                  <AppLayout activeSection="community">
                     <SquadHub />
                   </AppLayout>
                 </ProtectedRoute>
               }
             />
+            <Route path="/squad" element={<Navigate to="/community" replace />} />
             <Route
               path="/topics/:tagName"
               element={

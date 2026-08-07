@@ -12,9 +12,12 @@ import SquadIcon from '../components/squad/SquadIcon';
 import ChannelButton from '../components/squad/ChannelButton';
 import MemberCard from '../components/squad/MemberCard';
 import MemberPopover from '../components/squad/MemberPopover';
+import DMList from '../components/squad/DMList';
+import DMChat from '../components/squad/DMChat';
+import NewDMModal from '../components/squad/NewDMModal';
 import {
   Hash, Volume2, ChevronDown, Plus, Settings, Users, Compass,
-  Loader2, Mic, Headphones, ExternalLink, Menu, X, Flame
+  Loader2, ExternalLink, Menu, X, Flame
 } from 'lucide-react';
 import { supabase } from '../supabase';
 
@@ -31,22 +34,23 @@ const VOICE_CHANNELS = [
 ];
 
 const CHANNEL_TOPICS = {
-  'general': 'Squad chat — talk about DSA, interviews, and life',
+  'general': 'Coding Community chat — talk about DSA, interviews, and life',
   'code-sharing': 'Share your LeetCode solutions for peer review',
   'leaderboard': 'See who\'s grinding the hardest this week',
   'weekly-challenge': 'Vote on 5 problems to tackle together this week',
-  'settings': 'Squad settings and Discord server management'
+  'settings': 'Community settings and Discord server management'
 };
 
 export default function SquadHub() {
   const { session, profile } = useAuth();
   const {
-    mySquads, communitySquads, activeSquad, activeChannel, members, loading,
-    loadMySquads, fetchCommunitySquads, setActiveSquad, setActiveChannel,
+    mySquads, communitySquads, activeSquad, activeChannel, activeDM, members, loading,
+    loadMySquads, fetchCommunitySquads, loadDMThreads, setActiveSquad, setActiveChannel,
     joinByCode, showMemberList, toggleMemberList
   } = useSquadStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewDMModalOpen, setIsNewDMModalOpen] = useState(false);
   const [channelSidebarOpen, setChannelSidebarOpen] = useState(false);
   const [joiningId, setJoiningId] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
@@ -55,9 +59,9 @@ export default function SquadHub() {
   useEffect(() => {
     loadMySquads();
     fetchCommunitySquads();
-  }, [loadMySquads, fetchCommunitySquads]);
+    loadDMThreads();
+  }, [loadMySquads, fetchCommunitySquads, loadDMThreads]);
 
-  // Compute user streak
   useEffect(() => {
     if (!session?.user?.id) return;
     const fetchStreak = async () => {
@@ -95,7 +99,7 @@ export default function SquadHub() {
     } else if (isAdmin) {
       setActiveChannel('settings');
     } else {
-      alert('Ask your squad admin to connect Discord to enable voice channels.');
+      alert('Ask your community admin to connect Discord to enable voice channels.');
     }
   };
 
@@ -122,14 +126,14 @@ export default function SquadHub() {
 
   return (
     <div className="h-full flex-1 flex overflow-hidden bg-[#0d1117] text-[#dce5d9]" style={{ fontFamily: "'Inter', sans-serif" }}>
-      {/* COLUMN 1: Squad Server Rail (72px) */}
+      {/* COLUMN 1: Community Rail (72px) */}
       <div className="w-[72px] max-md:w-14 bg-[#091009] flex flex-col items-center py-3 gap-1 flex-shrink-0 border-r border-[#21262d] overflow-y-auto scrollbar-hide">
         {/* Home / Discover Button */}
         <div className="relative group flex items-center justify-center mb-2">
           <button
             onClick={() => { setActiveSquad(null); }}
             className={`w-12 max-md:w-10 h-12 max-md:h-10 flex items-center justify-center transition-all duration-300 ${
-              !activeSquad
+              !activeSquad && !activeDM
                 ? 'rounded-2xl bg-[#22c55e] text-[#0e150e]'
                 : 'rounded-[24px] bg-[#161b22] text-[#dce5d9] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e]'
             }`}
@@ -137,7 +141,7 @@ export default function SquadHub() {
             <Compass className="w-6 h-6 max-md:w-5 max-md:h-5" />
           </button>
           <div className="absolute left-16 max-md:left-14 bg-[#091009] text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
-            Discover Community Squads
+            Discover Coding Communities
           </div>
         </div>
 
@@ -147,14 +151,14 @@ export default function SquadHub() {
           <SquadIcon
             key={sq.id}
             squad={sq}
-            isActive={activeSquad?.id === sq.id}
+            isActive={!activeDM && activeSquad?.id === sq.id}
             onClick={() => { setActiveSquad(sq.id); setChannelSidebarOpen(false); }}
           />
         ))}
 
         <div className="w-8 h-0.5 bg-[#21262d] rounded-full my-1" />
 
-        {/* Add Squad Button */}
+        {/* Add Community Button */}
         <div className="relative group flex items-center justify-center">
           <button
             onClick={() => setIsModalOpen(true)}
@@ -163,69 +167,78 @@ export default function SquadHub() {
             <Plus className="w-6 h-6 max-md:w-5 max-md:h-5" />
           </button>
           <div className="absolute left-16 max-md:left-14 bg-[#091009] text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
-            Create or Join Squad
+            Create or Join Community
           </div>
         </div>
       </div>
 
       {/* COLUMN 2: Contextual Sidebar (240px) */}
-      {activeSquad ? (
+      {(activeSquad || activeDM) ? (
         <>
           <div className={`w-60 bg-[#161b22] flex flex-col flex-shrink-0 border-r border-[#21262d] transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-14 max-md:bottom-0 max-md:z-40 ${
             channelSidebarOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
           }`}>
-            {/* Squad Header */}
+            {/* Header */}
             <button className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] shadow-sm hover:bg-[#1a221a] transition-colors flex-shrink-0">
-              <span className="text-[15px] font-bold text-white truncate">{activeSquad.name}</span>
+              <span className="text-[15px] font-bold text-white truncate">
+                {activeDM ? 'Direct Messages' : activeSquad?.name || 'Coding Community'}
+              </span>
               <ChevronDown className="w-4 h-4 text-[#869585] flex-shrink-0" />
             </button>
 
-            {/* Channels List */}
+            {/* Channels & DM Section List */}
             <div className="flex-1 overflow-y-auto px-2 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-[#21262d]">
+              {/* Direct Messages Section */}
+              <DMList onOpenNewDM={() => setIsNewDMModalOpen(true)} />
+
               {/* Text Channels */}
-              <div>
-                <div className="flex items-center justify-between px-1 mb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
-                    TEXT CHANNELS
-                  </span>
+              {activeSquad && (
+                <div>
+                  <div className="flex items-center justify-between px-1 mb-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
+                      TEXT CHANNELS
+                    </span>
+                  </div>
+                  {TEXT_CHANNELS.map((ch) => (
+                    <ChannelButton
+                      key={ch.id}
+                      icon={ch.icon}
+                      label={ch.label}
+                      isActive={!activeDM && activeChannel === ch.id}
+                      onClick={() => { setActiveChannel(ch.id); setChannelSidebarOpen(false); }}
+                    />
+                  ))}
                 </div>
-                {TEXT_CHANNELS.map((ch) => (
-                  <ChannelButton
-                    key={ch.id}
-                    icon={ch.icon}
-                    label={ch.label}
-                    isActive={activeChannel === ch.id}
-                    onClick={() => { setActiveChannel(ch.id); setChannelSidebarOpen(false); }}
-                  />
-                ))}
-              </div>
+              )}
 
               {/* Voice Channels */}
-              <div>
-                <div className="flex items-center justify-between px-1 mb-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
-                    VOICE CHANNELS
-                  </span>
+              {activeSquad && (
+                <div>
+                  <div className="flex items-center justify-between px-1 mb-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#869585]">
+                      VOICE CHANNELS
+                    </span>
+                  </div>
+                  {VOICE_CHANNELS.map((vc) => (
+                    <ChannelButton
+                      key={vc.id}
+                      icon={vc.icon}
+                      label={vc.label}
+                      isActive={false}
+                      onClick={() => handleVoiceClick(vc)}
+                      isMuted={!activeSquad?.discord_invite_url}
+                    />
+                  ))}
+                  {!activeSquad?.discord_invite_url && isAdmin && (
+                    <button
+                      onClick={() => setActiveChannel('settings')}
+                      className="w-full text-left text-[11px] text-[#22d3ee] px-2 mt-1 hover:underline flex items-center gap-1 font-semibold"
+                    >
+                      + Connect Discord Server
+                    </button>
+                  )}
                 </div>
-                {VOICE_CHANNELS.map((vc) => (
-                  <ChannelButton
-                    key={vc.id}
-                    icon={vc.icon}
-                    label={vc.label}
-                    isActive={false}
-                    onClick={() => handleVoiceClick(vc)}
-                    isMuted={!activeSquad?.discord_invite_url}
-                  />
-                ))}
-                {!activeSquad?.discord_invite_url && isAdmin && (
-                  <button
-                    onClick={() => setActiveChannel('settings')}
-                    className="w-full text-left text-[11px] text-[#22d3ee] px-2 mt-1 hover:underline flex items-center gap-1 font-semibold"
-                  >
-                    + Connect Discord Server
-                  </button>
-                )}
-              </div>
+              )}
             </div>
 
             {/* Bottom User Panel */}
@@ -247,13 +260,15 @@ export default function SquadHub() {
                 </div>
               </div>
 
-              <button
-                onClick={() => setActiveChannel('settings')}
-                className="p-1.5 text-[#869585] hover:text-white rounded-lg hover:bg-[#1a221a] transition-colors"
-                title="Squad Settings"
-              >
-                <Settings className="w-4 h-4" />
-              </button>
+              {activeSquad && (
+                <button
+                  onClick={() => setActiveChannel('settings')}
+                  className="p-1.5 text-[#869585] hover:text-white rounded-lg hover:bg-[#1a221a] transition-colors"
+                  title="Community Settings"
+                >
+                  <Settings className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
         </>
@@ -261,12 +276,15 @@ export default function SquadHub() {
 
       {/* COLUMN 3: Main Content (Fluid) */}
       <div className="flex-1 flex flex-col bg-[#111315] min-w-0">
-        {!activeSquad ? (
+        {activeDM ? (
+          /* ACTIVE DM THREAD VIEW */
+          <DMChat />
+        ) : !activeSquad ? (
           /* DISCOVER / FIRST-RUN EMPTY STATE */
           <div className="flex-1 overflow-y-auto p-6">
             <div className="h-12 flex items-center mb-6">
               <Compass className="w-5 h-5 text-[#22d3ee] mr-2" />
-              <h2 className="text-xl font-bold text-white">Discover Community Prep Squads</h2>
+              <h2 className="text-xl font-bold text-white">Discover Coding Communities</h2>
             </div>
 
             {noSquads && (
@@ -274,15 +292,15 @@ export default function SquadHub() {
                 <div className="w-20 h-20 rounded-3xl bg-[#22c55e] flex items-center justify-center mx-auto mb-4 text-[#0e150e]">
                   <Users className="w-10 h-10" />
                 </div>
-                <h3 className="text-2xl font-black text-white mb-2">You're not in any squads yet</h3>
+                <h3 className="text-2xl font-black text-white mb-2">You're not in any community squads yet</h3>
                 <p className="text-xs text-[#869585] mb-6 max-w-sm mx-auto">
-                  Join a public community prep group or create a private squad to grind LeetCode with your friends.
+                  Join a public community prep group or create your community squad to grind LeetCode with your friends.
                 </p>
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="px-6 py-3 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold transition-all shadow-lg shadow-[#22c55e]/20"
                 >
-                  Create or Join Squad
+                  Create your community squad
                 </button>
               </div>
             )}
@@ -301,7 +319,7 @@ export default function SquadHub() {
                           <span className="text-xs text-[#869585]">{sq.member_count}/100 Members</span>
                         </div>
                         <h4 className="text-base font-bold text-white">{sq.name}</h4>
-                        <p className="text-xs text-[#869585] mt-1 line-clamp-2">{sq.description || sq.goal || 'Public prep squad'}</p>
+                        <p className="text-xs text-[#869585] mt-1 line-clamp-2">{sq.description || sq.goal || 'Public prep community'}</p>
                       </div>
 
                       <button
@@ -313,7 +331,7 @@ export default function SquadHub() {
                             : 'bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] shadow-md'
                         }`}
                       >
-                        {joiningId === sq.id ? <Loader2 className="w-4 h-4 animate-spin" /> : isMember ? 'Already Joined' : 'Join Squad'}
+                        {joiningId === sq.id ? <Loader2 className="w-4 h-4 animate-spin" /> : isMember ? 'Already Joined' : 'Join Community'}
                       </button>
                     </div>
                   );
@@ -322,7 +340,7 @@ export default function SquadHub() {
             )}
           </div>
         ) : (
-          /* ACTIVE SQUAD MAIN VIEW */
+          /* ACTIVE COMMUNITY SQUAD MAIN VIEW */
           <>
             {/* Channel Header Bar */}
             <div className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] bg-[#161b22] shadow-sm flex-shrink-0">
@@ -352,7 +370,7 @@ export default function SquadHub() {
                     target="_blank"
                     rel="noreferrer"
                     className="p-1.5 text-[#22d3ee] hover:text-white rounded-lg hover:bg-[#1a221a] transition-colors"
-                    title="Open Squad Discord"
+                    title="Open Community Discord"
                   >
                     <ExternalLink className="w-4 h-4" />
                   </a>
@@ -369,7 +387,6 @@ export default function SquadHub() {
 
             {/* Main Section */}
             <div className="flex-1 flex min-h-0">
-              {/* Channel View Switcher */}
               <div className="flex-1 flex flex-col min-w-0">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -409,7 +426,7 @@ export default function SquadHub() {
               {showMemberList && (
                 <div className="w-60 bg-[#161b22] flex-shrink-0 border-l border-[#21262d] overflow-y-auto p-4 max-md:hidden scrollbar-thin scrollbar-thumb-[#21262d]">
                   <h4 className="text-[11px] font-bold uppercase text-[#869585] tracking-wider mb-2 px-1">
-                    SQUAD MEMBERS — {members.length}
+                    COMMUNITY MEMBERS — {members.length}
                   </h4>
                   <div className="space-y-0.5">
                     {members.map((m) => (
@@ -432,6 +449,9 @@ export default function SquadHub() {
       {selectedMember && (
         <MemberPopover member={selectedMember} onClose={() => setSelectedMember(null)} />
       )}
+
+      {/* New DM Modal */}
+      <NewDMModal isOpen={isNewDMModalOpen} onClose={() => setIsNewDMModalOpen(false)} />
 
       {/* Squad Manager Modal */}
       <SquadManagerModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
