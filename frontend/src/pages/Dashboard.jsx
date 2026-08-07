@@ -98,6 +98,9 @@ function calculateStreak(solvedDates) {
 const Dashboard = () => {
   const navigate = useNavigate();
   const { token, profile, user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get('tab');
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
@@ -112,7 +115,23 @@ const Dashboard = () => {
     stats: { totalFriends: 0, hitTargetTodayCount: 0, yourTodayCount: 0, yourTargetHit: false, yourPlatformTotal: 0 },
     leaderboard: []
   });
-  const [socialTab, setSocialTab] = useState('leaderboard'); // 'leaderboard' | 'squad' | 'friends'
+
+  const [socialTab, setSocialTab] = useState(() => {
+    return tabParam && ['leaderboard', 'squad', 'friends', 'addFriend'].includes(tabParam)
+      ? tabParam
+      : 'leaderboard';
+  });
+
+  useEffect(() => {
+    if (tabParam && ['leaderboard', 'squad', 'friends', 'addFriend'].includes(tabParam)) {
+      setSocialTab(tabParam);
+    }
+  }, [tabParam]);
+
+  const handleTabChange = (newTab) => {
+    setSocialTab(newTab);
+    setSearchParams({ tab: newTab });
+  };
   const [weeklyData, setWeeklyData] = useState([]);
   const [removingId, setRemovingId] = useState(null);
 
@@ -137,39 +156,14 @@ const Dashboard = () => {
     } finally { setLoading(false); setRefreshing(false); }
   }, [token]);
 
-  useEffect(() => { fetchDashboard(); }, [fetchDashboard]);
-
-  const [searchParams] = useSearchParams();
-
   // Handle URL search params for tab switching & smooth scrolling (?tab=leaderboard|friends|addFriend|squad)
   useEffect(() => {
-    const tabParam = searchParams.get('tab');
+    const tab = searchParams.get('tab');
     const scrollToParam = searchParams.get('scrollTo');
 
-    if (tabParam) {
-      if (tabParam === 'leaderboard') {
-        setSocialTab('leaderboard');
-        setTimeout(() => {
-          const el = document.getElementById('leaderboard-section');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      } else if (tabParam === 'squad') {
-        setSocialTab('squad');
-      } else if (tabParam === 'friends' || tabParam === 'addFriend') {
-        setSocialTab('friends');
-        if (tabParam === 'addFriend') {
-          setTimeout(() => {
-            const el = document.getElementById('add-friend-section');
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              const input = el.querySelector('input');
-              if (input) input.focus();
-            }
-          }, 150);
-        }
-      }
+    if (tab && ['leaderboard', 'squad', 'friends', 'addFriend'].includes(tab)) {
+      setSocialTab(tab);
     }
-
     if (scrollToParam) {
       setTimeout(() => {
         const el = document.getElementById(scrollToParam);
@@ -326,46 +320,57 @@ const Dashboard = () => {
               />
 
               {/* Social Category Hub Navigation */}
-              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#161B22] border border-[#30363D] rounded-lg">
-                <div className="flex items-center gap-2 bg-[#0D1117] p-1 rounded-md border border-[#30363D]">
+              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#27272A] rounded-xl">
+                <div className="flex flex-wrap items-center gap-2 bg-[#09090B] p-1 rounded-lg border border-[#27272A]">
                   <button
-                    onClick={() => setSocialTab('leaderboard')}
+                    onClick={() => handleTabChange('leaderboard')}
                     className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'leaderboard'
-                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
-                        : 'text-[#9CA3AF] hover:text-white'
+                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                        : 'text-zinc-400 hover:text-white'
                     }`}
                   >
                     <span>Leaderboard</span>
                   </button>
 
                   <button
-                    onClick={() => setSocialTab('squad')}
+                    onClick={() => handleTabChange('squad')}
                     className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'squad'
-                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
-                        : 'text-[#9CA3AF] hover:text-white'
+                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                        : 'text-zinc-400 hover:text-white'
                     }`}
                   >
                     <span>Squad Hub</span>
                   </button>
 
                   <button
-                    onClick={() => setSocialTab('friends')}
+                    onClick={() => handleTabChange('friends')}
                     className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
                       socialTab === 'friends'
-                        ? 'bg-[#1F2937] text-white border border-[#EA5D3A] shadow-sm'
-                        : 'text-[#9CA3AF] hover:text-white'
+                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                        : 'text-zinc-400 hover:text-white'
                     }`}
                   >
                     <span>Friends ({dashboardData.stats?.totalFriends || 0})</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleTabChange('addFriend')}
+                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                      socialTab === 'addFriend'
+                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                        : 'text-zinc-400 hover:text-white'
+                    }`}
+                  >
+                    <span>Add Friend</span>
                   </button>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsSquadModalOpen(true)}
-                    className="px-3 py-1.5 rounded-md bg-[#1F2937] hover:bg-[#374151] border border-[#30363D] text-[#F3F4F6] text-xs font-medium flex items-center gap-1.5 transition-all"
+                    className="px-3 py-1.5 rounded-lg bg-[#18181B] hover:bg-[#27272A] border border-[#27272A] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
                   >
                     <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
                   </button>
@@ -398,15 +403,15 @@ const Dashboard = () => {
               {socialTab === 'squad' && (
                 <div className="space-y-6 mb-6">
                   {/* Squad Info Card */}
-                  <div className="dash-card p-6 border border-[#EA5D3A]/30 bg-gradient-to-br from-[#161b22] to-[#0d1117] relative overflow-hidden">
+                  <div className="dash-card p-6 border border-[#27272A] bg-[#121212] relative overflow-hidden">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <Shield className="w-5 h-5 text-[#EA5D3A]" />
-                          <span className="text-xs font-extrabold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
+                          <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
                         </div>
-                        <h2 className="text-2xl font-black text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
-                        <p className="text-xs text-[#8b949e] mt-1">
+                        <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
+                        <p className="text-xs text-zinc-400 mt-1">
                           Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
                         </p>
                       </div>
@@ -414,7 +419,7 @@ const Dashboard = () => {
                       <div className="flex items-center gap-3">
                         <button
                           onClick={handleCopySquadCode}
-                          className="px-4 py-2.5 rounded-xl bg-[#21262d] hover:bg-[#30363d] text-white text-xs font-bold flex items-center gap-2 border border-[#30363d] transition-all"
+                          className="px-4 py-2.5 rounded-xl bg-[#18181B] hover:bg-[#27272A] text-white text-xs font-bold flex items-center gap-2 border border-[#27272A] transition-all"
                         >
                           {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
                           <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
@@ -422,7 +427,7 @@ const Dashboard = () => {
 
                         <button
                           onClick={() => setIsSquadModalOpen(true)}
-                          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#EA5D3A]/20 transition-all"
+                          className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
                         >
                           <Users className="w-4 h-4" /> Manage Squad
                         </button>
@@ -445,15 +450,14 @@ const Dashboard = () => {
                     token={token}
                     onRemoveFriend={handleRemoveFriend}
                     removingId={removingId}
-                    onOpenAddFriend={() => {
-                      const el = document.getElementById('add-friend-section');
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                    }}
+                    onOpenAddFriend={() => handleTabChange('addFriend')}
                   />
+                </div>
+              )}
 
-                  <div id="add-friend-section">
-                    <AddFriend onAddFriend={handleAddFriend} />
-                  </div>
+              {socialTab === 'addFriend' && (
+                <div className="mb-6 max-w-2xl mx-auto" id="add-friend-section">
+                  <AddFriend onAddFriend={handleAddFriend} />
                 </div>
               )}
 
