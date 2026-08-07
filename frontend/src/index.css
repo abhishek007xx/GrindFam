@@ -25,6 +25,10 @@ body { margin: 0; background-color: #0B0C10; }
   --navbar-height:          64px;
 }
 
+/* ==========================================================================
+   Case-Insensitive Wildcard Light Mode Rules for index.css
+   ========================================================================== */
+
 html.light, [data-theme='light'] {
   --color-bg:               #F8FAFC;
   --color-surface:          #FFFFFF;
@@ -42,31 +46,33 @@ html.light #root {
   color: #0F172A !important;
 }
 
-/* 1. Main Surface / Card Backgrounds */
+/* 1. Main Card & Page Surface Backgrounds (Case-Insensitive) */
 html.light .dash-card,
-html.light [class*="bg-[#0B0C10]"],
-html.light [class*="bg-[#0A0A0A]"],
-html.light [class*="bg-[#0d1117]"],
-html.light [class*="bg-[#0a0e17]"],
-html.light [class*="bg-[#121318]"],
-html.light [class*="bg-[#161b22]"],
-html.light [class*="bg-[#18181B]"],
-html.light [class*="bg-[#121212]"],
-html.light [class*="bg-[#131313]"],
-html.light [class*="bg-[#09090B]"],
-html.light [class*="bg-[#16171E]"] {
+html.light [class*="bg-[#0b0c10]" i],
+html.light [class*="bg-[#0a0a0a]" i],
+html.light [class*="bg-[#0d1117]" i],
+html.light [class*="bg-[#0a0e17]" i],
+html.light [class*="bg-[#121318]" i],
+html.light [class*="bg-[#161b22]" i],
+html.light [class*="bg-[#18181b]" i],
+html.light [class*="bg-[#121212]" i],
+html.light [class*="bg-[#131313]" i],
+html.light [class*="bg-[#09090b]" i],
+html.light [class*="bg-[#16171e]" i] {
   background-color: #FFFFFF !important;
 }
 
-/* 2. Inset / Sub-card / Button / Input Backgrounds */
+/* 2. Inset / Sub-card / Button / Input Backgrounds (Case-Insensitive) */
+html.light [class*="bg-[#1f2937]" i],
+html.light [class*="bg-[#1c2333]" i],
+html.light [class*="bg-[#21262d]" i],
+html.light [class*="bg-[#30363d]" i],
+html.light [class*="bg-[#181818]" i],
+html.light [class*="bg-[#111827]" i],
 html.light [class*="bg-zinc-950"],
 html.light [class*="bg-zinc-900"],
 html.light [class*="bg-zinc-850"],
 html.light [class*="bg-zinc-800"],
-html.light [class*="bg-[#1c2333]"],
-html.light [class*="bg-[#21262d]"],
-html.light [class*="bg-[#30363d]"],
-html.light [class*="bg-[#181818]"],
 html.light [class*="bg-slate-900"],
 html.light [class*="bg-slate-800"] {
   background-color: #F1F5F9 !important;
@@ -83,19 +89,23 @@ html.light [class*="to-[#121212]"] {
   --tw-gradient-from: #FFFFFF !important;
 }
 
-/* 4. Table Rows & Modals */
+/* 4. Table Rows & Dropdown Hover States (Case-Insensitive) */
 html.light table tr,
 html.light table tbody tr:hover,
-html.light [class*="hover:bg-[#0d1117]"]:hover,
-html.light [class*="hover:bg-[#21262d]"]:hover,
+html.light [class*="hover:bg-[#0d1117]" i]:hover,
+html.light [class*="hover:bg-[#21262d]" i]:hover,
+html.light [class*="hover:bg-[#161b22]" i]:hover,
+html.light [class*="hover:bg-[#1f2937]" i]:hover,
 html.light [class*="hover:bg-zinc-800"]:hover {
   background-color: #F8FAFC !important;
 }
 
-/* 5. Border Overrides */
-html.light [class*="border-[#27272A]"],
-html.light [class*="border-[#30363d]"],
-html.light [class*="border-[#21262d]"],
+/* 5. Border Overrides (Case-Insensitive) */
+html.light [class*="border-[#27272a]" i],
+html.light [class*="border-[#30363d]" i],
+html.light [class*="border-[#21262d]" i],
+html.light [class*="border-[#4b5563]" i],
+html.light [class*="border-[#1f2937]" i],
 html.light [class*="border-zinc-800"],
 html.light [class*="border-zinc-700"],
 html.light [class*="border-zinc-600"],
@@ -106,29 +116,36 @@ html.light [class*="border-black"] {
   border-color: #E2E8F0 !important;
 }
 
-/* 6. Text Color Overrides (Primary vs Secondary) */
+/* 6. Text Color Overrides (Case-Insensitive) */
 html.light .text-white,
 html.light .text-zinc-100,
 html.light .text-zinc-200,
 html.light .text-zinc-300,
-html.light [class*="text-[#F3F4F6]"],
-html.light [class*="text-[#e6edf3]"],
-html.light [class*="text-[#FAFAFA]"],
-html.light [class*="text-[#F5F5F0]"] {
+html.light [class*="text-[#f3f4f6]" i],
+html.light [class*="text-[#e5e7eb]" i],
+html.light [class*="text-[#e6edf3]" i],
+html.light [class*="text-[#fafafa]" i],
+html.light [class*="text-[#f5f5f0]" i] {
   color: #0F172A !important;
 }
 
 html.light .text-zinc-400,
 html.light .text-zinc-500,
-html.light [class*="text-[#9CA3AF]"],
-html.light [class*="text-[#8b949e]"],
-html.light [class*="text-[#8A8A85]"],
-html.light [class*="text-[#6e7681]"],
-html.light [class*="text-[#484f58]"] {
+html.light [class*="text-[#9ca3af]" i],
+html.light [class*="text-[#8b949e]" i],
+html.light [class*="text-[#6b7280]" i],
+html.light [class*="text-[#6e7681]" i],
+html.light [class*="text-[#484f58]" i] {
   color: #475569 !important;
 }
 
-/* 7. Hover & Interactive States */
+/* 7. SVG Progress Ring Track Color in Light Mode */
+html.light circle[stroke="#21262D"],
+html.light circle[stroke="#21262d"] {
+  stroke: #E2E8F0 !important;
+}
+
+/* 8. Hover & Interactive Surface Cards */
 html.light .dash-card {
   background: #FFFFFF !important;
   border-color: #E2E8F0 !important;
