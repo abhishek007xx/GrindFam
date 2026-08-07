@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
-import { Target, Check, ThumbsUp, Loader2, Timer, Sparkles } from 'lucide-react';
+import { Target, Check, ThumbsUp, Loader2, Timer, Sparkles, Hash } from 'lucide-react';
 import { supabase } from '../../supabase';
 
-const PROBLEM_SUGGESTIONS = [
+const PROBLEMS = [
   { slug: 'two-sum', title: 'Two Sum', difficulty: 'Easy' },
   { slug: 'reverse-linked-list', title: 'Reverse Linked List', difficulty: 'Easy' },
   { slug: 'valid-parentheses', title: 'Valid Parentheses', difficulty: 'Easy' },
@@ -27,14 +27,10 @@ const PROBLEM_SUGGESTIONS = [
   { slug: 'merge-k-sorted-lists', title: 'Merge K Sorted Lists', difficulty: 'Hard' },
 ];
 
-const getDifficultyColor = (d) => {
-  if (d === 'Easy') return 'text-emerald-400 bg-emerald-500/20 border border-emerald-500/30';
-  if (d === 'Medium') return 'text-amber-400 bg-amber-500/20 border border-amber-500/30';
-  return 'text-red-400 bg-red-500/20 border border-red-500/30';
-};
+const diffColor = (d) => d === 'Easy' ? 'text-[#3ba55d] bg-[#3ba55d]/15' : d === 'Medium' ? 'text-[#faa61a] bg-[#faa61a]/15' : 'text-[#ed4245] bg-[#ed4245]/15';
 
 export default function SquadWeeklyChallenge() {
-  const { session, profile } = useAuth();
+  const { profile } = useAuth();
   const { activeSquad, challenges } = useSquadStore();
   const [loading, setLoading] = useState(false);
   const [selectedProblems, setSelectedProblems] = useState([]);
@@ -44,209 +40,130 @@ export default function SquadWeeklyChallenge() {
 
   useEffect(() => {
     if (!activeSquad) return;
-
     const today = new Date();
-    const dayOfWeek = today.getDay();
+    const dow = today.getDay();
     const ws = new Date(today);
-    ws.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+    ws.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
     const wsStr = ws.toISOString().split('T')[0];
     setWeekStart(wsStr);
 
-    // Use challenge from store if available
-    if (challenges && challenges.length > 0) {
-      setChallenge(challenges[0]);
-    } else {
-      // Fetch from Supabase directly
-      const fetchChallenge = async () => {
-        setLoading(true);
-        try {
-          const { data, error } = await supabase
-            .from('squad_weekly_challenges')
-            .select('*')
-            .eq('squad_id', activeSquad.id)
-            .eq('week_start', wsStr)
-            .maybeSingle();
-
-          if (error) throw error;
-          setChallenge(data);
-        } catch (err) {
-          console.error('Error fetching weekly challenge:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchChallenge();
+    if (challenges?.length > 0) { setChallenge(challenges[0]); }
+    else {
+      setLoading(true);
+      supabase.from('squad_weekly_challenges').select('*')
+        .eq('squad_id', activeSquad.id).eq('week_start', wsStr).maybeSingle()
+        .then(({ data }) => { setChallenge(data); setLoading(false); })
+        .catch(() => setLoading(false));
     }
   }, [activeSquad, challenges]);
 
   const handleVote = async () => {
-    if (selectedProblems.length === 0 || !activeSquad || !session?.user?.id) return;
+    if (selectedProblems.length === 0 || !activeSquad || !profile?.id) return;
     setVoting(true);
     try {
-      const userId = session.user.id;
-
       if (challenge) {
-        // Update existing challenge votes
-        const existingVotes = challenge.votes || {};
-        existingVotes[userId] = selectedProblems;
-
-        // Tally all votes to determine top problems
-        const allVotes = Object.values(existingVotes).flat();
+        const votes = { ...(challenge.votes || {}), [profile.id]: selectedProblems };
+        const allVotes = Object.values(votes).flat();
         const tally = {};
-        allVotes.forEach(slug => { tally[slug] = (tally[slug] || 0) + 1; });
-        const topProblems = Object.entries(tally)
-          .sort(([, a], [, b]) => b - a)
-          .slice(0, 5)
-          .map(([slug]) => slug);
-
-        const { error } = await supabase
-          .from('squad_weekly_challenges')
-          .update({
-            votes: existingVotes,
-            problems: topProblems
-          })
-          .eq('id', challenge.id);
-
-        if (error) throw error;
-        setChallenge({ ...challenge, votes: existingVotes, problems: topProblems });
+        allVotes.forEach(s => { tally[s] = (tally[s] || 0) + 1; });
+        const topProblems = Object.entries(tally).sort(([, a], [, b]) => b - a).slice(0, 5).map(([s]) => s);
+        await supabase.from('squad_weekly_challenges').update({ votes, problems: topProblems }).eq('id', challenge.id);
+        setChallenge({ ...challenge, votes, problems: topProblems });
       } else {
-        // Create new weekly challenge
-        const votes = { [userId]: selectedProblems };
-        const { data, error } = await supabase
-          .from('squad_weekly_challenges')
-          .insert([{
-            squad_id: activeSquad.id,
-            week_start: weekStart,
-            problems: selectedProblems,
-            votes
-          }])
-          .select()
-          .single();
-
-        if (error) throw error;
+        const votes = { [profile.id]: selectedProblems };
+        const { data } = await supabase.from('squad_weekly_challenges')
+          .insert([{ squad_id: activeSquad.id, week_start: weekStart, problems: selectedProblems, votes }])
+          .select().single();
         setChallenge(data);
       }
-    } catch (err) {
-      console.error('Error voting:', err);
-    } finally {
-      setVoting(false);
-    }
+    } catch (err) { console.error(err); }
+    finally { setVoting(false); }
   };
 
-  const toggleProblem = (slug) => {
-    setSelectedProblems(prev =>
-      prev.includes(slug) ? prev.filter(s => s !== slug) : prev.length < 5 ? [...prev, slug] : prev
-    );
+  const toggle = (slug) => {
+    setSelectedProblems(prev => prev.includes(slug) ? prev.filter(s => s !== slug) : prev.length < 5 ? [...prev, slug] : prev);
   };
 
   const getWeekEnd = () => {
     if (!weekStart) return '';
-    const start = new Date(weekStart);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 6);
-    return end.toLocaleDateString([], { month: 'short', day: 'numeric' });
+    const s = new Date(weekStart); const e = new Date(s); e.setDate(s.getDate() + 6);
+    return e.toLocaleDateString([], { month: 'short', day: 'numeric' });
   };
 
   const getDaysLeft = () => {
     if (!weekStart) return 0;
-    const start = new Date(weekStart);
-    const end = new Date(start);
-    end.setDate(start.getDate() + 7);
-    const diff = end - new Date();
-    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+    const s = new Date(weekStart); const e = new Date(s); e.setDate(s.getDate() + 7);
+    return Math.max(0, Math.ceil((e - new Date()) / 86400000));
   };
 
-  if (loading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-emerald-400 animate-spin" /></div>;
-  }
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#5865f2] animate-spin" /></div>;
 
   const hasVoted = challenge?.votes?.[profile?.id];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-[#161b22] border border-[#30363d] rounded-2xl">
+    <div className="space-y-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-[#2f3136] rounded-lg border border-[#202225]">
         <div>
-          <h3 className="text-base font-black text-white flex items-center gap-2">
-            <Target className="w-5 h-5 text-emerald-400" />
-            Squad Weekly Challenge
+          <h3 className="text-[15px] font-bold text-white flex items-center gap-2">
+            <Target className="w-5 h-5 text-[#5865f2]" /> Weekly Challenge
           </h3>
-          <p className="text-xs text-[#8b949e] mt-1">Vote on 5 target LeetCode problems for your squad to tackle together this week.</p>
+          <p className="text-xs text-[#96989d] mt-0.5">Vote on 5 LeetCode problems to solve together this week.</p>
         </div>
-        <div className="flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
-          <Timer className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs font-bold text-emerald-300">{getDaysLeft()} days left (ends {getWeekEnd()})</span>
+        <div className="flex items-center gap-1.5 bg-[#5865f2]/10 px-3 py-1.5 rounded text-xs font-medium text-[#5865f2]">
+          <Timer className="w-4 h-4" /> {getDaysLeft()}d left (ends {getWeekEnd()})
         </div>
       </div>
 
-      {/* Active Challenge Problems */}
-      {challenge?.problems?.length > 0 ? (
-        <div className="space-y-4">
-          <h4 className="text-xs font-bold text-white flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
-            Selected Target Problems ({challenge.problems.length})
+      {challenge?.problems?.length > 0 && (
+        <div className="space-y-3">
+          <h4 className="text-xs font-bold uppercase text-[#96989d] flex items-center gap-2">
+            <Sparkles className="w-3.5 h-3.5" /> Selected Problems ({challenge.problems.length})
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {challenge.problems.map((slug) => {
-              const p = PROBLEM_SUGGESTIONS.find(ps => ps.slug === slug) || { slug, title: slug, difficulty: 'Medium' };
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {challenge.problems.map(slug => {
+              const p = PROBLEMS.find(x => x.slug === slug) || { slug, title: slug, difficulty: 'Medium' };
               return (
-                <div key={slug} className="p-4 bg-[#161b22] border border-[#30363d] rounded-2xl flex items-center justify-between">
+                <div key={slug} className="p-3 bg-[#2f3136] rounded-lg border border-[#202225] flex items-center justify-between">
                   <div>
-                    <h5 className="text-xs font-bold text-white">{p.title}</h5>
-                    <a href={`https://leetcode.com/problems/${slug}`} target="_blank" rel="noreferrer" className="text-[10px] text-emerald-400 hover:underline">
-                      View on LeetCode →
-                    </a>
+                    <h5 className="text-sm font-semibold text-white">{p.title}</h5>
+                    <a href={`https://leetcode.com/problems/${slug}`} target="_blank" rel="noreferrer"
+                      className="text-[10px] text-[#5865f2] hover:underline">View on LeetCode →</a>
                   </div>
-                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${getDifficultyColor(p.difficulty)}`}>
-                    {p.difficulty}
-                  </span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${diffColor(p.difficulty)}`}>{p.difficulty}</span>
                 </div>
               );
             })}
           </div>
         </div>
-      ) : null}
+      )}
 
-      {/* Vote Form */}
-      <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
+      <div className="p-4 bg-[#2f3136] rounded-lg border border-[#202225] space-y-3">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-bold text-white flex items-center gap-2">
-            <ThumbsUp className="w-4 h-4 text-emerald-400" />
-            {hasVoted ? 'Your Vote Recorded' : 'Select up to 5 Problems to Vote'}
+            <ThumbsUp className="w-3.5 h-3.5 text-[#5865f2]" />
+            {hasVoted ? 'Vote Recorded ✓' : 'Select up to 5'}
           </h4>
-          <span className="text-[10px] font-mono text-[#8b949e]">{selectedProblems.length}/5 selected</span>
+          <span className="text-[10px] font-mono text-[#72767d]">{selectedProblems.length}/5</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
-          {PROBLEM_SUGGESTIONS.map((p) => {
-            const isSelected = selectedProblems.includes(p.slug);
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+          {PROBLEMS.map(p => {
+            const sel = selectedProblems.includes(p.slug);
             return (
-              <button
-                key={p.slug}
-                onClick={() => toggleProblem(p.slug)}
-                className={`p-3 rounded-xl border text-left transition-all ${
-                  isSelected
-                    ? 'bg-emerald-950/40 border-emerald-500/60 ring-1 ring-emerald-500/30'
-                    : 'bg-[#0d1117] border-[#30363d] hover:border-emerald-500/30'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-xs font-bold text-white truncate">{p.title}</span>
-                  {isSelected && <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />}
+              <button key={p.slug} onClick={() => toggle(p.slug)}
+                className={`p-2.5 rounded-lg border text-left transition-all ${sel ? 'border-[#5865f2] bg-[#5865f2]/10' : 'border-[#40444b] bg-[#36393f] hover:border-[#5865f2]/40'}`}>
+                <div className="flex items-center justify-between gap-1">
+                  <span className="text-xs font-semibold text-white truncate">{p.title}</span>
+                  {sel && <Check className="w-3 h-3 text-[#5865f2] flex-shrink-0" />}
                 </div>
-                <span className={`text-[9px] font-bold inline-block mt-2 px-2 py-0.5 rounded-full ${getDifficultyColor(p.difficulty)}`}>
-                  {p.difficulty}
-                </span>
+                <span className={`text-[9px] font-bold inline-block mt-1 px-1.5 py-0.5 rounded ${diffColor(p.difficulty)}`}>{p.difficulty}</span>
               </button>
             );
           })}
         </div>
 
-        <button
-          onClick={handleVote}
-          disabled={selectedProblems.length === 0 || voting}
-          className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2"
-        >
+        <button onClick={handleVote} disabled={selectedProblems.length === 0 || voting}
+          className="w-full py-2.5 bg-[#5865f2] hover:bg-[#4752c4] text-white rounded text-sm font-medium disabled:opacity-40 transition-colors flex items-center justify-center gap-2">
           {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ThumbsUp className="w-4 h-4" />}
           Submit Vote
         </button>

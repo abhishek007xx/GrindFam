@@ -2,49 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useSquadStore } from '../store/useSquadStore';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import SquadChat from '../components/squad/SquadChat';
 import SquadCodeSharing from '../components/squad/SquadCodeSharing';
 import SquadLeaderboard from '../components/squad/SquadLeaderboard';
 import SquadWeeklyChallenge from '../components/squad/SquadWeeklyChallenge';
-import SquadSettings from '../components/squad/SquadSettings';
 import SquadManagerModal from '../components/SquadManagerModal';
+import { SquadIcon, ChannelButton, MemberCard } from '../components/squad/DiscordComponents';
 import {
-  MessageCircle, Code, Trophy, Target, Settings, Users, PlusCircle,
-  LogIn, Loader2, Copy, Check, Hash, Sparkles, Compass, ChevronDown, ExternalLink, MessageSquare
+  Hash, Volume2, ChevronDown, Plus, Settings, Users, Compass,
+  Loader2, Mic, Headphones, ExternalLink, Menu, X
 } from 'lucide-react';
 
-const TABS = [
-  { id: 'chat', label: 'Chat', icon: MessageCircle, color: 'text-emerald-400' },
-  { id: 'dashboard', label: 'Dashboard', icon: Users, color: 'text-teal-400' },
-  { id: 'code', label: 'Code Sharing', icon: Code, color: 'text-cyan-400' },
-  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, color: 'text-amber-400' },
-  { id: 'challenge', label: 'Weekly Challenge', icon: Target, color: 'text-purple-400' },
-  { id: 'settings', label: 'Settings', icon: Settings, color: 'text-[#8b949e]' },
+const TEXT_CHANNELS = [
+  { id: 'general', label: 'general', icon: <Hash className="w-5 h-5" /> },
+  { id: 'code-sharing', label: 'code-sharing', icon: <Hash className="w-5 h-5" /> },
+  { id: 'leaderboard', label: 'leaderboard', icon: <Hash className="w-5 h-5" /> },
+  { id: 'weekly-challenge', label: 'weekly-challenge', icon: <Hash className="w-5 h-5" /> },
 ];
 
+const VOICE_CHANNELS = [
+  { id: 'vc-mock', label: 'mock-interviews', icon: <Volume2 className="w-5 h-5" /> },
+  { id: 'vc-study', label: 'study-room', icon: <Volume2 className="w-5 h-5" /> },
+];
+
+const CHANNEL_TOPICS = {
+  'general': 'Squad chat — talk about DSA, interviews, and life',
+  'code-sharing': 'Share your LeetCode solutions for peer review',
+  'leaderboard': 'See who\'s grinding the hardest this week',
+  'weekly-challenge': 'Vote on 5 problems to tackle together this week',
+};
+
 export default function SquadHub() {
-  const { session } = useAuth();
+  const { session, profile } = useAuth();
   const {
-    mySquads,
-    communitySquads,
-    activeSquad,
-    members,
-    loading,
-    loadMySquads,
-    fetchCommunitySquads,
-    setActiveSquad,
-    joinByCode,
-    createSquad,
-    leaveSquad
+    mySquads, communitySquads, activeSquad, activeChannel, members, loading,
+    loadMySquads, fetchCommunitySquads, setActiveSquad, setActiveChannel,
+    joinByCode, showMemberList, toggleMemberList
   } = useSquadStore();
 
-  const [activeTab, setActiveTab] = useState('chat');
-  const [hubMode, setHubMode] = useState('my-squads'); // 'my-squads' | 'discover'
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [copiedCode, setCopiedCode] = useState(false);
   const [joiningId, setJoiningId] = useState(null);
 
   useEffect(() => {
@@ -52,338 +49,351 @@ export default function SquadHub() {
     fetchCommunitySquads();
   }, [loadMySquads, fetchCommunitySquads]);
 
-  const handleCopyInvite = () => {
-    const code = activeSquad?.invite_code || activeSquad?.code;
-    if (!code) return;
-    navigator.clipboard.writeText(code);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 2000);
+  const isAdmin = activeSquad?.role === 'admin';
+  const currentUser = session?.user;
+
+  const handleVoiceClick = (vc) => {
+    if (activeSquad?.discord_invite_url) {
+      window.open(activeSquad.discord_invite_url, '_blank');
+    }
   };
 
   const handleJoinCommunity = async (squad) => {
-    const code = squad.invite_code || squad.code || squad.id;
     setJoiningId(squad.id);
     try {
-      await joinByCode(code);
-      setHubMode('my-squads');
+      await joinByCode(squad.invite_code || squad.code || squad.id);
     } catch (err) {
-      alert(err.message || 'Failed to join squad.');
+      alert(err.message || 'Failed to join.');
     } finally {
       setJoiningId(null);
     }
   };
 
-  const getInitials = (name) => {
-    if (!name) return 'SQ';
-    const parts = name.trim().split(' ');
-    return parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
-  };
-
   if (loading && mySquads.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#22c55e] animate-spin" />
+      <div className="h-screen bg-[#36393f] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#5865f2] animate-spin" />
       </div>
     );
   }
 
-  const isAdmin = activeSquad?.role === 'admin' || activeSquad?.role === 'leader';
-  const communityInvite = import.meta.env.VITE_DISCORD_COMMUNITY_INVITE || 'https://discord.gg/grindfam';
+  const noSquads = mySquads.length === 0 && !activeSquad;
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex text-[#e6edf3]">
-      <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
-
-      <div className="flex-1 flex flex-col min-h-screen">
-        <Navbar onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-
-        <main className="flex-1 p-4 md:p-6 lg:p-8 max-w-6xl mx-auto w-full space-y-6">
-          {/* Top Bar: Squad Switcher & Discover Toggle */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-[#161b22] border border-[#30363d] rounded-2xl">
-            <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide py-1">
-              <span className="text-xs font-bold text-[#8b949e] uppercase tracking-wider whitespace-nowrap">Your Squads:</span>
-              {mySquads.length === 0 ? (
-                <span className="text-xs text-[#6e7681] italic">No squads joined</span>
-              ) : (
-                mySquads.map((sq) => {
-                  const isActive = activeSquad?.id === sq.id;
-                  const isCommunity = sq.squad_type === 'community';
-                  return (
-                    <button
-                      key={sq.id}
-                      onClick={() => {
-                        setHubMode('my-squads');
-                        setActiveSquad(sq.id);
-                      }}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
-                        isActive && hubMode === 'my-squads'
-                          ? 'bg-[#22c55e]/15 border-[#22c55e]/40 text-[#22c55e]'
-                          : 'bg-[#0d1117] border-[#30363d] text-[#8b949e] hover:text-white'
-                      }`}
-                    >
-                      <span>{sq.name}</span>
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded-md uppercase font-black ${
-                        isCommunity ? 'bg-[#22c55e]/20 text-[#22c55e]' : 'bg-[#30363d] text-[#8b949e]'
-                      }`}>
-                        {sq.squad_type || 'private'}
-                      </span>
-                    </button>
-                  );
-                })
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={() => setHubMode(hubMode === 'discover' ? 'my-squads' : 'discover')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border ${
-                  hubMode === 'discover'
-                    ? 'bg-purple-500/20 border-purple-500/40 text-purple-300'
-                    : 'bg-[#0d1117] border-[#30363d] text-[#8b949e] hover:text-white'
-                }`}
-              >
-                <Compass className="w-4 h-4 text-purple-400" />
-                <span>Discover Community Squads</span>
-              </button>
-              <button
-                onClick={() => setIsCreateModalOpen(true)}
-                className="px-3.5 py-2 rounded-xl bg-[#22c55e] hover:bg-[#1ea34d] text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-[#22c55e]/20 transition-all"
-              >
-                <PlusCircle className="w-4 h-4" />
-                <span>Create / Join</span>
-              </button>
-            </div>
+    <div className="h-screen flex overflow-hidden" style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}>
+      {/* COLUMN 1: Squad Server List */}
+      <div className="w-[72px] max-md:w-14 bg-[#1e2124] flex flex-col items-center py-3 gap-0.5 flex-shrink-0 overflow-y-auto scrollbar-hide">
+        {/* Home / Discover Button */}
+        <div className="relative group flex items-center justify-center mb-2">
+          <button
+            onClick={() => { setActiveSquad(null); }}
+            className={`w-12 max-md:w-10 h-12 max-md:h-10 flex items-center justify-center transition-all duration-300 ${
+              !activeSquad
+                ? 'rounded-2xl bg-[#5865f2] text-white'
+                : 'rounded-[24px] bg-[#36393f] text-[#dcddde] hover:rounded-2xl hover:bg-[#5865f2] hover:text-white'
+            }`}
+          >
+            <Compass className="w-6 h-6 max-md:w-5 max-md:h-5" />
+          </button>
+          <div className="absolute left-16 max-md:left-14 bg-[#18191c] text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+            Discover Squads
           </div>
+        </div>
 
-          {/* DISCOVER COMMUNITY SQUADS MODE */}
-          {hubMode === 'discover' ? (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <div className="p-6 bg-[#161b22] border border-[#30363d] rounded-2xl">
-                <h2 className="text-lg font-black text-white flex items-center gap-2">
-                  <Compass className="w-5 h-5 text-purple-400" /> Discover Community Prep Groups
-                </h2>
-                <p className="text-xs text-[#8b949e] mt-1">
-                  Public squads for college campus placement and company preparation (max 100 members).
-                </p>
-              </div>
+        <div className="w-8 h-0.5 bg-[#36393f] rounded-full mb-2" />
 
-              {communitySquads.length === 0 ? (
-                <div className="text-center py-16 bg-[#161b22]/40 border border-[#30363d] rounded-2xl">
-                  <Users className="w-12 h-12 text-[#30363d] mx-auto mb-3" />
-                  <p className="text-sm font-bold text-white">No community squads found</p>
-                  <p className="text-xs text-[#8b949e] mt-1">Be the first to create a public Community Squad!</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {communitySquads.map((sq) => {
-                    const isMember = mySquads.some(m => m.id === sq.id);
-                    return (
-                      <div key={sq.id} className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-3 flex flex-col justify-between hover:border-[#22c55e]/40 transition-colors">
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-[#22c55e]/20 text-[#22c55e]">
-                              Community
-                            </span>
-                            <span className="text-xs text-[#8b949e]">
-                              {sq.member_count}/100 members
-                            </span>
-                          </div>
-                          <h3 className="text-base font-extrabold text-white">{sq.name}</h3>
-                          <p className="text-xs text-[#8b949e] line-clamp-2 mt-1">{sq.description || sq.goal || 'Public prep squad'}</p>
-                        </div>
+        {mySquads.map((sq) => (
+          <SquadIcon
+            key={sq.id}
+            squad={sq}
+            isActive={activeSquad?.id === sq.id}
+            onClick={() => { setActiveSquad(sq.id); setSidebarOpen(false); }}
+          />
+        ))}
 
-                        <button
-                          onClick={() => handleJoinCommunity(sq)}
-                          disabled={isMember || joiningId === sq.id}
-                          className={`w-full py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-                            isMember
-                              ? 'bg-[#21262d] text-[#6e7681] cursor-default'
-                              : 'bg-[#22c55e] hover:bg-[#1ea34d] text-white shadow-lg shadow-[#22c55e]/20'
-                          }`}
-                        >
-                          {joiningId === sq.id ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : isMember ? (
-                            'Already Member'
-                          ) : (
-                            <>
-                              <LogIn className="w-4 h-4" /> Join Community Squad
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </motion.div>
-          ) : !activeSquad ? (
-            /* NO SQUAD EMPTY STATE */
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto mt-12 text-center space-y-6">
-              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-[#22c55e] to-teal-600 flex items-center justify-center mx-auto shadow-2xl shadow-[#22c55e]/20 border border-[#22c55e]/30">
-                <Users className="w-10 h-10 text-white" />
-              </div>
+        <div className="w-8 h-0.5 bg-[#36393f] rounded-full my-1" />
+
+        {/* Add Squad Button */}
+        <div className="relative group flex items-center justify-center">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="w-12 max-md:w-10 h-12 max-md:h-10 rounded-[24px] bg-[#36393f] text-[#3ba55d] hover:rounded-2xl hover:bg-[#3ba55d] hover:text-white flex items-center justify-center transition-all duration-300"
+          >
+            <Plus className="w-6 h-6 max-md:w-5 max-md:h-5" />
+          </button>
+          <div className="absolute left-16 max-md:left-14 bg-[#18191c] text-white text-xs font-semibold px-3 py-1.5 rounded-md shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+            Add a Squad
+          </div>
+        </div>
+      </div>
+
+      {/* COLUMN 2: Channel Sidebar */}
+      {activeSquad ? (
+        <>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="md:hidden fixed top-3 left-16 z-50 p-1.5 bg-[#2f3136] rounded text-[#dcddde]"
+          >
+            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+
+          <div className={`w-60 bg-[#2f3136] flex flex-col flex-shrink-0 transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-0 max-md:bottom-0 max-md:z-40 ${
+            sidebarOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
+          }`}>
+            {/* Server Header */}
+            <button className="h-12 px-4 flex items-center justify-between border-b border-[#202225] shadow-sm hover:bg-[#34373c] transition-colors flex-shrink-0">
+              <span className="text-[15px] font-semibold text-white truncate">{activeSquad.name}</span>
+              <ChevronDown className="w-4 h-4 text-[#96989d] flex-shrink-0" />
+            </button>
+
+            {/* Channel List */}
+            <div className="flex-1 overflow-y-auto px-2 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-[#202225] scrollbar-track-transparent">
+              {/* Text Channels */}
               <div>
-                <h1 className="text-2xl font-black bg-gradient-to-r from-white via-emerald-200 to-teal-400 bg-clip-text text-transparent mb-2">
-                  No Squad Joined Yet
-                </h1>
-                <p className="text-xs text-[#8b949e]">
-                  Join a private 10-person group with close friends or explore public 100-person community squads.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <button onClick={() => setHubMode('discover')} className="flex-1 py-3 bg-[#161b22] border border-[#30363d] hover:border-[#22c55e]/40 rounded-xl text-xs font-bold text-white transition-all flex items-center justify-center gap-2">
-                  <Compass className="w-4 h-4 text-purple-400" /> Discover Squads
-                </button>
-                <button onClick={() => setIsCreateModalOpen(true)} className="flex-1 py-3 bg-[#22c55e] hover:bg-[#1ea34d] rounded-xl text-xs font-bold text-white transition-all shadow-lg shadow-[#22c55e]/20 flex items-center justify-center gap-2">
-                  <PlusCircle className="w-4 h-4" /> Create Squad
-                </button>
-              </div>
-            </motion.div>
-          ) : (
-            /* ACTIVE SQUAD DASHBOARD & TABS */
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-              {/* Squad Header Banner */}
-              <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#22c55e] to-teal-600 flex items-center justify-center text-white text-lg font-black shadow-lg shadow-[#22c55e]/20 border border-[#22c55e]/30">
-                    {getInitials(activeSquad?.name)}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h1 className="text-xl font-black text-white">{activeSquad?.name}</h1>
-                      <span className={`text-[9px] uppercase font-extrabold px-2 py-0.5 rounded-full ${
-                        activeSquad?.squad_type === 'community'
-                          ? 'bg-[#22c55e]/20 text-[#22c55e] border border-[#22c55e]/30'
-                          : 'bg-[#30363d] text-[#8b949e]'
-                      }`}>
-                        {activeSquad?.squad_type || 'private'}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap items-center gap-3 mt-1.5">
-                      {activeSquad?.goal && (
-                        <span className="text-[10px] text-[#22c55e] bg-[#22c55e]/10 px-2.5 py-0.5 rounded-full flex items-center gap-1 border border-[#22c55e]/20 font-bold">
-                          <Target className="w-3 h-3" /> {activeSquad.goal}
-                        </span>
-                      )}
-                      <span className="text-[10px] text-[#8b949e] flex items-center gap-1">
-                        <Users className="w-3 h-3 text-teal-400" /> {members.length}/{activeSquad?.max_members || 10} members
-                      </span>
-                      <button onClick={handleCopyInvite} className="flex items-center gap-1 text-[10px] text-[#8b949e] hover:text-[#22c55e] transition-colors bg-[#0d1117] px-2.5 py-1 rounded-md font-mono border border-[#30363d]">
-                        <Hash className="w-3 h-3 text-[#22c55e]" />
-                        <span>Code: {activeSquad?.invite_code || activeSquad?.code}</span>
-                        {copiedCode ? <Check className="w-3 h-3 text-[#22c55e]" /> : <Copy className="w-3 h-3" />}
-                      </button>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-between px-1 mb-1 group cursor-pointer">
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-[#96989d] group-hover:text-[#dcddde]">
+                    Text Channels
+                  </span>
                 </div>
-
-                {/* Squad Discord Card Widget */}
-                <div className="p-3 bg-[#0d1117] border border-[#30363d] rounded-xl flex items-center gap-3">
-                  <MessageSquare className="w-5 h-5 text-indigo-400 flex-shrink-0" />
-                  <div className="text-left min-w-0">
-                    <span className="text-[10px] font-bold uppercase text-[#8b949e] block">Squad Discord</span>
-                    {activeSquad?.discord_invite_url ? (
-                      <a
-                        href={activeSquad.discord_invite_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-bold text-indigo-400 hover:underline flex items-center gap-1 truncate"
-                      >
-                        Join Squad Channel <ExternalLink className="w-3 h-3" />
-                      </a>
-                    ) : (
-                      <a
-                        href={communityInvite}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-bold text-[#8b949e] hover:text-white flex items-center gap-1 truncate"
-                      >
-                        GrindFam Discord <ExternalLink className="w-3 h-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Navigation Tabs */}
-              <div className="flex overflow-x-auto gap-1.5 bg-[#161b22] border border-[#30363d] rounded-2xl p-1.5 scrollbar-hide">
-                {TABS.map(tab => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                      activeTab === tab.id
-                        ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/20'
-                        : 'text-[#8b949e] hover:bg-[#21262d] hover:text-white'
-                    }`}
-                  >
-                    <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-white' : tab.color}`} />
-                    <span>{tab.label}</span>
-                  </button>
+                {TEXT_CHANNELS.map((ch) => (
+                  <ChannelButton
+                    key={ch.id}
+                    icon={ch.icon}
+                    label={ch.label}
+                    isActive={activeChannel === ch.id}
+                    onClick={() => { setActiveChannel(ch.id); setSidebarOpen(false); }}
+                  />
                 ))}
               </div>
 
-              {/* Tab Views */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {activeTab === 'chat' && <SquadChat squadId={activeSquad.id} />}
+              {/* Voice Channels */}
+              <div>
+                <div className="flex items-center justify-between px-1 mb-1 group cursor-pointer">
+                  <span className="text-[11px] font-bold uppercase tracking-wide text-[#96989d] group-hover:text-[#dcddde]">
+                    Voice Channels
+                  </span>
+                </div>
+                {VOICE_CHANNELS.map((vc) => (
+                  <ChannelButton
+                    key={vc.id}
+                    icon={vc.icon}
+                    label={vc.label}
+                    isActive={false}
+                    onClick={() => handleVoiceClick(vc)}
+                    isMuted={!activeSquad?.discord_invite_url}
+                  />
+                ))}
+                {!activeSquad?.discord_invite_url && isAdmin && (
+                  <p className="text-[10px] text-[#72767d] px-2 mt-1 italic">
+                    Connect Discord in Settings to enable voice
+                  </p>
+                )}
+              </div>
+            </div>
 
-                  {activeTab === 'dashboard' && (
-                    <div className="space-y-6">
-                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                        <Sparkles className="w-4 h-4 text-[#22c55e]" />
-                        Squad Roster & Progress
-                      </h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {members.map((m) => {
-                          const isMe = m.user_id === session?.user?.id;
-                          return (
-                            <div key={m.user_id} className={`p-4 bg-[#161b22] border rounded-2xl ${isMe ? 'border-[#22c55e]/40 ring-1 ring-[#22c55e]/20' : 'border-[#30363d]'} hover:border-[#22c55e]/30 transition-colors`}>
-                              <div className="flex items-center gap-3 mb-3">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#22c55e] to-teal-600 flex items-center justify-center text-white text-xs font-bold">
-                                  {getInitials(m.name)}
-                                </div>
-                                <div>
-                                  <span className="text-xs font-bold text-white">{m.name}{isMe ? ' (You)' : ''}</span>
-                                  {(m.role === 'admin' || m.role === 'leader') && (
-                                    <span className="ml-2 text-[9px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full font-bold border border-amber-500/30">ADMIN</span>
-                                  )}
-                                  <p className="text-[10px] text-[#6e7681]">@{m.username || 'grinder'}</p>
-                                </div>
+            {/* Bottom User Panel */}
+            <div className="h-[52px] bg-[#292b2f] px-2 flex items-center gap-2 flex-shrink-0">
+              <div className="relative">
+                <div className="w-8 h-8 rounded-full bg-[#5865f2] flex items-center justify-center text-white text-xs font-bold">
+                  {(profile?.username || profile?.leetcode_username || 'U')[0].toUpperCase()}
+                </div>
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-[3px] border-[#292b2f] bg-[#3ba55d]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-semibold text-white truncate leading-tight">
+                  {profile?.username || profile?.leetcode_username || 'User'}
+                </p>
+                <p className="text-[11px] text-[#96989d] truncate leading-tight">Online</p>
+              </div>
+              <div className="flex items-center gap-0.5">
+                <button className="p-1.5 text-[#b9bbbe] hover:text-[#dcddde] rounded hover:bg-[#36393f] transition-colors">
+                  <Mic className="w-4 h-4" />
+                </button>
+                <button className="p-1.5 text-[#b9bbbe] hover:text-[#dcddde] rounded hover:bg-[#36393f] transition-colors">
+                  <Headphones className="w-4 h-4" />
+                </button>
+                <button className="p-1.5 text-[#b9bbbe] hover:text-[#dcddde] rounded hover:bg-[#36393f] transition-colors">
+                  <Settings className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+
+      {/* COLUMN 3: Main Content Area */}
+      <div className="flex-1 flex flex-col bg-[#36393f] min-w-0">
+        {!activeSquad ? (
+          /* DISCOVER / NO SQUAD VIEW */
+          <div className="flex-1 overflow-y-auto">
+            {/* Header */}
+            <div className="h-12 px-4 flex items-center border-b border-[#202225] shadow-sm flex-shrink-0">
+              <Compass className="w-5 h-5 text-[#96989d] mr-2" />
+              <span className="text-[15px] font-semibold text-white">Discover Community Squads</span>
+            </div>
+
+            <div className="p-6 max-w-4xl mx-auto">
+              {/* No squads empty state */}
+              {noSquads && (
+                <div className="text-center py-16 mb-8">
+                  <div className="w-20 h-20 rounded-full bg-[#5865f2] flex items-center justify-center mx-auto mb-5">
+                    <Users className="w-10 h-10 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white mb-2">You're not in any squads yet</h2>
+                  <p className="text-[#96989d] text-sm mb-6 max-w-sm mx-auto">
+                    Join a community squad or create your own private group to grind LeetCode with friends.
+                  </p>
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="px-6 py-2.5 bg-[#5865f2] hover:bg-[#4752c4] text-white rounded text-sm font-medium transition-colors"
+                  >
+                    Create or Join a Squad
+                  </button>
+                </div>
+              )}
+
+              {/* Community Squads Grid */}
+              {communitySquads.length > 0 && (
+                <>
+                  <h3 className="text-xs font-bold uppercase text-[#96989d] tracking-wider mb-4">
+                    Public Community Squads
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {communitySquads.map((sq) => {
+                      const isMember = mySquads.some(m => m.id === sq.id);
+                      return (
+                        <div key={sq.id} className="bg-[#2f3136] rounded-lg overflow-hidden hover:shadow-lg transition-shadow group">
+                          <div className="h-24 bg-gradient-to-br from-[#5865f2] to-[#3ba55d] relative">
+                            <div className="absolute -bottom-6 left-4">
+                              <div className="w-12 h-12 rounded-2xl bg-[#5865f2] border-4 border-[#2f3136] flex items-center justify-center text-white text-lg font-bold">
+                                {(sq.name || 'S')[0].toUpperCase()}
                               </div>
                             </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
+                          </div>
+                          <div className="pt-8 px-4 pb-4">
+                            <h4 className="text-[15px] font-semibold text-white">{sq.name}</h4>
+                            <p className="text-xs text-[#96989d] mt-1 line-clamp-2">
+                              {sq.description || sq.goal || 'Public community prep squad'}
+                            </p>
+                            <div className="flex items-center justify-between mt-3">
+                              <span className="text-[11px] text-[#72767d] flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-[#3ba55d]" />
+                                {sq.member_count} Members
+                              </span>
+                              <button
+                                onClick={() => handleJoinCommunity(sq)}
+                                disabled={isMember || joiningId === sq.id}
+                                className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                                  isMember
+                                    ? 'bg-[#40444b] text-[#72767d] cursor-default'
+                                    : 'bg-[#3ba55d] hover:bg-[#2d7d46] text-white'
+                                }`}
+                              >
+                                {joiningId === sq.id ? (
+                                  <Loader2 className="w-3 h-3 animate-spin" />
+                                ) : isMember ? 'Joined' : 'Join'}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        ) : (
+          /* ACTIVE SQUAD CONTENT */
+          <>
+            {/* Channel Header */}
+            <div className="h-12 px-4 flex items-center justify-between border-b border-[#202225] shadow-sm flex-shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <Hash className="w-5 h-5 text-[#72767d] flex-shrink-0" />
+                <span className="text-[15px] font-semibold text-white">{activeChannel}</span>
+                {CHANNEL_TOPICS[activeChannel] && (
+                  <>
+                    <div className="w-px h-5 bg-[#42464d] mx-1 max-md:hidden" />
+                    <span className="text-xs text-[#72767d] truncate max-md:hidden">
+                      {CHANNEL_TOPICS[activeChannel]}
+                    </span>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center gap-2">
+                {activeSquad?.discord_invite_url && (
+                  <a href={activeSquad.discord_invite_url} target="_blank" rel="noreferrer"
+                    className="p-1.5 text-[#b9bbbe] hover:text-[#dcddde] rounded hover:bg-[#42464d] transition-colors"
+                    title="Open Discord">
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
+                <button onClick={toggleMemberList}
+                  className={`p-1.5 rounded transition-colors ${showMemberList ? 'text-white bg-[#42464d]' : 'text-[#b9bbbe] hover:text-[#dcddde]'}`}
+                  title="Toggle Member List">
+                  <Users className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
 
-                  {activeTab === 'code' && <SquadCodeSharing />}
-                  {activeTab === 'leaderboard' && <SquadLeaderboard />}
-                  {activeTab === 'challenge' && <SquadWeeklyChallenge />}
-                  {activeTab === 'settings' && <SquadSettings />}
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
-          )}
-        </main>
+            {/* Content + Members */}
+            <div className="flex-1 flex min-h-0">
+              {/* Main Content */}
+              <div className="flex-1 flex flex-col min-w-0">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeChannel}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="flex-1 flex flex-col min-h-0"
+                  >
+                    {activeChannel === 'general' && <SquadChat />}
+                    {activeChannel === 'code-sharing' && (
+                      <div className="flex-1 overflow-y-auto p-4">
+                        <SquadCodeSharing />
+                      </div>
+                    )}
+                    {activeChannel === 'leaderboard' && (
+                      <div className="flex-1 overflow-y-auto p-4">
+                        <SquadLeaderboard />
+                      </div>
+                    )}
+                    {activeChannel === 'weekly-challenge' && (
+                      <div className="flex-1 overflow-y-auto p-4">
+                        <SquadWeeklyChallenge />
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* COLUMN 4: Member List */}
+              {showMemberList && (
+                <div className="w-60 bg-[#2f3136] flex-shrink-0 overflow-y-auto p-4 max-md:hidden scrollbar-thin scrollbar-thumb-[#202225] scrollbar-track-transparent">
+                  <h4 className="text-[11px] font-bold uppercase text-[#96989d] tracking-wider mb-2 px-1">
+                    Online — {members.length}
+                  </h4>
+                  <div className="space-y-0.5">
+                    {/* Admins first */}
+                    {members.filter(m => m.role === 'admin').map((m) => (
+                      <MemberCard key={m.user_id} member={m} isCurrentUser={m.user_id === currentUser?.id} />
+                    ))}
+                    {/* Then members */}
+                    {members.filter(m => m.role !== 'admin').map((m) => (
+                      <MemberCard key={m.user_id} member={m} isCurrentUser={m.user_id === currentUser?.id} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
-      <SquadManagerModal
-        isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        squadInfo={activeSquad}
-        onCreateSquad={createSquad}
-        onJoinSquad={joinByCode}
-        onLeaveSquad={() => activeSquad && leaveSquad(activeSquad.id)}
-      />
+      <SquadManagerModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
