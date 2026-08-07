@@ -17,13 +17,52 @@ body { margin: 0; background-color: #141414; }
   --color-text:             #FFFFFF; /* Pure White */
   --color-text-muted:       #A3A3A3; /* Light Gray Body Text */
   --color-text-dim:         #737373; /* Muted Slate Secondary Metrics */
-  --color-accent:           #F97316; /* Restrained Accent Orange */
-  --color-accent-hover:     #EA580C;
+  --color-accent:           #EA5D3A; /* Restrained Accent Orange */
+  --color-accent-hover:     #F2704E;
   --color-success:          #10B981; /* Emerald Green Solved Metric */
 
   --sidebar-width:          240px;
   --navbar-height:          64px;
 }
+
+/* ==========================================================================
+   Dynamic Accent Colors
+   ========================================================================== */
+html[data-accent="orange"], :root {
+  --color-accent: #EA5D3A;
+  --color-accent-hover: #F2704E;
+}
+html[data-accent="emerald"] {
+  --color-accent: #10B981;
+  --color-accent-hover: #059669;
+}
+html[data-accent="cyan"] {
+  --color-accent: #06B6D4;
+  --color-accent-hover: #0891B2;
+}
+html[data-accent="violet"] {
+  --color-accent: #8B5CF6;
+  --color-accent-hover: #7C3AED;
+}
+html[data-accent="rose"] {
+  --color-accent: #F43F5E;
+  --color-accent-hover: #E11D48;
+}
+
+/* Compact Mode Styling */
+html.compact-mode .dash-card {
+  padding: 14px !important;
+}
+html.compact-mode table th,
+html.compact-mode table td {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+html.compact-mode .py-6 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
 
 /* ==========================================================================
    Case-Insensitive Wildcard Light Mode Rules for index.css

@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+import { useSettings } from './SettingsContext';
 
 const ThemeContext = createContext({
   theme: 'dark',
@@ -7,48 +8,30 @@ const ThemeContext = createContext({
 });
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setThemeState] = useState(() => {
-    const savedTheme = localStorage.getItem('grindfam-theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      return savedTheme;
-    }
-    // Default to dark mode for GrindFam
-    return 'dark';
-  });
-
-  const applyTheme = (newTheme) => {
-    const root = document.documentElement;
-    if (newTheme === 'light') {
-      root.classList.remove('dark');
-      root.classList.add('light');
-      root.setAttribute('data-theme', 'light');
-    } else {
-      root.classList.remove('light');
-      root.classList.add('dark');
-      root.setAttribute('data-theme', 'dark');
-    }
-  };
-
-  useEffect(() => {
-    applyTheme(theme);
-    localStorage.setItem('grindfam-theme', theme);
-  }, [theme]);
+  const { settings, updateSettings } = useSettings();
 
   const toggleTheme = () => {
-    setThemeState((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+    const nextTheme = settings.theme === 'dark' ? 'light' : 'dark';
+    updateSettings({ theme: nextTheme });
   };
 
   const setTheme = (newTheme) => {
-    if (newTheme === 'dark' || newTheme === 'light') {
-      setThemeState(newTheme);
+    if (newTheme === 'dark' || newTheme === 'light' || newTheme === 'auto') {
+      updateSettings({ theme: newTheme });
     }
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme: settings.theme, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within ThemeProvider');
+  }
+  return context;
+};
