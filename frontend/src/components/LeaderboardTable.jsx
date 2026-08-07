@@ -142,64 +142,63 @@ const LeaderboardTable = ({
       </AnimatePresence>
 
       {/* Header with View Mode Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-5 py-4 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
-            <Trophy className="w-5 h-5" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-4 py-3 border-b border-[#2C2C2C]">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
+            <Trophy className="w-4 h-4" />
           </div>
           <div>
-            <h2 className="text-[16px] font-extrabold text-white dark:text-white light:text-slate-900 flex items-center gap-2">
+            <h2 className="text-sm font-bold text-white flex items-center gap-2">
               Squad Leaderboard
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30">
+              <span className="px-1.5 py-0.2 rounded-full text-[9px] font-bold bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30">
                 Live
               </span>
             </h2>
-            <p className="text-[11px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">Compete with friends to hit 5 a day</p>
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex items-center bg-[#141414] dark:bg-[#141414] light:bg-slate-100 p-1 rounded-xl border border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 self-start sm:self-auto shadow-sm">
+        <div className="flex items-center bg-[#141414] p-0.5 rounded-lg border border-[#2C2C2C] self-start sm:self-auto">
           <button
             onClick={() => setViewMode('today')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
               viewMode === 'today'
-                ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                ? 'bg-[#EA5D3A] text-white shadow-sm'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-3 h-3" />
             <span>Today</span>
           </button>
 
           <button
             onClick={() => setViewMode('streak')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
               viewMode === 'streak'
-                ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                ? 'bg-[#EA5D3A] text-white shadow-sm'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
-            <Flame className="w-3.5 h-3.5 text-amber-400" />
+            <Flame className="w-3 h-3 text-amber-400" />
             <span>Streaks</span>
           </button>
 
           <button
             onClick={() => setViewMode('allTime')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+            className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all ${
               viewMode === 'allTime'
-                ? 'bg-[#EA5D3A] text-white shadow-md'
-                : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900'
+                ? 'bg-[#EA5D3A] text-white shadow-sm'
+                : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
-            <Globe className="w-3.5 h-3.5" />
+            <Globe className="w-3 h-3" />
             <span>All-Time</span>
           </button>
         </div>
       </div>
 
       {/* Table Header */}
-      <div className="grid grid-cols-[50px_1fr_80px_100px] sm:grid-cols-[50px_1fr_90px_1fr_90px_110px] items-center px-4 sm:px-5 py-2.5 text-[10px] sm:text-[11px] font-bold text-[#737373] dark:text-[#737373] light:text-slate-500 uppercase tracking-wider border-b border-[#2C2C2C]/60 dark:border-[#2C2C2C]/60 light:border-slate-200 bg-[#141414]/30 dark:bg-[#141414]/30 light:bg-slate-50">
+      <div className="grid grid-cols-[45px_1fr_75px_90px] sm:grid-cols-[45px_1fr_80px_1fr_80px_95px] items-center px-4 py-2 text-[10px] font-bold text-[#737373] uppercase tracking-wider border-b border-[#2C2C2C]/60 bg-[#141414]/30">
         <span>Rank</span>
         <span>Squad Member</span>
         <span className={`text-center ${viewMode === 'today' ? 'text-[#EA5D3A]' : ''}`}>Today</span>
@@ -209,9 +208,9 @@ const LeaderboardTable = ({
       </div>
 
       {/* Rows */}
-      <div className="divide-y divide-[#2C2C2C]/50 dark:divide-[#2C2C2C]/50 light:divide-slate-200">
+      <div className="divide-y divide-[#2C2C2C]/50">
         {sortedLeaderboard.length === 0 ? (
-          <div className="py-12 text-center text-sm text-[#737373]">
+          <div className="py-8 text-center text-xs text-[#737373]">
             No grinders in your squad yet. Click "Add Friend" below to build your squad!
           </div>
         ) : (
@@ -230,53 +229,51 @@ const LeaderboardTable = ({
             return (
               <div
                 key={user.id}
-                className={`grid grid-cols-[50px_1fr_80px_100px] sm:grid-cols-[50px_1fr_90px_1fr_90px_110px] items-center px-4 sm:px-5 py-3 sm:py-3.5 transition-colors ${rowBg}`}
+                className={`grid grid-cols-[45px_1fr_75px_90px] sm:grid-cols-[45px_1fr_80px_1fr_80px_95px] items-center px-4 py-2.5 transition-colors ${rowBg}`}
               >
                 {/* Rank */}
                 <div>{getRankDisplay(user.displayRank)}</div>
 
                 {/* Member */}
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[10px] sm:text-[11px] border border-white/15 flex-shrink-0 shadow-sm`}>
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[10px] border border-white/15 flex-shrink-0 shadow-sm`}>
                     {initials}
                   </div>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-xs sm:text-sm font-bold text-white dark:text-white light:text-slate-900 truncate">{user.name}</span>
+                    <div className="flex items-center gap-1 flex-wrap">
+                      <span className="text-xs font-semibold text-white truncate">{user.name}</span>
                       {user.isSelf && (
-                        <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30 flex-shrink-0">You</span>
+                        <span className="px-1 py-0.2 rounded text-[8px] font-bold bg-[#EA5D3A]/15 text-[#EA5D3A] border border-[#EA5D3A]/30 flex-shrink-0">You</span>
                       )}
                       {user.badge && (
-                        <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        <span className="hidden sm:inline-block px-1.5 py-0.2 rounded-full text-[8px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                           {user.badge}
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 truncate">@{user.leetcodeUsername || 'leetcode'}</p>
+                    <p className="text-[10px] text-[#A3A3A3] truncate">@{user.leetcodeUsername || 'leetcode'}</p>
                   </div>
                 </div>
 
                 {/* Today's Solved */}
                 <div className="text-center">
-                  <span className={`text-sm font-black font-mono ${viewMode === 'today' ? 'text-[#EA5D3A]' : 'text-white dark:text-white light:text-slate-900'}`}>
+                  <span className={`text-xs font-bold font-mono ${viewMode === 'today' ? 'text-[#EA5D3A]' : 'text-white'}`}>
                     {user.todayCount}
                   </span>
                 </div>
 
                 {/* Progress Bar — hidden on mobile */}
                 <div className="hidden sm:block px-2">
-                  <div className="flex items-center gap-2.5">
-                    <span className={`text-xs font-bold font-mono min-w-[36px] ${isTargetHit ? 'text-[#EA5D3A]' : 'text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500'}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[10px] font-bold font-mono min-w-[30px] ${isTargetHit ? 'text-[#EA5D3A]' : 'text-[#A3A3A3]'}`}>
                       {progressPercent}%
                     </span>
-                    <div className="flex-1 progress-track h-2 bg-zinc-800 dark:bg-zinc-800 light:bg-slate-200 border border-zinc-700 dark:border-zinc-700 light:border-slate-300 rounded-full overflow-hidden">
+                    <div className="flex-1 progress-track h-1.5 bg-zinc-800 border border-zinc-700/60 rounded-full overflow-hidden">
                       <div
                         className="progress-fill h-full rounded-full"
                         style={{
                           width: `${barWidth}%`,
-                          background: isOverachieved
-                            ? 'linear-gradient(90deg, #EA5D3A, #F2704E)'
-                            : 'linear-gradient(90deg, #EA5D3A, #F2704E)'
+                          background: 'linear-gradient(90deg, #EA5D3A, #F2704E)'
                         }}
                       ></div>
                     </div>
@@ -285,7 +282,7 @@ const LeaderboardTable = ({
 
                 {/* All-Time Total — hidden on mobile */}
                 <div className="hidden sm:block text-center font-mono">
-                  <span className={`text-sm font-bold ${viewMode === 'allTime' ? 'text-[#EA5D3A]' : 'text-white dark:text-white light:text-slate-900'}`}>
+                  <span className={`text-xs font-bold ${viewMode === 'allTime' ? 'text-[#EA5D3A]' : 'text-white'}`}>
                     {user.error ? '—' : (user.platformTotal || 0)}
                   </span>
                 </div>
@@ -301,10 +298,10 @@ const LeaderboardTable = ({
       </div>
 
       {/* Footer */}
-      <div className="px-5 py-3 border-t border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 flex items-center justify-between text-xs text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500">
-        <span>Hit {dailyTarget} problems daily to climb the leaderboard!</span>
+      <div className="px-4 py-2 border-t border-[#2C2C2C] flex items-center justify-between text-[11px] text-[#A3A3A3]">
+        <span>Target: {dailyTarget} problems / day</span>
         <span className="font-semibold text-[#EA5D3A] flex items-center gap-1 cursor-pointer hover:underline">
-          {sortedLeaderboard.length} Squad Members Active <ArrowRight className="w-3 h-3" />
+          {sortedLeaderboard.length} Active <ArrowRight className="w-3 h-3" />
         </span>
       </div>
     </div>

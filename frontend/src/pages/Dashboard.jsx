@@ -404,22 +404,7 @@ const Dashboard = () => {
                 refreshing={refreshing}
               />
 
-              {/* Row 2: Weekly Progress & Daily Micro Goals */}
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <div className="xl:col-span-2">
-                  <WeeklyProgress
-                    yourTodayCount={yourTodayCount}
-                    dailyTarget={dailyTarget}
-                    platformTotal={yourPlatformTotal}
-                    weeklyData={weeklyData}
-                  />
-                </div>
-                <div className="xl:col-span-1">
-                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
-                </div>
-              </div>
-
-              {/* Row 3: Leaderboard Table & Recent Activity */}
+              {/* Row 2: Minimalist Leaderboard Table & Daily Micro Goals */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6" id="leaderboard-section">
                 <div className="xl:col-span-2">
                   <LeaderboardTable
@@ -427,6 +412,21 @@ const Dashboard = () => {
                     dailyTarget={dailyTarget}
                     onRemoveFriend={handleRemoveFriend}
                     removingId={removingId}
+                  />
+                </div>
+                <div className="xl:col-span-1">
+                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
+                </div>
+              </div>
+
+              {/* Row 3: Weekly Progress Bar Chart & Recent Activity */}
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <div className="xl:col-span-2">
+                  <WeeklyProgress
+                    yourTodayCount={yourTodayCount}
+                    dailyTarget={dailyTarget}
+                    platformTotal={yourPlatformTotal}
+                    weeklyData={weeklyData}
                   />
                 </div>
                 <div className="xl:col-span-1">
