@@ -17,8 +17,8 @@ body { margin: 0; background-color: #0a0e17; }
   --color-text-muted:       #8b949e;
   --color-text-dim:         #6e7681;
   --color-text-faint:       #484f58;
-  --color-accent:           #22c55e;
-  --color-accent-hover:     #16a34a;
+  --color-accent:           #F97316;
+  --color-accent-hover:     #EA580C;
 
   --sidebar-width:          240px;
   --navbar-height:          56px;
@@ -52,8 +52,16 @@ body { margin: 0; background-color: #0a0e17; }
   }
 
   ::selection {
-    background-color: rgba(34, 197, 94, 0.25);
-    color: #e6edf3;
+    background-color: rgba(249, 115, 22, 0.3);
+    color: #ffffff;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #F5F5F0 !important;
+    -webkit-box-shadow: 0 0 0px 1000px #151515 inset !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
   /* Consistent focus rings for keyboard accessibility */
