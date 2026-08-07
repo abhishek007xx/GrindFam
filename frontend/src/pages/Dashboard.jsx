@@ -311,7 +311,7 @@ const Dashboard = () => {
             </div>
 
             <button
-              onClick={handleManualSync}
+              onClick={handleManualSyncLeetCode}
               disabled={refreshing}
               className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs shadow-md shadow-[#EA5D3A]/20 transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer border border-orange-400/30"
               title="Sync latest submissions from LeetCode"
