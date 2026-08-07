@@ -63,10 +63,10 @@ export default function ContestsGamification({ platformTotal = 0 }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400">Easy = +10 XP</span>
-            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-amber-400">Medium = +25 XP</span>
-            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-rose-400">Hard = +50 XP</span>
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
+            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 whitespace-nowrap">Easy = +10 XP</span>
+            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-amber-400 whitespace-nowrap">Medium = +25 XP</span>
+            <span className="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-rose-400 whitespace-nowrap">Hard = +50 XP</span>
           </div>
         </div>
 
@@ -86,37 +86,37 @@ export default function ContestsGamification({ platformTotal = 0 }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* 2. Contest Performance Rating */}
         <div className="dash-card bg-[#1E1E1E] border border-[#333333] rounded-2xl p-5 hover:border-zinc-700 transition-all space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-amber-400 flex items-center justify-center">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-zinc-900 border border-zinc-800 text-amber-400 flex items-center justify-center flex-shrink-0">
                 <Trophy className="w-4 h-4" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-zinc-100">Contest Rating & Metrics</h3>
-                <p className="text-[11px] text-zinc-400">LeetCode & competitive rating curve</p>
+              <div className="min-w-0">
+                <h3 className="text-sm font-bold text-zinc-100 truncate">Contest Rating & Metrics</h3>
+                <p className="text-[11px] text-zinc-400 truncate">LeetCode & competitive rating curve</p>
               </div>
             </div>
-            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20 whitespace-nowrap flex-shrink-0">
               Knight Rank
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
             <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800">
               <span className="text-[10px] text-zinc-400 block font-medium">Current Rating</span>
-              <span className="text-base font-bold text-white font-mono">1,842</span>
+              <span className="text-sm sm:text-base font-bold text-white font-mono whitespace-nowrap">1,842</span>
             </div>
             <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800">
               <span className="text-[10px] text-zinc-400 block font-medium">Peak Rating</span>
-              <span className="text-base font-bold text-emerald-400 font-mono">1,920</span>
+              <span className="text-sm sm:text-base font-bold text-emerald-400 font-mono whitespace-nowrap">1,920</span>
             </div>
             <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800">
               <span className="text-[10px] text-zinc-400 block font-medium">Global Rank</span>
-              <span className="text-base font-bold text-cyan-400 font-mono">Top 3.5%</span>
+              <span className="text-sm sm:text-base font-bold text-cyan-400 font-mono whitespace-nowrap">Top 3.5%</span>
             </div>
             <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800">
               <span className="text-[10px] text-zinc-400 block font-medium">Contests</span>
-              <span className="text-base font-bold text-amber-400 font-mono">24</span>
+              <span className="text-sm sm:text-base font-bold text-amber-400 font-mono whitespace-nowrap">24</span>
             </div>
           </div>
         </div>

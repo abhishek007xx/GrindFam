@@ -160,13 +160,13 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
       <div className="overflow-x-auto pb-2 -mx-1 px-1">
         <div className="min-w-[750px]">
           {/* Month labels row */}
-          <div className="flex ml-8 mb-1.5" style={{ gap: `${cellGap}px` }}>
+          <div className="flex ml-9 mb-1.5" style={{ gap: `${cellGap}px` }}>
             {weeks.map((_, wi) => {
               const label = monthLabels.find((m) => m.weekIndex === wi);
               return (
                 <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
                   {label && (
-                    <span className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 font-medium">{label.label}</span>
+                    <span className="text-[10px] text-[#A3A3A3] font-medium">{label.label}</span>
                   )}
                 </div>
               );
@@ -176,10 +176,10 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           {/* Grid: day labels + cells */}
           <div className="flex">
             {/* Day-of-week labels */}
-            <div className="flex flex-col mr-1.5" style={{ gap: `${cellGap}px` }}>
+            <div className="flex flex-col w-7 mr-2 flex-shrink-0" style={{ gap: `${cellGap}px` }}>
               {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
                 <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
-                  <span className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 font-medium pr-1">{label}</span>
+                  <span className="text-[10px] text-[#A3A3A3] font-medium pr-1">{label}</span>
                 </div>
               ))}
             </div>
