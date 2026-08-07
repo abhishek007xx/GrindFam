@@ -317,13 +317,12 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                           </div>
 
                           <div className="flex items-center gap-2 flex-shrink-0">
-                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${
-                              result.difficulty === 'Easy'
+                            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold ${result.difficulty === 'Easy'
                                 ? 'bg-emerald-500/10 text-emerald-400'
                                 : result.difficulty === 'Medium'
-                                ? 'bg-amber-500/10 text-amber-400'
-                                : 'bg-rose-500/10 text-rose-400'
-                            }`}>
+                                  ? 'bg-amber-500/10 text-amber-400'
+                                  : 'bg-rose-500/10 text-rose-400'
+                              }`}>
                               {result.difficulty}
                             </span>
                             <ExternalLink className="w-3 h-3 text-[#484f58]" />

@@ -6,6 +6,8 @@ import { companiesData } from '../lib/dataFallback';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import { Building2, Search, ArrowRight, GraduationCap, Award, Briefcase } from 'lucide-react';
 
+const sanitizeSlug = (s) => (s || '').toLowerCase().replace(/--+/g, '-').trim();
+
 export function CompaniesGrid() {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
@@ -30,9 +32,9 @@ export function CompaniesGrid() {
           `)
           .order('name');
 
-        let activeCompanies = data;
+        let rawCompanies = data;
         if (error || !data || data.length === 0) {
-          activeCompanies = companiesData.map((c, cIdx) => ({
+          rawCompanies = companiesData.map((c, cIdx) => ({
             id: `local-comp-${c.slug}`,
             name: c.company_name,
             slug: c.slug,
@@ -47,29 +49,51 @@ export function CompaniesGrid() {
           }));
         } else {
           const localMap = new Map(companiesData.map(c => [c.slug, c.popularity_rank]));
-          activeCompanies = activeCompanies.map(c => ({
+          rawCompanies = rawCompanies.map(c => ({
             ...c,
             popularity_rank: localMap.get(c.slug) ?? 999
           }));
         }
 
+        // Deduplicate companies array by normalized slug
+        const uniqueMap = new Map();
+        rawCompanies.forEach(c => {
+          const normSlug = sanitizeSlug(c.slug);
+          if (!uniqueMap.has(normSlug)) {
+            uniqueMap.set(normSlug, {
+              ...c,
+              slug: normSlug,
+              name: c.name === 'Meta / Facebook' ? 'Meta' : c.name
+            });
+          }
+        });
+
+        const activeCompanies = Array.from(uniqueMap.values());
         activeCompanies.sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setCompanies(activeCompanies);
       } catch (err) {
         console.warn('Error fetching companies. Loading fallback dataset.', err);
-        const fallbackList = companiesData.map((c, cIdx) => ({
-          id: `local-comp-${c.slug}`,
-          name: c.company_name,
-          slug: c.slug,
-          logo_url: c.logo_url,
-          popularity_rank: c.popularity_rank ?? cIdx,
-          company_tracks: c.roles.map((r, rIdx) => ({
-            id: `${c.slug}-track-${rIdx}`,
-            role: r.role_name,
-            level: r.level,
-            roadmap: { problems_count: r.problems ? r.problems.length : 0 }
-          }))
-        })).sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
+        const uniqueMap = new Map();
+        companiesData.forEach((c, cIdx) => {
+          const normSlug = sanitizeSlug(c.slug);
+          if (!uniqueMap.has(normSlug)) {
+            uniqueMap.set(normSlug, {
+              id: `local-comp-${normSlug}`,
+              name: c.company_name === 'Meta / Facebook' ? 'Meta' : c.company_name,
+              slug: normSlug,
+              logo_url: c.logo_url,
+              popularity_rank: c.popularity_rank ?? cIdx,
+              company_tracks: c.roles.map((r, rIdx) => ({
+                id: `${normSlug}-track-${rIdx}`,
+                role: r.role_name,
+                level: r.level,
+                roadmap: { problems_count: r.problems ? r.problems.length : 0 }
+              }))
+            });
+          }
+        });
+
+        const fallbackList = Array.from(uniqueMap.values()).sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setCompanies(fallbackList);
       } finally {
         setLoading(false);
@@ -102,49 +126,31 @@ export function CompaniesGrid() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* 1. Header Hero Banner — Pitch Black (#09090B) with Dot Grid & Subtle Orange Radial Blur */}
-      <div className="relative overflow-hidden rounded-lg bg-[#121212] border border-[#27272A] border-t border-white/10 p-6 md:p-8 dot-grid-bg">
-        {/* Subtle Radial Glow in Corner (5-8% opacity) */}
-        <div className="absolute -top-12 -right-12 w-64 h-64 rounded-full bg-[#EA5D3A]/[0.06] blur-3xl pointer-events-none" />
-
-        <img
-          src="/logo.png"
-          alt="GrindFam Mascot"
-          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.04] grayscale pointer-events-none select-none"
-        />
-
-        <div className="relative z-10 max-w-2xl space-y-2.5">
-          {/* Neutral Dark Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#27272A] border border-[#3F3F46] text-[#A1A1AA] text-xs font-medium">
-            <Building2 className="w-3.5 h-3.5 text-[#EA5D3A]" />
-            <span>Hiring Popularity Tracks</span>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
-            Company DSA Tracks
-          </h1>
-          <p className="text-xs md:text-sm text-[#A1A1AA] leading-relaxed">
-            Targeted prep kits for <strong>Internships</strong>, <strong>Campus Placements</strong>, and <strong>Senior Hiring</strong> across Google, Amazon, Microsoft, Meta & top tech companies.
-          </p>
-        </div>
+      {/* 1. Header Typography */}
+      <div className="mb-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-zinc-100 tracking-tight">Company DSA Tracks</h1>
+        <p className="text-zinc-400 text-sm mt-1">
+          Targeted prep kits for Internships, Campus Placements, and Senior Hiring across top tech companies.
+        </p>
       </div>
 
-      {/* 2. Target Interview Countdown (Urgent Target Section) */}
+      {/* Target Interview Countdown Widget */}
       <InterviewTimelineTracker totalTrackProblems={100} solvedCount={0} />
 
-      {/* 3. Search & Neutral Filter Bar */}
+      {/* Search & Codolio Filter Pills */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#71717A]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search companies..."
-            className="w-full pl-10 pr-4 py-2 bg-[#121212] border border-[#27272A] rounded-md text-xs text-[#F4F4F5] placeholder-[#71717A] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full pl-10 pr-4 py-2 bg-[#121318] border border-zinc-800/80 rounded-xl text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
         </div>
 
-        {/* Filter Pills — Neutral Dark Background (#27272A) + Light Gray Text (#A1A1AA) */}
+        {/* 3. Codolio Minimal Rounded-Full Category Filter Pills */}
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
           {[
             { id: 'ALL', label: 'All Roles', icon: null },
@@ -155,31 +161,31 @@ export function CompaniesGrid() {
             <button
               key={filter.id}
               onClick={() => setSelectedRoleFilter(filter.id)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5 border ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 selectedRoleFilter === filter.id
-                  ? 'bg-[#27272A] text-white border-[#EA5D3A] shadow-sm'
-                  : 'bg-[#121212] text-[#A1A1AA] border-[#27272A] hover:text-white hover:border-[#3F3F46]'
+                  ? 'bg-zinc-100 text-zinc-900 border border-white font-semibold shadow-sm'
+                  : 'bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
               }`}
             >
-              {filter.icon && <filter.icon className="w-3.5 h-3.5" />}
+              {filter.icon && <filter.icon className={`w-3.5 h-3.5 ${selectedRoleFilter === filter.id ? 'text-zinc-900' : 'text-zinc-400'}`} />}
               <span>{filter.label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 4. Company Cards Grid — #18181B Cards with #27272A Borders & Top 3D Stroke Highlight */}
+      {/* 2. Codolio Sleek Zinc Surface Cards (#121318, rounded-2xl) */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {[1, 2, 3, 4, 5, 6, 7, 8].map(n => (
-            <div key={n} className="h-52 rounded-lg bg-[#18181B]/50 border border-[#27272A] animate-pulse p-4 space-y-3" />
+            <div key={n} className="h-52 rounded-2xl bg-[#121318]/50 border border-zinc-800/80 animate-pulse p-4 space-y-3" />
           ))}
         </div>
       ) : filteredCompanies.length === 0 ? (
-        <div className="text-center py-12 bg-[#121212] border border-[#27272A] rounded-lg p-6 space-y-2">
-          <Building2 className="w-10 h-10 text-[#71717A] mx-auto" />
-          <h3 className="text-sm font-semibold text-[#F4F4F5]">No Companies Found</h3>
-          <p className="text-xs text-[#A1A1AA]">Try adjusting your search query or role filter.</p>
+        <div className="text-center py-12 bg-[#121318] border border-zinc-800/80 rounded-2xl p-6 space-y-2">
+          <Building2 className="w-10 h-10 text-zinc-500 mx-auto" />
+          <h3 className="text-sm font-semibold text-zinc-100">No Companies Found</h3>
+          <p className="text-xs text-zinc-400">Try adjusting your search query or role filter.</p>
         </div>
       ) : (
         <motion.div
@@ -200,23 +206,21 @@ export function CompaniesGrid() {
                   const firstTrackId = comp.company_tracks?.[0]?.id || 'default';
                   navigate(`/company/${comp.slug}/${firstTrackId}`);
                 }}
-                className={`group relative rounded-lg transition-all duration-200 cursor-pointer flex flex-col justify-between p-5 bg-[#18181B] border border-[#27272A] border-t border-white/10 hover:border-[#3F3F46] ${
-                  isFeatured ? 'md:col-span-2 ring-1 ring-[#EA5D3A]/30' : ''
+                className={`group relative rounded-2xl transition-all duration-200 cursor-pointer flex flex-col justify-between p-5 bg-[#121318] border border-zinc-800/80 hover:border-zinc-700 ${
+                  isFeatured ? 'md:col-span-2' : ''
                 }`}
               >
                 <div className="space-y-3">
-                  {/* Neutral Dark Badge for Featured Card */}
                   {isFeatured && (
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#27272A] text-[#A1A1AA] border border-[#3F3F46]">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-zinc-900 text-zinc-400 border border-zinc-800">
                         Featured Target Track
                       </span>
                     </div>
                   )}
 
                   <div className="flex items-center justify-between gap-3">
-                    {/* Real Company Brand Logo */}
-                    <div className="w-10 h-10 rounded-md bg-[#27272A] border border-[#3F3F46] p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform flex-shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 p-2 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform flex-shrink-0">
                       {comp.logo_url ? (
                         <img
                           src={comp.logo_url}
@@ -235,25 +239,24 @@ export function CompaniesGrid() {
                       </div>
                     </div>
 
-                    {/* Compact Meta-Line */}
                     <div className="text-right">
-                      <p className="text-[11px] font-medium text-[#A1A1AA]">
+                      <p className="text-[11px] font-medium text-zinc-400">
                         {isTopCompany ? 'Top Tech' : 'Tech Giant'} • {comp.company_tracks?.length || 3} Tracks
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-base font-bold text-[#F4F4F5] group-hover:text-[#EA5D3A] transition-colors flex items-center justify-between">
+                    <h3 className="text-base font-bold text-zinc-100 group-hover:text-[#EA5D3A] transition-colors flex items-center justify-between">
                       <span>{comp.name}</span>
-                      <ArrowRight className="w-4 h-4 text-[#71717A] group-hover:text-[#EA5D3A] group-hover:translate-x-0.5 transition-all" />
+                      <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#EA5D3A] group-hover:translate-x-0.5 transition-all" />
                     </h3>
-                    <p className="text-[11px] text-[#71717A] font-mono mt-0.5">/{comp.slug}</p>
+                    <p className="text-[11px] text-zinc-500 font-mono mt-0.5">/{comp.slug}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 mt-3 border-t border-[#27272A] flex items-center justify-between text-xs">
-                  <span className="text-[#71717A] text-[11px]">Intern, Campus, Senior</span>
+                <div className="pt-3 mt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs">
+                  <span className="text-zinc-500 text-[11px]">Intern, Campus, Senior</span>
                   <span className="font-medium text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform text-[11px] flex items-center gap-1">
                     Explore →
                   </span>

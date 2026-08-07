@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,34 +8,23 @@ html, body, #root { height: 100%; }
 body { margin: 0; background-color: #09090B; }
 
 :root {
-  /* Pitch Black & True Zinc Grays (Zero Blue undertones) */
-  --color-bg:               #09090B; /* Deep Jet Pitch Black */
-  --color-surface:          #121212; /* Raised Surface Zinc-900 */
-  --color-surface-elevated: #18181B; /* Elevated Surface */
-  --color-border:           #27272A; /* True Neutral Gray Zinc-800 */
-  --color-border-muted:     #3F3F46; /* Subtle Divider Zinc-700 */
-  --color-text:             #F4F4F5; /* Crisp White Zinc-100 */
+  /* Codolio Style Dark Zinc Palette */
+  --color-bg:               #09090B; /* Deep Jet Black */
+  --color-surface:          #121318; /* Codolio Sleek Surface #121318 */
+  --color-surface-elevated: #18181B; /* Elevated Zinc */
+  --color-border:           rgba(39, 39, 42, 0.8); /* Zinc-800/80 */
+  --color-border-hover:     #3F3F46; /* Zinc-700 */
+  --color-text:             #F4F4F5; /* Crisp White */
   --color-text-muted:       #A1A1AA; /* Light Gray Zinc-400 */
   --color-text-dim:         #71717A; /* Muted Gray Zinc-500 */
-  --color-accent:           #EA5D3A; /* Controlled 10% Brand Accent */
+  --color-accent:           #EA5D3A; /* Controlled Accent */
   --color-accent-hover:     #F2704E;
-  --color-urgency:          #F59E0B; /* Amber/Yellow Countdown Warning */
-  --color-success:          #10B981; /* Emerald Green Progress & Solved */
+  --color-success:          #10B981; /* Emerald Green */
 
   --sidebar-width:          240px;
-  --navbar-height:          56px;
-  --content-padding:        24px;
+  --navbar-height:          64px;
 }
 
-@media (min-width: 1280px) {
-  :root {
-    --content-padding: 32px;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Base Layer                                                    */
-/* ═══════════════════════════════════════════════════════════════ */
 @layer base {
   * { box-sizing: border-box; }
 
@@ -45,13 +34,13 @@ body { margin: 0; background-color: #09090B; }
   }
 
   html, body, button, input, select, textarea, p, h1, h2, h3, h4, h5, h6, span, a, div {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   body {
     @apply text-zinc-200 min-h-screen antialiased;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: -0.01em;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.015em;
     background-color: var(--color-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -67,7 +56,7 @@ body { margin: 0; background-color: #09090B; }
   input:-webkit-autofill:hover, 
   input:-webkit-autofill:focus {
     -webkit-text-fill-color: #F4F4F5 !important;
-    -webkit-box-shadow: 0 0 0px 1000px #121212 inset !important;
+    -webkit-box-shadow: 0 0 0px 1000px #121318 inset !important;
     transition: background-color 5000s ease-in-out 0s;
   }
 
@@ -78,20 +67,11 @@ body { margin: 0; background-color: #09090B; }
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Texture & Visual Interest Utilities                            */
-/* ═══════════════════════════════════════════════════════════════ */
-.dot-grid-bg {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-/* Glassmorphism 3D Card Surface with Inner Top Stroke */
+/* Codolio Sleek Zinc Surface Cards */
 .dash-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  background: #121318;
+  border: 1px solid rgba(39, 39, 42, 0.8);
+  border-radius: 16px;
   padding: 20px;
 }
 
@@ -100,12 +80,10 @@ body { margin: 0; background-color: #09090B; }
 }
 .dash-card-hover:hover {
   border-color: #3F3F46;
-  background-color: #18181B;
+  background-color: #16171E;
 }
 
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Sidebar Navigation                                            */
-/* ═══════════════════════════════════════════════════════════════ */
+/* Sidebar Navigation Items */
 .sidebar-nav-item {
   @apply flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-all;
   color: var(--color-text-muted);
@@ -121,12 +99,10 @@ body { margin: 0; background-color: #09090B; }
   border-radius: 0 6px 6px 0;
 }
 
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Progress Fills — Emerald Green #10B981                        */
-/* ═══════════════════════════════════════════════════════════════ */
+/* Emerald Green Progress Fills */
 .progress-track {
   background-color: #18181B;
-  border: 1px solid #27272A;
+  border: 1px solid rgba(39, 39, 42, 0.8);
   border-radius: 9999px;
   overflow: hidden;
 }
@@ -136,9 +112,7 @@ body { margin: 0; background-color: #09090B; }
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ═══════════════════════════════════════════════════════════════ */
-/*  Custom Scrollbars                                             */
-/* ═══════════════════════════════════════════════════════════════ */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
