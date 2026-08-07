@@ -7,41 +7,91 @@ const createSquad = async (req, res) => {
     const userId = req.user.id;
     const { name, goal, avatar_url } = req.body;
     const squadName = (name || '').trim();
-    if (!squadName) return res.status(400).json({ error: 'Please provide a name for your squad.' });
+    if (!squadName) {
+      return res.status(400).json({ error: 'Please provide a name for your squad.' });
+    }
 
+    // Generate unique squad code
     let code = generateSquadCode();
     let attempts = 0;
     while (attempts < 5) {
-      const { data: existing } = await supabase.from('squads').select('id').eq('code', code).maybeSingle();
+      const { data: existing } = await supabase
+        .from('squads')
+        .select('id')
+        .eq('code', code)
+        .maybeSingle();
       if (!existing) break;
       code = generateSquadCode();
       attempts++;
     }
 
-    const { data: newSquad, error: createError } = await supabase
+    let newSquad = null;
+    let createError = null;
+
+    // Try inserting with extra fields if provided
+    const payload = { name: squadName, code, created_by: userId };
+    if (goal) payload.goal = goal;
+    if (avatar_url) payload.avatar_url = avatar_url;
+
+    const res1 = await supabase
       .from('squads')
-      .insert([{ name: squadName, code, created_by: userId, goal: goal || null, avatar_url: avatar_url || null, max_members: 10 }])
+      .insert([payload])
       .select()
       .single();
 
-    if (createError) return res.status(500).json({ error: 'Failed to create squad.' });
+    if (res1.error) {
+      console.warn('Extended squad creation failed (column missing), falling back to basic insert:', res1.error.message);
+      // Resilient Fallback: Insert using basic columns (name, code, created_by) from old version
+      const res2 = await supabase
+        .from('squads')
+        .insert([{ name: squadName, code, created_by: userId }])
+        .select()
+        .single();
 
+      newSquad = res2.data;
+      createError = res2.error;
+    } else {
+      newSquad = res1.data;
+    }
+
+    if (createError || !newSquad) {
+      console.error('Error creating squad:', createError);
+      return res.status(500).json({ error: createError?.message || 'Failed to create squad in database.' });
+    }
+
+    // Remove user from any existing squads
     await supabase.from('squad_members').delete().eq('user_id', userId);
+
+    // Add user as leader in new squad
     const { error: memberError } = await supabase
       .from('squad_members')
       .insert([{ squad_id: newSquad.id, user_id: userId, role: 'leader' }]);
 
-    if (memberError) return res.status(500).json({ error: 'Failed to assign squad leadership.' });
+    if (memberError) {
+      console.error('Error assigning squad leader:', memberError);
+      return res.status(500).json({ error: memberError.message || 'Failed to assign squad leadership.' });
+    }
 
-    // Post system message
-    await supabase.from('squad_messages').insert([{
-      squad_id: newSquad.id, user_id: userId, content: `Squad "${squadName}" was created! 🎉`, message_type: 'system'
-    }]);
+    // Post system message safely (try/catch so missing chat table doesn't block creation)
+    try {
+      await supabase.from('squad_messages').insert([{
+        squad_id: newSquad.id,
+        user_id: userId,
+        content: `Squad "${squadName}" was created! 🎉`,
+        message_type: 'system'
+      }]);
+    } catch (msgErr) {
+      console.warn('System message creation skipped:', msgErr?.message);
+    }
 
-    return res.status(201).json({ message: `Squad "${squadName}" created!`, squad: newSquad, squadCode: code });
+    return res.status(201).json({
+      message: `Squad "${squadName}" created successfully!`,
+      squad: newSquad,
+      squadCode: code
+    });
   } catch (error) {
     console.error('Error in createSquad:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: error?.message || 'Internal server error' });
   }
 };
 
@@ -51,46 +101,99 @@ const joinSquad = async (req, res) => {
     const userId = req.user.id;
     const { squadCode, squadId, code: codeInput } = req.body;
     const rawInput = (squadCode || squadId || codeInput || '').trim();
-    if (!rawInput) return res.status(400).json({ error: 'Please enter a Squad Code.' });
+    if (!rawInput) {
+      return res.status(400).json({ error: 'Please enter a valid Squad Code or ID.' });
+    }
 
     const cleanInput = rawInput.toUpperCase();
     let targetSquad = null;
 
-    const { data: byCode } = await supabase.from('squads').select('*').ilike('code', cleanInput).maybeSingle();
+    // Search by squad code (case-insensitive)
+    const { data: byCode } = await supabase
+      .from('squads')
+      .select('*')
+      .ilike('code', cleanInput)
+      .maybeSingle();
+
     if (byCode) targetSquad = byCode;
 
+    // Search by UUID if input format is UUID
     if (!targetSquad) {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (uuidRegex.test(rawInput)) {
-        const { data: byId } = await supabase.from('squads').select('*').eq('id', rawInput).maybeSingle();
+        const { data: byId } = await supabase
+          .from('squads')
+          .select('*')
+          .eq('id', rawInput)
+          .maybeSingle();
         if (byId) targetSquad = byId;
       }
     }
 
-    if (!targetSquad) return res.status(404).json({ error: `No squad found matching "${rawInput}".` });
+    if (!targetSquad) {
+      return res.status(404).json({ error: `No squad found matching "${rawInput}". Please check the code and try again.` });
+    }
 
-    // Check member cap
-    const { count } = await supabase.from('squad_members').select('*', { count: 'exact', head: true }).eq('squad_id', targetSquad.id);
-    const maxMembers = targetSquad.max_members || 10;
-    if (count >= maxMembers) return res.status(400).json({ error: `This squad is full (${maxMembers}/${maxMembers} members).` });
+    // Safely check member count cap
+    try {
+      const { count } = await supabase
+        .from('squad_members')
+        .select('*', { count: 'exact', head: true })
+        .eq('squad_id', targetSquad.id);
 
-    const { data: existingMember } = await supabase.from('squad_members').select('*').eq('squad_id', targetSquad.id).eq('user_id', userId).maybeSingle();
-    if (existingMember) return res.status(400).json({ error: `You are already in "${targetSquad.name}".` });
+      const maxMembers = targetSquad.max_members || 10;
+      if (count !== null && count >= maxMembers) {
+        return res.status(400).json({ error: `This squad is full (${maxMembers}/${maxMembers} members).` });
+      }
+    } catch (countErr) {
+      // Ignore count errors if max_members column is not supported
+    }
 
+    // Check if user is already a member of target squad
+    const { data: existingMember } = await supabase
+      .from('squad_members')
+      .select('*')
+      .eq('squad_id', targetSquad.id)
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    if (existingMember) {
+      return res.status(400).json({ error: `You are already a member of "${targetSquad.name}".` });
+    }
+
+    // Remove user from previous squad memberships
     await supabase.from('squad_members').delete().eq('user_id', userId);
-    const { error: joinError } = await supabase.from('squad_members').insert([{ squad_id: targetSquad.id, user_id: userId, role: 'member' }]);
-    if (joinError) return res.status(500).json({ error: 'Failed to join squad.' });
 
-    // System message
-    const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
-    await supabase.from('squad_messages').insert([{
-      squad_id: targetSquad.id, user_id: userId, content: `${profile?.name || 'A new member'} joined the squad! 👋`, message_type: 'system'
-    }]);
+    // Add user to new squad as member
+    const { error: joinError } = await supabase
+      .from('squad_members')
+      .insert([{ squad_id: targetSquad.id, user_id: userId, role: 'member' }]);
 
-    return res.json({ message: `Joined "${targetSquad.name}"!`, squad: targetSquad });
+    if (joinError) {
+      console.error('Error joining squad:', joinError);
+      return res.status(500).json({ error: joinError.message || 'Failed to join squad.' });
+    }
+
+    // Post system message safely
+    try {
+      const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
+      await supabase.from('squad_messages').insert([{
+        squad_id: targetSquad.id,
+        user_id: userId,
+        content: `${profile?.name || 'A new member'} joined the squad! 👋`,
+        message_type: 'system'
+      }]);
+    } catch (msgErr) {
+      console.warn('System message post skipped on join:', msgErr?.message);
+    }
+
+    return res.json({
+      message: `Successfully joined "${targetSquad.name}"!`,
+      squad: targetSquad
+    });
   } catch (error) {
     console.error('Error in joinSquad:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: error?.message || 'Internal server error' });
   }
 };
 
@@ -98,15 +201,34 @@ const joinSquad = async (req, res) => {
 const leaveSquad = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { data: memberRow } = await supabase.from('squad_members').select('squad_id').eq('user_id', userId).maybeSingle();
+    const { data: memberRow } = await supabase
+      .from('squad_members')
+      .select('squad_id')
+      .eq('user_id', userId)
+      .maybeSingle();
 
-    await supabase.from('squad_members').delete().eq('user_id', userId);
+    const { error: deleteError } = await supabase
+      .from('squad_members')
+      .delete()
+      .eq('user_id', userId);
+
+    if (deleteError) {
+      console.error('Error leaving squad:', deleteError);
+      return res.status(500).json({ error: 'Failed to leave squad.' });
+    }
 
     if (memberRow) {
-      const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
-      await supabase.from('squad_messages').insert([{
-        squad_id: memberRow.squad_id, user_id: userId, content: `${profile?.name || 'A member'} left the squad.`, message_type: 'system'
-      }]);
+      try {
+        const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
+        await supabase.from('squad_messages').insert([{
+          squad_id: memberRow.squad_id,
+          user_id: userId,
+          content: `${profile?.name || 'A member'} left the squad.`,
+          message_type: 'system'
+        }]);
+      } catch (e) {
+        // Ignore message error on leave
+      }
     }
 
     return res.json({ message: 'You have left your squad.' });
@@ -120,17 +242,52 @@ const leaveSquad = async (req, res) => {
 const getSquadDetails = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { data: memberRow } = await supabase.from('squad_members').select('*, squad:squads(*)').eq('user_id', userId).maybeSingle();
 
-    if (!memberRow || !memberRow.squad) return res.json({ inSquad: false, squad: null, members: [], role: null });
+    // Fetch member row and joined squad data
+    const { data: memberRow, error: memberError } = await supabase
+      .from('squad_members')
+      .select('*, squad:squads(*)')
+      .eq('user_id', userId)
+      .maybeSingle();
 
-    const { data: members } = await supabase.from('squad_members').select('*, profile:profiles(*)').eq('squad_id', memberRow.squad_id);
+    if (memberError || !memberRow || !memberRow.squad) {
+      return res.json({ inSquad: false, squad: null, members: [], role: null });
+    }
+
+    // Fetch all squad members with profiles
+    const { data: members, error: membersError } = await supabase
+      .from('squad_members')
+      .select('*, profile:profiles(*)')
+      .eq('squad_id', memberRow.squad_id);
+
+    if (membersError) {
+      console.error('Error fetching squad members:', membersError);
+      return res.json({
+        inSquad: true,
+        squad: memberRow.squad,
+        role: memberRow.role || 'member',
+        members: []
+      });
+    }
+
+    const formattedMembers = (members || []).map(m => {
+      const prof = m.profile || {};
+      return {
+        ...prof,
+        id: m.user_id || prof.id,
+        user_id: m.user_id,
+        role: m.role || 'member',
+        is_muted: m.is_muted || false,
+        weekly_solved: m.weekly_solved || 0,
+        joined_at: m.joined_at || m.created_at
+      };
+    });
 
     return res.json({
       inSquad: true,
       squad: memberRow.squad,
-      role: memberRow.role,
-      members: (members || []).map(m => ({ ...m.profile, role: m.role, is_muted: m.is_muted, weekly_solved: m.weekly_solved, joined_at: m.joined_at }))
+      role: memberRow.role || 'member',
+      members: formattedMembers
     });
   } catch (error) {
     console.error('Error in getSquadDetails:', error);
@@ -156,13 +313,17 @@ const getMessages = async (req, res) => {
       .range(offset, offset + limit - 1);
 
     if (error) {
-      // Fallback without profile join if FK doesn't exist
-      const { data: fallbackMessages } = await supabase
+      // Fallback without FK join if table exists but FK fails
+      const { data: fallbackMessages, error: fbError } = await supabase
         .from('squad_messages')
         .select('*')
         .eq('squad_id', memberRow.squad_id)
         .order('created_at', { ascending: false })
         .range(offset, offset + limit - 1);
+
+      if (fbError) {
+        return res.json({ messages: [] });
+      }
 
       return res.json({ messages: (fallbackMessages || []).reverse() });
     }
@@ -170,7 +331,7 @@ const getMessages = async (req, res) => {
     return res.json({ messages: (messages || []).reverse() });
   } catch (error) {
     console.error('Error in getMessages:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.json({ messages: [] });
   }
 };
 
@@ -191,7 +352,7 @@ const sendMessage = async (req, res) => {
       .select()
       .single();
 
-    if (error) return res.status(500).json({ error: 'Failed to send message.' });
+    if (error) return res.status(500).json({ error: error.message || 'Failed to send message.' });
     return res.status(201).json({ message: msg });
   } catch (error) {
     console.error('Error in sendMessage:', error);
@@ -206,16 +367,18 @@ const getSnippets = async (req, res) => {
     const { data: memberRow } = await supabase.from('squad_members').select('squad_id').eq('user_id', userId).maybeSingle();
     if (!memberRow) return res.status(403).json({ error: 'Not in a squad.' });
 
-    const { data: snippets } = await supabase
+    const { data: snippets, error } = await supabase
       .from('squad_code_snippets')
       .select('*')
       .eq('squad_id', memberRow.squad_id)
       .order('created_at', { ascending: false })
       .limit(50);
 
+    if (error) return res.json({ snippets: [] });
+
     // Attach author profiles
     const userIds = [...new Set((snippets || []).map(s => s.user_id))];
-    const { data: profiles } = await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds);
+    const { data: profiles } = userIds.length ? await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds) : { data: [] };
     const profileMap = {};
     (profiles || []).forEach(p => { profileMap[p.id] = p; });
 
@@ -223,7 +386,7 @@ const getSnippets = async (req, res) => {
     return res.json({ snippets: enriched });
   } catch (error) {
     console.error('Error in getSnippets:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.json({ snippets: [] });
   }
 };
 
@@ -244,15 +407,17 @@ const createSnippet = async (req, res) => {
       .select()
       .single();
 
-    if (error) return res.status(500).json({ error: 'Failed to share snippet.' });
+    if (error) return res.status(500).json({ error: error.message || 'Failed to share snippet.' });
 
     // Post system notification in chat
-    const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
-    await supabase.from('squad_messages').insert([{
-      squad_id: memberRow.squad_id, user_id: userId,
-      content: `💻 ${profile?.name || 'Someone'} shared a solution: "${title}"`,
-      message_type: 'code'
-    }]);
+    try {
+      const { data: profile } = await supabase.from('profiles').select('name').eq('id', userId).maybeSingle();
+      await supabase.from('squad_messages').insert([{
+        squad_id: memberRow.squad_id, user_id: userId,
+        content: `💻 ${profile?.name || 'Someone'} shared a solution: "${title}"`,
+        message_type: 'code'
+      }]);
+    } catch (e) {}
 
     return res.status(201).json({ snippet });
   } catch (error) {
@@ -265,14 +430,16 @@ const createSnippet = async (req, res) => {
 const getSnippetComments = async (req, res) => {
   try {
     const snippetId = req.params.id;
-    const { data: comments } = await supabase
+    const { data: comments, error } = await supabase
       .from('squad_snippet_comments')
       .select('*')
       .eq('snippet_id', snippetId)
       .order('created_at', { ascending: true });
 
+    if (error) return res.json({ comments: [] });
+
     const userIds = [...new Set((comments || []).map(c => c.user_id))];
-    const { data: profiles } = await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds.length ? userIds : ['none']);
+    const { data: profiles } = userIds.length ? await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds) : { data: [] };
     const profileMap = {};
     (profiles || []).forEach(p => { profileMap[p.id] = p; });
 
@@ -280,7 +447,7 @@ const getSnippetComments = async (req, res) => {
     return res.json({ comments: enriched });
   } catch (error) {
     console.error('Error in getSnippetComments:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.json({ comments: [] });
   }
 };
 
@@ -298,7 +465,7 @@ const addSnippetComment = async (req, res) => {
       .select()
       .single();
 
-    if (error) return res.status(500).json({ error: 'Failed to add comment.' });
+    if (error) return res.status(500).json({ error: error.message || 'Failed to add comment.' });
     return res.status(201).json({ comment });
   } catch (error) {
     console.error('Error in addSnippetComment:', error);
@@ -313,7 +480,6 @@ const getWeeklyChallenge = async (req, res) => {
     const { data: memberRow } = await supabase.from('squad_members').select('squad_id').eq('user_id', userId).maybeSingle();
     if (!memberRow) return res.status(403).json({ error: 'Not in a squad.' });
 
-    // Get current week's challenge
     const today = new Date();
     const dayOfWeek = today.getDay();
     const weekStart = new Date(today);
@@ -330,7 +496,7 @@ const getWeeklyChallenge = async (req, res) => {
     return res.json({ challenge: challenge || null, weekStart: weekStartStr });
   } catch (error) {
     console.error('Error in getWeeklyChallenge:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.json({ challenge: null });
   }
 };
 
@@ -350,7 +516,6 @@ const voteWeeklyChallenge = async (req, res) => {
     weekStart.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
     const weekStartStr = weekStart.toISOString().split('T')[0];
 
-    // Upsert weekly challenge
     const { data: existing } = await supabase.from('squad_weekly_challenges')
       .select('*').eq('squad_id', memberRow.squad_id).eq('week_start', weekStartStr).maybeSingle();
 
@@ -403,18 +568,18 @@ const getLeaderboard = async (req, res) => {
     const { data: members } = await supabase
       .from('squad_members')
       .select('*, profile:profiles(*)')
-      .eq('squad_id', memberRow.squad_id)
-      .order('weekly_solved', { ascending: false });
-
-    // Count comments per user (help score)
-    const { data: snippets } = await supabase.from('squad_code_snippets').select('id').eq('squad_id', memberRow.squad_id);
-    const snippetIds = (snippets || []).map(s => s.id);
+      .eq('squad_id', memberRow.squad_id);
 
     let commentCounts = {};
-    if (snippetIds.length > 0) {
-      const { data: comments } = await supabase.from('squad_snippet_comments').select('user_id').in('snippet_id', snippetIds);
-      (comments || []).forEach(c => { commentCounts[c.user_id] = (commentCounts[c.user_id] || 0) + 1; });
-    }
+    try {
+      const { data: snippets } = await supabase.from('squad_code_snippets').select('id').eq('squad_id', memberRow.squad_id);
+      const snippetIds = (snippets || []).map(s => s.id);
+
+      if (snippetIds.length > 0) {
+        const { data: comments } = await supabase.from('squad_snippet_comments').select('user_id').in('snippet_id', snippetIds);
+        (comments || []).forEach(c => { commentCounts[c.user_id] = (commentCounts[c.user_id] || 0) + 1; });
+      }
+    } catch (e) {}
 
     const leaderboard = (members || []).map((m, idx) => ({
       rank: idx + 1,
@@ -422,7 +587,7 @@ const getLeaderboard = async (req, res) => {
       name: m.profile?.name || 'Unknown',
       username: m.profile?.username || '',
       avatar_url: m.profile?.avatar_url || null,
-      role: m.role,
+      role: m.role || 'member',
       weekly_solved: m.weekly_solved || 0,
       helps: commentCounts[m.user_id] || 0,
       points: (m.weekly_solved || 0) * 10 + (commentCounts[m.user_id] || 0) * 5
@@ -434,7 +599,7 @@ const getLeaderboard = async (req, res) => {
     return res.json({ leaderboard });
   } catch (error) {
     console.error('Error in getLeaderboard:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.json({ leaderboard: [] });
   }
 };
 
@@ -493,12 +658,14 @@ const kickMember = async (req, res) => {
 
     await supabase.from('squad_members').delete().eq('squad_id', adminRow.squad_id).eq('user_id', targetUserId);
 
-    const { data: profile } = await supabase.from('profiles').select('name').eq('id', targetUserId).maybeSingle();
-    await supabase.from('squad_messages').insert([{
-      squad_id: adminRow.squad_id, user_id: adminId,
-      content: `${profile?.name || 'A member'} was removed from the squad.`,
-      message_type: 'system'
-    }]);
+    try {
+      const { data: profile } = await supabase.from('profiles').select('name').eq('id', targetUserId).maybeSingle();
+      await supabase.from('squad_messages').insert([{
+        squad_id: adminRow.squad_id, user_id: adminId,
+        content: `${profile?.name || 'A member'} was removed from the squad.`,
+        message_type: 'system'
+      }]);
+    } catch (e) {}
 
     return res.json({ message: 'Member removed from squad.' });
   } catch (error) {
@@ -513,7 +680,7 @@ const autoEnsureUserSquad = async (userId, userProfile) => {
     const { data: memberRow } = await supabase.from('squad_members').select('squad_id').eq('user_id', userId).maybeSingle();
     if (memberRow && memberRow.squad_id) return memberRow.squad_id;
 
-    const defaultName = `${userProfile.name || 'Grind'}'s Squad`;
+    const defaultName = `${userProfile?.name || 'Grind'}'s Squad`;
     const code = generateSquadCode();
     const { data: newSquad, error: createError } = await supabase
       .from('squads')
