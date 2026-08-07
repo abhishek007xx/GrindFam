@@ -117,8 +117,8 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full z-50 transition-all duration-300"
         style={{ height:'72px', background: scrolled ? 'rgba(10,10,10,0.92)' : 'transparent', borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none' }}>
         <div style={S.navWrap}>
-          <Link to="/" style={{ display:'flex', alignItems:'center', gap:'8px', textDecoration:'none' }}>
-            <div style={S.logo}>G</div>
+          <Link to="/" style={{ display:'flex', alignItems:'center', gap:'10px', textDecoration:'none' }}>
+            <img src="/logo.png" alt="GrindFam Logo" style={{ width:'34px', height:'34px', borderRadius:'10px', objectFit:'cover', boxShadow:'0 0 20px rgba(255,107,44,0.4)', border:'1px solid rgba(255,255,255,0.1)' }} />
             <span style={{ fontWeight:'800', fontSize:'20px', color:'white', letterSpacing:'-0.5px' }}>GrindFam</span>
           </Link>
 

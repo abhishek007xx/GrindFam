@@ -107,9 +107,7 @@ export default function Sidebar({ activeSection = 'dashboard', onNavigate, onEdi
       {/* Logo */}
       <div className="px-2 h-12 flex items-center border-b border-[#21262d] cursor-pointer flex-shrink-0 mb-2" onClick={() => { onNavigate?.(); navigate('/'); }}>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#22c55e]/15 border border-[#22c55e]/30 flex items-center justify-center flex-shrink-0">
-            <span className="text-[#22c55e] font-black text-xs">&lt;&gt;</span>
-          </div>
+          <img src="/logo.png" alt="GrindFam Logo" className="w-8 h-8 rounded-lg object-cover shadow-sm border border-[#30363d] flex-shrink-0" />
           <div>
             <h1 className="text-sm font-extrabold text-white leading-tight">
               Grind<span className="text-[#22c55e]">Fam</span>

@@ -221,7 +221,7 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
         </button>
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-          <span className="text-[#22c55e] font-black text-base">&lt;&gt;</span>
+          <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] flex-shrink-0" />
           <span className="text-base font-extrabold text-white">
             Grind<span className="text-[#22c55e]">Fam</span>
           </span>
