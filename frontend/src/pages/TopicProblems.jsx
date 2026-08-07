@@ -4,9 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
-import { useTrackStore } from '../store/useTrackStore';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import {
   ArrowLeft, ExternalLink, Search, Hash, CheckCircle, Check,
   RotateCcw, Building2, FileCode2, Sparkles, Filter
@@ -228,13 +225,7 @@ export function TopicProblems() {
   };
 
   return (
-    <div className="page-shell pb-16">
-      <Sidebar activeSection="topics" />
-
-      <div className="page-content">
-        <Navbar />
-
-        <main className="page-main-constrained space-y-8 animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn">
           {/* Back Navigation */}
           <button
             onClick={() => navigate(-1)}
@@ -498,8 +489,6 @@ export function TopicProblems() {
               </div>
             </motion.div>
           )}
-        </main>
-      </div>
     </div>
   );
 }

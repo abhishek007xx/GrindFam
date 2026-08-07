@@ -4,9 +4,6 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
-import { useTrackStore } from '../store/useTrackStore';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import NotesModal from '../components/NotesModal';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import {
@@ -260,13 +257,7 @@ export function TrackDetail() {
   const guidelines = companyTrack?.guidelines || {};
 
   return (
-    <div className="page-shell pb-16">
-      <Sidebar activeSection="companies" />
-
-      <div className="page-content">
-        <Navbar />
-
-        <main className="page-main-constrained space-y-8 animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn">
           {/* Back Navigation */}
           <button
             onClick={() => navigate('/companies')}
@@ -737,8 +728,6 @@ export function TrackDetail() {
               </div>
             </>
           )}
-        </main>
-      </div>
 
       {/* Notes Modal */}
       {activeNotesProblem && (

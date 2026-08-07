@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
 import {
   Settings as SettingsIcon, KeyRound, Lock, User, Mail, Code2, AlertCircle,
   CheckCircle2, Loader2, ShieldCheck, Target, ArrowRight
@@ -51,15 +48,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d1117] flex">
-      {/* Sidebar */}
-      <Sidebar activeSection="settings" />
-
-      {/* Content */}
-      <div className="page-content flex-1 flex flex-col min-w-0">
-        <Navbar />
-
-        <main className="page-main max-w-4xl mx-auto w-full py-8 px-4 sm:px-6">
+    <div className="space-y-8 animate-fadeIn">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
@@ -199,8 +188,6 @@ const SettingsPage = () => {
               </div>
             </div>
           </div>
-        </main>
-      </div>
     </div>
   );
 };

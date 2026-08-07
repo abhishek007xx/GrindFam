@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
-import { companiesData } from '../lib/dataFallback';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
 import { Building2, Search, ArrowRight, Sparkles, Layers, Flame, GraduationCap, Award, Briefcase } from 'lucide-react';
 
@@ -106,13 +103,7 @@ export function CompaniesGrid() {
   };
 
   return (
-    <div className="page-shell">
-      <Sidebar activeSection="companies" />
-
-      <div className="page-content">
-        <Navbar />
-
-        <main className="page-main-constrained space-y-8 animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn">
           {/* Header Banner */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900/40 via-purple-900/20 to-[#0d1117] border border-[#30363d] p-8 shadow-2xl">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -260,8 +251,6 @@ export function CompaniesGrid() {
               })}
             </motion.div>
           )}
-        </main>
-      </div>
     </div>
   );
 }

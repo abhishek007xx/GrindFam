@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { sheetsData } from '../lib/dataFallback';
-import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
   Sparkles, BookOpen, Flame
@@ -165,13 +162,7 @@ export function SheetsExplorer() {
   };
 
   return (
-    <div className="page-shell">
-      <Sidebar activeSection="sheets" />
-
-      <div className="page-content">
-        <Navbar />
-
-        <main className="page-main-constrained space-y-8 animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn">
           {/* Header Banner */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-emerald-950/40 via-teal-900/20 to-[#0d1117] border border-[#30363d] p-8 shadow-2xl">
             <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -301,8 +292,6 @@ export function SheetsExplorer() {
               })}
             </motion.div>
           )}
-        </main>
-      </div>
     </div>
   );
 }
