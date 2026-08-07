@@ -28,9 +28,9 @@ const PROBLEM_SUGGESTIONS = [
 ];
 
 const getDifficultyColor = (d) => {
-  if (d === 'Easy') return 'text-emerald-400 bg-emerald-500/20';
-  if (d === 'Medium') return 'text-amber-400 bg-amber-500/20';
-  return 'text-red-400 bg-red-500/20';
+  if (d === 'Easy') return 'text-emerald-400 bg-emerald-500/20 border border-emerald-500/30';
+  if (d === 'Medium') return 'text-amber-400 bg-amber-500/20 border border-amber-500/30';
+  return 'text-red-400 bg-red-500/20 border border-red-500/30';
 };
 
 export default function SquadWeeklyChallenge() {
@@ -94,109 +94,100 @@ export default function SquadWeeklyChallenge() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-indigo-400 animate-spin" /></div>;
+    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-emerald-400 animate-spin" /></div>;
   }
 
   const hasVoted = challenge?.votes?.[profile?.id];
-  const currentProblems = challenge?.problems || [];
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-white flex items-center gap-2">
-          <Target className="w-4 h-4 text-amber-400" />
-          Weekly Challenge
-        </h3>
-        <div className="flex items-center gap-2">
-          <Timer className="w-3.5 h-3.5 text-[#8b949e]" />
-          <span className="text-[10px] text-[#8b949e]">{getDaysLeft()} days left — ends {getWeekEnd()}</span>
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-[#161b22] border border-[#30363d] rounded-2xl">
+        <div>
+          <h3 className="text-base font-black text-white flex items-center gap-2">
+            <Target className="w-5 h-5 text-emerald-400" />
+            Squad Weekly Challenge
+          </h3>
+          <p className="text-xs text-[#8b949e] mt-1">Vote on 5 target LeetCode problems for your squad to tackle together this week.</p>
+        </div>
+        <div className="flex items-center gap-2 bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+          <Timer className="w-4 h-4 text-emerald-400" />
+          <span className="text-xs font-bold text-emerald-300">{getDaysLeft()} days left (ends {getWeekEnd()})</span>
         </div>
       </div>
 
-      {/* Active Challenge */}
-      {currentProblems.length > 0 && (
-        <div className="p-5 bg-gradient-to-r from-[#161b22] to-indigo-900/10 border border-indigo-500/20 rounded-2xl space-y-4">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <span className="text-xs font-bold text-indigo-300">This Week's Challenge Problems</span>
-          </div>
-          <div className="space-y-2">
-            {currentProblems.map((slug, idx) => {
-              const problem = PROBLEM_SUGGESTIONS.find(p => p.slug === slug);
+      {/* Active Challenge Problems */}
+      {challenge?.problems?.length > 0 ? (
+        <div className="space-y-4">
+          <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            Selected Target Problems ({challenge.problems.length})
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {challenge.problems.map((slug) => {
+              const p = PROBLEM_SUGGESTIONS.find(ps => ps.slug === slug) || { slug, title: slug, difficulty: 'Medium' };
               return (
-                <div key={slug} className="flex items-center justify-between p-3 bg-[#0d1117] border border-[#21262d] rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-black text-indigo-400">#{idx + 1}</span>
-                    <span className="text-xs font-bold text-white">{problem?.title || slug}</span>
-                    {problem && (
-                      <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${getDifficultyColor(problem.difficulty)}`}>
-                        {problem.difficulty}
-                      </span>
-                    )}
+                <div key={slug} className="p-4 bg-[#161b22] border border-[#30363d] rounded-2xl flex items-center justify-between">
+                  <div>
+                    <h5 className="text-xs font-bold text-white">{p.title}</h5>
+                    <a href={`https://leetcode.com/problems/${slug}`} target="_blank" rel="noreferrer" className="text-[10px] text-emerald-400 hover:underline">
+                      View on LeetCode →
+                    </a>
                   </div>
-                  <a href={`https://leetcode.com/problems/${slug}/`} target="_blank" rel="noopener noreferrer" className="text-[10px] text-indigo-400 hover:text-indigo-300 underline">
-                    Solve →
-                  </a>
+                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${getDifficultyColor(p.difficulty)}`}>
+                    {p.difficulty}
+                  </span>
                 </div>
               );
             })}
           </div>
-          {hasVoted && (
-            <div className="flex items-center gap-2 text-xs text-emerald-400">
-              <Check className="w-4 h-4" />
-              <span>You've voted for this week's challenge!</span>
-            </div>
-          )}
         </div>
-      )}
+      ) : null}
 
-      {/* Voting Section */}
-      {!hasVoted && (
-        <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#8b949e]">
-              Vote for 5 problems to solve together this week
-            </span>
-            <span className="text-[10px] text-indigo-400 font-bold">{selectedProblems.length}/5 selected</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-64 overflow-y-auto">
-            {PROBLEM_SUGGESTIONS.map(problem => {
-              const isSelected = selectedProblems.includes(problem.slug);
-              return (
-                <button
-                  key={problem.slug}
-                  onClick={() => toggleProblem(problem.slug)}
-                  className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all text-xs ${
-                    isSelected
-                      ? 'bg-indigo-600/20 border-indigo-500/50 text-white'
-                      : 'bg-[#0d1117] border-[#21262d] text-[#8b949e] hover:border-[#30363d]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded border ${isSelected ? 'bg-indigo-500 border-indigo-500' : 'border-[#30363d]'} flex items-center justify-center`}>
-                      {isSelected && <Check className="w-3 h-3 text-white" />}
-                    </div>
-                    <span className={isSelected ? 'text-white font-bold' : ''}>{problem.title}</span>
-                  </div>
-                  <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${getDifficultyColor(problem.difficulty)}`}>
-                    {problem.difficulty}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <button
-            onClick={handleVote}
-            disabled={selectedProblems.length === 0 || voting}
-            className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2"
-          >
-            {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Vote className="w-4 h-4" />}
-            Submit Your Vote
-          </button>
+      {/* Vote Form */}
+      <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
+        <div className="flex items-center justify-between">
+          <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <Vote className="w-4 h-4 text-emerald-400" />
+            {hasVoted ? 'Your Vote Recorded' : 'Select up to 5 Problems to Vote'}
+          </h4>
+          <span className="text-[10px] font-mono text-[#8b949e]">{selectedProblems.length}/5 selected</span>
         </div>
-      )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+          {PROBLEM_SUGGESTIONS.map((p) => {
+            const isSelected = selectedProblems.includes(p.slug);
+            return (
+              <button
+                key={p.slug}
+                onClick={() => toggleProblem(p.slug)}
+                className={`p-3 rounded-xl border text-left transition-all ${
+                  isSelected
+                    ? 'bg-emerald-950/40 border-emerald-500/60 ring-1 ring-emerald-500/30'
+                    : 'bg-[#0d1117] border-[#30363d] hover:border-emerald-500/30'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-white truncate">{p.title}</span>
+                  {isSelected && <Check className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />}
+                </div>
+                <span className={`text-[9px] font-bold inline-block mt-2 px-2 py-0.5 rounded-full ${getDifficultyColor(p.difficulty)}`}>
+                  {p.difficulty}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          onClick={handleVote}
+          disabled={selectedProblems.length === 0 || voting}
+          className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2"
+        >
+          {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Vote className="w-4 h-4" />}
+          Submit Vote
+        </button>
+      </div>
     </div>
   );
 }

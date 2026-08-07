@@ -41,7 +41,7 @@ const createSquad = async (req, res) => {
 
     if (res1.error) {
       console.warn('Extended squad creation failed (column missing), falling back to basic insert:', res1.error.message);
-      // Resilient Fallback: Insert using basic columns (name, code, created_by) from old version
+      // Fallback: Insert using basic columns (name, code, created_by)
       const res2 = await supabase
         .from('squads')
         .insert([{ name: squadName, code, created_by: userId }])
@@ -72,7 +72,7 @@ const createSquad = async (req, res) => {
       return res.status(500).json({ error: memberError.message || 'Failed to assign squad leadership.' });
     }
 
-    // Post system message safely (try/catch so missing chat table doesn't block creation)
+    // Post system message safely
     try {
       await supabase.from('squad_messages').insert([{
         squad_id: newSquad.id,
@@ -145,9 +145,7 @@ const joinSquad = async (req, res) => {
       if (count !== null && count >= maxMembers) {
         return res.status(400).json({ error: `This squad is full (${maxMembers}/${maxMembers} members).` });
       }
-    } catch (countErr) {
-      // Ignore count errors if max_members column is not supported
-    }
+    } catch (countErr) {}
 
     // Check if user is already a member of target squad
     const { data: existingMember } = await supabase
@@ -226,9 +224,7 @@ const leaveSquad = async (req, res) => {
           content: `${profile?.name || 'A member'} left the squad.`,
           message_type: 'system'
         }]);
-      } catch (e) {
-        // Ignore message error on leave
-      }
+      } catch (e) {}
     }
 
     return res.json({ message: 'You have left your squad.' });
@@ -243,39 +239,64 @@ const getSquadDetails = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    // Fetch member row and joined squad data
+    // 1. Fetch user's member row directly
     const { data: memberRow, error: memberError } = await supabase
       .from('squad_members')
-      .select('*, squad:squads(*)')
+      .select('*')
       .eq('user_id', userId)
       .maybeSingle();
 
-    if (memberError || !memberRow || !memberRow.squad) {
+    if (memberError) {
+      console.error('Error fetching squad_members for user:', memberError);
+    }
+
+    if (!memberRow || !memberRow.squad_id) {
       return res.json({ inSquad: false, squad: null, members: [], role: null });
     }
 
-    // Fetch all squad members with profiles
-    const { data: members, error: membersError } = await supabase
+    // 2. Fetch squad record
+    const { data: squadRow, error: squadError } = await supabase
+      .from('squads')
+      .select('*')
+      .eq('id', memberRow.squad_id)
+      .maybeSingle();
+
+    if (squadError || !squadRow) {
+      console.error('Error fetching squad by ID:', squadError);
+      return res.json({ inSquad: false, squad: null, members: [], role: null });
+    }
+
+    // 3. Fetch all squad members
+    const { data: memberRows, error: membersError } = await supabase
       .from('squad_members')
-      .select('*, profile:profiles(*)')
+      .select('*')
       .eq('squad_id', memberRow.squad_id);
 
     if (membersError) {
-      console.error('Error fetching squad members:', membersError);
-      return res.json({
-        inSquad: true,
-        squad: memberRow.squad,
-        role: memberRow.role || 'member',
-        members: []
-      });
+      console.error('Error fetching squad member list:', membersError);
     }
 
-    const formattedMembers = (members || []).map(m => {
-      const prof = m.profile || {};
+    // 4. Fetch profiles for member user IDs
+    const userIds = [...new Set((memberRows || []).map(m => m.user_id).filter(Boolean))];
+    let profileMap = {};
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, name, username, avatar_url, email')
+        .in('id', userIds);
+
+      (profiles || []).forEach(p => { profileMap[p.id] = p; });
+    }
+
+    const formattedMembers = (memberRows || []).map(m => {
+      const prof = profileMap[m.user_id] || {};
       return {
         ...prof,
         id: m.user_id || prof.id,
         user_id: m.user_id,
+        name: prof.name || 'Member',
+        username: prof.username || '',
+        avatar_url: prof.avatar_url || null,
         role: m.role || 'member',
         is_muted: m.is_muted || false,
         weekly_solved: m.weekly_solved || 0,
@@ -285,7 +306,7 @@ const getSquadDetails = async (req, res) => {
 
     return res.json({
       inSquad: true,
-      squad: memberRow.squad,
+      squad: squadRow,
       role: memberRow.role || 'member',
       members: formattedMembers
     });
@@ -302,33 +323,33 @@ const getMessages = async (req, res) => {
     const { data: memberRow } = await supabase.from('squad_members').select('squad_id').eq('user_id', userId).maybeSingle();
     if (!memberRow) return res.status(403).json({ error: 'Not in a squad.' });
 
-    const limit = parseInt(req.query.limit) || 50;
+    const limit = parseInt(req.query.limit) || 80;
     const offset = parseInt(req.query.offset) || 0;
 
-    const { data: messages, error } = await supabase
+    const { data: rawMessages, error } = await supabase
       .from('squad_messages')
-      .select('*, profile:profiles!squad_messages_user_id_fkey(id, name, username, avatar_url)')
+      .select('*')
       .eq('squad_id', memberRow.squad_id)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (error) {
-      // Fallback without FK join if table exists but FK fails
-      const { data: fallbackMessages, error: fbError } = await supabase
-        .from('squad_messages')
-        .select('*')
-        .eq('squad_id', memberRow.squad_id)
-        .order('created_at', { ascending: false })
-        .range(offset, offset + limit - 1);
-
-      if (fbError) {
-        return res.json({ messages: [] });
-      }
-
-      return res.json({ messages: (fallbackMessages || []).reverse() });
+    if (error || !rawMessages) {
+      return res.json({ messages: [] });
     }
 
-    return res.json({ messages: (messages || []).reverse() });
+    const userIds = [...new Set(rawMessages.map(m => m.user_id).filter(Boolean))];
+    let profileMap = {};
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds);
+      (profiles || []).forEach(p => { profileMap[p.id] = p; });
+    }
+
+    const enriched = rawMessages.map(m => ({
+      ...m,
+      profile: profileMap[m.user_id] || { name: 'Member', username: '' }
+    })).reverse();
+
+    return res.json({ messages: enriched });
   } catch (error) {
     console.error('Error in getMessages:', error);
     return res.json({ messages: [] });
@@ -374,15 +395,15 @@ const getSnippets = async (req, res) => {
       .order('created_at', { ascending: false })
       .limit(50);
 
-    if (error) return res.json({ snippets: [] });
+    if (error || !snippets) return res.json({ snippets: [] });
 
-    // Attach author profiles
-    const userIds = [...new Set((snippets || []).map(s => s.user_id))];
+    // Attach author profiles explicitly
+    const userIds = [...new Set(snippets.map(s => s.user_id).filter(Boolean))];
     const { data: profiles } = userIds.length ? await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds) : { data: [] };
     const profileMap = {};
     (profiles || []).forEach(p => { profileMap[p.id] = p; });
 
-    const enriched = (snippets || []).map(s => ({ ...s, author: profileMap[s.user_id] || null }));
+    const enriched = snippets.map(s => ({ ...s, author: profileMap[s.user_id] || null }));
     return res.json({ snippets: enriched });
   } catch (error) {
     console.error('Error in getSnippets:', error);
@@ -436,14 +457,14 @@ const getSnippetComments = async (req, res) => {
       .eq('snippet_id', snippetId)
       .order('created_at', { ascending: true });
 
-    if (error) return res.json({ comments: [] });
+    if (error || !comments) return res.json({ comments: [] });
 
-    const userIds = [...new Set((comments || []).map(c => c.user_id))];
+    const userIds = [...new Set(comments.map(c => c.user_id).filter(Boolean))];
     const { data: profiles } = userIds.length ? await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds) : { data: [] };
     const profileMap = {};
     (profiles || []).forEach(p => { profileMap[p.id] = p; });
 
-    const enriched = (comments || []).map(c => ({ ...c, author: profileMap[c.user_id] || null }));
+    const enriched = comments.map(c => ({ ...c, author: profileMap[c.user_id] || null }));
     return res.json({ comments: enriched });
   } catch (error) {
     console.error('Error in getSnippetComments:', error);
@@ -567,8 +588,15 @@ const getLeaderboard = async (req, res) => {
 
     const { data: members } = await supabase
       .from('squad_members')
-      .select('*, profile:profiles(*)')
+      .select('*')
       .eq('squad_id', memberRow.squad_id);
+
+    const userIds = [...new Set((members || []).map(m => m.user_id).filter(Boolean))];
+    let profileMap = {};
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase.from('profiles').select('id, name, username, avatar_url').in('id', userIds);
+      (profiles || []).forEach(p => { profileMap[p.id] = p; });
+    }
 
     let commentCounts = {};
     try {
@@ -581,17 +609,19 @@ const getLeaderboard = async (req, res) => {
       }
     } catch (e) {}
 
-    const leaderboard = (members || []).map((m, idx) => ({
-      rank: idx + 1,
-      userId: m.user_id,
-      name: m.profile?.name || 'Unknown',
-      username: m.profile?.username || '',
-      avatar_url: m.profile?.avatar_url || null,
-      role: m.role || 'member',
-      weekly_solved: m.weekly_solved || 0,
-      helps: commentCounts[m.user_id] || 0,
-      points: (m.weekly_solved || 0) * 10 + (commentCounts[m.user_id] || 0) * 5
-    }));
+    const leaderboard = (members || []).map((m) => {
+      const prof = profileMap[m.user_id] || {};
+      return {
+        userId: m.user_id,
+        name: prof.name || 'Member',
+        username: prof.username || '',
+        avatar_url: prof.avatar_url || null,
+        role: m.role || 'member',
+        weekly_solved: m.weekly_solved || 0,
+        helps: commentCounts[m.user_id] || 0,
+        points: (m.weekly_solved || 0) * 10 + (commentCounts[m.user_id] || 0) * 5
+      };
+    });
 
     leaderboard.sort((a, b) => b.points - a.points);
     leaderboard.forEach((m, i) => { m.rank = i + 1; });

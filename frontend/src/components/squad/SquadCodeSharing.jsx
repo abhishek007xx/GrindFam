@@ -3,11 +3,10 @@ import { useAuth } from '../../context/AuthContext';
 import { Code, Send, MessageSquare, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || '';
-
 const LANGUAGES = ['javascript', 'python', 'java', 'cpp', 'c', 'typescript', 'go', 'rust', 'sql'];
 
 export default function SquadCodeSharing() {
-  const { session, profile } = useAuth();
+  const { session } = useAuth();
   const [snippets, setSnippets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -85,123 +84,105 @@ export default function SquadCodeSharing() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-indigo-400 animate-spin" /></div>;
+    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-emerald-400 animate-spin" /></div>;
   }
 
   return (
     <div className="space-y-6">
-      {/* Share Snippet Button */}
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-bold text-white flex items-center gap-2">
-          <Code className="w-4 h-4 text-indigo-400" />
+          <Code className="w-4 h-4 text-emerald-400" />
           Shared Solutions ({snippets.length})
         </h3>
-        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-lg shadow-indigo-600/20">
+        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-lg shadow-emerald-600/20">
           {showForm ? 'Cancel' : '+ Share Your Solution'}
         </button>
       </div>
 
-      {/* New Snippet Form */}
+      {/* Share Code Form */}
       {showForm && (
-        <form onSubmit={handleSubmitSnippet} className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Solution title (e.g. Two Sum - HashMap)" className="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50" required />
-            <div className="flex gap-2">
-              <select value={language} onChange={(e) => setLanguage(e.target.value)} className="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white focus:outline-none focus:border-indigo-500/50">
-                {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
-              </select>
-              <input type="text" value={problemSlug} onChange={(e) => setProblemSlug(e.target.value)} placeholder="LeetCode slug (optional)" className="flex-1 px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50" />
-            </div>
+        <form onSubmit={handleSubmitSnippet} className="p-4 bg-[#161b22] border border-emerald-500/30 rounded-2xl space-y-3">
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Solution Title (e.g. Optimal O(N) 2-Pointer Approach for 3Sum)" className="w-full px-4 py-2.5 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-emerald-500/50" required />
+          <div className="flex gap-2">
+            <select value={language} onChange={(e) => setLanguage(e.target.value)} className="px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white capitalize focus:outline-none focus:border-emerald-500/50">
+              {LANGUAGES.map(lang => <option key={lang} value={lang}>{lang}</option>)}
+            </select>
+            <input type="text" value={problemSlug} onChange={(e) => setProblemSlug(e.target.value)} placeholder="LeetCode Slug (optional)" className="flex-1 px-4 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-emerald-500/50" />
           </div>
-          <textarea value={code} onChange={(e) => setCode(e.target.value)} placeholder="Paste your code here..." rows={8} className="w-full px-4 py-3 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-emerald-400 font-mono placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50 resize-none" required />
-          <button type="submit" disabled={submitting} className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-emerald-600/20 flex items-center gap-2">
-            {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-            <span>Share with Squad</span>
+          <textarea value={code} onChange={(e) => setCode(e.target.value)} placeholder="// Paste clean code snippet here..." rows={6} className="w-full p-4 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-emerald-300 font-mono focus:outline-none focus:border-emerald-500/50" required />
+          <button type="submit" disabled={submitting} className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-emerald-600/20">
+            {submitting ? 'Sharing...' : 'Publish Solution to Squad'}
           </button>
         </form>
       )}
 
-      {/* Snippets List */}
+      {/* Snippet Feed */}
       {snippets.length === 0 ? (
-        <div className="text-center py-12 bg-[#161b22]/30 border border-[#30363d] rounded-2xl">
-          <Code className="w-10 h-10 text-[#30363d] mx-auto mb-3" />
-          <p className="text-sm text-[#8b949e]">No solutions shared yet. Be the first!</p>
+        <div className="text-center py-12 bg-[#161b22]/40 border border-[#30363d] rounded-2xl">
+          <Code className="w-10 h-10 text-[#30363d] mx-auto mb-2" />
+          <p className="text-xs text-[#8b949e]">No solutions shared yet. Be the first to share your code!</p>
         </div>
       ) : (
         <div className="space-y-4">
-          {snippets.map(snippet => (
-            <div key={snippet.id} className="bg-[#161b22] border border-[#30363d] rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-colors">
-              {/* Snippet Header */}
-              <div className="p-4 flex items-center justify-between cursor-pointer" onClick={() => toggleSnippet(snippet.id)}>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-[10px] font-bold">
-                    {getInitials(snippet.author?.name)}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{snippet.title}</h4>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[10px] text-[#8b949e]">{snippet.author?.name || 'Unknown'}</span>
-                      <span className="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 text-[10px] font-bold">{snippet.language}</span>
-                      {snippet.problem_slug && (
-                        <span className="text-[10px] text-emerald-400">#{snippet.problem_slug}</span>
-                      )}
+          {snippets.map((snip) => {
+            const isExpanded = expandedSnippet === snip.id;
+            const snipComments = comments[snip.id] || [];
+
+            return (
+              <div key={snip.id} className="p-4 bg-[#161b22] border border-[#30363d] rounded-2xl hover:border-emerald-500/30 transition-all">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold">
+                      {getInitials(snip.author?.name)}
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold text-white">{snip.title}</h4>
+                      <p className="text-[10px] text-[#6e7681]">By {snip.author?.name || 'Member'} • <span className="text-emerald-400 font-mono">{snip.language}</span></p>
                     </div>
                   </div>
+                  <button onClick={() => toggleSnippet(snip.id)} className="flex items-center gap-1 text-[11px] text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20 font-bold hover:bg-emerald-500/20">
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>View & Peer Review</span>
+                    {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                  </button>
                 </div>
-                <div className="flex items-center gap-2 text-[#8b949e]">
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  <span className="text-[10px]">{comments[snippet.id]?.length || 0}</span>
-                  {expandedSnippet === snippet.id ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                </div>
-              </div>
 
-              {/* Expanded Code + Comments */}
-              {expandedSnippet === snippet.id && (
-                <div className="border-t border-[#21262d]">
-                  <pre className="p-4 bg-[#0d1117] text-xs font-mono text-emerald-400 overflow-x-auto max-h-64">
-                    <code>{snippet.code}</code>
-                  </pre>
+                {isExpanded && (
+                  <div className="mt-4 space-y-4 pt-3 border-t border-[#30363d]">
+                    <pre className="p-4 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs font-mono text-emerald-300 overflow-x-auto">
+                      <code>{snip.code}</code>
+                    </pre>
 
-                  {/* Peer Review Comments */}
-                  <div className="p-4 space-y-3 border-t border-[#21262d]">
-                    <span className="text-[11px] font-bold text-[#8b949e] uppercase tracking-wider">Peer Review Comments</span>
-                    {(comments[snippet.id] || []).length === 0 ? (
-                      <p className="text-xs text-[#6e7681]">No comments yet. Be the first to review!</p>
-                    ) : (
-                      <div className="space-y-2">
-                        {(comments[snippet.id] || []).map(c => (
-                          <div key={c.id} className="p-3 bg-[#0d1117] border border-[#21262d] rounded-xl flex items-start gap-2">
-                            <div className="w-6 h-6 rounded-full bg-purple-500/30 flex items-center justify-center text-purple-400 text-[9px] font-bold flex-shrink-0">
-                              {getInitials(c.author?.name)}
-                            </div>
-                            <div>
-                              <span className="text-[10px] text-[#8b949e] font-bold">{c.author?.name || 'Member'}</span>
-                              <p className="text-xs text-[#e6edf3] mt-0.5">{c.content}</p>
-                            </div>
-                          </div>
-                        ))}
+                    {/* Comments section */}
+                    <div className="space-y-2">
+                      <h5 className="text-[11px] font-bold text-[#8b949e]">Peer Comments ({snipComments.length})</h5>
+                      {snipComments.map((c) => (
+                        <div key={c.id} className="p-2.5 bg-[#0d1117] border border-[#21262d] rounded-xl text-xs flex items-start gap-2">
+                          <span className="font-bold text-emerald-400 text-[10px]">{c.author?.name || 'Member'}:</span>
+                          <span className="text-[#c9d1d9] flex-1">{c.content}</span>
+                        </div>
+                      ))}
+
+                      {/* Add comment */}
+                      <div className="flex gap-2 pt-2">
+                        <input
+                          type="text"
+                          value={commentInputs[snip.id] || ''}
+                          onChange={(e) => setCommentInputs({ ...commentInputs, [snip.id]: e.target.value })}
+                          placeholder="Write a code review comment..."
+                          className="flex-1 px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-emerald-500/50"
+                        />
+                        <button onClick={() => handleAddComment(snip.id)} className="p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl">
+                          <Send className="w-3.5 h-3.5" />
+                        </button>
                       </div>
-                    )}
-
-                    {/* Add Comment Input */}
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={commentInputs[snippet.id] || ''}
-                        onChange={(e) => setCommentInputs(prev => ({ ...prev, [snippet.id]: e.target.value }))}
-                        onKeyDown={(e) => e.key === 'Enter' && handleAddComment(snippet.id)}
-                        placeholder="Add a review comment..."
-                        className="flex-1 px-3 py-2 bg-[#0d1117] border border-[#30363d] rounded-xl text-xs text-white placeholder-[#6e7681] focus:outline-none focus:border-indigo-500/50"
-                      />
-                      <button onClick={() => handleAddComment(snippet.id)} className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all">
-                        <Send className="w-3.5 h-3.5" />
-                      </button>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
