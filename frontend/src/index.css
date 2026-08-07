@@ -290,3 +290,49 @@ html, body, div, header, nav, aside, main, button {
 ::-webkit-scrollbar-thumb:hover {
   background: #3F3F46;
 }
+
+/* ==========================================================================
+   Charcoal Black Palette Overrides (Removes Bluish/Navy Tints Globally)
+   ========================================================================== */
+html:not(.light) {
+  /* Surfaces & Banners */
+  [class*="bg-[#161B22]"], [class*="bg-[#161b22]"] {
+    background-color: #121318 !important;
+  }
+  [class*="bg-[#0D1117]"], [class*="bg-[#0d1117]"] {
+    background-color: #0B0C10 !important;
+  }
+  [class*="bg-[#1F2937]"], [class*="bg-[#1f2937]"] {
+    background-color: #18181B !important;
+  }
+  [class*="bg-[#21262d]"], [class*="bg-[#21262D]"], [class*="bg-[#1c2333]"] {
+    background-color: #16171C !important;
+  }
+
+  /* Charcoal Borders */
+  [class*="border-[#30363D]"], [class*="border-[#30363d]"] {
+    border-color: #27272A !important;
+  }
+  [class*="border-[#21262D]"], [class*="border-[#21262d]"] {
+    border-color: #222226 !important;
+  }
+  [class*="border-[#1F2937]"], [class*="border-[#1f2937]"] {
+    border-color: #27272A !important;
+  }
+
+  /* Crisp Text Colors */
+  [class*="text-[#8b949e]"], [class*="text-[#6e7681]"], [class*="text-[#9ca3af]"], [class*="text-[#9CA3AF]"] {
+    color: #A1A1AA !important;
+  }
+  [class*="text-[#e6edf3]"], [class*="text-[#F3F4F6]"], [class*="text-[#f3f4f6]"] {
+    color: #F4F4F5 !important;
+  }
+
+  /* Charcoal Hover States */
+  [class*="hover:bg-[#1f2937]"]:hover, 
+  [class*="hover:bg-[#21262d]"]:hover, 
+  [class*="hover:bg-[#161b22]"]:hover, 
+  [class*="hover:bg-[#30363d]"]:hover {
+    background-color: #1F1F23 !important;
+  }
+}
