@@ -16,6 +16,10 @@ import EditTargetModal from '../components/EditTargetModal';
 import SquadManagerModal from '../components/SquadManagerModal';
 import ContributionHeatmap from '../components/ContributionHeatmap';
 import InterviewTimelineTracker from '../components/InterviewTimelineTracker';
+import DailyMicroGoals from '../components/dashboardZones/DailyMicroGoals';
+import ProblemAnalytics from '../components/dashboardZones/ProblemAnalytics';
+import SpacedRepetitionVault from '../components/dashboardZones/SpacedRepetitionVault';
+import ContestsGamification from '../components/dashboardZones/ContestsGamification';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
   Flame, ArrowRight, RotateCcw, BookOpen, Building2, FileCode2,
@@ -312,173 +316,190 @@ const Dashboard = () => {
             </div>
           ) : (
             <>
-              {/* Stats Cards Row */}
-              <StatsCards
-                stats={dashboardData.stats}
-                dailyTarget={dailyTarget}
-                onEditTarget={() => setIsEditModalOpen(true)}
-              />
+              {/* Zone 1: Daily Focus & Actionable Targets */}
+              <div className="space-y-6 mb-8">
+                <StatsCards
+                  stats={dashboardData.stats}
+                  dailyTarget={dailyTarget}
+                  onEditTarget={() => setIsEditModalOpen(true)}
+                />
 
-              {/* Social Category Hub Navigation */}
-              <div className="mb-6 dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#27272A] rounded-xl">
-                <div className="flex flex-wrap items-center gap-2 bg-[#09090B] p-1 rounded-lg border border-[#27272A]">
-                  <button
-                    onClick={() => handleTabChange('leaderboard')}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      socialTab === 'leaderboard'
-                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <span>Leaderboard</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleTabChange('squad')}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      socialTab === 'squad'
-                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <span>Squad Hub</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleTabChange('friends')}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      socialTab === 'friends'
-                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <span>Friends ({dashboardData.stats?.totalFriends || 0})</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleTabChange('addFriend')}
-                    className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                      socialTab === 'addFriend'
-                        ? 'bg-zinc-100 text-zinc-900 shadow-sm'
-                        : 'text-zinc-400 hover:text-white'
-                    }`}
-                  >
-                    <span>Add Friend</span>
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setIsSquadModalOpen(true)}
-                    className="px-3 py-1.5 rounded-lg bg-[#18181B] hover:bg-[#27272A] border border-[#27272A] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
-                  >
-                    <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
-                  </button>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                  <InterviewTimelineTracker totalTrackProblems={100} solvedCount={yourTodayCount} />
+                  <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                 </div>
               </div>
 
-              {/* Active Tab View */}
-              {socialTab === 'leaderboard' && (
-                <div className="grid-dashboard-main mb-6" id="leaderboard-section">
-                  {/* Left: Leaderboard */}
-                  <LeaderboardTable
-                    leaderboard={dashboardData.leaderboard}
-                    dailyTarget={dailyTarget}
-                    onRemoveFriend={handleRemoveFriend}
-                    removingId={removingId}
-                  />
-                  {/* Right: Weekly Progress + Recent Activity */}
-                  <div className="flex flex-col gap-4">
-                    <WeeklyProgress
-                      yourTodayCount={yourTodayCount}
+              {/* Zone 2: Deep Problem-Solving Analytics */}
+              <div className="mb-8 space-y-4">
+                <div className="border-b border-[#27272A] pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 2: Deep Problem-Solving Analytics</h2>
+                  <p className="text-xs text-zinc-400">Difficulty breakdown, acceptance ratio, AI weakness alerts & pattern mastery</p>
+                </div>
+                <ProblemAnalytics stats={dashboardData.stats} />
+              </div>
+
+              {/* Zone 3: Revision, Retention & Sheet Tracking */}
+              <div className="mb-8 space-y-4">
+                <div className="border-b border-[#27272A] pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 3: Revision, Retention & Sheet Tracking</h2>
+                  <p className="text-xs text-zinc-400">Spaced repetition queue, DSA sheet progress & code vault bookmarks</p>
+                </div>
+                <SpacedRepetitionVault />
+              </div>
+
+              {/* Zone 4: Social Drive, Contests & Gamification */}
+              <div className="mb-8 space-y-4">
+                <div className="border-b border-[#27272A] pb-2">
+                  <h2 className="text-lg font-bold text-zinc-100 tracking-tight">Zone 4: Social Drive, Contests & Gamification</h2>
+                  <p className="text-xs text-zinc-400">Contest rating curve, XP level badges, live calendar & squad standings</p>
+                </div>
+
+                <ContestsGamification platformTotal={yourPlatformTotal} />
+
+                {/* Social Category Hub Navigation */}
+                <div className="dash-card p-3 flex flex-wrap items-center justify-between gap-3 bg-[#121212] border border-[#27272A] rounded-xl mt-4">
+                  <div className="flex flex-wrap items-center gap-2 bg-[#09090B] p-1 rounded-lg border border-[#27272A]">
+                    <button
+                      onClick={() => handleTabChange('leaderboard')}
+                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        socialTab === 'leaderboard'
+                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      <span>Leaderboard</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleTabChange('squad')}
+                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        socialTab === 'squad'
+                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      <span>Squad Hub</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleTabChange('friends')}
+                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        socialTab === 'friends'
+                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      <span>Friends ({dashboardData.stats?.totalFriends || 0})</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleTabChange('addFriend')}
+                      className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                        socialTab === 'addFriend'
+                          ? 'bg-zinc-100 text-zinc-900 shadow-sm'
+                          : 'text-zinc-400 hover:text-white'
+                      }`}
+                    >
+                      <span>Add Friend</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setIsSquadModalOpen(true)}
+                      className="px-3 py-1.5 rounded-lg bg-[#18181B] hover:bg-[#27272A] border border-[#27272A] text-zinc-200 text-xs font-medium flex items-center gap-1.5 transition-all"
+                    >
+                      <Shield className="w-3.5 h-3.5 text-[#EA5D3A]" /> Squad Options
+                    </button>
+                  </div>
+                </div>
+
+                {/* Active Social Tab View */}
+                {socialTab === 'leaderboard' && (
+                  <div className="grid-dashboard-main mb-6" id="leaderboard-section">
+                    <LeaderboardTable
+                      leaderboard={dashboardData.leaderboard}
                       dailyTarget={dailyTarget}
-                      platformTotal={yourPlatformTotal}
-                      weeklyData={weeklyData}
+                      onRemoveFriend={handleRemoveFriend}
+                      removingId={removingId}
                     />
-                    <RecentActivity leaderboard={dashboardData.leaderboard} />
+                    <div className="flex flex-col gap-4">
+                      <WeeklyProgress
+                        yourTodayCount={yourTodayCount}
+                        dailyTarget={dailyTarget}
+                        platformTotal={yourPlatformTotal}
+                        weeklyData={weeklyData}
+                      />
+                      <RecentActivity leaderboard={dashboardData.leaderboard} />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {socialTab === 'squad' && (
-                <div className="space-y-6 mb-6">
-                  {/* Squad Info Card */}
-                  <div className="dash-card p-6 border border-[#27272A] bg-[#121212] relative overflow-hidden">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <Shield className="w-5 h-5 text-[#EA5D3A]" />
-                          <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
+                {socialTab === 'squad' && (
+                  <div className="space-y-6 mb-6">
+                    <div className="dash-card p-6 border border-[#27272A] bg-[#121212] relative overflow-hidden">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <Shield className="w-5 h-5 text-[#EA5D3A]" />
+                            <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
+                          </div>
+                          <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
+                          <p className="text-xs text-zinc-400 mt-1">
+                            Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
+                          </p>
                         </div>
-                        <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
-                        <p className="text-xs text-zinc-400 mt-1">
-                          Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
-                        </p>
-                      </div>
 
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={handleCopySquadCode}
-                          className="px-4 py-2.5 rounded-xl bg-[#18181B] hover:bg-[#27272A] text-white text-xs font-bold flex items-center gap-2 border border-[#27272A] transition-all"
-                        >
-                          {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
-                          <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
-                        </button>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={handleCopySquadCode}
+                            className="px-4 py-2.5 rounded-xl bg-[#18181B] hover:bg-[#27272A] text-white text-xs font-bold flex items-center gap-2 border border-[#27272A] transition-all"
+                          >
+                            {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
+                            <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
+                          </button>
 
-                        <button
-                          onClick={() => setIsSquadModalOpen(true)}
-                          className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
-                        >
-                          <Users className="w-4 h-4" /> Manage Squad
-                        </button>
+                          <button
+                            onClick={() => setIsSquadModalOpen(true)}
+                            className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
+                          >
+                            <Users className="w-4 h-4" /> Manage Squad
+                          </button>
+                        </div>
                       </div>
                     </div>
+
+                    <LeaderboardTable
+                      leaderboard={dashboardData.leaderboard}
+                      dailyTarget={dailyTarget}
+                      onRemoveFriend={handleRemoveFriend}
+                      removingId={removingId}
+                    />
                   </div>
+                )}
 
-                  <LeaderboardTable
-                    leaderboard={dashboardData.leaderboard}
-                    dailyTarget={dailyTarget}
-                    onRemoveFriend={handleRemoveFriend}
-                    removingId={removingId}
-                  />
+                {socialTab === 'friends' && (
+                  <div className="space-y-6 mb-6">
+                    <FriendsList
+                      token={token}
+                      onRemoveFriend={handleRemoveFriend}
+                      removingId={removingId}
+                      onOpenAddFriend={() => handleTabChange('addFriend')}
+                    />
+                  </div>
+                )}
+
+                {socialTab === 'addFriend' && (
+                  <div className="mb-6 max-w-2xl mx-auto" id="add-friend-section">
+                    <AddFriend onAddFriend={handleAddFriend} />
+                  </div>
+                )}
+
+                {/* GitHub-style Heatmap */}
+                <div className="mb-6">
+                  <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
                 </div>
-              )}
-
-              {socialTab === 'friends' && (
-                <div className="space-y-6 mb-6">
-                  <FriendsList
-                    token={token}
-                    onRemoveFriend={handleRemoveFriend}
-                    removingId={removingId}
-                    onOpenAddFriend={() => handleTabChange('addFriend')}
-                  />
-                </div>
-              )}
-
-              {socialTab === 'addFriend' && (
-                <div className="mb-6 max-w-2xl mx-auto" id="add-friend-section">
-                  <AddFriend onAddFriend={handleAddFriend} />
-                </div>
-              )}
-
-              {/* Bottom Row: Progress Chart + Motivational */}
-              <div className="grid-dashboard-main mb-6">
-                {/* Left: Progress Chart */}
-                <ProgressChart yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} weeklyData={weeklyData} />
-                {/* Right: Motivational */}
-                <div className="flex flex-col gap-4">
-                  <MotivationalCard yourTodayCount={yourTodayCount} dailyTarget={dailyTarget} />
-                  {socialTab !== 'friends' && (
-                    <div id="add-friend-section">
-                      <AddFriend onAddFriend={handleAddFriend} />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* GitHub-style All-Time Activity Heatmap */}
-              <div className="mb-6">
-                <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
               </div>
             </>
           )}
