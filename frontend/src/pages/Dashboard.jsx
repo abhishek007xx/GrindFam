@@ -443,13 +443,13 @@ const Dashboard = () => {
                     platformTotal={yourPlatformTotal}
                     weeklyData={weeklyData}
                   />
+                  <DailyGrindProTip dailyTarget={dailyTarget} yourTodayCount={yourTodayCount} />
                 </div>
 
                 {/* Right Sidebar Column (1/3 width) */}
                 <div className="xl:col-span-1 space-y-6">
                   <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
-                  <DailyGrindProTip dailyTarget={dailyTarget} yourTodayCount={yourTodayCount} />
                 </div>
               </div>
 
