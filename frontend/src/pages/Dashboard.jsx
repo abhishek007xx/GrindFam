@@ -20,6 +20,7 @@ import DailyMicroGoals from '../components/dashboardZones/DailyMicroGoals';
 import ProblemAnalytics from '../components/dashboardZones/ProblemAnalytics';
 import SpacedRepetitionVault from '../components/dashboardZones/SpacedRepetitionVault';
 import ContestsGamification from '../components/dashboardZones/ContestsGamification';
+import DailyGrindProTip from '../components/dashboardZones/DailyGrindProTip';
 import ShareCardModal from '../components/ShareCardModal';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
@@ -448,6 +449,7 @@ const Dashboard = () => {
                 <div className="xl:col-span-1 space-y-6">
                   <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
+                  <DailyGrindProTip dailyTarget={dailyTarget} yourTodayCount={yourTodayCount} />
                 </div>
               </div>
 
