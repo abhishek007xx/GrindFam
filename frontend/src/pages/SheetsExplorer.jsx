@@ -6,10 +6,10 @@ import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
-  Sparkles, BookOpen
+  BookOpen
 } from 'lucide-react';
 
-function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
+function ProgressRing({ percentage, size = 60, strokeWidth = 5 }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
@@ -161,13 +161,18 @@ export function SheetsExplorer() {
 
   return (
     <div className="space-y-6 animate-fadeIn">
-      {/* Header Banner — Dark Neutral Background with Orange Radial Glow */}
-      <div className="relative overflow-hidden rounded-xl bg-[#121212] border border-white/[0.08] p-6 md:p-8">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_100%_0%,rgba(234,93,58,0.08),transparent_70%)] pointer-events-none" />
+      {/* Header Banner — Dark Neutral with Fox Mascot Watermark */}
+      <div className="relative overflow-hidden rounded-lg bg-[#121212] border border-white/[0.08] p-6 md:p-8">
+        <img
+          src="/logo.png"
+          alt="GrindFam Mascot"
+          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.06] grayscale pointer-events-none select-none"
+        />
+
         <div className="relative z-10 max-w-2xl space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-[#8b949e] text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-[#EA5D3A]" />
-            <span>Popularity Ranked Curriculum</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A] text-xs font-bold">
+            <FileCode2 className="w-3.5 h-3.5" />
+            <span className="uppercase tracking-tight">Popularity Ranked Curriculum</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
             Creator DSA Sheets
@@ -187,7 +192,7 @@ export function SheetsExplorer() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search sheets or creators..."
-            className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
+            className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-md text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A] transition-all"
           />
         </div>
 
@@ -196,7 +201,7 @@ export function SheetsExplorer() {
             <button
               key={filter}
               onClick={() => setCreatorFilter(filter)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap border ${
+              className={`px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${
                 creatorFilter === filter
                   ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] shadow-md shadow-[#EA5D3A]/20'
                   : 'bg-[#161b22] text-[#8b949e] border-[#30363d] hover:text-white hover:border-[#484f58]'
@@ -210,13 +215,13 @@ export function SheetsExplorer() {
 
       {/* Grid View */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map(n => (
-            <div key={n} className="h-52 rounded-xl bg-[#161b22]/50 border border-[#30363d] animate-pulse p-5 space-y-4" />
+            <div key={n} className="h-50 rounded-lg bg-[#161b22]/50 border border-[#30363d] animate-pulse p-4 space-y-3" />
           ))}
         </div>
       ) : filteredSheets.length === 0 ? (
-        <div className="text-center py-12 bg-[#121212] border border-white/[0.08] rounded-xl p-6 space-y-2">
+        <div className="text-center py-12 bg-[#121212] border border-white/[0.08] rounded-lg p-6 space-y-2">
           <FileCode2 className="w-10 h-10 text-[#6e7681] mx-auto" />
           <h3 className="text-sm font-bold text-white uppercase tracking-tight">No Sheets Found</h3>
           <p className="text-xs text-[#8b949e]">Try adjusting your search query or creator filter.</p>
@@ -226,7 +231,7 @@ export function SheetsExplorer() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {filteredSheets.map((s, idx) => {
             const stats = sheetStats[s.id] || { total: s.total_problems || 0, solved: 0, percentage: 0 };
@@ -236,12 +241,12 @@ export function SheetsExplorer() {
                 key={s.id}
                 variants={cardVariants}
                 onClick={() => navigate(`/sheet/${s.slug}`)}
-                className="group relative bg-[#121212] border border-white/[0.08] hover:border-[#EA5D3A]/40 rounded-xl p-5 transition-all duration-200 hover:shadow-lg hover:shadow-[#EA5D3A]/5 cursor-pointer flex flex-col justify-between"
+                className="group relative bg-[#121212] border border-white/[0.08] hover:border-[#EA5D3A]/40 rounded-lg p-4 transition-all duration-200 hover:shadow-lg hover:shadow-[#EA5D3A]/5 cursor-pointer flex flex-col justify-between"
               >
-                <div className="space-y-3.5">
-                  <div className="flex items-start justify-between gap-4">
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between gap-3">
                     <div className="space-y-1 pr-2">
-                      <span className="px-2 py-0.5 rounded-md bg-[#181818] border border-white/10 text-[#8b949e] text-[10px] font-semibold uppercase tracking-wider">
+                      <span className="px-2 py-0.5 rounded-full bg-[#181818] border border-white/10 text-[#8b949e] text-[10px] font-semibold uppercase tracking-wider">
                         #{idx + 1} Sheet
                       </span>
                       <h3 className="text-base font-extrabold text-white group-hover:text-[#EA5D3A] transition-colors leading-snug">
@@ -254,7 +259,7 @@ export function SheetsExplorer() {
                     </div>
 
                     <div className="flex-shrink-0 group-hover:scale-105 transition-transform">
-                      <ProgressRing percentage={stats.percentage} size={60} strokeWidth={5} />
+                      <ProgressRing percentage={stats.percentage} size={56} strokeWidth={5} />
                     </div>
                   </div>
 
@@ -270,7 +275,7 @@ export function SheetsExplorer() {
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 flex items-center justify-between text-xs font-bold text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform">
+                <div className="mt-3 pt-2.5 flex items-center justify-between text-xs font-bold text-[#EA5D3A] group-hover:translate-x-0.5 transition-transform">
                   <span>Open Sheet Checklist</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>

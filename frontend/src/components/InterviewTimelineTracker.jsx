@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Calendar, Clock, Target, Sparkles, Building2,
-  CheckCircle2, Flame, Edit3, X, Zap
-} from 'lucide-react';
+import { Target, CheckCircle2, Flame, Edit3, X } from 'lucide-react';
 import { companiesData } from '../lib/dataFallback';
 
 const STORAGE_KEY = 'grindfam_interview_target';
@@ -64,24 +61,27 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
 
   const remainingProblems = Math.max(0, totalTrackProblems - solvedCount);
   const dailyQuota = Math.max(1, Math.ceil(remainingProblems / daysLeft));
-
   const progressPercent = Math.min(100, Math.round((solvedCount / Math.max(1, totalTrackProblems)) * 100));
 
   return (
-    <div className="dash-card p-5 bg-[#121212] border border-white/[0.08] rounded-xl relative overflow-hidden">
-      {/* Subtle corner radial glow in brand orange only */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-[radial-gradient(circle_at_100%_0%,rgba(234,93,58,0.08),transparent_70%)] pointer-events-none" />
+    <div className="bg-[#121212] border border-white/[0.08] rounded-lg p-5 relative overflow-hidden">
+      {/* Brand Fox Mascot Watermark Background (Bottom-right corner) */}
+      <img
+        src="/logo.png"
+        alt="GrindFam Fox"
+        className="absolute -bottom-6 -right-6 w-36 h-36 object-contain opacity-[0.06] grayscale pointer-events-none select-none"
+      />
 
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-5 relative z-10">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A]">
-            <Target className="w-5 h-5" />
+      {/* Header Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4 relative z-10">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] flex items-center justify-center">
+            <Target className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-widest bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 px-2 py-0.5 rounded-md">
-                Interview Target
+              <span className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-tight bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 px-2 py-0.5 rounded-full">
+                Target Countdown
               </span>
               {savedSuccess && (
                 <span className="text-[10px] text-[#EA5D3A] font-semibold flex items-center gap-1">
@@ -89,18 +89,18 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
                 </span>
               )}
             </div>
-            <h2 className="text-lg font-black text-white uppercase tracking-tight mt-0.5">
-              Target: {targetCompany} <span className="text-xs font-semibold text-[#8b949e] font-sans">({targetRole})</span>
+            <h2 className="text-base font-black text-white uppercase tracking-tight mt-0.5">
+              {targetCompany} <span className="text-xs font-normal text-[#8b949e] font-sans lowercase">({targetRole})</span>
             </h2>
           </div>
         </div>
 
         <button
           onClick={() => setIsEditing(!isEditing)}
-          className="px-3 py-1.5 rounded-lg bg-[#181818] hover:bg-[#202020] text-[#8b949e] hover:text-white text-xs font-semibold flex items-center gap-1.5 border border-white/10 transition-all"
+          className="px-3 py-1.5 rounded-md bg-[#181818] hover:bg-[#202020] text-[#8b949e] hover:text-white text-xs font-semibold flex items-center gap-1.5 border border-white/10 transition-all"
         >
           {isEditing ? <X className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5" />}
-          <span>{isEditing ? 'Close' : 'Configure Target'}</span>
+          <span>{isEditing ? 'Close' : 'Configure'}</span>
         </button>
       </div>
 
@@ -111,15 +111,15 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-5 p-4 rounded-lg bg-[#161b22] border border-[#30363d] space-y-4"
+            className="mb-4 p-4 rounded-lg bg-[#161b22] border border-[#30363d] space-y-3"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Target Company</label>
+                <label className="block text-[11px] font-bold text-[#8b949e] uppercase tracking-tight mb-1">Target Company</label>
                 <select
                   value={targetCompany}
                   onChange={(e) => setTargetCompany(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-md text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 >
                   {companiesData.map(c => (
                     <option key={c.slug} value={c.company_name}>{c.company_name}</option>
@@ -128,11 +128,11 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Role Level Track</label>
+                <label className="block text-[11px] font-bold text-[#8b949e] uppercase tracking-tight mb-1">Role Level Track</label>
                 <select
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-md text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 >
                   <option value="Intern">🎓 Intern Track (OA + Fundamentals)</option>
                   <option value="Campus Placement">🚀 Campus Placement (3-Month Sprint)</option>
@@ -141,84 +141,78 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5">Target Interview Date</label>
+                <label className="block text-[11px] font-bold text-[#8b949e] uppercase tracking-tight mb-1">Target Interview Date</label>
                 <input
                   type="date"
                   value={interviewDate}
                   onChange={(e) => setInterviewDate(e.target.value)}
-                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
+                  className="w-full py-2 px-3 bg-[#0d1117] border border-[#30363d] rounded-md text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-1">
               <button
                 onClick={handleSave}
-                className="px-4 py-2 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-[#EA5D3A]/20"
+                className="px-4 py-1.5 bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white text-xs font-bold rounded-md transition-all shadow-md shadow-[#EA5D3A]/20"
               >
-                Save Target
+                Save Goal
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Unified Stat Row with Clean Dividers (No 4 separate colored boxes!) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#21262d] bg-[#0d1117] border border-[#21262d] rounded-lg overflow-hidden mb-5">
-        {/* Stat 1: Days Remaining (Neutral) */}
-        <div className="p-3.5 flex items-center gap-3">
-          <Clock className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
+      {/* Integrated Asymmetrical Stat Bar (Hierarchy focus instead of 4 equal KPI boxes) */}
+      <div className="bg-[#181818] border border-white/10 rounded-lg p-4 mb-4 relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        {/* Dominant Main Stat: Days Left & Daily Quota */}
+        <div className="flex items-baseline gap-3">
+          <span className="text-3xl font-black text-[#EA5D3A] font-mono tracking-tight">{daysLeft}</span>
           <div>
-            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Days Left</p>
-            <p className="text-base font-extrabold text-white leading-tight">{daysLeft} <span className="text-[11px] font-medium text-[#6e7681]">days</span></p>
+            <p className="text-xs font-black text-white uppercase tracking-tight">Days Remaining</p>
+            <p className="text-[11px] text-[#8b949e]">Target date: {new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
           </div>
         </div>
 
-        {/* Stat 2: Unsolved Target (Neutral) */}
-        <div className="p-3.5 flex items-center gap-3">
-          <Building2 className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
+        {/* Secondary Stats: Inline Meta Group */}
+        <div className="flex items-center gap-4 text-xs border-t sm:border-t-0 sm:border-l border-white/10 pt-3 sm:pt-0 sm:pl-4">
           <div>
-            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Unsolved</p>
-            <p className="text-base font-extrabold text-white leading-tight">{remainingProblems} <span className="text-[11px] font-medium text-[#6e7681]">problems</span></p>
+            <span className="text-[10px] font-bold text-[#8b949e] uppercase tracking-tight block">Required Pace</span>
+            <span className="font-extrabold text-white flex items-center gap-1">
+              <Flame className="w-3.5 h-3.5 text-[#EA5D3A]" /> {dailyQuota} problems / day
+            </span>
           </div>
-        </div>
 
-        {/* Stat 3: Daily Target Quota (Emphasized Brand Accent) */}
-        <div className="p-3.5 flex items-center gap-3 bg-[#EA5D3A]/[0.06]">
-          <div className="w-7 h-7 rounded-md bg-[#EA5D3A]/15 text-[#EA5D3A] flex items-center justify-center flex-shrink-0">
-            <Flame className="w-4 h-4" />
-          </div>
-          <div>
-            <p className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-wider">Daily Quota</p>
-            <p className="text-base font-black text-white leading-tight">{dailyQuota} <span className="text-[11px] font-bold text-[#EA5D3A]">/ day</span></p>
-          </div>
-        </div>
+          <div className="h-6 w-px bg-white/10 hidden sm:block" />
 
-        {/* Stat 4: Overall Progress (Neutral) */}
-        <div className="p-3.5 flex items-center gap-3">
-          <Zap className="w-4 h-4 text-[#6e7681] flex-shrink-0" />
           <div>
-            <p className="text-[10px] font-bold text-[#6e7681] uppercase tracking-wider">Progress</p>
-            <p className="text-base font-extrabold text-white leading-tight">{progressPercent}% <span className="text-[11px] font-medium text-[#6e7681]">done</span></p>
+            <span className="text-[10px] font-bold text-[#8b949e] uppercase tracking-tight block">Unsolved Target</span>
+            <span className="font-mono font-bold text-white">{remainingProblems} left</span>
+          </div>
+
+          <div className="h-6 w-px bg-white/10 hidden sm:block" />
+
+          <div>
+            <span className="text-[10px] font-bold text-[#8b949e] uppercase tracking-tight block">Track Progress</span>
+            <span className="font-mono font-bold text-[#EA5D3A]">{progressPercent}%</span>
           </div>
         </div>
       </div>
 
-      {/* Progress Bar & Status Banner */}
-      <div>
-        <div className="flex items-center justify-between text-xs mb-1.5">
-          <span className="font-medium text-[#8b949e] flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#EA5D3A]" />
+      {/* Integrated Timeline Progress Track */}
+      <div className="relative z-10 space-y-1">
+        <div className="flex items-center justify-between text-[11px] font-medium text-[#8b949e]">
+          <span>
             {remainingProblems === 0
-              ? '🎉 All target problems solved! You are 100% interview ready!'
-              : `Solve ${dailyQuota} problem${dailyQuota > 1 ? 's' : ''} daily to complete your target by ${new Date(interviewDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+              ? '🎉 All target problems solved!'
+              : `Solve ${dailyQuota} problem${dailyQuota > 1 ? 's' : ''} daily to hit your ${targetCompany} goal on schedule`
             }
           </span>
-          <span className="font-mono font-bold text-[#EA5D3A]">{solvedCount} / {totalTrackProblems} Solved</span>
+          <span className="font-mono font-bold text-white">{solvedCount} / {totalTrackProblems} Solved</span>
         </div>
-        <div className="progress-track h-2 bg-[#0d1117] rounded-full overflow-hidden border border-[#21262d]">
+        <div className="h-1.5 w-full bg-[#181818] rounded-full overflow-hidden border border-white/10">
           <div
-            className="progress-fill h-full bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] transition-all duration-700"
+            className="h-full bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] rounded-full transition-all duration-700"
             style={{ width: `${progressPercent}%` }}
           />
         </div>

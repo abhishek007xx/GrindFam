@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getAllRoadmaps } from '../lib/roadmapDataLoader';
 import RoleLevelRoadmap from '../components/RoleLevelRoadmap';
 import {
-  Search, Sparkles, Bookmark, ArrowRight,
-  GraduationCap, Building2, BookOpen, Layers, Compass, Database, Route
+  Search, Bookmark, ArrowRight,
+  GraduationCap, Building2, BookOpen, Layers, Compass, Database
 } from 'lucide-react';
 
 export function RoadmapsExplorer() {
@@ -66,13 +66,18 @@ export function RoadmapsExplorer() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto w-full animate-fadeIn">
-      {/* Hero Banner Section — Dark Neutral Background with Subtle Orange Radial Glow */}
-      <div className="relative overflow-hidden rounded-xl bg-[#121212] border border-white/[0.08] p-6 md:p-8">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_100%_0%,rgba(234,93,58,0.08),transparent_70%)] pointer-events-none" />
+      {/* Hero Banner Section — Dark Neutral with Fox Mascot Watermark */}
+      <div className="relative overflow-hidden rounded-lg bg-[#121212] border border-white/[0.08] p-6 md:p-8">
+        <img
+          src="/logo.png"
+          alt="GrindFam Mascot"
+          className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.06] grayscale pointer-events-none select-none"
+        />
+
         <div className="relative z-10 max-w-3xl space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-[#8b949e] text-xs font-semibold">
-            <Sparkles className="w-3.5 h-3.5 text-[#EA5D3A]" />
-            <span>Interactive Learning Paths & Preparation Guides</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#EA5D3A]/10 border border-[#EA5D3A]/20 text-[#EA5D3A] text-xs font-bold">
+            <Compass className="w-3.5 h-3.5" />
+            <span className="uppercase tracking-tight">Structured Preparation Guides</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
             Engineering Career Roadmaps
@@ -88,15 +93,15 @@ export function RoadmapsExplorer() {
 
       {/* Active Target Roadmap Ribbon */}
       {activeRoadmapId && (
-        <div className="bg-[#121212] border border-[#EA5D3A]/30 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
+        <div className="bg-[#121212] border border-[#EA5D3A]/30 rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 text-[#EA5D3A] flex items-center justify-center font-bold">
               <Bookmark className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-extrabold text-[#EA5D3A] uppercase tracking-wider">Active Target Roadmap</span>
-                <span className="px-2 py-0.5 rounded-md bg-[#EA5D3A]/15 text-[#EA5D3A] text-[10px] font-bold">Following</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#EA5D3A]/15 text-[#EA5D3A] text-[10px] font-bold">Following</span>
               </div>
               <h3 className="text-sm font-extrabold text-white mt-0.5">
                 {roadmaps.find(r => r.id === activeRoadmapId)?.title || 'Selected Roadmap'}
@@ -107,14 +112,14 @@ export function RoadmapsExplorer() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigate(`/roadmap/${activeRoadmapId}`)}
-              className="px-3.5 py-2 rounded-lg bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white font-bold text-xs transition-all shadow-md shadow-[#EA5D3A]/20 flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-md bg-gradient-to-r from-[#EA5D3A] to-[#F2704E] hover:from-[#D84C2A] hover:to-[#EA5D3A] text-white font-bold text-xs transition-all shadow-md shadow-[#EA5D3A]/20 flex items-center gap-1.5"
             >
               <span>Open Roadmap</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={(e) => toggleFollowRoadmap(e, activeRoadmapId)}
-              className="px-3 py-2 rounded-lg bg-[#181818] hover:bg-[#202020] text-[#8b949e] hover:text-white border border-white/10 text-xs font-semibold transition-all"
+              className="px-3 py-2 rounded-md bg-[#181818] hover:bg-[#202020] text-[#8b949e] hover:text-white border border-white/10 text-xs font-semibold transition-all"
             >
               Unfollow
             </button>
@@ -131,7 +136,7 @@ export function RoadmapsExplorer() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search roadmaps by title or topic..."
-            className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A]"
+            className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-md text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#EA5D3A]"
           />
         </div>
 
@@ -146,7 +151,7 @@ export function RoadmapsExplorer() {
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 border ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 border ${
                 selectedCategory === cat.id
                   ? 'bg-[#EA5D3A] text-white border-[#EA5D3A] shadow-md shadow-[#EA5D3A]/20'
                   : 'bg-[#161b22] text-[#8b949e] border-[#30363d] hover:text-white hover:border-[#484f58]'
@@ -171,17 +176,17 @@ export function RoadmapsExplorer() {
             <div
               key={rm.id}
               onClick={() => navigate(`/roadmap/${rm.id}`)}
-              className="dash-card overflow-hidden bg-[#121212] border border-white/[0.08] rounded-xl hover:border-[#EA5D3A]/40 transition-all cursor-pointer group flex flex-col justify-between"
+              className="dash-card overflow-hidden bg-[#121212] border border-white/[0.08] rounded-lg hover:border-[#EA5D3A]/40 transition-all cursor-pointer group flex flex-col justify-between"
             >
               <div>
                 {/* Header Tile */}
                 <div className="relative h-28 w-full overflow-hidden bg-[#161b22] flex items-center justify-between px-5 border-b border-white/[0.06]">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center text-[#EA5D3A] font-black text-base">
+                    <div className="w-10 h-10 rounded-md bg-[#EA5D3A]/15 border border-[#EA5D3A]/30 flex items-center justify-center text-[#EA5D3A] font-black text-base">
                       {rm.title[0].toUpperCase()}
                     </div>
                     <div>
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#181818] border border-white/10 text-[#8b949e]">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#181818] border border-white/10 text-[#8b949e]">
                         {rm.category}
                       </span>
                     </div>
@@ -189,7 +194,7 @@ export function RoadmapsExplorer() {
 
                   <button
                     onClick={(e) => toggleFollowRoadmap(e, rm.id)}
-                    className={`p-1.5 rounded-lg transition-all ${
+                    className={`p-1.5 rounded-md transition-all ${
                       isFollowing
                         ? 'bg-[#EA5D3A] text-white'
                         : 'bg-[#181818] text-[#8b949e] hover:text-white border border-white/10'
@@ -217,7 +222,7 @@ export function RoadmapsExplorer() {
                       <span>{completedCount} / {totalSteps} Steps</span>
                       <span className="text-[#EA5D3A] font-bold">{percent}%</span>
                     </div>
-                    <div className="progress-track h-2 bg-[#0d1117] border border-[#21262d]">
+                    <div className="progress-track h-1.5 bg-[#0d1117] border border-white/10">
                       <div className="progress-fill h-full bg-gradient-to-r from-[#EA5D3A] to-[#F2704E]" style={{ width: `${percent}%` }} />
                     </div>
                   </div>
