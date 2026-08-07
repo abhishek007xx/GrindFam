@@ -226,267 +226,157 @@ export function TopicProblems() {
   };
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-          {/* Back Navigation */}
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-xs font-semibold text-[#8b949e] hover:text-white transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
+    <div className="space-y-6 animate-fadeIn pb-12">
+
+      {/* Back Navigation */}
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 text-xs font-semibold text-[#9CA3AF] hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span>Back</span>
+      </button>
+
+      {/* Header Banner */}
+      <div className="relative overflow-hidden rounded-lg bg-[#161B22] border border-[#30363D] p-6 md:p-8">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#EA5D3A]/5 via-transparent to-transparent pointer-events-none" />
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-2.5 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#1F2937] border border-[#30363D] text-[#9CA3AF] text-xs font-medium">
+              <Hash className="w-3.5 h-3.5 text-[#EA5D3A]" />
+              <span>Topic Explorer</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#F3F4F6] tracking-tight flex items-center gap-2">
+              <Hash className="w-6 h-6 text-[#EA5D3A]" />
+              {decodedTag}
+            </h1>
+            <p className="text-xs md:text-sm text-[#9CA3AF] leading-relaxed">
+              All problems tagged with <strong className="text-[#EA5D3A]">#{decodedTag}</strong> across company tracks and creator sheets.
+            </p>
+            <div className="flex items-center gap-2 pt-1">
+              <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">{difficultyBreakdown.Easy} Easy</span>
+              <span className="px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-semibold">{difficultyBreakdown.Medium} Medium</span>
+              <span className="px-2.5 py-1 rounded-md bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold">{difficultyBreakdown.Hard} Hard</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 bg-[#0D1117] border border-[#30363D] rounded-lg p-4 shadow-md flex-shrink-0">
+            <ProgressRing percentage={percentage} size={64} strokeWidth={6} />
+            <div className="space-y-1 text-xs">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-[#EA5D3A]" />
+                <span className="font-bold text-white">{solvedCount} / {totalProblems}</span>
+              </div>
+              <p className="text-[11px] text-[#6B7280]">{totalProblems - solvedCount} remaining</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Topics */}
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mr-1">Browse Topics:</span>
+        {POPULAR_TOPICS.filter(t => t !== decodedTag).slice(0, 12).map(topic => (
+          <button key={topic} onClick={() => navigate(`/topics/${encodeURIComponent(topic)}`)}
+            className="px-3 py-1 rounded-md text-[10px] font-semibold transition-all border bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#EA5D3A]/40">
+            #{topic}
           </button>
+        ))}
+      </div>
 
-          {/* Header Banner */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-violet-950/40 via-indigo-900/20 to-[#0d1117] border border-[#30363d] p-8 shadow-2xl">
-            <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-              <Hash className="w-64 h-64 text-violet-400" />
-            </div>
+      {/* Filter Bar */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="relative w-full md:w-80">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280]" />
+          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search within topic..."
+            className="w-full pl-10 pr-4 py-2 bg-[#161B22] border border-[#30363D] rounded-md text-xs text-[#F3F4F6] placeholder-[#6B7280] focus:outline-none focus:border-[#EA5D3A] transition-all" />
+        </div>
+        <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
+          {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
+            <button key={diff} onClick={() => setDifficultyFilter(diff)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${difficultyFilter === diff ? 'bg-[#1F2937] text-white border-[#EA5D3A] font-semibold' : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'}`}>
+              {diff}
+            </button>
+          ))}
+          <div className="w-px h-4 bg-[#30363D] mx-1" />
+          {[{ key: 'ALL', label: 'All' }, { key: 'sheet', label: 'Sheets' }, { key: 'company', label: 'Companies' }].map(src => (
+            <button key={src.key} onClick={() => setSourceFilter(src.key)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap border ${sourceFilter === src.key ? 'bg-[#1F2937] text-white border-[#EA5D3A] font-semibold' : 'bg-[#161B22] text-[#9CA3AF] border-[#30363D] hover:text-white hover:border-[#4B5563]'}`}>
+              {src.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
-            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div className="space-y-3 max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-semibold">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Topic Explorer</span>
-                </div>
-                <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
-                  <Hash className="w-8 h-8 text-violet-400" />
-                  {decodedTag}
-                </h1>
-                <p className="text-sm text-[#8b949e] leading-relaxed">
-                  All problems tagged with <strong className="text-violet-400">#{decodedTag}</strong> across company tracks and creator sheets.
-                </p>
-
-                {/* Difficulty Breakdown Badges */}
-                <div className="flex items-center gap-2 pt-1">
-                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold">
-                    {difficultyBreakdown.Easy} Easy
-                  </span>
-                  <span className="px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold">
-                    {difficultyBreakdown.Medium} Medium
-                  </span>
-                  <span className="px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold">
-                    {difficultyBreakdown.Hard} Hard
-                  </span>
-                </div>
-              </div>
-
-              {/* Progress Ring */}
-              <div className="flex items-center gap-5 bg-[#161b22] border border-[#30363d] rounded-2xl p-5 shadow-xl">
-                <ProgressRing percentage={percentage} size={72} strokeWidth={6} />
-                <div className="space-y-1 text-xs">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-violet-400" />
-                    <span className="font-bold text-white">{solvedCount} / {totalProblems}</span>
+      {/* Problems List */}
+      {loading ? (
+        <div className="space-y-2">
+          {[1, 2, 3, 4, 5, 6].map(n => (
+            <div key={n} className="h-14 rounded-md bg-[#161B22] border border-[#30363D] animate-pulse" />
+          ))}
+        </div>
+      ) : filteredProblems.length === 0 ? (
+        <div className="text-center py-12 bg-[#161B22] border border-[#30363D] rounded-lg space-y-3">
+          <Hash className="w-10 h-10 text-[#4B5563] mx-auto" />
+          <h3 className="text-sm font-semibold text-[#F3F4F6]">No Problems Found</h3>
+          <p className="text-xs text-[#9CA3AF]">No problems match your current filters for #{decodedTag}.</p>
+        </div>
+      ) : (
+        <motion.div variants={containerVariants} initial="hidden" animate="visible"
+          className="bg-[#161B22] border border-[#30363D] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3 bg-[#0D1117] border-b border-[#30363D] text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">
+            <span></span><span>Problem</span><span className="hidden sm:block">Source</span><span>Difficulty</span><span>Status</span><span></span>
+          </div>
+          <div className="divide-y divide-[#21262D]">
+            {filteredProblems.map((prob) => {
+              const userState = progressMap[prob.id] || {};
+              const status = userState.status || 'not_started';
+              const isSolved = status === 'solved';
+              const isRevision = status === 'revision_needed';
+              const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
+              return (
+                <motion.div key={prob.id} variants={rowVariants}
+                  className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#1F2937]/40 ${isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''}`}>
+                  <button onClick={() => toggleStatusOptimistic(user?.id, prob.id)} className="focus:outline-none transition-transform active:scale-90" title="Toggle status">
+                    <AnimatePresence mode="wait">
+                      {isSolved ? (
+                        <motion.div key="solved" initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} className="w-5 h-5 rounded-md bg-emerald-500 text-black flex items-center justify-center">
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </motion.div>
+                      ) : isRevision ? (
+                        <motion.div key="revision" initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} className="w-5 h-5 rounded-md bg-amber-500/20 border border-amber-500/50 text-amber-400 flex items-center justify-center">
+                          <RotateCcw className="w-3.5 h-3.5" />
+                        </motion.div>
+                      ) : (
+                        <motion.div key="unsolved" className="w-5 h-5 rounded-md border-2 border-[#4B5563] hover:border-[#EA5D3A] transition-colors" />
+                      )}
+                    </AnimatePresence>
+                  </button>
+                  <a href={leetcodeUrl} target="_blank" rel="noopener noreferrer"
+                    className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate transition-colors ${isSolved ? 'text-emerald-400 line-through opacity-85' : isRevision ? 'text-amber-300' : 'text-[#F3F4F6]'}`}>
+                    <span className="truncate">{prob.title}</span>
+                    <ExternalLink className="w-3 h-3 text-[#6B7280] flex-shrink-0" />
+                  </a>
+                  <div className="hidden sm:flex items-center gap-1.5 min-w-0">
+                    {prob.source_type === 'company' ? <Building2 className="w-3 h-3 text-[#EA5D3A] flex-shrink-0" /> : <FileCode2 className="w-3 h-3 text-emerald-400 flex-shrink-0" />}
+                    <span className="text-[10px] text-[#9CA3AF] truncate">{prob.source_name || prob.source_type}</span>
                   </div>
-                  <p className="text-[11px] text-[#8b949e]">{totalProblems - solvedCount} remaining</p>
-                </div>
-              </div>
-            </div>
+                  <span className="inline-flex items-center gap-1.5 text-xs text-[#9CA3AF] font-medium">
+                    <span className={`w-2 h-2 rounded-full inline-block ${prob.difficulty === 'Easy' ? 'bg-emerald-500' : prob.difficulty === 'Medium' ? 'bg-amber-500' : 'bg-rose-500'}`} />
+                    {prob.difficulty}
+                  </span>
+                  <span className={`text-[10px] font-semibold ${isSolved ? 'text-emerald-400' : isRevision ? 'text-amber-400' : 'text-[#4B5563]'}`}>
+                    {isSolved ? 'Solved' : isRevision ? 'Revision' : '—'}
+                  </span>
+                  <a href={leetcodeUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded hover:bg-[#30363D] transition-colors">
+                    <ExternalLink className="w-3.5 h-3.5 text-[#6B7280] hover:text-[#EA5D3A] transition-colors" />
+                  </a>
+                </motion.div>
+              );
+            })}
           </div>
-
-          {/* Related Topics */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] font-bold text-[#6e7681] uppercase tracking-widest mr-1">Browse Topics:</span>
-            {POPULAR_TOPICS.filter(t => t !== decodedTag).slice(0, 12).map(topic => (
-              <button
-                key={topic}
-                onClick={() => navigate(`/topics/${encodeURIComponent(topic)}`)}
-                className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold transition-all border ${
-                  topic === decodedTag
-                    ? 'bg-violet-600 text-white border-violet-500/30'
-                    : 'bg-[#161b22] text-[#8b949e] border-[#30363d] hover:text-white hover:border-violet-500/30'
-                }`}
-              >
-                #{topic}
-              </button>
-            ))}
-          </div>
-
-          {/* Filter Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-[#0d1117] border border-[#30363d] rounded-2xl p-4 shadow-lg">
-            <div className="relative w-full sm:w-80">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6e7681]" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search within topic..."
-                className="w-full pl-10 pr-4 py-2 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-violet-500/50"
-              />
-            </div>
-
-            <div className="flex items-center gap-2 flex-wrap">
-              {/* Difficulty Filter */}
-              <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
-                {['ALL', 'Easy', 'Medium', 'Hard'].map(diff => (
-                  <button
-                    key={diff}
-                    onClick={() => setDifficultyFilter(diff)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      difficultyFilter === diff
-                        ? 'bg-violet-600 text-white shadow'
-                        : 'text-[#8b949e] hover:text-white'
-                    }`}
-                  >
-                    {diff}
-                  </button>
-                ))}
-              </div>
-
-              {/* Source Filter */}
-              <div className="flex items-center gap-1 bg-[#161b22] p-1 rounded-xl border border-[#30363d]">
-                {[
-                  { key: 'ALL', label: 'All' },
-                  { key: 'sheet', label: 'Sheets' },
-                  { key: 'company', label: 'Companies' }
-                ].map(src => (
-                  <button
-                    key={src.key}
-                    onClick={() => setSourceFilter(src.key)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      sourceFilter === src.key
-                        ? 'bg-violet-600 text-white shadow'
-                        : 'text-[#8b949e] hover:text-white'
-                    }`}
-                  >
-                    {src.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Problems List */}
-          {loading ? (
-            <div className="space-y-3">
-              {[1, 2, 3, 4, 5, 6].map(n => (
-                <div key={n} className="h-16 rounded-xl bg-[#161b22]/50 border border-[#30363d] animate-pulse" />
-              ))}
-            </div>
-          ) : filteredProblems.length === 0 ? (
-            <div className="text-center py-16 bg-[#161b22]/30 border border-[#30363d] rounded-2xl p-8 space-y-3">
-              <Hash className="w-12 h-12 text-[#6e7681] mx-auto" />
-              <h3 className="text-base font-semibold text-white">No Problems Found</h3>
-              <p className="text-xs text-[#8b949e]">No problems match your current filters for #{decodedTag}.</p>
-            </div>
-          ) : (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="bg-[#0d1117] border border-[#30363d] rounded-2xl overflow-hidden shadow-lg"
-            >
-              {/* Table Header */}
-              <div className="grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3 bg-[#161b22]/70 border-b border-[#21262d] text-[10px] font-bold text-[#6e7681] uppercase tracking-widest">
-                <span></span>
-                <span>Problem</span>
-                <span className="hidden sm:block">Source</span>
-                <span>Difficulty</span>
-                <span>Status</span>
-                <span></span>
-              </div>
-
-              {/* Problem Rows */}
-              <div className="divide-y divide-[#21262d]">
-                {filteredProblems.map((prob) => {
-                  const userState = progressMap[prob.id] || {};
-                  const status = userState.status || 'not_started';
-                  const isSolved = status === 'solved';
-                  const isRevision = status === 'revision_needed';
-                  const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
-
-                  return (
-                    <motion.div
-                      key={prob.id}
-                      variants={rowVariants}
-                      className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#161b22]/50 ${
-                        isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''
-                      }`}
-                    >
-                      {/* Checkbox */}
-                      <button
-                        onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
-                        className="focus:outline-none transition-transform active:scale-90"
-                        title="Toggle status"
-                      >
-                        <AnimatePresence mode="wait">
-                          {isSolved ? (
-                            <motion.div
-                              key="solved"
-                              initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }}
-                              className="w-5 h-5 rounded-md bg-emerald-500 text-black flex items-center justify-center"
-                            >
-                              <Check className="w-3.5 h-3.5 stroke-[3]" />
-                            </motion.div>
-                          ) : isRevision ? (
-                            <motion.div
-                              key="revision"
-                              initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }}
-                              className="w-5 h-5 rounded-md bg-amber-500/20 border border-amber-500/50 text-amber-400 flex items-center justify-center"
-                            >
-                              <RotateCcw className="w-3.5 h-3.5" />
-                            </motion.div>
-                          ) : (
-                            <motion.div
-                              key="unsolved"
-                              className="w-5 h-5 rounded-md border-2 border-[#484f58] hover:border-white transition-colors"
-                            />
-                          )}
-                        </AnimatePresence>
-                      </button>
-
-                      {/* Title */}
-                      <a
-                        href={leetcodeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`text-sm font-semibold hover:underline flex items-center gap-2 truncate transition-colors ${
-                          isSolved ? 'text-emerald-400 line-through opacity-85' : isRevision ? 'text-amber-300' : 'text-white'
-                        }`}
-                      >
-                        <span className="truncate">{prob.title}</span>
-                        <ExternalLink className="w-3 h-3 text-[#6e7681] flex-shrink-0" />
-                      </a>
-
-                      {/* Source — hidden on mobile */}
-                      <div className="hidden sm:flex items-center gap-1.5 min-w-0">
-                        {prob.source_type === 'company'
-                          ? <Building2 className="w-3 h-3 text-indigo-400 flex-shrink-0" />
-                          : <FileCode2 className="w-3 h-3 text-emerald-400 flex-shrink-0" />
-                        }
-                        <span className="text-[10px] text-[#8b949e] truncate">{prob.source_name || prob.source_type}</span>
-                      </div>
-
-                      {/* Difficulty */}
-                      <span className="inline-flex items-center gap-1.5 text-xs text-[#8b949e] font-medium">
-                        <span className={`w-2 h-2 rounded-full inline-block ${
-                          prob.difficulty === 'Easy' ? 'bg-[#22c55e]' : prob.difficulty === 'Medium' ? 'bg-[#eab308]' : 'bg-[#ef4444]'
-                        }`} />
-                        {prob.difficulty}
-                      </span>
-
-                      {/* Status Badge */}
-                      <span className={`text-[10px] font-semibold ${
-                        isSolved ? 'text-emerald-400' : isRevision ? 'text-amber-400' : 'text-[#6e7681]'
-                      }`}>
-                        {isSolved ? 'Solved' : isRevision ? 'Revision' : '—'}
-                      </span>
-
-                      {/* LeetCode Link */}
-                      <a
-                        href={leetcodeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1 rounded hover:bg-white/5 transition-colors"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5 text-[#6e7681] hover:text-white" />
-                      </a>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
+        </motion.div>
+      )}
     </div>
   );
 }
