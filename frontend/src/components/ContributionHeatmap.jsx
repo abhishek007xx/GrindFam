@@ -133,14 +133,14 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   const yearlyPercent = Math.min(100, Math.round(((stats.activeDays || 0) / 365) * 100));
-  const circleRadius = 26;
-  const circumference = 2 * Math.PI * circleRadius;
-  const strokeDashoffset = circumference * (1 - yearlyPercent / 100);
+  const bigCircleRadius = 32;
+  const bigCircumference = 2 * Math.PI * bigCircleRadius; // ~201.06
+  const bigStrokeDashoffset = bigCircumference * (1 - yearlyPercent / 100);
 
   return (
     <div className="dash-card p-4 sm:p-6 border border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white rounded-2xl shadow-sm" id="activity-section">
-      {/* Header with Circular Yearly Donut Ring */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5 pb-4 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5 pb-4 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="flex items-center gap-3">
           <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
             <GitCommit className="w-5 h-5" />
@@ -158,99 +158,107 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {/* ⭕ Gol Circular Donut Ring (Yearly Grind Consistency %) */}
-        <div className="flex items-center gap-3 bg-[#141414] dark:bg-[#141414] light:bg-slate-100 px-3.5 py-2 rounded-xl border border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 flex-shrink-0 shadow-sm">
-          <div className="relative w-11 h-11 flex-shrink-0">
-            <svg viewBox="0 0 64 64" className="w-full h-full -rotate-90">
-              <circle cx="32" cy="32" r={circleRadius} fill="none" stroke="#262626" strokeWidth="5" />
-              <circle
-                cx="32" cy="32" r={circleRadius}
-                fill="none" stroke="#10B981" strokeWidth="5"
-                strokeLinecap="round"
-                strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
-                style={{ transition: 'stroke-dashoffset 0.8s ease-out' }}
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center font-mono text-[10px] font-black text-white dark:text-white light:text-slate-900">
-              {yearlyPercent}%
-            </div>
-          </div>
-          <div>
-            <p className="text-xs font-bold text-white dark:text-white light:text-slate-900 tracking-tight">Yearly Consistency</p>
-            <p className="text-[10px] text-[#10B981] font-semibold">{stats.activeDays || 0} of 365 Days Active</p>
-          </div>
-        </div>
+        {loading && <Loader2 className="w-4 h-4 animate-spin text-[#10B981] flex-shrink-0" />}
       </div>
 
-      {/* Heatmap Grid */}
-      <div className="overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-        <div className="min-w-[750px]">
-          {/* Month labels row */}
-          <div className="flex ml-9 mb-1.5" style={{ gap: `${cellGap}px` }}>
-            {weeks.map((_, wi) => {
-              const label = monthLabels.find((m) => m.weekIndex === wi);
-              return (
-                <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
-                  {label && (
-                    <span className="text-[10px] text-[#A3A3A3] font-medium">{label.label}</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Grid: day labels + cells */}
-          <div className="flex">
-            {/* Day-of-week labels */}
-            <div className="flex flex-col w-7 mr-2 flex-shrink-0" style={{ gap: `${cellGap}px` }}>
-              {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
-                <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
-                  <span className="text-[10px] text-[#A3A3A3] font-medium pr-1">{label}</span>
-                </div>
-              ))}
+      {/* Heatmap Grid & BADA SA GOL (Big Donut Ring above Less...More) */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 my-2">
+        {/* Heatmap Grid */}
+        <div className="overflow-x-auto pb-2 -mx-1 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden flex-1">
+          <div className="min-w-[720px]">
+            {/* Month labels row */}
+            <div className="flex ml-9 mb-1.5" style={{ gap: `${cellGap}px` }}>
+              {weeks.map((_, wi) => {
+                const label = monthLabels.find((m) => m.weekIndex === wi);
+                return (
+                  <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
+                    {label && (
+                      <span className="text-[10px] text-[#A3A3A3] font-medium">{label.label}</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Columns = weeks */}
-            <div className="flex" style={{ gap: `${cellGap}px` }}>
-              {weeks.map((week, wi) => (
-                <div key={wi} className="flex flex-col" style={{ gap: `${cellGap}px` }}>
-                  {week.map((day, di) => {
-                    if (!day) {
-                      return <div key={di} style={{ width: cellSize, height: cellSize }} />;
-                    }
-                    const level = getLevel(day.count, maxCount);
-                    return (
-                      <div
-                        key={di}
-                        className="rounded-sm cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-emerald-400"
-                        style={{
-                          width: cellSize,
-                          height: cellSize,
-                          backgroundColor: activeLevelColors[level],
-                        }}
-                        onMouseEnter={(e) => handleMouseEnter(day, e)}
-                        onMouseLeave={() => setHoveredDay(null)}
-                      />
-                    );
-                  })}
-                </div>
+            {/* Grid: day labels + cells */}
+            <div className="flex">
+              {/* Day-of-week labels */}
+              <div className="flex flex-col w-7 mr-2 flex-shrink-0" style={{ gap: `${cellGap}px` }}>
+                {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
+                  <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
+                    <span className="text-[10px] text-[#A3A3A3] font-medium pr-1">{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Columns = weeks */}
+              <div className="flex" style={{ gap: `${cellGap}px` }}>
+                {weeks.map((week, wi) => (
+                  <div key={wi} className="flex flex-col" style={{ gap: `${cellGap}px` }}>
+                    {week.map((day, di) => {
+                      if (!day) {
+                        return <div key={di} style={{ width: cellSize, height: cellSize }} />;
+                      }
+                      const level = getLevel(day.count, maxCount);
+                      return (
+                        <div
+                          key={di}
+                          className="rounded-sm cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-emerald-400"
+                          style={{
+                            width: cellSize,
+                            height: cellSize,
+                            backgroundColor: activeLevelColors[level],
+                          }}
+                          onMouseEnter={(e) => handleMouseEnter(day, e)}
+                          onMouseLeave={() => setHoveredDay(null)}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Legend */}
+            <div className="flex items-center justify-end mt-3 gap-1.5">
+              <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium mr-1">Less</span>
+              {[0, 1, 2, 3, 4].map((lvl) => (
+                <div
+                  key={lvl}
+                  className="rounded-sm"
+                  style={{ width: cellSize, height: cellSize, backgroundColor: activeLevelColors[lvl] }}
+                />
               ))}
+              <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium ml-1">More</span>
             </div>
           </div>
+        </div>
 
-          {/* Legend */}
-          <div className="flex items-center justify-end mt-3 gap-1.5">
-            <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium mr-1">Less</span>
-            {[0, 1, 2, 3, 4].map((lvl) => (
-              <div
-                key={lvl}
-                className="rounded-sm"
-                style={{ width: cellSize, height: cellSize, backgroundColor: activeLevelColors[lvl] }}
+        {/* ⭕ BADA SA GOL — Big Donut Progress Ring Card Right Above Less...More Legend */}
+        <div className="flex flex-col items-center justify-center p-4 bg-[#141414] dark:bg-[#141414] light:bg-slate-50 border border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200 rounded-2xl flex-shrink-0 self-center lg:self-start min-w-[170px] shadow-sm">
+          <div className="relative w-24 h-24 mb-2">
+            <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+              <circle cx="40" cy="40" r={bigCircleRadius} fill="none" stroke="#262626" strokeWidth="6" />
+              <circle
+                cx="40" cy="40" r={bigCircleRadius}
+                fill="none" stroke="#10B981" strokeWidth="6"
+                strokeLinecap="round"
+                strokeDasharray={bigCircumference}
+                strokeDashoffset={bigStrokeDashoffset}
+                style={{ transition: 'stroke-dashoffset 1s ease-out' }}
               />
-            ))}
-            <span className="text-[10px] text-slate-500 dark:text-[#A3A3A3] font-medium ml-1">More</span>
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+              <span className="font-mono text-xl font-black text-white dark:text-white light:text-slate-900 leading-none">
+                {yearlyPercent}%
+              </span>
+              <span className="text-[8px] font-bold uppercase tracking-wider text-[#10B981] mt-1">Yearly</span>
+            </div>
           </div>
+          <p className="text-xs font-extrabold text-white dark:text-white light:text-slate-900 text-center">Grind Consistency</p>
+          <p className="text-[10px] text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 text-center mt-0.5">
+            <span className="font-bold text-[#10B981]">{stats.activeDays || 0}</span> / 365 Days
+          </p>
         </div>
       </div>
 
