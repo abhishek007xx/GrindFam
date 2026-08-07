@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useSquadStore } from './store/useSquadStore';
-import AppLayout from './components/AppLayout';
+import MainLayout from './components/MainLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -33,7 +33,6 @@ const DeepLinkJoinHandler = ({ children }) => {
       if (confirmJoin) {
         joinByCode(code)
           .then(() => {
-            alert(`Successfully joined squad!`);
             navigate('/community');
           })
           .catch((err) => {
@@ -59,7 +58,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -78,7 +77,7 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -97,16 +96,16 @@ const HomeOrLanding = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="h-screen bg-[#0a0e17] flex items-center justify-center">
         <div className="w-8 h-8 border-4 border-[#22c55e] border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return user ? (
-    <AppLayout activeSection="dashboard">
+    <MainLayout>
       <Dashboard />
-    </AppLayout>
+    </MainLayout>
   ) : (
     <LandingPage />
   );
@@ -119,136 +118,24 @@ function App() {
         <DeepLinkJoinHandler>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/forgot-password"
-              element={
-                <PublicRoute>
-                  <ForgotPassword />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/reset-password"
-              element={<ResetPassword />}
-            />
+            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+            <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+
             <Route path="/" element={<HomeOrLanding />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="dashboard">
-                    <Dashboard />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/companies"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="companies">
-                    <CompaniesGrid />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/company/:companySlug/:trackId"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="companies">
-                    <TrackDetail />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/sheets"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="sheets">
-                    <SheetsExplorer />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/sheet/:sheetSlug"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="sheets">
-                    <SheetDetail />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/roadmaps"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="roadmaps">
-                    <RoadmapsExplorer />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/roadmap/:roadmapId"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="roadmaps">
-                    <RoadmapDetail />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/community"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="community">
-                    <SquadHub />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/dashboard" element={<ProtectedRoute><MainLayout><Dashboard /></MainLayout></ProtectedRoute>} />
+            <Route path="/companies" element={<ProtectedRoute><MainLayout><CompaniesGrid /></MainLayout></ProtectedRoute>} />
+            <Route path="/company/:companySlug/:trackId" element={<ProtectedRoute><MainLayout><TrackDetail /></MainLayout></ProtectedRoute>} />
+            <Route path="/sheets" element={<ProtectedRoute><MainLayout><SheetsExplorer /></MainLayout></ProtectedRoute>} />
+            <Route path="/sheet/:sheetSlug" element={<ProtectedRoute><MainLayout><SheetDetail /></MainLayout></ProtectedRoute>} />
+            <Route path="/roadmaps" element={<ProtectedRoute><MainLayout><RoadmapsExplorer /></MainLayout></ProtectedRoute>} />
+            <Route path="/roadmap/:roadmapId" element={<ProtectedRoute><MainLayout><RoadmapDetail /></MainLayout></ProtectedRoute>} />
+            <Route path="/community" element={<ProtectedRoute><MainLayout><SquadHub /></MainLayout></ProtectedRoute>} />
             <Route path="/squad" element={<Navigate to="/community" replace />} />
-            <Route
-              path="/topics/:tagName"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="topics">
-                    <TopicProblems />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <AppLayout activeSection="settings">
-                    <SettingsPage />
-                  </AppLayout>
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/topics/:tagName" element={<ProtectedRoute><MainLayout><TopicProblems /></MainLayout></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><MainLayout><SettingsPage /></MainLayout></ProtectedRoute>} />
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </DeepLinkJoinHandler>

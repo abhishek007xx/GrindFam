@@ -7,7 +7,7 @@ import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Calendar, Bell, ChevronDown, Search, ExternalLink,
-  X, FileCode2, Building2, Hash, ArrowRight, Settings, LogOut, KeyRound
+  X, FileCode2, Building2, Hash, Settings, LogOut, Menu
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -17,7 +17,7 @@ const getInitials = (name = '') => {
   return name.slice(0, 2).toUpperCase();
 };
 
-const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
+const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) => {
   const navigate = useNavigate();
   const { profile, user, signOut } = useAuth();
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
@@ -43,7 +43,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
 
-  // Close search and user menu on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -57,7 +56,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Keyboard shortcut: Ctrl+K to focus search
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -74,7 +72,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Debounced search
   const performSearch = useCallback(async (query) => {
     if (!query || query.trim().length < 2) {
       setSearchResults([]);
@@ -86,7 +83,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
     try {
       const q = query.trim().toLowerCase();
 
-      // 1. Search Supabase problems by title (ilike)
       const { data: supaProblems } = await supabase
         .from('problems')
         .select('id, title, difficulty, leetcode_slug, leetcode_url, source_type, source_id, topic_tags, step_name')
@@ -95,28 +91,11 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
 
       let results = supaProblems || [];
 
-      // 2. Also search by topic tag
-      const { data: tagProblems } = await supabase
-        .from('problems')
-        .select('id, title, difficulty, leetcode_slug, leetcode_url, source_type, source_id, topic_tags, step_name')
-        .contains('topic_tags', [q])
-        .limit(10);
-
-      if (tagProblems) {
-        const existingIds = new Set(results.map(r => r.id));
-        tagProblems.forEach(p => {
-          if (!existingIds.has(p.id)) results.push(p);
-        });
-      }
-
-      // If no Supabase results, search local fallback data
       if (results.length === 0) {
-        const localResults = [];
-
-        // Search sheets data
+        let localResults = [];
         sheetsData.forEach(sheet => {
-          (sheet.steps || []).forEach(step => {
-            (step.problems || []).forEach(prob => {
+          (sheet.topics || []).forEach(topic => {
+            (topic.problems || []).forEach(prob => {
               if (
                 prob.title.toLowerCase().includes(q) ||
                 prob.leetcode_slug.toLowerCase().includes(q) ||
@@ -137,7 +116,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           });
         });
 
-        // Search companies data
         companiesData.forEach(company => {
           (company.roles || []).forEach(role => {
             (role.problems || []).forEach(prob => {
@@ -161,7 +139,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           });
         });
 
-        // Deduplicate by leetcode_slug
         const seen = new Set();
         results = localResults.filter(r => {
           if (seen.has(r.leetcode_slug)) return false;
@@ -172,14 +149,12 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
 
       setSearchResults(results.slice(0, 15));
 
-      // 3. Extract unique topic tags from results for quick topic navigation
       const allTags = new Set();
       results.forEach(r => {
         (r.topic_tags || []).forEach(t => {
           if (t.toLowerCase().includes(q)) allTags.add(t);
         });
       });
-      // Also add common DSA topics that match the query
       const commonTopics = [
         'Array', 'String', 'Hash Table', 'Dynamic Programming', 'Math',
         'Sorting', 'Greedy', 'Depth-First Search', 'Binary Search',
@@ -218,34 +193,53 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
   };
 
   const handleResultClick = (result) => {
-    const url = result.leetcode_url || `https://leetcode.com/problems/${result.leetcode_slug}/`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-    setIsSearchOpen(false);
-  };
-
-  const handleTopicClick = (tag) => {
-    navigate(`/topics/${encodeURIComponent(tag)}`);
     setIsSearchOpen(false);
     setSearchQuery('');
+    if (result.leetcode_url) {
+      window.open(result.leetcode_url, '_blank');
+    } else if (result.leetcode_slug) {
+      window.open(`https://leetcode.com/problems/${result.leetcode_slug}`, '_blank');
+    }
+  };
+
+  const handleTopicClick = (tagName) => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    navigate(`/topics/${encodeURIComponent(tagName)}`);
   };
 
   return (
-    <header className="h-14 bg-[#0d1117] border-b border-[#21262d] flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30">
-      {/* ─── Left spacer for mobile hamburger ─── */}
-      <div className="w-10 lg:hidden" />
+    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#30363d] bg-[#0d1117] flex-shrink-0">
+      {/* Left side: Hamburger button (mobile) + Logo */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onToggleSidebar}
+          className="lg:hidden p-2 rounded-xl text-[#8b949e] hover:text-white hover:bg-white/5 transition-colors"
+          aria-label="Toggle navigation menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
 
-      {/* ─── Global Search Bar ─── */}
-      <div className="relative flex-1 max-w-md" ref={searchRef}>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+          <span className="text-[#22c55e] font-black text-base">&lt;&gt;</span>
+          <span className="text-base font-extrabold text-white">
+            Grind<span className="text-[#22c55e]">Fam</span>
+          </span>
+        </div>
+      </div>
+
+      {/* Global Search Bar */}
+      <div className="relative flex-1 max-w-md mx-4" ref={searchRef}>
         <div className="relative flex items-center">
-          <Search className="absolute left-3 w-3.5 h-3.5 text-[#6e7681] pointer-events-none" />
+          <Search className="absolute left-3 w-4 h-4 text-[#6e7681]" />
           <input
             ref={inputRef}
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
             onFocus={() => setIsSearchOpen(true)}
-            placeholder="Search problems, topics..."
-            className="w-full pl-9 pr-16 py-1.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs text-[#e6edf3] placeholder-[#484f58] focus:outline-none focus:border-emerald-500/50 focus:bg-[#0d1117] transition-all"
+            placeholder="Search problems, topics, sheets..."
+            className="w-full pl-9 pr-8 py-1.5 bg-[#161b22] border border-[#30363d] rounded-xl text-xs text-[#e6edf3] placeholder-[#6e7681] focus:outline-none focus:border-[#22c55e] transition-all"
           />
           {searchQuery ? (
             <button
@@ -278,7 +272,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
                 </div>
               ) : (
                 <>
-                  {/* Topic Tags */}
                   {topicResults.length > 0 && (
                     <div className="px-3 py-2.5 border-b border-[#21262d]">
                       <p className="text-[9px] font-bold text-[#6e7681] uppercase tracking-widest mb-2">Topics</p>
@@ -297,7 +290,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
                     </div>
                   )}
 
-                  {/* Problem Results */}
                   {searchResults.length > 0 && (
                     <div className="max-h-[320px] overflow-y-auto">
                       <p className="px-3 pt-2.5 pb-1 text-[9px] font-bold text-[#6e7681] uppercase tracking-widest">
@@ -357,9 +349,8 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
         </AnimatePresence>
       </div>
 
-      {/* ─── Right Section ─── */}
+      {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
-        {/* Streak Badge */}
         <div className="hidden sm:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-semibold">
           <Flame className="w-3.5 h-3.5 text-orange-500" />
           <span className={streakDays > 0 ? 'text-orange-400' : 'text-[#6e7681]'}>
@@ -367,18 +358,15 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
           </span>
         </div>
 
-        {/* Date — hidden on mobile */}
         <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#161b22] border border-[#30363d] text-xs font-medium text-[#8b949e]">
           <Calendar className="w-3.5 h-3.5" />
           <span>{dateStr}</span>
         </div>
 
-        {/* Notification Bell */}
         <button className="relative p-2 rounded-xl hover:bg-white/5 text-[#8b949e] hover:text-white transition-colors">
           <Bell className="w-4 h-4" />
         </button>
 
-        {/* User Avatar Dropdown */}
         <div className="relative pl-2 border-l border-[#21262d]" ref={userMenuRef}>
           <button
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -410,7 +398,7 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
                   className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
                 >
                   <Settings className="w-4 h-4 text-emerald-400" />
-                  <span>Account Settings & Password</span>
+                  <span>Account Settings</span>
                 </button>
 
                 <div className="border-t border-[#21262d] my-1" />
@@ -428,7 +416,6 @@ const Navbar = ({ onRefresh, refreshing, platformTotal = 0 }) => {
         </div>
       </div>
 
-      {/* Settings / Password Reset Modal */}
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}

@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 
-export default function MainLayout({ children, activeSection = 'dashboard' }) {
+export default function MainLayout({ children }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
-    <div className="h-screen w-screen overflow-hidden overflow-x-hidden bg-[#0d1117] text-[#e6edf3] flex">
-      {/* Sidebar (Desktop fixed 240px, Mobile drawer z-40) */}
-      <Sidebar activeSection={activeSection} />
-
-      {/* Main Content Area */}
-      <div className="lg:pl-[240px] flex-1 flex flex-col h-full w-full overflow-hidden">
-        {/* Navbar (Header z-40) */}
-        <Navbar />
-
-        {/* Scrollable Page Content Container */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden relative flex flex-col bg-[#0d1117]">
-          {children}
+    <div className="h-screen w-full flex bg-[#0a0e17] text-[#c9d1d9] overflow-hidden">
+      <div className="hidden lg:block w-64 flex-shrink-0 border-r border-[#30363d] bg-[#0d1117] overflow-y-auto">
+        <Sidebar />
+      </div>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-y-0 left-0 w-64 bg-[#0d1117] border-r border-[#30363d] overflow-y-auto">
+            <Sidebar onNavigate={() => setMobileOpen(false)} />
+          </div>
+        </div>
+      )}
+      <div className="flex-1 flex flex-col min-w-0">
+        <Navbar onToggleSidebar={() => setMobileOpen(o => !o)} />
+        <main className="flex-1 overflow-y-auto">
+          <div className="max-w-7xl mx-auto w-full p-4 md:p-6 lg:p-8">{children}</div>
         </main>
       </div>
     </div>

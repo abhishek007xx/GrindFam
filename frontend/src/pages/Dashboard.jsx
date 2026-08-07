@@ -4,9 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData, sheetsData } from '../lib/dataFallback';
-import { useAuth } from '../context/AuthContext';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
 import StatsCards from '../components/StatsCards';
 import LeaderboardTable from '../components/LeaderboardTable';
 import WeeklyProgress from '../components/WeeklyProgress';
@@ -232,27 +229,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="page-shell">
-      {/* Left Sidebar */}
-      <Sidebar
-        activeSection={activeSection}
-        onNavigate={handleNavigate}
-        onEditTarget={() => setIsEditModalOpen(true)}
-        onOpenSquadModal={() => setIsSquadModalOpen(true)}
-        platformTotal={yourPlatformTotal}
-      />
-
-      {/* Main Content */}
-      <div className="page-content">
-        {/* Top Navbar */}
-        <Navbar
-          onRefresh={() => fetchDashboard(true)}
-          refreshing={refreshing}
-          platformTotal={yourPlatformTotal}
-        />
-
-        {/* Main Scrollable Area */}
-        <main className="page-main animate-fadeIn">
+    <div className="space-y-8 animate-fadeIn">
 
           {/* Greeting Header */}
           <div className="mb-6">
@@ -469,9 +446,6 @@ const Dashboard = () => {
               <Heart className="w-3 h-3 text-purple-400 fill-purple-400" />
             </p>
           </div>
-        </main>
-      </div>
-
       {/* Edit Target Modal */}
       <EditTargetModal
         isOpen={isEditModalOpen}
