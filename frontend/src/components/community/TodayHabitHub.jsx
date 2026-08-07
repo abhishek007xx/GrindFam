@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Sparkles, Play, CheckCircle2, ArrowRight, ShieldCheck, Users, Circle } from 'lucide-react';
@@ -17,8 +17,8 @@ export function TodayHabitHub({
   const navigate = useNavigate();
   const xpPercent = Math.min(100, Math.round((dailyXp / targetXp) * 100));
 
-  // Online members (active in last 24h)
-  const onlineMembers = members.filter(m => m.isOnline);
+  // Online members (active in last 24h) memoized for performance
+  const onlineMembers = useMemo(() => members.filter(m => m.isOnline), [members]);
   const podCapacity = activeSquad?.max_members || 10;
   const memberCount = members.length;
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, ThumbsUp, Code, Send, Plus, X, Loader2, CheckCircle } from 'lucide-react';
 import { useSquadStore } from '../../store/useSquadStore';
@@ -84,16 +84,18 @@ export function PeerCodeReviewQueue() {
     await giveKudos(reviewId);
   };
 
-  // Filter logic
-  const filteredReviews = peerReviews.filter(review => {
-    if (activeTab === 'all') return true;
-    if (activeTab === 'approved') return review.status === 'approved';
-    if (activeTab === 'pending') return review.status === 'pending' && review.author_id !== session?.user?.id;
-    return true;
-  });
+  // Filter logic memoized for performance
+  const filteredReviews = useMemo(() => {
+    return peerReviews.filter(review => {
+      if (activeTab === 'all') return true;
+      if (activeTab === 'approved') return review.status === 'approved';
+      if (activeTab === 'pending') return review.status === 'pending' && review.author_id !== session?.user?.id;
+      return true;
+    });
+  }, [peerReviews, activeTab, session?.user?.id]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" aria-live="polite">
       {/* Header & Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
@@ -103,20 +105,24 @@ export function PeerCodeReviewQueue() {
         
         <button
           onClick={() => setShowSubmitModal(true)}
-          className="px-4 py-2 bg-[#EA5D3A] hover:bg-[#F2633F] text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2"
+          aria-haspopup="dialog"
+          aria-expanded={showSubmitModal}
+          className="px-4 py-2 bg-[#EA5D3A] hover:bg-[#F2633F] text-white text-xs font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0C10]"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4" aria-hidden="true" />
           <span>Submit for Review</span>
         </button>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#30363D] pb-2">
+      <div className="flex items-center gap-2 border-b border-[#30363D] pb-2" role="tablist" aria-label="Review Queue Filters">
         {['all', 'pending', 'approved'].map(tab => (
           <button
             key={tab}
+            role="tab"
+            aria-selected={activeTab === tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-xs font-bold rounded-t-lg transition-all border-b-2 ${
+            className={`px-4 py-2 text-xs font-bold rounded-t-lg transition-all border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] ${
               activeTab === tab 
                 ? 'border-[#EA5D3A] text-[#EA5D3A]' 
                 : 'border-transparent text-[#9CA3AF] hover:text-[#F3F4F6]'
@@ -169,16 +175,17 @@ export function PeerCodeReviewQueue() {
                     )}
                     <button
                       onClick={() => handleKudos(review.id)}
-                      className="flex items-center gap-1.5 px-2 py-1 bg-[#1F2937] hover:bg-[#252D3B] text-[#9CA3AF] hover:text-[#EA5D3A] border border-[#30363D] rounded-md transition-colors text-xs font-bold"
+                      aria-label={`Give kudos to ${review.author_name}'s solution. Current kudos: ${review.kudos_count || 0}`}
+                      className="flex items-center gap-1.5 px-2 py-1 bg-[#1F2937] hover:bg-[#252D3B] text-[#9CA3AF] hover:text-[#EA5D3A] border border-[#30363D] rounded-md transition-colors text-xs font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
                     >
-                      <ThumbsUp className="w-3.5 h-3.5" />
+                      <ThumbsUp className="w-3.5 h-3.5" aria-hidden="true" />
                       <span>{review.kudos_count || 0}</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Code Snippet with Line Actions */}
-                <div className="p-4 bg-[#0a0e17] font-mono text-xs overflow-x-auto">
+                <div className="p-4 bg-[#0a0e17] font-mono text-xs overflow-x-auto scrollbar-thin scrollbar-thumb-[#30363D]">
                   <pre className="text-[#e6edf3]">
                     {review.code_snippet.split('\n').map((line, idx) => {
                       const lineNum = idx + 1;
@@ -199,10 +206,11 @@ export function PeerCodeReviewQueue() {
                               setAnnotatingLine(lineNum);
                               setAnnotationText('');
                             }}
-                            className="absolute right-2 top-0 bottom-0 opacity-0 group-hover:opacity-100 text-[#6B7280] hover:text-[#EA5D3A] px-2 flex items-center"
-                            title="Add line comment"
+                            className="absolute right-2 top-0 bottom-0 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 text-[#6B7280] hover:text-[#EA5D3A] px-2 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
+                            aria-label={`Add comment on line ${lineNum}`}
+                            title={`Add comment on line ${lineNum}`}
                           >
-                            <MessageSquare className="w-3.5 h-3.5" />
+                            <MessageSquare className="w-3.5 h-3.5" aria-hidden="true" />
                           </button>
                         </div>
                       );
@@ -240,7 +248,8 @@ export function PeerCodeReviewQueue() {
                         value={annotationText}
                         onChange={(e) => setAnnotationText(e.target.value)}
                         placeholder="Add review comment..."
-                        className="w-full bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-md py-1.5 px-3 text-xs text-[#F3F4F6] outline-none pr-10"
+                        aria-label={`Annotation comment for line ${annotatingLine}`}
+                        className="w-full bg-[#0D1117] border border-[#30363D] focus:border-[#EA5D3A] rounded-md py-1.5 px-3 text-xs text-[#F3F4F6] outline-none pr-10 focus-visible:ring-2 focus-visible:ring-[#EA5D3A]"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleAddAnnotation(review.id);
                           if (e.key === 'Escape') setAnnotatingLine(null);
@@ -249,13 +258,14 @@ export function PeerCodeReviewQueue() {
                       <button
                         onClick={() => handleAddAnnotation(review.id)}
                         disabled={!annotationText.trim() || submittingAnnotation}
-                        className="absolute right-1.5 top-1.5 text-[#EA5D3A] disabled:opacity-30"
+                        aria-label="Submit annotation"
+                        className="absolute right-1.5 top-1.5 text-[#EA5D3A] disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] rounded"
                       >
-                        {submittingAnnotation ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                        {submittingAnnotation ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : <Send className="w-3.5 h-3.5" aria-hidden="true" />}
                       </button>
                     </div>
-                    <button onClick={() => setAnnotatingLine(null)} className="text-[#6B7280] hover:text-[#F3F4F6] p-1.5">
-                      <X className="w-4 h-4" />
+                    <button onClick={() => setAnnotatingLine(null)} aria-label="Cancel annotation" className="text-[#6B7280] hover:text-[#F3F4F6] p-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] rounded">
+                      <X className="w-4 h-4" aria-hidden="true" />
                     </button>
                   </div>
                 )}
@@ -278,12 +288,15 @@ export function PeerCodeReviewQueue() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-title"
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-[#161B22] border border-[#30363D] rounded-2xl shadow-2xl z-50 p-6"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">Submit Solution for Review</h3>
-                <button onClick={() => setShowSubmitModal(false)} className="text-[#6B7280] hover:text-white transition-colors">
-                  <X className="w-5 h-5" />
+                <h3 id="modal-title" className="text-xl font-bold text-white">Submit Solution for Review</h3>
+                <button onClick={() => setShowSubmitModal(false)} aria-label="Close modal" className="text-[#6B7280] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EA5D3A] rounded">
+                  <X className="w-5 h-5" aria-hidden="true" />
                 </button>
               </div>
 

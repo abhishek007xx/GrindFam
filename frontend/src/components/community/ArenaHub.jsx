@@ -69,6 +69,8 @@ export function ArenaHub({
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25, delay: 0.05 }}
+        aria-live="polite"
+        aria-atomic="true"
         className="bg-[#1F2937] border-2 border-[#EA5D3A] rounded-2xl p-6 md:p-8 text-center shadow-[0_0_30px_rgba(234,93,58,0.15)] relative space-y-6"
       >
         {/* Match State: IDLE */}
