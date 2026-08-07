@@ -106,6 +106,8 @@ const getDashboardData = async (req, res) => {
 
     const todayDate = new Date().toISOString().split('T')[0];
 
+    const forceSync = req.query.forceSync === 'true' || req.body?.forceSync === true;
+
     // 6. Query LeetCode data & calculate Platform Solved for all users in parallel
     const leaderboardData = await Promise.all(
       allProfiles.map(async (profile) => {
@@ -116,7 +118,7 @@ const getDashboardData = async (req, res) => {
         // Sync historical LeetCode submission calendar into daily_activity
         if (!lcData.error) {
           try {
-            await syncUserLeetCodeHistory(profile.id, profile.leetcode_username);
+            await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, forceSync);
 
             // Upsert today's count — use max(existing, incoming) to never lose data
             let finalTodayCount = todayCount;
@@ -151,7 +153,7 @@ const getDashboardData = async (req, res) => {
 
 
         // Fetch activity history for user to calculate streak & platformTotal
-        let platformTotal = 0;
+        let activityTotal = 0;
         let streak = 0;
         try {
           const { data: activityRows } = await supabase
@@ -161,7 +163,7 @@ const getDashboardData = async (req, res) => {
             .gt('solved_count', 0);
 
           if (activityRows && activityRows.length > 0) {
-            platformTotal = activityRows.reduce((sum, row) => sum + (row.solved_count || 0), 0);
+            activityTotal = activityRows.reduce((sum, row) => sum + (row.solved_count || 0), 0);
             
             // Calculate streak
             const dates = activityRows.map(r => r.activity_date);
@@ -184,13 +186,15 @@ const getDashboardData = async (req, res) => {
               }
             }
           } else {
-            platformTotal = todayCount;
+            activityTotal = todayCount;
             if (todayCount > 0) streak = 1;
           }
         } catch (sumErr) {
           console.error(`Error fetching platform total for ${profile.id}:`, sumErr);
-          platformTotal = todayCount;
+          activityTotal = todayCount;
         }
+
+        const platformTotal = Math.max(lcData.totalSolved || 0, activityTotal);
 
         return {
           id: profile.id,
@@ -198,8 +202,11 @@ const getDashboardData = async (req, res) => {
           leetcodeUsername: profile.leetcode_username,
           isSelf: profile.isSelf,
           relationshipId: profile.relationshipId,
-          platformTotal, // Total solved on GrindFam
-          todayCount,    // Full today count (even if > 5)
+          platformTotal, // Total solved on LeetCode / GrindFam
+          todayCount,    // Full today count
+          easyCount: lcData.easyCount || 0,
+          mediumCount: lcData.mediumCount || 0,
+          hardCount: lcData.hardCount || 0,
           targetHit,
           streak,
           error: lcData.error
@@ -258,6 +265,9 @@ const getDashboardData = async (req, res) => {
         yourTargetHit: selfData.targetHit,
         yourPlatformTotal: selfData.platformTotal,
         yourStreak: selfData.streak,
+        easyCount: selfData.easyCount || 0,
+        mediumCount: selfData.mediumCount || 0,
+        hardCount: selfData.hardCount || 0,
         squadTodaySolved,
         squadCompletionRate
       },
@@ -269,6 +279,12 @@ const getDashboardData = async (req, res) => {
   }
 };
 
+const syncLeetCodeData = async (req, res) => {
+  req.query.forceSync = 'true';
+  return getDashboardData(req, res);
+};
+
 module.exports = {
-  getDashboardData
+  getDashboardData,
+  syncLeetCodeData
 };
