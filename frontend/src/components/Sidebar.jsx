@@ -19,13 +19,13 @@ const mainNavItems = [
   { id: 'companies', label: 'Company Tracks', icon: Building2, path: '/companies' },
   { id: 'sheets', label: 'DSA Sheets', icon: FileCode2, path: '/sheets' },
   { id: 'roadmaps', label: 'Roadmaps', icon: Map, path: '/roadmaps' },
+  { id: 'squad', label: 'Squad Hub', icon: Users, path: '/squad' },
   { id: 'topics', label: 'Topics', icon: Hash, path: '/topics/Array' },
 ];
 
 const socialNavItems = [
-  { id: 'squad', label: 'Squad Hub', icon: Shield, path: '/squad' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/', scrollTo: 'leaderboard-section' },
-  { id: 'friends', label: 'Friends', icon: Users, path: '/', scrollTo: 'leaderboard-section' },
+  { id: 'friends', label: 'Friends', icon: Shield, path: '/', scrollTo: 'leaderboard-section' },
   { id: 'addFriend', label: 'Add Friend', icon: UserPlus, path: '/', scrollTo: 'add-friend-section' },
 ];
 
@@ -100,16 +100,19 @@ const Sidebar = ({ activeSection = 'dashboard', onNavigate, onEditTarget, onOpen
       {label && (
         <p className="px-4 pt-4 pb-2 text-[9px] font-bold text-[#484f58] uppercase tracking-[0.15em]">{label}</p>
       )}
-      {items.map((item) => (
-        <div
-          key={item.id}
-          onClick={() => handleClick(item)}
-          className={`sidebar-nav-item ${activeSection === item.id ? 'active' : ''}`}
-        >
-          <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
-          <span>{item.label}</span>
-        </div>
-      ))}
+      {items.map((item) => {
+        const isActive = (item.path && location.pathname === item.path) || activeSection === item.id;
+        return (
+          <div
+            key={item.id}
+            onClick={() => handleClick(item)}
+            className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
+            <span>{item.label}</span>
+          </div>
+        );
+      })}
     </div>
   );
 

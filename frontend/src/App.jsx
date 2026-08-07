@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useSearchParams, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useSquadStore } from './store/useSquadStore';
+import AppLayout from './components/AppLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -102,7 +103,13 @@ const HomeOrLanding = () => {
     );
   }
 
-  return user ? <Dashboard /> : <LandingPage />;
+  return user ? (
+    <AppLayout activeSection="dashboard">
+      <Dashboard />
+    </AppLayout>
+  ) : (
+    <LandingPage />
+  );
 };
 
 function App() {
@@ -145,7 +152,9 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <AppLayout activeSection="dashboard">
+                    <Dashboard />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -153,7 +162,9 @@ function App() {
               path="/companies"
               element={
                 <ProtectedRoute>
-                  <CompaniesGrid />
+                  <AppLayout activeSection="companies">
+                    <CompaniesGrid />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -161,7 +172,9 @@ function App() {
               path="/company/:companySlug/:trackId"
               element={
                 <ProtectedRoute>
-                  <TrackDetail />
+                  <AppLayout activeSection="companies">
+                    <TrackDetail />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -169,7 +182,9 @@ function App() {
               path="/sheets"
               element={
                 <ProtectedRoute>
-                  <SheetsExplorer />
+                  <AppLayout activeSection="sheets">
+                    <SheetsExplorer />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -177,7 +192,9 @@ function App() {
               path="/sheet/:sheetSlug"
               element={
                 <ProtectedRoute>
-                  <SheetDetail />
+                  <AppLayout activeSection="sheets">
+                    <SheetDetail />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -185,7 +202,9 @@ function App() {
               path="/roadmaps"
               element={
                 <ProtectedRoute>
-                  <RoadmapsExplorer />
+                  <AppLayout activeSection="roadmaps">
+                    <RoadmapsExplorer />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -193,7 +212,9 @@ function App() {
               path="/roadmap/:roadmapId"
               element={
                 <ProtectedRoute>
-                  <RoadmapDetail />
+                  <AppLayout activeSection="roadmaps">
+                    <RoadmapDetail />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -201,7 +222,9 @@ function App() {
               path="/squad"
               element={
                 <ProtectedRoute>
-                  <SquadHub />
+                  <AppLayout activeSection="squad">
+                    <SquadHub />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -209,7 +232,9 @@ function App() {
               path="/topics/:tagName"
               element={
                 <ProtectedRoute>
-                  <TopicProblems />
+                  <AppLayout activeSection="topics">
+                    <TopicProblems />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />
@@ -217,7 +242,9 @@ function App() {
               path="/settings"
               element={
                 <ProtectedRoute>
-                  <SettingsPage />
+                  <AppLayout activeSection="settings">
+                    <SettingsPage />
+                  </AppLayout>
                 </ProtectedRoute>
               }
             />

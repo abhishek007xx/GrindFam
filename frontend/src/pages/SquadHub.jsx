@@ -47,8 +47,7 @@ export default function SquadHub() {
   } = useSquadStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [mobileMemberListOpen, setMobileMemberListOpen] = useState(false);
+  const [channelSidebarOpen, setChannelSidebarOpen] = useState(false);
   const [joiningId, setJoiningId] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
   const [userStreak, setUserStreak] = useState(0);
@@ -113,7 +112,7 @@ export default function SquadHub() {
 
   if (loading && mySquads.length === 0) {
     return (
-      <div className="h-screen bg-[#0e150e] flex items-center justify-center">
+      <div className="h-full flex-1 bg-[#0d1117] flex items-center justify-center min-h-[400px]">
         <Loader2 className="w-8 h-8 text-[#22c55e] animate-spin" />
       </div>
     );
@@ -122,9 +121,9 @@ export default function SquadHub() {
   const noSquads = mySquads.length === 0 && !activeSquad;
 
   return (
-    <div className="h-screen flex overflow-hidden bg-[#0e150e] text-[#dce5d9]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="h-full flex-1 flex overflow-hidden bg-[#0d1117] text-[#dce5d9]" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* COLUMN 1: Squad Server Rail (72px) */}
-      <div className="w-[72px] max-md:w-14 bg-[#091009] flex flex-col items-center py-3 gap-1 flex-shrink-0 border-r border-[#3d4a3d] overflow-y-auto scrollbar-hide">
+      <div className="w-[72px] max-md:w-14 bg-[#091009] flex flex-col items-center py-3 gap-1 flex-shrink-0 border-r border-[#21262d] overflow-y-auto scrollbar-hide">
         {/* Home / Discover Button */}
         <div className="relative group flex items-center justify-center mb-2">
           <button
@@ -132,7 +131,7 @@ export default function SquadHub() {
             className={`w-12 max-md:w-10 h-12 max-md:h-10 flex items-center justify-center transition-all duration-300 ${
               !activeSquad
                 ? 'rounded-2xl bg-[#22c55e] text-[#0e150e]'
-                : 'rounded-[24px] bg-[#1a221a] text-[#dce5d9] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e]'
+                : 'rounded-[24px] bg-[#161b22] text-[#dce5d9] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e]'
             }`}
           >
             <Compass className="w-6 h-6 max-md:w-5 max-md:h-5" />
@@ -142,24 +141,24 @@ export default function SquadHub() {
           </div>
         </div>
 
-        <div className="w-8 h-0.5 bg-[#3d4a3d] rounded-full mb-2" />
+        <div className="w-8 h-0.5 bg-[#21262d] rounded-full mb-2" />
 
         {mySquads.map((sq) => (
           <SquadIcon
             key={sq.id}
             squad={sq}
             isActive={activeSquad?.id === sq.id}
-            onClick={() => { setActiveSquad(sq.id); setSidebarOpen(false); }}
+            onClick={() => { setActiveSquad(sq.id); setChannelSidebarOpen(false); }}
           />
         ))}
 
-        <div className="w-8 h-0.5 bg-[#3d4a3d] rounded-full my-1" />
+        <div className="w-8 h-0.5 bg-[#21262d] rounded-full my-1" />
 
         {/* Add Squad Button */}
         <div className="relative group flex items-center justify-center">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="w-12 max-md:w-10 h-12 max-md:h-10 rounded-[24px] bg-[#1a221a] text-[#22c55e] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e] flex items-center justify-center transition-all duration-300"
+            className="w-12 max-md:w-10 h-12 max-md:h-10 rounded-[24px] bg-[#161b22] text-[#22c55e] hover:rounded-2xl hover:bg-[#22c55e] hover:text-[#0e150e] flex items-center justify-center transition-all duration-300"
           >
             <Plus className="w-6 h-6 max-md:w-5 max-md:h-5" />
           </button>
@@ -172,25 +171,17 @@ export default function SquadHub() {
       {/* COLUMN 2: Contextual Sidebar (240px) */}
       {activeSquad ? (
         <>
-          {/* Mobile hamburger button */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="md:hidden fixed top-3 left-16 z-50 p-2 bg-[#161d16] rounded-xl text-[#dce5d9] border border-[#3d4a3d]"
-          >
-            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-
-          <div className={`w-60 bg-[#161d16] flex flex-col flex-shrink-0 border-r border-[#3d4a3d] transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-0 max-md:bottom-0 max-md:z-40 ${
-            sidebarOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
+          <div className={`w-60 bg-[#161b22] flex flex-col flex-shrink-0 border-r border-[#21262d] transition-transform duration-200 max-md:fixed max-md:left-14 max-md:top-14 max-md:bottom-0 max-md:z-40 ${
+            channelSidebarOpen ? 'max-md:translate-x-0' : 'max-md:-translate-x-full'
           }`}>
             {/* Squad Header */}
-            <button className="h-12 px-4 flex items-center justify-between border-b border-[#3d4a3d] shadow-sm hover:bg-[#1a221a] transition-colors flex-shrink-0">
+            <button className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] shadow-sm hover:bg-[#1a221a] transition-colors flex-shrink-0">
               <span className="text-[15px] font-bold text-white truncate">{activeSquad.name}</span>
               <ChevronDown className="w-4 h-4 text-[#869585] flex-shrink-0" />
             </button>
 
             {/* Channels List */}
-            <div className="flex-1 overflow-y-auto px-2 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-[#3d4a3d]">
+            <div className="flex-1 overflow-y-auto px-2 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-[#21262d]">
               {/* Text Channels */}
               <div>
                 <div className="flex items-center justify-between px-1 mb-1">
@@ -204,7 +195,7 @@ export default function SquadHub() {
                     icon={ch.icon}
                     label={ch.label}
                     isActive={activeChannel === ch.id}
-                    onClick={() => { setActiveChannel(ch.id); setSidebarOpen(false); }}
+                    onClick={() => { setActiveChannel(ch.id); setChannelSidebarOpen(false); }}
                   />
                 ))}
               </div>
@@ -238,7 +229,7 @@ export default function SquadHub() {
             </div>
 
             {/* Bottom User Panel */}
-            <div className="h-14 bg-[#091009] border-t border-[#3d4a3d] px-3 flex items-center gap-2 flex-shrink-0">
+            <div className="h-14 bg-[#091009] border-t border-[#21262d] px-3 flex items-center gap-2 flex-shrink-0">
               <div className="relative">
                 <div className="w-8 h-8 rounded-2xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
                   {(profile?.username || profile?.leetcode_username || 'U')[0].toUpperCase()}
@@ -279,7 +270,7 @@ export default function SquadHub() {
             </div>
 
             {noSquads && (
-              <div className="text-center py-16 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl mb-8">
+              <div className="text-center py-16 bg-[#161b22] border border-[#21262d] rounded-2xl mb-8">
                 <div className="w-20 h-20 rounded-3xl bg-[#22c55e] flex items-center justify-center mx-auto mb-4 text-[#0e150e]">
                   <Users className="w-10 h-10" />
                 </div>
@@ -301,7 +292,7 @@ export default function SquadHub() {
                 {communitySquads.map((sq) => {
                   const isMember = mySquads.some(m => m.id === sq.id);
                   return (
-                    <div key={sq.id} className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl flex flex-col justify-between space-y-4 hover:border-[#22c55e]/40 transition-colors">
+                    <div key={sq.id} className="p-5 bg-[#161b22] border border-[#21262d] rounded-2xl flex flex-col justify-between space-y-4 hover:border-[#22c55e]/40 transition-colors">
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[#22c55e]/20 text-[#22c55e]">
@@ -318,7 +309,7 @@ export default function SquadHub() {
                         disabled={isMember || joiningId === sq.id}
                         className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                           isMember
-                            ? 'bg-[#091009] text-[#869585] border border-[#3d4a3d]'
+                            ? 'bg-[#091009] text-[#869585] border border-[#21262d]'
                             : 'bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] shadow-md'
                         }`}
                       >
@@ -334,13 +325,19 @@ export default function SquadHub() {
           /* ACTIVE SQUAD MAIN VIEW */
           <>
             {/* Channel Header Bar */}
-            <div className="h-12 px-4 flex items-center justify-between border-b border-[#3d4a3d] bg-[#161d16] shadow-sm flex-shrink-0">
+            <div className="h-12 px-4 flex items-center justify-between border-b border-[#21262d] bg-[#161b22] shadow-sm flex-shrink-0">
               <div className="flex items-center gap-2 min-w-0">
+                <button
+                  onClick={() => setChannelSidebarOpen(!channelSidebarOpen)}
+                  className="md:hidden p-1.5 text-[#869585] hover:text-white rounded-lg"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
                 <Hash className="w-5 h-5 text-[#869585] flex-shrink-0" />
                 <span className="text-[15px] font-bold text-white">{activeChannel}</span>
                 {CHANNEL_TOPICS[activeChannel] && (
                   <>
-                    <div className="w-px h-5 bg-[#3d4a3d] mx-2 max-md:hidden" />
+                    <div className="w-px h-5 bg-[#21262d] mx-2 max-md:hidden" />
                     <span className="text-xs text-[#869585] truncate max-md:hidden">
                       {CHANNEL_TOPICS[activeChannel]}
                     </span>
@@ -364,13 +361,6 @@ export default function SquadHub() {
                   onClick={toggleMemberList}
                   className={`p-1.5 rounded-lg transition-colors max-md:hidden ${showMemberList ? 'text-white bg-[#1a221a]' : 'text-[#869585] hover:text-white'}`}
                   title="Toggle Member List"
-                >
-                  <Users className="w-5 h-5" />
-                </button>
-                {/* Mobile member toggle */}
-                <button
-                  onClick={() => setMobileMemberListOpen(!mobileMemberListOpen)}
-                  className="md:hidden p-1.5 text-[#869585] hover:text-white rounded-lg"
                 >
                   <Users className="w-5 h-5" />
                 </button>
@@ -417,7 +407,7 @@ export default function SquadHub() {
 
               {/* COLUMN 4: Member List Sidebar (240px) */}
               {showMemberList && (
-                <div className="w-60 bg-[#161d16] flex-shrink-0 border-l border-[#3d4a3d] overflow-y-auto p-4 max-md:hidden scrollbar-thin scrollbar-thumb-[#3d4a3d]">
+                <div className="w-60 bg-[#161b22] flex-shrink-0 border-l border-[#21262d] overflow-y-auto p-4 max-md:hidden scrollbar-thin scrollbar-thumb-[#21262d]">
                   <h4 className="text-[11px] font-bold uppercase text-[#869585] tracking-wider mb-2 px-1">
                     SQUAD MEMBERS — {members.length}
                   </h4>
