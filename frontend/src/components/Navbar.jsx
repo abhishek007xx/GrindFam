@@ -213,26 +213,15 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
   return (
     <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[#27272A] dark:border-[#27272A] light:border-slate-200 bg-[#0B0C10] dark:bg-[#0B0C10] light:bg-white flex-shrink-0">
-      {/* Left side: Hamburger button (mobile) + Collapse Button (desktop) + Logo */}
-      <div className="flex items-center gap-2.5">
+      {/* Left side: Hamburger button + Logo (Mobile only) */}
+      <div className="flex items-center gap-2.5 lg:hidden">
         <button
           onClick={onToggleSidebar}
-          className="lg:hidden p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
+          className="p-2 rounded-xl text-[#8b949e] dark:text-[#8b949e] light:text-slate-600 hover:text-white dark:hover:text-white light:hover:text-slate-900 hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 transition-colors"
           aria-label="Toggle navigation menu"
         >
           <Menu className="w-5 h-5" />
         </button>
-
-        {onToggleCollapse && (
-          <button
-            onClick={onToggleCollapse}
-            className="hidden lg:flex items-center p-2 rounded-xl bg-[#EA5D3A]/15 hover:bg-[#EA5D3A]/25 border border-[#EA5D3A]/40 text-[#EA5D3A] transition-all shadow-sm flex-shrink-0 cursor-pointer"
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-          </button>
-        )}
 
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
           <img src="/logo.png" alt="GrindFam Logo" className="w-7 h-7 rounded-lg object-cover border border-[#30363d] dark:border-[#30363d] light:border-slate-200 flex-shrink-0" />
