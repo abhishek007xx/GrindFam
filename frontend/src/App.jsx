@@ -20,6 +20,7 @@ import TopicProblems from './pages/TopicProblems';
 import SquadHub from './pages/SquadHub';
 import LandingPage from './pages/LandingPage';
 import Portfolio from './pages/Portfolio';
+import PublicPortfolio from './pages/PublicPortfolio';
 
 // Deep-link join handler component
 const DeepLinkJoinHandler = ({ children }) => {
@@ -120,6 +121,7 @@ function App() {
         <AuthProvider>
           <DeepLinkJoinHandler>
             <Routes>
+              <Route path="/p/:username" element={<PublicPortfolio />} />
               <Route path="/landing" element={<LandingPage />} />
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
               <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />

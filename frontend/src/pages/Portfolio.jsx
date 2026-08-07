@@ -12,10 +12,10 @@ import {
 function TagBadge({ text, color = 'orange', onRemove }) {
   const colorMap = {
     orange: 'bg-[#EA5D3A]/15 text-[#EA5D3A] border-[#EA5D3A]/30',
-    green:  'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-    blue:   'bg-blue-500/15 text-blue-400 border-blue-500/30',
+    green: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+    blue: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
     purple: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
-    amber:  'bg-amber-500/15 text-amber-400 border-amber-500/30',
+    amber: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
   };
   return (
     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold border ${colorMap[color] || colorMap.orange}`}>
@@ -310,7 +310,7 @@ export default function Portfolio() {
       try {
         const { data } = await supabase.from('portfolios').select('*').eq('user_id', user.id).maybeSingle();
         if (data?.content) setDraft({ ...defaultPortfolio, ...data.content });
-      } catch (_) {}
+      } catch (_) { }
       setLoading(false);
     })();
   }, [user]);
@@ -452,7 +452,7 @@ export default function Portfolio() {
                   </div>
                 ) : (
                   draft.bio ? <p className="text-xs text-[#9CA3AF] leading-relaxed">{draft.bio}</p>
-                  : <EmptyState message="Add a bio to tell recruiters about yourself" />
+                    : <EmptyState message="Add a bio to tell recruiters about yourself" />
                 )}
               </div>
 

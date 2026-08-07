@@ -20,10 +20,11 @@ import DailyMicroGoals from '../components/dashboardZones/DailyMicroGoals';
 import ProblemAnalytics from '../components/dashboardZones/ProblemAnalytics';
 import SpacedRepetitionVault from '../components/dashboardZones/SpacedRepetitionVault';
 import ContestsGamification from '../components/dashboardZones/ContestsGamification';
+import ShareCardModal from '../components/ShareCardModal';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
   Flame, ArrowRight, RotateCcw, BookOpen, Building2, FileCode2,
-  Target, TrendingUp, Zap, Clock, ChevronRight, ExternalLink, Sparkles
+  Target, TrendingUp, Zap, Clock, ChevronRight, ExternalLink, Sparkles, Share2
 } from 'lucide-react';
 
 import { API_BASE_URL } from '../config/api';
@@ -112,6 +113,7 @@ const Dashboard = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
   const [isSquadModalOpen, setIsSquadModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [dashboardData, setDashboardData] = useState({
     dailyTarget: 5,
@@ -319,15 +321,25 @@ const Dashboard = () => {
               </p>
             </div>
 
-            <button
-              onClick={handleManualSyncLeetCode}
-              disabled={refreshing}
-              className="relative z-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1F2937] hover:bg-[#EA5D3A]/15 border border-[#30363D] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
-              title="Sync latest submissions from LeetCode"
-            >
-              <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-              <span>{refreshing ? 'Syncing LeetCode...' : 'Sync LeetCode Data'}</span>
-            </button>
+            <div className="relative z-10 flex items-center gap-2">
+              <button
+                onClick={() => setIsShareModalOpen(true)}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs transition-all shadow-lg shadow-[#EA5D3A]/20 cursor-pointer"
+              >
+                <Share2 className="w-4 h-4" />
+                <span>Share Progress Card</span>
+              </button>
+
+              <button
+                onClick={handleManualSyncLeetCode}
+                disabled={refreshing}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1F2937] hover:bg-[#EA5D3A]/15 border border-[#30363D] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
+                title="Sync latest submissions from LeetCode"
+              >
+                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+                <span>{refreshing ? 'Syncing...' : 'Sync Data'}</span>
+              </button>
+            </div>
           </div>
 
           {/* ═══════════════════════════════════════════════════════════ */}
@@ -580,6 +592,24 @@ const Dashboard = () => {
         onCreateSquad={handleCreateSquad}
         onJoinSquad={handleJoinSquad}
         onLeaveSquad={handleLeaveSquad}
+      />
+
+      {/* Share Progress Card Modal */}
+      <ShareCardModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        userStats={{
+          streak: streakCount || 7,
+          totalSolved: stats?.totalSolved || 87,
+          readiness: 73,
+          rankPercentile: 'Top 12%'
+        }}
+        userProfile={{
+          name: name,
+          username: profile?.username || name.toLowerCase().replace(/\s+/g, ''),
+          avatar_url: profile?.avatar_url,
+          targetCompany: dashboardData?.targetCompany || 'Google SDE-2'
+        }}
       />
     </div>
   );
