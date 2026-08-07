@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { supabase } from '../lib/supabaseClient';
 import SettingsModal from './SettingsModal';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Calendar, Bell, ChevronDown, Search, ExternalLink,
-  X, FileCode2, Building2, Hash, Settings, LogOut, Menu, RefreshCw
+  X, FileCode2, Building2, Hash, Settings, LogOut, Menu, RefreshCw, Sun, Moon
 } from 'lucide-react';
 
 const getInitials = (name = '') => {
@@ -20,6 +21,7 @@ const getInitials = (name = '') => {
 const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) => {
   const navigate = useNavigate();
   const { profile, user, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const initials = getInitials(name);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -373,6 +375,20 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
           <Bell className="w-4 h-4" />
         </button>
 
+        {/* Dark / Light Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-xl border border-zinc-800/80 bg-[#121318] text-[#8b949e] hover:text-amber-400 hover:border-amber-500/40 transition-all flex items-center justify-center relative group"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          aria-label="Toggle Theme"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 group-hover:rotate-45" />
+          ) : (
+            <Moon className="w-4 h-4 text-indigo-400 transition-transform duration-300 group-hover:-rotate-12" />
+          )}
+        </button>
+
         <div className="relative pl-2 border-l border-[#21262d]" ref={userMenuRef}>
           <button
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -398,6 +414,17 @@ const Navbar = ({ onToggleSidebar, onRefresh, refreshing, platformTotal = 0 }) =
                   <p className="text-xs font-bold text-white truncate">{name}</p>
                   <p className="text-[10px] text-[#8b949e] truncate">{user?.email || 'Logged In'}</p>
                 </div>
+
+                <button
+                  onClick={() => { toggleTheme(); setIsUserMenuOpen(false); }}
+                  className="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold text-[#e6edf3] hover:bg-[#21262d] transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+                    <span>Theme</span>
+                  </div>
+                  <span className="text-[10px] text-[#8b949e] uppercase font-bold tracking-wider">{theme} Mode</span>
+                </button>
 
                 <button
                   onClick={() => { navigate('/settings'); setIsUserMenuOpen(false); }}

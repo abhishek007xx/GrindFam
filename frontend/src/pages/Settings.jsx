@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   Settings as SettingsIcon, KeyRound, Lock, User, Mail, Code2, AlertCircle,
-  CheckCircle2, Loader2, ShieldCheck, Target, ArrowRight
+  CheckCircle2, Loader2, ShieldCheck, Target, ArrowRight, Sun, Moon, Palette
 } from 'lucide-react';
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const { user, profile, updatePassword } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState(null);
@@ -186,6 +188,67 @@ const SettingsPage = () => {
                   <span>Back to Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
+              </div>
+            </div>
+
+            {/* Card 3: Appearance & Theme */}
+            <div className="md:col-span-2 dash-card p-6 bg-[#161b22] border border-[#30363d] rounded-2xl shadow-xl">
+              <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-[#21262d]">
+                <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400">
+                  <Palette className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-base font-extrabold text-white">Appearance & Theme</h2>
+                  <p className="text-[11px] text-[#8b949e]">Customize your GrindFam visual theme experience</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Dark Theme Select */}
+                <div
+                  onClick={() => setTheme('dark')}
+                  className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
+                    theme === 'dark'
+                      ? 'bg-[#0d1117] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
+                      : 'bg-[#0d1117]/60 border-[#30363d] hover:border-zinc-500'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-lg bg-zinc-800 text-amber-400">
+                      <Moon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white">Dark Mode</p>
+                      <p className="text-[11px] text-[#8b949e]">Sleek high-contrast dark theme</p>
+                    </div>
+                  </div>
+                  {theme === 'dark' && (
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#EA5D3A]" />
+                  )}
+                </div>
+
+                {/* Light Theme Select */}
+                <div
+                  onClick={() => setTheme('light')}
+                  className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
+                    theme === 'light'
+                      ? 'bg-[#0d1117] border-[#EA5D3A] ring-1 ring-[#EA5D3A]'
+                      : 'bg-[#0d1117]/60 border-[#30363d] hover:border-zinc-500'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-500">
+                      <Sun className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white">Light Mode</p>
+                      <p className="text-[11px] text-[#8b949e]">Clean crisp bright theme</p>
+                    </div>
+                  </div>
+                  {theme === 'light' && (
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#EA5D3A]" />
+                  )}
+                </div>
               </div>
             </div>
           </div>
