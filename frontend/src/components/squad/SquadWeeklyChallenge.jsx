@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Target, Check, Vote, Loader2, Timer, Sparkles } from 'lucide-react';
-
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { useSquadStore } from '../../store/useSquadStore';
+import { Target, Check, ThumbsUp, Loader2, Timer, Sparkles } from 'lucide-react';
+import { supabase } from '../../supabase';
 
 const PROBLEM_SUGGESTIONS = [
   { slug: 'two-sum', title: 'Two Sum', difficulty: 'Easy' },
@@ -35,39 +35,102 @@ const getDifficultyColor = (d) => {
 
 export default function SquadWeeklyChallenge() {
   const { session, profile } = useAuth();
-  const [challenge, setChallenge] = useState(null);
-  const [weekStart, setWeekStart] = useState('');
-  const [loading, setLoading] = useState(true);
+  const { activeSquad, challenges } = useSquadStore();
+  const [loading, setLoading] = useState(false);
   const [selectedProblems, setSelectedProblems] = useState([]);
   const [voting, setVoting] = useState(false);
+  const [challenge, setChallenge] = useState(null);
+  const [weekStart, setWeekStart] = useState('');
 
-  const token = session?.access_token;
+  useEffect(() => {
+    if (!activeSquad) return;
 
-  const fetchChallenge = useCallback(async () => {
-    if (!token) return;
-    try {
-      const res = await fetch(`${API_BASE}/api/squads/weekly-challenge`, { headers: { Authorization: `Bearer ${token}` } });
-      const data = await res.json();
-      setChallenge(data.challenge);
-      setWeekStart(data.weekStart || '');
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
-  }, [token]);
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const ws = new Date(today);
+    ws.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+    const wsStr = ws.toISOString().split('T')[0];
+    setWeekStart(wsStr);
 
-  useEffect(() => { fetchChallenge(); }, [fetchChallenge]);
+    // Use challenge from store if available
+    if (challenges && challenges.length > 0) {
+      setChallenge(challenges[0]);
+    } else {
+      // Fetch from Supabase directly
+      const fetchChallenge = async () => {
+        setLoading(true);
+        try {
+          const { data, error } = await supabase
+            .from('squad_weekly_challenges')
+            .select('*')
+            .eq('squad_id', activeSquad.id)
+            .eq('week_start', wsStr)
+            .maybeSingle();
+
+          if (error) throw error;
+          setChallenge(data);
+        } catch (err) {
+          console.error('Error fetching weekly challenge:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchChallenge();
+    }
+  }, [activeSquad, challenges]);
 
   const handleVote = async () => {
-    if (selectedProblems.length === 0) return;
+    if (selectedProblems.length === 0 || !activeSquad || !session?.user?.id) return;
     setVoting(true);
     try {
-      await fetch(`${API_BASE}/api/squads/weekly-challenge/vote`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ problems: selectedProblems })
-      });
-      fetchChallenge();
-    } catch (err) { console.error(err); }
-    finally { setVoting(false); }
+      const userId = session.user.id;
+
+      if (challenge) {
+        // Update existing challenge votes
+        const existingVotes = challenge.votes || {};
+        existingVotes[userId] = selectedProblems;
+
+        // Tally all votes to determine top problems
+        const allVotes = Object.values(existingVotes).flat();
+        const tally = {};
+        allVotes.forEach(slug => { tally[slug] = (tally[slug] || 0) + 1; });
+        const topProblems = Object.entries(tally)
+          .sort(([, a], [, b]) => b - a)
+          .slice(0, 5)
+          .map(([slug]) => slug);
+
+        const { error } = await supabase
+          .from('squad_weekly_challenges')
+          .update({
+            votes: existingVotes,
+            problems: topProblems
+          })
+          .eq('id', challenge.id);
+
+        if (error) throw error;
+        setChallenge({ ...challenge, votes: existingVotes, problems: topProblems });
+      } else {
+        // Create new weekly challenge
+        const votes = { [userId]: selectedProblems };
+        const { data, error } = await supabase
+          .from('squad_weekly_challenges')
+          .insert([{
+            squad_id: activeSquad.id,
+            week_start: weekStart,
+            problems: selectedProblems,
+            votes
+          }])
+          .select()
+          .single();
+
+        if (error) throw error;
+        setChallenge(data);
+      }
+    } catch (err) {
+      console.error('Error voting:', err);
+    } finally {
+      setVoting(false);
+    }
   };
 
   const toggleProblem = (slug) => {
@@ -148,7 +211,7 @@ export default function SquadWeeklyChallenge() {
       <div className="p-5 bg-[#161b22] border border-[#30363d] rounded-2xl space-y-4">
         <div className="flex items-center justify-between">
           <h4 className="text-xs font-bold text-white flex items-center gap-2">
-            <Vote className="w-4 h-4 text-emerald-400" />
+            <ThumbsUp className="w-4 h-4 text-emerald-400" />
             {hasVoted ? 'Your Vote Recorded' : 'Select up to 5 Problems to Vote'}
           </h4>
           <span className="text-[10px] font-mono text-[#8b949e]">{selectedProblems.length}/5 selected</span>
@@ -184,7 +247,7 @@ export default function SquadWeeklyChallenge() {
           disabled={selectedProblems.length === 0 || voting}
           className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold disabled:opacity-40 transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2"
         >
-          {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Vote className="w-4 h-4" />}
+          {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ThumbsUp className="w-4 h-4" />}
           Submit Vote
         </button>
       </div>

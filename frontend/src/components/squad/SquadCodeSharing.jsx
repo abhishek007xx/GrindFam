@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useSquadStore } from '../../store/useSquadStore';
 import { Code, Send, MessageSquare, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
+import { supabase } from '../../supabase';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
 const LANGUAGES = ['javascript', 'python', 'java', 'cpp', 'c', 'typescript', 'go', 'rust', 'sql'];
 
 export default function SquadCodeSharing() {
   const { session } = useAuth();
-  const [snippets, setSnippets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { activeSquad, snippets, shareSnippet, fetchSquadData } = useSquadStore();
+
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState('');
   const [code, setCode] = useState('');
@@ -19,62 +20,88 @@ export default function SquadCodeSharing() {
   const [comments, setComments] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
 
-  const token = session?.access_token;
-
-  const fetchSnippets = useCallback(async () => {
-    if (!token) return;
+  const fetchComments = async (snippetId) => {
     try {
-      const res = await fetch(`${API_BASE}/api/squads/snippets`, { headers: { Authorization: `Bearer ${token}` } });
-      const data = await res.json();
-      setSnippets(data.snippets || []);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
-  }, [token]);
+      const { data, error } = await supabase
+        .from('squad_snippet_comments')
+        .select('*')
+        .eq('snippet_id', snippetId)
+        .order('created_at', { ascending: true });
 
-  useEffect(() => { fetchSnippets(); }, [fetchSnippets]);
+      if (error) throw error;
+
+      const userIds = [...new Set((data || []).map(c => c.user_id))];
+      let profileMap = {};
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, username, leetcode_username')
+          .in('id', userIds);
+        (profiles || []).forEach(p => { profileMap[p.id] = p; });
+      }
+
+      const enriched = (data || []).map(c => ({
+        ...c,
+        author: {
+          name: profileMap[c.user_id]?.username || profileMap[c.user_id]?.leetcode_username || 'Member'
+        }
+      }));
+
+      setComments(prev => ({ ...prev, [snippetId]: enriched }));
+    } catch (err) {
+      console.error('Error fetching comments:', err);
+    }
+  };
+
+  const toggleSnippet = (snippetId) => {
+    if (expandedSnippet === snippetId) {
+      setExpandedSnippet(null);
+      return;
+    }
+    setExpandedSnippet(snippetId);
+    if (!comments[snippetId]) fetchComments(snippetId);
+  };
 
   const handleSubmitSnippet = async (e) => {
     e.preventDefault();
     if (!title.trim() || !code.trim()) return;
     setSubmitting(true);
     try {
-      await fetch(`${API_BASE}/api/squads/snippets`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ title: title.trim(), code, language, problem_slug: problemSlug || null })
+      await shareSnippet({
+        title: title.trim(),
+        code,
+        language,
+        problem_slug: problemSlug || null
       });
-      setTitle(''); setCode(''); setProblemSlug(''); setShowForm(false);
-      fetchSnippets();
-    } catch (err) { console.error(err); }
-    finally { setSubmitting(false); }
-  };
-
-  const fetchComments = async (snippetId) => {
-    try {
-      const res = await fetch(`${API_BASE}/api/squads/snippets/${snippetId}/comments`, { headers: { Authorization: `Bearer ${token}` } });
-      const data = await res.json();
-      setComments(prev => ({ ...prev, [snippetId]: data.comments || [] }));
-    } catch (err) { console.error(err); }
-  };
-
-  const toggleSnippet = (snippetId) => {
-    if (expandedSnippet === snippetId) { setExpandedSnippet(null); return; }
-    setExpandedSnippet(snippetId);
-    if (!comments[snippetId]) fetchComments(snippetId);
+      setTitle('');
+      setCode('');
+      setProblemSlug('');
+      setShowForm(false);
+    } catch (err) {
+      console.error('Error sharing snippet:', err);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleAddComment = async (snippetId) => {
     const content = commentInputs[snippetId];
-    if (!content?.trim()) return;
+    if (!content?.trim() || !session?.user?.id) return;
     try {
-      await fetch(`${API_BASE}/api/squads/snippets/${snippetId}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ content: content.trim() })
-      });
+      const { error } = await supabase
+        .from('squad_snippet_comments')
+        .insert([{
+          snippet_id: snippetId,
+          user_id: session.user.id,
+          content: content.trim()
+        }]);
+
+      if (error) throw error;
       setCommentInputs(prev => ({ ...prev, [snippetId]: '' }));
       fetchComments(snippetId);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error('Error adding comment:', err);
+    }
   };
 
   const getInitials = (name) => {
@@ -82,10 +109,6 @@ export default function SquadCodeSharing() {
     const parts = name.trim().split(' ');
     return parts.length >= 2 ? (parts[0][0] + parts[1][0]).toUpperCase() : name.slice(0, 2).toUpperCase();
   };
-
-  if (loading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-emerald-400 animate-spin" /></div>;
-  }
 
   return (
     <div className="space-y-6">
