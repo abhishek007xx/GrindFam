@@ -96,11 +96,11 @@ parsedRows.forEach(row => {
   });
 });
 
-// Merge deeply scraped JSON roadmaps (e.g. postgresql-dba, frontend, backend, devops)
+// Merge deeply detailed JSON roadmaps — overwrite CSV entries with richer data
 if (Array.isArray(detailedJsonData)) {
   detailedJsonData.forEach(item => {
-    let targetId = item.id.replace('official-', 'role-');
-    if (item.id === 'official-postgresql-dba') targetId = 'role-postgresql-dba';
+    // Normalize ID: strip 'official-' prefix for backwards compat
+    const targetId = item.id;
 
     roadmapsMap.set(targetId, {
       id: targetId,

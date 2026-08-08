@@ -175,11 +175,17 @@ export function RoadmapsExplorer() {
           (s.topics || []).some(t => t.toLowerCase().includes(q))
         );
 
+      const cat = rm.category?.toLowerCase() || '';
+      const id = rm.id?.toLowerCase() || '';
+
       if (selectedCategory === 'ALL') return matchesSearch;
-      if (selectedCategory === 'ROLE') return matchesSearch && rm.category?.toLowerCase().includes('role');
-      if (selectedCategory === 'COMPANY') return matchesSearch && rm.category?.toLowerCase().includes('company');
-      if (selectedCategory === 'SHEET') return matchesSearch && (rm.category?.toLowerCase().includes('sheet') || rm.category?.toLowerCase().includes('dsa'));
-      if (selectedCategory === 'DATABASE') return matchesSearch && (rm.title.toLowerCase().includes('dba') || rm.title.toLowerCase().includes('database') || rm.title.toLowerCase().includes('backend') || rm.title.toLowerCase().includes('system'));
+      if (selectedCategory === 'ROLE') return matchesSearch && (cat.includes('role') || id.startsWith('role-'));
+      if (selectedCategory === 'COMPANY') return matchesSearch && (cat.includes('company') || id.startsWith('company-'));
+      if (selectedCategory === 'SHEET') return matchesSearch && (cat.includes('sheet') || cat.includes('dsa') || id.startsWith('sheet-'));
+      if (selectedCategory === 'TECH') return matchesSearch && (cat.includes('tech') || id.startsWith('tech-'));
+      if (selectedCategory === 'SYSTEMDESIGN') return matchesSearch && (
+        cat.includes('system') || id.includes('system-design') || rm.title.toLowerCase().includes('system design')
+      );
       return matchesSearch;
     });
   }, [roadmaps, searchQuery, selectedCategory]);
@@ -237,9 +243,10 @@ export function RoadmapsExplorer() {
         {[
           { id: 'ALL', label: 'All Paths' },
           { id: 'ROLE', label: 'Role Tracks' },
+          { id: 'TECH', label: 'Tech Roadmaps' },
           { id: 'COMPANY', label: 'Company Prep' },
+          { id: 'SYSTEMDESIGN', label: 'System Design' },
           { id: 'SHEET', label: 'DSA Sheets' },
-          { id: 'DATABASE', label: 'System Design' }
         ].map(cat => (
           <button
             key={cat.id}

@@ -3,360 +3,1131 @@
     "id": "role-postgresql-dba",
     "category": "Role Roadmap",
     "title": "PostgreSQL DBA & Database Architect",
-    "creator": "roadmap.sh & PostgreSQL Official Docs",
-    "description": "Exhaustive step-by-step masterclass to become an enterprise PostgreSQL DB Administrator and Database Architect.",
+    "creator": "GrindFam Curriculum",
+    "description": "Step-by-step guide to becoming a professional PostgreSQL Database Administrator — from core SQL to enterprise HA clusters.",
     "steps": [
       {
         "stepNumber": 1,
-        "title": "Relational Database Fundamentals & PostgreSQL Core",
-        "subtitle": "RDBMS Architecture, Relational Algebra, ACID & MVCC Mechanics",
-        "description": "Deep dive into relational database theory, set operations, data integrity constraints, and core PostgreSQL storage abstractions. Master Multi-Version Concurrency Control (MVCC) and transaction isolation levels.",
-        "guide": "### \ud83d\udccc 1. RDBMS vs NoSQL & Object-Relational Model\nPostgreSQL is an Object-Relational Database Management System (ORDBMS) supporting extensible data types, table inheritance, custom functions, and JSONB document storage while maintaining ACID compliance.\n\n### \u2699\ufe0f 2. ACID Guarantees & Transaction Isolation Levels\n- **Atomicity**: WAL (Write-Ahead Logging) ensures all or nothing.\n- **Consistency**: Constraints (Foreign Keys, CHECK, UNIQUE, NOT NULL).\n- **Isolation**: Read Committed (default), Repeatable Read, Serializable (SSIU - Serializable Snapshot Isolation).\n- **Durability**: Synchronous WAL commits to non-volatile disk.\n\n### \ud83e\udde0 3. MVCC Mechanics (Multi-Version Concurrency Control)\nPostgreSQL handles concurrent access by maintaining tuple versions.\n- Every table row (tuple) has hidden system columns: `xmin` (creating transaction ID), `xmax` (deleting/updating transaction ID), `t_ctid` (physical tuple location).\n- Readers do not block writers, and writers do not block readers.",
-        "codeSnippet": "-- Inspect tuple MVCC metadata in PostgreSQL\nSELECT xmin, xmax, ctid, id, name \nFROM users \nWHERE id = 42;\n\n-- Set Transaction Isolation Level\nBEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSELECT * FROM accounts WHERE user_id = 101;\nCOMMIT;",
+        "title": "Relational Database Foundations & PostgreSQL Core",
+        "subtitle": "RDBMS Architecture, Relational Theory, ACID & MVCC",
+        "description": "Build a solid foundation in relational database theory. Understand how PostgreSQL stores data, manages transactions, and guarantees data integrity through ACID compliance and Multi-Version Concurrency Control.",
+        "guide": "### 1. What Makes PostgreSQL an ORDBMS?\nPostgreSQL is not just a relational database — it is an Object-Relational Database Management System (ORDBMS). This means it supports custom data types, function overloading, table inheritance, and document storage (JSONB), all while enforcing ACID guarantees.\n\n### 2. ACID Principles in Practice\n- **Atomicity**: If any part of a transaction fails, everything rolls back — ensured by Write-Ahead Logging (WAL).\n- **Consistency**: Data always moves between valid states through constraint enforcement (Foreign Keys, CHECK, UNIQUE, NOT NULL).\n- **Isolation**: Concurrent transactions don't interfere, controlled via isolation levels (Read Committed, Repeatable Read, Serializable).\n- **Durability**: Committed data survives crashes because WAL writes to disk before the actual data page.\n\n### 3. MVCC — How Concurrency Works Without Locking\nMVCC maintains multiple versions of each row. Each row carries hidden fields:\n- `xmin` — the transaction ID that created this version\n- `xmax` — the transaction ID that deleted or updated it\n- `t_ctid` — the physical disk location\n\nReaders see a snapshot of data as of their transaction start, meaning reads and writes can happen simultaneously without blocking each other.",
+        "codeSnippet": "-- View MVCC hidden columns for a row\nSELECT xmin, xmax, ctid, id, name FROM users WHERE id = 42;\n\n-- Set isolation level for a transaction block\nBEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nSELECT * FROM accounts WHERE user_id = 101;\nCOMMIT;",
         "submodules": [
-          {
-            "name": "Relational Model & Set Theory",
-            "status": "pending"
-          },
-          {
-            "name": "PostgreSQL vs MySQL / Oracle / MongoDB",
-            "status": "pending"
-          },
-          {
-            "name": "ACID Properties & Transaction Control (TCL)",
-            "status": "pending"
-          },
-          {
-            "name": "MVCC Mechanics (xmin, xmax, t_ctid)",
-            "status": "pending"
-          },
-          {
-            "name": "Transaction Isolation Levels (Read Committed to SSI)",
-            "status": "pending"
-          },
-          {
-            "name": "Data Types: INT, NUMERIC, UUID, JSONB, ARRAY, TIMESTAMP",
-            "status": "pending"
-          },
-          {
-            "name": "Table Constraints (FK, CHECK, EXCLUSION)",
-            "status": "pending"
-          }
+          { "name": "Relational Model & Set Theory Basics", "status": "pending" },
+          { "name": "PostgreSQL vs MySQL vs MongoDB — Trade-off Analysis", "status": "pending" },
+          { "name": "ACID Properties & Transaction Lifecycle (TCL)", "status": "pending" },
+          { "name": "MVCC Mechanics (xmin, xmax, t_ctid internals)", "status": "pending" },
+          { "name": "Isolation Levels: Read Committed → Serializable", "status": "pending" },
+          { "name": "Data Types: INT, NUMERIC, UUID, JSONB, ARRAY, TIMESTAMPTZ", "status": "pending" },
+          { "name": "Constraint Types: FK, CHECK, UNIQUE, EXCLUSION, NOT NULL", "status": "pending" }
         ],
         "interviewFaqs": [
-          "Explain MVCC in PostgreSQL and why `xmin` and `xmax` are required.",
+          "Explain MVCC and why PostgreSQL needs xmin and xmax on every tuple.",
           "How does Serializable Snapshot Isolation (SSI) prevent Write Skew anomalies?",
-          "What happens to dead tuple versions when an UPDATE is executed?"
+          "What physically happens to old tuple versions when an UPDATE runs?"
         ],
-        "topics": [
-          "RDBMS",
-          "ACID",
-          "MVCC",
-          "xmin/xmax",
-          "Isolation Levels",
-          "JSONB",
-          "Constraints"
+        "resources": [
+          { "type": "docs", "label": "PostgreSQL Official Docs — MVCC", "url": "https://www.postgresql.org/docs/current/mvcc.html" },
+          { "type": "article", "label": "ACID Transactions Explained", "url": "https://dev.to/grindfam/acid-explained" },
+          { "type": "course", "label": "CMU Database Systems Course", "url": "https://15445.courses.cs.cmu.edu/" }
         ],
-        "problems": [
-          "postgresql-mvcc-mechanics",
-          "acid-transactions-drill",
-          "jsonb-indexing-exercise"
-        ],
+        "topics": ["RDBMS", "ACID", "MVCC", "xmin/xmax", "Isolation Levels", "JSONB", "Constraints"],
+        "problems": ["postgresql-mvcc-mechanics", "acid-transactions-drill", "jsonb-indexing-exercise"],
         "icon": "database",
         "color": "red",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
       },
       {
         "stepNumber": 2,
         "title": "PostgreSQL Architecture & Storage Internals",
-        "subtitle": "Process Model, Shared Buffers Memory, WAL Writer & Page Layout",
-        "description": "Understand the PostgreSQL process hierarchy, memory structures (Shared Buffers, Work Mem, Maintenance Work Mem), WAL archiving mechanics, and 8KB heap page layouts.",
-        "guide": "### \ud83c\udfd7\ufe0f 1. Process Architecture\n- **Postmaster (Main Process)**: Listens on TCP port 5432 and forks backend worker processes for incoming client connections.\n- **Background Writer (bgwriter)**: Flushes dirty shared buffers to disk asynchronously.\n- **Checkpointer**: Issues system-wide checkpoints to guarantee crash recovery point.\n- **WAL Writer**: Writes Write-Ahead Log buffers to disk.\n- **Autovacuum Launcher & Workers**: Reclaims dead tuple space and updates table statistics.\n\n### \ud83d\udcbe 2. Memory Architecture & Page Storage\n- **Shared Buffers**: Caches database pages in RAM (typically 25% of total system RAM).\n- **Work Mem**: Allocated per sort/hash operation per query session (e.g. `64MB`).\n- **Heap Page Layout**: Default 8KB pages containing PageHeader, ItemPointers, Free Space, and Tuples.",
-        "codeSnippet": "# Inspect active PostgreSQL processes on Linux\nps aux | grep postgres\n\n-- Query Memory and Shared Buffer hit ratio in SQL\nSELECT \n  sum(heap_blks_read) as heap_read,\n  sum(heap_blks_hit)  as heap_hit,\n  sum(heap_blks_hit) / (sum(heap_blks_hit) + sum(heap_blks_read)) * 100 AS cache_hit_ratio\nFROM pg_statio_user_tables;",
+        "subtitle": "Process Model, Shared Buffers, WAL Writer & 8KB Page Layout",
+        "description": "Understand how PostgreSQL works under the hood — its process tree, memory pools, WAL archiving pipeline, and how data is physically laid out in 8KB heap pages on disk.",
+        "guide": "### 1. The PostgreSQL Process Architecture\n- **Postmaster**: The parent process, listens on TCP 5432, forks a dedicated backend process per client connection.\n- **Background Writer (bgwriter)**: Proactively flushes dirty pages from Shared Buffers to disk.\n- **Checkpointer**: Writes a consistent recovery point — all dirty pages are synced to disk at each checkpoint.\n- **WAL Writer**: Flushes the WAL buffer to WAL segment files on disk periodically.\n- **Autovacuum**: Daemon that launches worker processes to reclaim dead tuple space and refresh planner stats.\n\n### 2. Memory Architecture\n- **Shared Buffers**: The main data page cache — typically set to 25% of total RAM. Cache hit ratio should be above 99%.\n- **Work Mem**: Memory per sort or hash operation. Setting this too low causes disk spills (temp files).\n- **Maintenance Work Mem**: Used by VACUUM, CREATE INDEX, and similar heavy operations.\n\n### 3. Heap Page Layout (8KB Pages)\nEvery table file is split into 8KB pages. Each page contains:\n- **PageHeader** (24 bytes): LSN, checksum, flags\n- **ItemPointers / Line Pointers**: Array of (offset, length) pairs pointing to tuple locations\n- **Tuples**: The actual row data, stored from the end of the page toward the beginning",
+        "codeSnippet": "-- Check shared buffer cache hit ratio\nSELECT \n  sum(heap_blks_hit) AS cache_hits,\n  sum(heap_blks_read) AS disk_reads,\n  round(sum(heap_blks_hit) * 100.0 /\n    nullif(sum(heap_blks_hit) + sum(heap_blks_read), 0), 2) AS hit_ratio_pct\nFROM pg_statio_user_tables;\n\n-- View page-level storage info\nSELECT * FROM pg_filenode_relation(0, 'users'::regclass);",
         "submodules": [
-          {
-            "name": "Postmaster & Backend Worker Process Lifecycle",
-            "status": "pending"
-          },
-          {
-            "name": "Shared Buffers Architecture & Clock Sweep Algorithm",
-            "status": "pending"
-          },
-          {
-            "name": "Work Mem & Maintenance Work Mem Tuning",
-            "status": "pending"
-          },
-          {
-            "name": "Write-Ahead Logging (WAL) & WAL Segments",
-            "status": "pending"
-          },
-          {
-            "name": "Checkpointer & FLUSH Mechanics",
-            "status": "pending"
-          },
-          {
-            "name": "8KB Heap Page Layout (Header, Line Pointers, Tuples)",
-            "status": "pending"
-          },
-          {
-            "name": "Tablespaces & Data Directory File Hierarchy ($PGDATA)",
-            "status": "pending"
-          }
+          { "name": "Postmaster & Backend Worker Process Lifecycle", "status": "pending" },
+          { "name": "Shared Buffers Clock-Sweep Eviction Algorithm", "status": "pending" },
+          { "name": "Work Mem & Maintenance Work Mem Tuning", "status": "pending" },
+          { "name": "WAL Segments, LSN Offsets & WAL Archiving Pipeline", "status": "pending" },
+          { "name": "Checkpointer Mechanics & Crash Recovery Flow", "status": "pending" },
+          { "name": "8KB Heap Page Anatomy (Header, ItemPointers, Tuple slots)", "status": "pending" },
+          { "name": "Tablespaces & $PGDATA Directory Structure", "status": "pending" }
         ],
         "interviewFaqs": [
-          "What is the difference between Background Writer and Checkpointer?",
-          "How do you calculate the optimal setting for `shared_buffers` and `work_mem`?",
-          "What is a WAL file and why is Write-Ahead Logging mandatory for durability?"
+          "What's the difference between the Background Writer and the Checkpointer?",
+          "How do you calculate optimal shared_buffers and work_mem settings?",
+          "What is a WAL file and why is Write-Ahead Logging required for crash safety?"
         ],
-        "topics": [
-          "Postmaster",
-          "Shared Buffers",
-          "WAL Writer",
-          "Checkpointer",
-          "work_mem",
-          "Heap Pages"
+        "resources": [
+          { "type": "docs", "label": "PostgreSQL Server Config Reference", "url": "https://www.postgresql.org/docs/current/runtime-config.html" },
+          { "type": "article", "label": "Explaining Shared Buffers — Thoughtfully", "url": "https://www.enterprisedb.com/postgres-tutorials/introduction-postgresql-performance-tuning-and-optimization" },
+          { "type": "youtube", "label": "PostgreSQL Internals — Hussein Nasser", "url": "https://www.youtube.com/watch?v=Q56kljmIN14" }
         ],
-        "problems": [
-          "shared-buffers-tuning",
-          "wal-archive-configuration",
-          "heap-page-inspection"
-        ],
+        "topics": ["Postmaster", "Shared Buffers", "WAL Writer", "Checkpointer", "work_mem", "Heap Pages"],
+        "problems": ["shared-buffers-tuning", "wal-archive-configuration", "heap-page-inspection"],
         "icon": "cloud",
         "color": "yellow",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
       },
       {
         "stepNumber": 3,
         "title": "Query Optimization, EXPLAIN ANALYZE & Indexing",
-        "subtitle": "Execution Plans, B-Tree, GIN, GiST, BRIN & Index Strategies",
-        "description": "Master query cost estimation, EXPLAIN ANALYZE plan interpretation, sequential vs index scans, join algorithms (Nested Loop, Hash Join, Merge Join), and advanced index types.",
-        "guide": "### \ud83d\udd0d 1. EXPLAIN ANALYZE Execution Plans\n- **Cost Estimate**: `cost=0.00..458.00 rows=100 width=32`.\n- **Actual Time**: `actual time=0.045..2.110 rows=98 loops=1`.\n- **Buffers Audit**: Use `EXPLAIN (ANALYZE, BUFFERS)` to track Shared Read vs Shared Hit.\n\n### \u26a1 2. Index Types & Production Use Cases\n- **B-Tree**: Default. Equality and range queries (`=, <, <=, >, >=`).\n- **GIN (Generalized Inverted Index)**: Multi-key indexing for JSONB, Arrays, Full-Text Search.\n- **GiST**: Spatial geometry (PostGIS), Range types, Nearest Neighbor (KNN).\n- **BRIN (Block Range Index)**: Ultra-lightweight indexing for massive append-only time series data.",
-        "codeSnippet": "-- Analyze query execution plan with buffer statistics\nEXPLAIN (ANALYZE, BUFFERS, VERBOSE)\nSELECT u.id, u.email, o.total_amount\nFROM users u\nJOIN orders o ON u.id = o.user_id\nWHERE o.created_at >= '2026-01-01';\n\n-- Create Concurrent Partial GIN Index on JSONB field\nCREATE INDEX CONCURRENTLY idx_users_metadata_active \nON users USING GIN ((metadata -> 'tags'))\nWHERE is_active = true;",
+        "subtitle": "Execution Plans, B-Tree, GIN, GiST, BRIN & Smart Index Strategies",
+        "description": "Master how the PostgreSQL query planner evaluates query cost, reads execution plans, chooses join strategies, and selects index types. Learn to turn slow queries into millisecond responses.",
+        "guide": "### 1. Reading EXPLAIN ANALYZE Output\nThe most powerful diagnostic tool in PostgreSQL:\n- **cost=0.00..458.00**: Estimated cost in arbitrary planner units (startup..total).\n- **rows=100**: Estimated output row count.\n- **actual time=0.045..2.1 ms**: Wall-clock time measured during execution.\n- **Buffers**: Use `EXPLAIN (ANALYZE, BUFFERS)` to see Shared Hit (cache) vs Read (disk).\n\n### 2. Index Types & When to Use Them\n| Index | Best For |\n|---|---|\n| **B-Tree** | Equality, range queries, ORDER BY |\n| **GIN** | JSONB fields, arrays, full-text search |\n| **GiST** | Geometric data (PostGIS), range types, KNN |\n| **BRIN** | Huge append-only tables (logs, time series) — very small footprint |\n| **Hash** | Equality-only lookups (rarely used in practice) |\n\n### 3. Join Algorithms\n- **Nested Loop**: Best for small outer sets with indexed inner rows.\n- **Hash Join**: Builds an in-memory hash table — great for large unsorted datasets.\n- **Merge Join**: Requires both inputs pre-sorted — efficient for sorted or indexed columns.",
+        "codeSnippet": "-- Full diagnostic query plan\nEXPLAIN (ANALYZE, BUFFERS, VERBOSE, FORMAT TEXT)\nSELECT u.id, u.email, o.total_amount\nFROM users u\nJOIN orders o ON u.id = o.user_id\nWHERE o.created_at >= '2026-01-01';\n\n-- Create a partial GIN index on JSONB tags (non-blocking)\nCREATE INDEX CONCURRENTLY idx_users_tags\nON users USING GIN ((metadata -> 'tags'))\nWHERE is_active = true;",
         "submodules": [
-          {
-            "name": "EXPLAIN ANALYZE & Cost Planner Cost Metrics",
-            "status": "pending"
-          },
-          {
-            "name": "Buffer Audit (Shared Hit vs Disk Read)",
-            "status": "pending"
-          },
-          {
-            "name": "Join Strategies: Nested Loop, Hash Join, Merge Join",
-            "status": "pending"
-          },
-          {
-            "name": "B-Tree Index Internals & Index Scans vs Bitmap Scans",
-            "status": "pending"
-          },
-          {
-            "name": "GIN Indexes for JSONB & Full Text Search",
-            "status": "pending"
-          },
-          {
-            "name": "GiST & BRIN Indexes for Spatial & Time-Series Data",
-            "status": "pending"
-          },
-          {
-            "name": "Partial Indexes, Expression Indexes & Cover Indexes (INCLUDE)",
-            "status": "pending"
-          }
+          { "name": "EXPLAIN ANALYZE — Cost Planner Metrics Deep Dive", "status": "pending" },
+          { "name": "Buffer Audit: Shared Hit vs Disk Read", "status": "pending" },
+          { "name": "Join Strategy Selection: Nested Loop, Hash Join, Merge Join", "status": "pending" },
+          { "name": "B-Tree Internals & Index Scans vs Bitmap Index Scans", "status": "pending" },
+          { "name": "GIN Indexes for JSONB & Full Text Search (tsvector)", "status": "pending" },
+          { "name": "GiST & BRIN for Spatial & Time-Series Data", "status": "pending" },
+          { "name": "Partial Indexes, Expression Indexes & Covering Indexes (INCLUDE)", "status": "pending" }
         ],
         "interviewFaqs": [
-          "Why does PostgreSQL choose Sequential Scan over Index Scan for high selectivity queries?",
-          "When should you use GIN index over B-Tree index?",
-          "What is the risk of using `CREATE INDEX` without `CONCURRENTLY` on a live production table?"
+          "Why does PostgreSQL pick a Sequential Scan over an Index Scan for high-selectivity queries?",
+          "When should you use a GIN index instead of a B-Tree index?",
+          "What are the risks of CREATE INDEX without CONCURRENTLY on a live production table?"
         ],
-        "topics": [
-          "EXPLAIN ANALYZE",
-          "B-Tree",
-          "GIN",
-          "GiST",
-          "BRIN",
-          "Hash Join",
-          "CONCURRENTLY"
+        "resources": [
+          { "type": "docs", "label": "PostgreSQL EXPLAIN Documentation", "url": "https://www.postgresql.org/docs/current/using-explain.html" },
+          { "type": "tool", "label": "explain.dalibo.com — EXPLAIN Visualizer", "url": "https://explain.dalibo.com/" },
+          { "type": "article", "label": "The Art of PostgreSQL Indexing", "url": "https://use-the-index-luke.com/" }
         ],
-        "problems": [
-          "explain-analyze-optimization",
-          "gin-index-jsonb-drill",
-          "index-scan-vs-bitmap-scan"
-        ],
+        "topics": ["EXPLAIN ANALYZE", "B-Tree", "GIN", "GiST", "BRIN", "Hash Join", "CONCURRENTLY"],
+        "problems": ["explain-analyze-optimization", "gin-index-jsonb-drill", "index-scan-vs-bitmap-scan"],
         "icon": "zap",
         "color": "blue",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
       },
       {
         "stepNumber": 4,
-        "title": "Autovacuum, Bloat Management & Transaction Wraparound",
-        "subtitle": "Reclaiming Dead Tuples, Free Space Map & XID Freeze",
-        "description": "Prevent production outages caused by table/index bloat and 32-bit Transaction ID (XID) wraparound. Configure autovacuum workers and table-level autovacuum parameters.",
-        "guide": "### \ud83e\uddf9 1. Why Autovacuum is Critical\nIn PostgreSQL, `UPDATE` and `DELETE` do not physically remove tuples. They leave dead tuple versions. Autovacuum reclaims dead tuple slots, updates the Free Space Map (FSM) and Visibility Map (VM), and updates `pg_statistic`.\n\n### \u26a0\ufe0f 2. Transaction ID (XID) Wraparound Crisis\nPostgreSQL transaction IDs are 32-bit integers (4.2 billion transactions).\n- If un-vacuumed, the database will shut down and refuse incoming writes to prevent data corruption!\n- Autovacuum performs emergency FREEZE operations to reset older `xmin` values.",
-        "codeSnippet": "-- Check table bloat and dead tuple count\nSELECT \n  relname, \n  n_dead_tup, \n  n_live_tup,\n  round(n_dead_tup * 100.0 / nullif(n_live_tup + n_dead_tup, 0), 2) AS dead_tuple_percent,\n  last_autovacuum\nFROM pg_stat_user_tables\nORDER BY n_dead_tup DESC;\n\n-- Tune Autovacuum for a high-write table\nALTER TABLE orders SET (\n  autovacuum_vacuum_scale_factor = 0.05,\n  autovacuum_vacuum_threshold = 500,\n  autovacuum_vacuum_cost_limit = 2000\n);",
+        "title": "Autovacuum, Bloat & Transaction Wraparound",
+        "subtitle": "Reclaiming Dead Tuples, Free Space Map & XID Freeze Prevention",
+        "description": "Prevent production disasters caused by table bloat and 32-bit Transaction ID wraparound. Learn to tune autovacuum per-table and monitor dead tuple accumulation.",
+        "guide": "### 1. Why Dead Tuples Pile Up\nIn PostgreSQL, UPDATE and DELETE do not remove rows immediately. They mark the old tuple as dead (xmax is set) and insert a new version. This is part of MVCC, but it creates 'bloat' — disk space consumed by dead rows.\n\n### 2. Autovacuum's Job\nAutovacuum workers periodically scan tables and:\n- Remove dead tuple slots and mark pages as reusable (updating the **Free Space Map**)\n- Mark clean pages in the **Visibility Map** (enabling Index-Only Scans)\n- Update planner statistics (`pg_statistic`)\n- Freeze old transactions to prevent XID wraparound\n\n### 3. XID Wraparound — The Silent Killer\nPostgreSQL transaction IDs are 32-bit integers (~4.2 billion). If a table's oldest unfrozen xmin approaches 2 billion transactions behind the current ID, PostgreSQL will **shut down** and refuse writes to prevent data corruption. VACUUM FREEZE resets these to a permanent 'frozen' state.",
+        "codeSnippet": "-- Check dead tuple ratio per table\nSELECT relname, n_dead_tup, n_live_tup,\n  round(n_dead_tup * 100.0 / nullif(n_live_tup + n_dead_tup,0), 2) AS dead_pct,\n  last_autovacuum\nFROM pg_stat_user_tables ORDER BY n_dead_tup DESC LIMIT 20;\n\n-- Tune autovacuum for a high-write orders table\nALTER TABLE orders SET (\n  autovacuum_vacuum_scale_factor = 0.05,\n  autovacuum_vacuum_threshold = 500,\n  autovacuum_vacuum_cost_limit = 2000\n);",
         "submodules": [
-          {
-            "name": "Dead Tuples & Free Space Map (FSM) Mechanics",
-            "status": "pending"
-          },
-          {
-            "name": "Visibility Map (VM) & Index-Only Scans",
-            "status": "pending"
-          },
-          {
-            "name": "Autovacuum Scale Factors & Cost-Based Vacuum Delay",
-            "status": "pending"
-          },
-          {
-            "name": "Transaction ID (XID) 32-Bit Wraparound Emergencies",
-            "status": "pending"
-          },
-          {
-            "name": "VACUUM FREEZE & Aggressive Vacuuming",
-            "status": "pending"
-          },
-          {
-            "name": "Zero-Downtime Table De-bloating with pg_repack",
-            "status": "pending"
-          }
+          { "name": "Dead Tuple Lifecycle & Free Space Map (FSM) Mechanics", "status": "pending" },
+          { "name": "Visibility Map (VM) & Index-Only Scan Optimization", "status": "pending" },
+          { "name": "Autovacuum Cost-Based Delay & Scale Factor Tuning", "status": "pending" },
+          { "name": "Transaction ID (XID) 32-Bit Wraparound Emergency Protocol", "status": "pending" },
+          { "name": "VACUUM FREEZE & Aggressive Vacuuming Strategies", "status": "pending" },
+          { "name": "Zero-Downtime Bloat Removal with pg_repack", "status": "pending" }
         ],
         "interviewFaqs": [
-          "What happens if PostgreSQL reaches 2 billion un-frozen transactions?",
-          "How do you troubleshoot a stuck autovacuum worker?",
-          "How does `pg_repack` reclaim disk space without locking table reads and writes?"
+          "What happens when PostgreSQL hits 2 billion un-frozen transactions?",
+          "How do you diagnose and fix a stuck autovacuum worker?",
+          "How does pg_repack reclaim disk space without table-level locks?"
         ],
-        "topics": [
-          "Autovacuum",
-          "Dead Tuples",
-          "FSM",
-          "Visibility Map",
-          "XID Wraparound",
-          "FREEZE",
-          "pg_repack"
+        "resources": [
+          { "type": "docs", "label": "PostgreSQL VACUUM Documentation", "url": "https://www.postgresql.org/docs/current/routine-vacuuming.html" },
+          { "type": "tool", "label": "pg_repack GitHub", "url": "https://github.com/reorg/pg_repack" },
+          { "type": "article", "label": "Avoiding XID Wraparound in Production", "url": "https://www.percona.com/blog/transaction-id-wraparound-in-postgresql/" }
         ],
-        "problems": [
-          "autovacuum-tuning-drill",
-          "xid-wraparound-prevention",
-          "pg-repack-debloat-lab"
-        ],
+        "topics": ["Autovacuum", "Dead Tuples", "FSM", "Visibility Map", "XID Wraparound", "FREEZE", "pg_repack"],
+        "problems": ["autovacuum-tuning-drill", "xid-wraparound-prevention", "pg-repack-debloat-lab"],
         "icon": "tool",
         "color": "teal",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
       },
       {
         "stepNumber": 5,
         "title": "High Availability, Replication & Connection Pooling",
-        "subtitle": "Streaming Replication, Logical Replication, PgBouncer & Patroni",
-        "description": "Architect mission-critical high availability: Primary/Replica streaming replication, Logical replication for CDC/microservices, PgBouncer connection pooling, and Patroni failover cluster management.",
-        "guide": "### \ud83d\udd01 1. Streaming Replication vs Logical Replication\n- **Physical Streaming Replication**: Replaces exact WAL blocks. Read-only standby replicas. Zero schema differences allowed.\n- **Logical Replication**: Pub/Sub model based on logical decoding of WAL. Allows partial table replication, cross-version migration, and CDC.\n\n### \ud83d\udd0c 2. Connection Pooling with PgBouncer\nPostgreSQL uses a process-per-connection model (~10MB RAM per client connection).\n- **PgBouncer** sits in front of Postgres, multiplexing 5,000+ client connections into 50 backend server connections using **Transaction Pooling**.",
-        "codeSnippet": "# pgbouncer.ini Transaction Pooling Config\n[databases]\nproduction_db = host=127.0.0.1 port=5432 dbname=production_db\n\n[pgbouncer]\nlisten_addr = *\nlisten_port = 6432\nauth_type = md5\nauth_file = /etc/pgbouncer/userlist.txt\npool_mode = transaction\nmax_client_conn = 10000\ndefault_pool_size = 50\n\n-- Create Logical Replication Publication\nCREATE PUBLICATION order_events FOR TABLE orders, order_items;",
+        "subtitle": "Streaming Replication, Logical Replication, PgBouncer & Patroni Failover",
+        "description": "Design mission-critical databases with physical streaming replication for standby replicas, logical replication for CDC, PgBouncer for connection pooling, and Patroni for automatic failover.",
+        "guide": "### 1. Physical vs Logical Replication\n- **Physical Streaming Replication**: Ships raw WAL byte blocks to standby. Standbys are read-only replicas, bit-for-bit identical to the primary. No cross-version support.\n- **Logical Replication**: Uses WAL logical decoding to emit row-level change events (INSERT/UPDATE/DELETE) via a Pub/Sub model. Supports partial table replication and cross-version upgrades.\n\n### 2. PgBouncer — Connection Multiplexing\nPostgreSQL spawns a 10MB OS process per connection. With 5,000 app connections, that is 50GB of RAM just for connections. PgBouncer sits in front and multiplexes thousands of client connections into a small pool of actual Postgres backend connections.\n- **Transaction Pooling** (recommended): Connection returned to pool after each transaction.\n- **Session Pooling**: Connection held for the entire client session.\n\n### 3. Patroni — Automated Failover\nPatroni uses a Distributed Configuration Store (etcd/Consul/ZooKeeper) as a consensus layer. On primary failure, the DCS leader election promotes the most up-to-date replica and prevents split-brain scenarios.",
+        "codeSnippet": "# pgbouncer.ini for transaction pooling\n[databases]\nprod_db = host=127.0.0.1 port=5432 dbname=prod\n\n[pgbouncer]\npool_mode = transaction\nmax_client_conn = 10000\ndefault_pool_size = 50\n\n-- Create Logical Replication Publication\nCREATE PUBLICATION order_events FOR TABLE orders, order_items;\n-- On subscriber side:\nCREATE SUBSCRIPTION order_sub CONNECTION 'host=primary dbname=prod' PUBLICATION order_events;",
         "submodules": [
-          {
-            "name": "Physical Streaming Replication (Sync vs Async)",
-            "status": "pending"
-          },
-          {
-            "name": "Logical Replication (Publications & Subscriptions)",
-            "status": "pending"
-          },
-          {
-            "name": "PgBouncer Connection Pooling (Session, Transaction, Statement Mode)",
-            "status": "pending"
-          },
-          {
-            "name": "Patroni & DCS (etcd / Consul) High Availability Failover",
-            "status": "pending"
-          },
-          {
-            "name": "HAPROXY / VIP Load Balancing for Read Replicas",
-            "status": "pending"
-          },
-          {
-            "name": "Replication Lag Monitoring (pg_stat_replication)",
-            "status": "pending"
-          }
+          { "name": "Physical Streaming Replication (Synchronous vs Asynchronous)", "status": "pending" },
+          { "name": "Logical Replication Publications & Subscriptions", "status": "pending" },
+          { "name": "PgBouncer Session, Transaction & Statement Pooling Modes", "status": "pending" },
+          { "name": "Patroni & DCS (etcd/Consul) High-Availability Cluster Setup", "status": "pending" },
+          { "name": "HAProxy & VIP Load Balancing for Read Replicas", "status": "pending" },
+          { "name": "Replication Lag Monitoring via pg_stat_replication", "status": "pending" }
         ],
         "interviewFaqs": [
-          "What is the difference between Session Pooling and Transaction Pooling in PgBouncer?",
-          "Why can't prepared statements be used easily in PgBouncer Transaction Mode?",
-          "How does Patroni prevent Split-Brain scenarios during a network partition?"
+          "What's the difference between Session Pooling and Transaction Pooling in PgBouncer?",
+          "Why don't prepared statements work well in PgBouncer Transaction Mode?",
+          "How does Patroni prevent Split-Brain during a network partition?"
         ],
-        "topics": [
-          "Streaming Replication",
-          "Logical Replication",
-          "PgBouncer",
-          "Transaction Pooling",
-          "Patroni",
-          "etcd",
-          "HAPROXY"
+        "resources": [
+          { "type": "docs", "label": "PgBouncer Documentation", "url": "https://www.pgbouncer.org/config.html" },
+          { "type": "docs", "label": "Patroni GitHub & Docs", "url": "https://github.com/patroni/patroni" },
+          { "type": "youtube", "label": "PostgreSQL Replication Explained", "url": "https://www.youtube.com/watch?v=_NJhqZEnlR0" }
         ],
-        "problems": [
-          "pgbouncer-setup-drill",
-          "streaming-replication-lab",
-          "patroni-failover-simulation"
-        ],
+        "topics": ["Streaming Replication", "Logical Replication", "PgBouncer", "Transaction Pooling", "Patroni", "etcd", "HAProxy"],
+        "problems": ["pgbouncer-setup-drill", "streaming-replication-lab", "patroni-failover-simulation"],
         "icon": "cloud",
         "color": "green",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
       },
       {
         "stepNumber": 6,
-        "title": "Backup, Point-In-Time Recovery (PITR) & Security",
+        "title": "Backup, Point-In-Time Recovery & Security",
         "subtitle": "pg_basebackup, WAL-G/pgBackRest, PITR & pg_hba.conf RBAC",
-        "description": "Execute enterprise disaster recovery strategies: Physical base backups, continuous WAL archiving, Point-In-Time Recovery (PITR), pg_hba.conf client authentication, and audit logging.",
-        "guide": "### \ud83d\udcbe 1. Backup Strategies: Logical vs Physical\n- **Logical Backup (`pg_dump`, `pg_dumpall`)**: Exports SQL statements. Slow for multi-terabyte databases.\n- **Physical Backup (`pg_basebackup`, `pgBackRest`, `WAL-G`)**: Takes binary copy of $PGDATA + WAL files. Extremely fast restore.\n\n### \u23ea 2. Point-In-Time Recovery (PITR)\nAllows restoring database state to the exact second right before an accidental `DROP TABLE` or `DELETE` occurred!\n- Restores physical base backup and replays WAL log files up to target timestamp (`recovery_target_time`).",
-        "codeSnippet": "# Execute Physical Base Backup with pgBackRest\npgbackrest --stanza=production backup --type=full\n\n-- Configure PITR target in postgresql.conf\nrestore_command = 'pgbackrest --stanza=production archive-get %f \"%p\"'\nrecovery_target_time = '2026-08-06 14:29:00 EST'\nrecovery_target_action = 'promote'\n\n# pg_hba.conf Client Security Lockdown\n# TYPE  DATABASE        USER            ADDRESS                 METHOD\nhostssl production_db   app_user        10.0.0.0/16             scram-sha-256",
+        "description": "Implement enterprise disaster recovery: physical base backups, continuous WAL archiving, Point-In-Time Recovery, client authentication lockdown, and audit logging.",
+        "guide": "### 1. Backup Strategies: Logical vs Physical\n- **Logical Backup** (`pg_dump`, `pg_dumpall`): Exports SQL statements. Portable, but extremely slow for multi-terabyte databases. No PITR support.\n- **Physical Backup** (`pg_basebackup`, `pgBackRest`, `WAL-G`): Binary copy of $PGDATA directory plus WAL segments. Fast restore, supports PITR.\n\n### 2. Point-In-Time Recovery (PITR)\nThe ability to restore your database to the exact moment right before an accidental `DROP TABLE` or mass `DELETE`:\n1. Restore a physical base backup\n2. Configure `restore_command` to replay WAL archive files\n3. Set `recovery_target_time` to the moment just before the disaster\n4. PostgreSQL replays WAL events up to that timestamp, then promotes to primary\n\n### 3. Security Layers\n- **pg_hba.conf**: Client authentication rules — IP range, user, database, and auth method (SCRAM-SHA-256 preferred over md5).\n- **RBAC**: Grant minimal privileges. Use role inheritance and RLS (Row Level Security) for multi-tenant data isolation.\n- **SSL/TLS**: Enforce `hostssl` entries and mutual certificate authentication for production.",
+        "codeSnippet": "# Take a full physical backup with pgBackRest\npgbackrest --stanza=production backup --type=full\n\n# PITR configuration in postgresql.conf (during recovery)\nrestore_command = 'pgbackrest archive-get %f \"%p\"'\nrecovery_target_time = '2026-08-06 14:29:00 UTC'\nrecovery_target_action = 'promote'\n\n# pg_hba.conf — enforce SCRAM auth over SSL only\n# TYPE   DATABASE      USER       ADDRESS         METHOD\nhostssl  production    app_user   10.0.0.0/16     scram-sha-256",
         "submodules": [
-          {
-            "name": "Logical Backups (pg_dump, pg_dumpall, parallel jobs)",
-            "status": "pending"
-          },
-          {
-            "name": "Physical Backups (pg_basebackup & pgBackRest)",
-            "status": "pending"
-          },
-          {
-            "name": "Continuous WAL Archiving (archive_command / WAL-G)",
-            "status": "pending"
-          },
-          {
-            "name": "Point-In-Time Recovery (PITR) Execution & Drills",
-            "status": "pending"
-          },
-          {
-            "name": "Client Authentication Lockdown (pg_hba.conf & SCRAM-SHA-256)",
-            "status": "pending"
-          },
-          {
-            "name": "Role-Based Access Control (RBAC, GRANT/REVOKE, Row Level Security)",
-            "status": "pending"
-          },
-          {
-            "name": "Audit Logging (pgaudit & SSL/TLS Mutual Auth)",
-            "status": "pending"
-          }
+          { "name": "Logical Backups: pg_dump, pg_dumpall, Parallel Jobs", "status": "pending" },
+          { "name": "Physical Backups: pg_basebackup & pgBackRest Setup", "status": "pending" },
+          { "name": "Continuous WAL Archiving with WAL-G to S3/GCS", "status": "pending" },
+          { "name": "Point-In-Time Recovery (PITR) Execution Drills", "status": "pending" },
+          { "name": "pg_hba.conf Client Authentication Lockdown", "status": "pending" },
+          { "name": "Role-Based Access Control (RBAC, GRANT/REVOKE, Row Level Security)", "status": "pending" },
+          { "name": "Audit Logging with pgaudit & SSL/TLS Mutual Auth", "status": "pending" }
         ],
         "interviewFaqs": [
-          "How do you perform a Point-In-Time Recovery (PITR) after a dropped database?",
-          "What is SCRAM-SHA-256 authentication and why is md5 deprecated in Postgres?",
-          "How does Row Level Security (RLS) isolate multi-tenant SaaS data?"
+          "How do you perform a PITR after someone accidentally drops a critical table?",
+          "What is SCRAM-SHA-256 and why is md5 deprecated in newer PostgreSQL?",
+          "How does Row Level Security (RLS) isolate multi-tenant data in a SaaS product?"
         ],
-        "topics": [
-          "pg_dump",
-          "pg_basebackup",
-          "pgBackRest",
-          "PITR",
-          "pg_hba.conf",
-          "SCRAM-SHA-256",
-          "RLS",
-          "pgaudit"
+        "resources": [
+          { "type": "docs", "label": "pgBackRest User Guide", "url": "https://pgbackrest.org/user-guide.html" },
+          { "type": "docs", "label": "WAL-G Backup Tool GitHub", "url": "https://github.com/wal-g/wal-g" },
+          { "type": "docs", "label": "PostgreSQL Security Best Practices", "url": "https://www.postgresql.org/docs/current/client-authentication.html" }
         ],
-        "problems": [
-          "pitr-disaster-recovery-drill",
-          "pghba-security-lockdown",
-          "row-level-security-multi-tenant"
-        ],
+        "topics": ["pg_dump", "pg_basebackup", "pgBackRest", "PITR", "pg_hba.conf", "SCRAM-SHA-256", "RLS", "pgaudit"],
+        "problems": ["pitr-disaster-recovery-drill", "pghba-security-lockdown", "row-level-security-multi-tenant"],
         "icon": "shield",
         "color": "purple",
-        "sourceUrl": "https://roadmap.sh/postgresql-dba"
+        "sourceUrl": "https://www.postgresql.org/docs/"
+      }
+    ]
+  },
+  {
+    "id": "role-frontend",
+    "category": "Role Roadmap",
+    "title": "Frontend Developer Learning Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Master modern frontend development from semantic HTML to production-grade React apps with TypeScript, performance optimization, and testing.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "HTML5 & Semantic Structure",
+        "subtitle": "Document Semantics, Accessibility & SEO Foundations",
+        "description": "Learn to structure web pages with meaningful HTML5 tags. Understand accessibility standards (ARIA), semantic landmarks, and how search engines interpret page structure.",
+        "guide": "### 1. Why Semantic HTML Matters\nUsing `<article>`, `<section>`, `<nav>`, `<aside>`, `<header>`, `<footer>`, and `<main>` gives browsers, screen readers, and crawlers meaningful context about your content structure — far beyond what `<div>` conveys.\n\n### 2. Accessibility (a11y) Fundamentals\n- **ARIA attributes**: `aria-label`, `aria-describedby`, `aria-live`, `role` — these bridge the gap when semantic elements alone don't communicate intent.\n- **Keyboard navigation**: Every interactive element must be reachable via Tab and activatable via Enter/Space.\n- **Color contrast**: WCAG 2.1 AA requires a minimum 4.5:1 contrast ratio for body text.\n\n### 3. Forms & Input Validation\nAlways associate `<label>` with `<input>` via `for`/`id`. Use HTML5 constraint validation (`required`, `pattern`, `minlength`) before adding JavaScript validation.",
+        "codeSnippet": "<!-- Semantic article with accessibility -->\n<article aria-labelledby=\"post-title\">\n  <header>\n    <h1 id=\"post-title\">Understanding Closures in JavaScript</h1>\n    <time datetime=\"2026-08-01\">August 1, 2026</time>\n  </header>\n  <main>\n    <p>A closure is a function that retains access to its outer scope...</p>\n  </main>\n</article>",
+        "submodules": [
+          { "name": "HTML5 Semantic Tags & Document Outline", "status": "pending" },
+          { "name": "Accessibility (ARIA roles, keyboard navigation, focus management)", "status": "pending" },
+          { "name": "Forms: Inputs, Validation, Fieldsets & Labels", "status": "pending" },
+          { "name": "Meta Tags, Open Graph & SEO Basics", "status": "pending" },
+          { "name": "SVG Inline Graphics & Icon Systems", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What's the difference between <section> and <div>?",
+          "How do you make a custom dropdown component accessible to screen readers?",
+          "What is the difference between aria-label and aria-labelledby?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "MDN — HTML Elements Reference", "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element" },
+          { "type": "course", "label": "Web Accessibility (a11y) by Google — Udacity", "url": "https://www.udacity.com/course/web-accessibility--ud891" },
+          { "type": "tool", "label": "HTML Validator", "url": "https://validator.w3.org/" }
+        ],
+        "topics": ["HTML5", "Semantic Tags", "Accessibility", "ARIA", "SEO", "Forms", "Meta Tags"],
+        "problems": ["semantic-html-structure", "accessible-form-design", "seo-metadata-setup"],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/HTML"
+      },
+      {
+        "stepNumber": 2,
+        "title": "CSS3, Flexbox, Grid & Responsive Design",
+        "subtitle": "Layouts, Animations, CSS Variables & BEM Architecture",
+        "description": "Master modern CSS layouts with Flexbox and Grid. Build fully responsive UIs with media queries, CSS custom properties, and clean architecture using BEM or utility-first patterns.",
+        "guide": "### 1. CSS Flexbox — One-Dimensional Layouts\nFlex is perfect for navigation bars, card rows, and centering:\n- `display: flex` on the container\n- `justify-content` controls main-axis alignment\n- `align-items` controls cross-axis alignment\n- `flex-wrap: wrap` allows multi-line flow\n\n### 2. CSS Grid — Two-Dimensional Layouts\nGrid excels at page-level layout:\n- `grid-template-columns: repeat(3, 1fr)` creates equal-width columns\n- `grid-template-areas` for named slot layout\n- `minmax(200px, 1fr)` for responsive columns without media queries\n\n### 3. CSS Custom Properties (Variables)\n```css\n:root {\n  --primary: #6366f1;\n  --surface: #1e1e2e;\n  --text: #cdd6f4;\n}\n```\nUsing CSS variables enables instant dark/light theming with one class toggle.\n\n### 4. CSS Animations & Transitions\nUse `transform` and `opacity` for GPU-accelerated animations. Avoid animating `width`, `height`, or `top` which trigger layout recalculations.",
+        "codeSnippet": "/* Responsive card grid without media queries */\n.card-grid {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));\n  gap: 1.5rem;\n}\n\n/* Theme-aware button via CSS variables */\n.btn-primary {\n  background: var(--color-accent);\n  color: var(--color-text-on-accent);\n  transition: transform 150ms ease, box-shadow 150ms ease;\n}\n.btn-primary:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 24px var(--color-accent-glow);\n}",
+        "submodules": [
+          { "name": "Flexbox: justify-content, align-items, flex-wrap, order", "status": "pending" },
+          { "name": "CSS Grid: template-columns, template-areas, auto-fit/minmax", "status": "pending" },
+          { "name": "Responsive Design: Media Queries & Mobile-First Approach", "status": "pending" },
+          { "name": "CSS Custom Properties & Design Tokens", "status": "pending" },
+          { "name": "CSS Animations, Keyframes & Transform Optimization", "status": "pending" },
+          { "name": "BEM Methodology & Scalable CSS Architecture", "status": "pending" },
+          { "name": "Tailwind CSS Utility-First Workflow", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "Explain the difference between Flexbox and Grid. When do you use each?",
+          "How do you implement dark mode using only CSS?",
+          "What properties are GPU-accelerated for animations and why does it matter?"
+        ],
+        "resources": [
+          { "type": "game", "label": "Flexbox Froggy — Interactive Learning", "url": "https://flexboxfroggy.com/" },
+          { "type": "game", "label": "CSS Grid Garden — Practice Game", "url": "https://cssgridgarden.com/" },
+          { "type": "docs", "label": "MDN — CSS Reference", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS" }
+        ],
+        "topics": ["CSS3", "Flexbox", "CSS Grid", "Media Queries", "CSS Variables", "BEM", "Animations"],
+        "problems": ["responsive-navbar", "css-grid-dashboard-layout", "dark-mode-toggle"],
+        "icon": "zap",
+        "color": "purple",
+        "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+      },
+      {
+        "stepNumber": 3,
+        "title": "JavaScript Deep Dive",
+        "subtitle": "ES6+, Closures, Async/Await, Event Loop & DOM APIs",
+        "description": "Go beyond syntax — truly understand JavaScript's execution model, prototype chain, closure mechanics, async patterns, and DOM interaction. These are the most common interview topics.",
+        "guide": "### 1. Execution Context & Scope\nEvery function call creates an Execution Context with its own Variable Environment. The scope chain resolves variable lookups by walking up through outer environments until the global scope.\n\n### 2. Closures — Functions That Remember\nA closure is a function that captures its surrounding lexical scope even after that scope has returned:\n```js\nfunction createCounter() {\n  let count = 0;\n  return () => ++count; // closes over 'count'\n}\nconst counter = createCounter();\ncounter(); // 1, counter(); // 2\n```\n\n### 3. The Event Loop\nJavaScript is single-threaded. Asynchronous callbacks are queued in:\n- **Microtask Queue** (higher priority): Promise `.then()`, `queueMicrotask()`, `MutationObserver`\n- **Macrotask Queue**: `setTimeout`, `setInterval`, I/O events\n\nAfter each macrotask, the engine drains all microtasks before picking the next macrotask.\n\n### 4. Promises & Async/Await\n`async/await` is syntactic sugar over Promises. `await` pauses the async function but does NOT block the main thread — it schedules the continuation as a microtask.",
+        "codeSnippet": "// Custom promise implementation sketch\nclass MyPromise {\n  constructor(executor) {\n    this._callbacks = [];\n    executor(\n      (val) => this._callbacks.forEach(fn => fn(val))\n    );\n  }\n  then(fn) { this._callbacks.push(fn); return this; }\n}\n\n// Debounce utility\nfunction debounce(fn, delay) {\n  let timer;\n  return (...args) => {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn(...args), delay);\n  };\n}",
+        "submodules": [
+          { "name": "Execution Context, Call Stack & Scope Chain", "status": "pending" },
+          { "name": "Closures, Memoization & Partial Application", "status": "pending" },
+          { "name": "Prototype Chain & Object Inheritance", "status": "pending" },
+          { "name": "Promises, async/await & Error Handling Patterns", "status": "pending" },
+          { "name": "Event Loop: Microtask vs Macrotask Queue", "status": "pending" },
+          { "name": "DOM Events, Delegation & Shadow DOM", "status": "pending" },
+          { "name": "Fetch API, AbortController & Stream Processing", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "Explain closure with a practical example. How does it relate to data privacy?",
+          "What is the difference between microtask and macrotask queues?",
+          "How does `this` binding work in arrow functions vs regular functions?"
+        ],
+        "resources": [
+          { "type": "book", "label": "JavaScript.info — The Modern JavaScript Tutorial", "url": "https://javascript.info/" },
+          { "type": "youtube", "label": "JavaScript Event Loop — Jake Archibald (JSConf)", "url": "https://www.youtube.com/watch?v=cCOL7MC4Pl0" },
+          { "type": "course", "label": "Just JavaScript by Dan Abramov", "url": "https://justjavascript.com/" }
+        ],
+        "topics": ["ES6+", "Closures", "Event Loop", "Promises", "Async/Await", "Prototype", "DOM"],
+        "problems": ["js-closures-challenge", "custom-promise-implementation", "debounce-throttle"],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://javascript.info/"
+      },
+      {
+        "stepNumber": 4,
+        "title": "React & Component Architecture",
+        "subtitle": "Hooks, State Management, Performance & Server Components",
+        "description": "Build production-quality React applications. Master hooks, composition patterns, state management with Zustand/Redux Toolkit, and React 18 features like Concurrent Rendering.",
+        "guide": "### 1. React Hooks You Must Know\n- `useState` + `useReducer`: Local and complex state\n- `useEffect` + `useLayoutEffect`: Side effects and DOM measurements\n- `useMemo` + `useCallback`: Avoid expensive re-computations\n- `useRef`: Mutable container that doesn't trigger re-renders\n- `useContext`: Consume context values\n- **Custom Hooks**: Encapsulate reusable logic (e.g., `useFetch`, `useDebounce`)\n\n### 2. Rendering Mental Model\nReact re-renders a component when state or props change. Child components re-render when their parent re-renders. Use `React.memo`, `useMemo`, and `useCallback` to break unnecessary re-render cascades.\n\n### 3. State Management Decision Tree\n- **Local UI state** → `useState`\n- **Shared feature state** → Zustand or `useContext`\n- **Server/async state** → React Query (TanStack Query)\n- **Complex global state** → Redux Toolkit\n\n### 4. React 18: Concurrent Features\n- `useTransition`: Mark state updates as non-urgent (keep UI responsive)\n- `useDeferredValue`: Defer expensive renders\n- `Suspense` boundaries: Show fallback while async data loads",
+        "codeSnippet": "// Custom useFetch hook with abort cleanup\nfunction useFetch(url) {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n\n  useEffect(() => {\n    const controller = new AbortController();\n    fetch(url, { signal: controller.signal })\n      .then(r => r.json())\n      .then(setData)\n      .finally(() => setLoading(false));\n    return () => controller.abort(); // cleanup\n  }, [url]);\n\n  return { data, loading };\n}",
+        "submodules": [
+          { "name": "Component Architecture: Composition vs Inheritance", "status": "pending" },
+          { "name": "Core Hooks: useState, useEffect, useRef, useCallback, useMemo", "status": "pending" },
+          { "name": "Custom Hooks & Logic Extraction Patterns", "status": "pending" },
+          { "name": "State Management: Zustand, Redux Toolkit, Context API", "status": "pending" },
+          { "name": "React Query (TanStack Query) for Server State", "status": "pending" },
+          { "name": "React 18: Concurrent Mode, useTransition, Suspense", "status": "pending" },
+          { "name": "Next.js: File-Based Routing, SSR, SSG & Server Components", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How do you prevent unnecessary re-renders in a deeply nested component tree?",
+          "When should you use useReducer over useState?",
+          "Explain React 18 Concurrent Mode and what problems it solves."
+        ],
+        "resources": [
+          { "type": "docs", "label": "React Official Docs (react.dev)", "url": "https://react.dev/" },
+          { "type": "docs", "label": "TanStack Query Documentation", "url": "https://tanstack.com/query/latest" },
+          { "type": "course", "label": "Epic React by Kent C. Dodds", "url": "https://epicreact.dev/" }
+        ],
+        "topics": ["React.js", "Hooks", "State Management", "Zustand", "React Query", "Next.js", "SSR/SSG"],
+        "problems": ["react-custom-hook", "state-management-zustand", "nextjs-routing-ssr"],
+        "icon": "code",
+        "color": "teal",
+        "sourceUrl": "https://react.dev/"
+      },
+      {
+        "stepNumber": 5,
+        "title": "TypeScript & Type-Safe Development",
+        "subtitle": "Static Typing, Generics, Utility Types & Type Guards",
+        "description": "Add compile-time safety to your JavaScript projects with TypeScript. Master type inference, generics, discriminated unions, and TypeScript's structural type system.",
+        "guide": "### 1. Why TypeScript?\nTypeScript catches entire classes of bugs at build time: calling a method on `undefined`, passing the wrong argument type, or accessing a property that doesn't exist. In large codebases, it also serves as living documentation.\n\n### 2. Key TypeScript Concepts\n- **Type Inference**: TypeScript infers types automatically — you don't need to annotate everything.\n- **Generics**: Write functions and types that work across multiple types while remaining type-safe.\n- **Utility Types**: `Partial<T>`, `Required<T>`, `Pick<T, K>`, `Omit<T, K>`, `Record<K, V>`, `Readonly<T>`, `ReturnType<F>`.\n- **Discriminated Unions**: Model state machines precisely — e.g., `type Status = { kind: 'loading' } | { kind: 'success'; data: User } | { kind: 'error'; message: string }`.\n\n### 3. Type Guards\n```ts\nfunction isUser(obj: unknown): obj is User {\n  return typeof obj === 'object' && obj !== null && 'id' in obj;\n}\n```",
+        "codeSnippet": "// Generic API response type\ntype ApiResponse<T> = \n  | { status: 'success'; data: T }\n  | { status: 'error'; message: string };\n\n// Conditional types\ntype NonNullable<T> = T extends null | undefined ? never : T;\n\n// Mapped types\ntype Optional<T> = { [K in keyof T]?: T[K] };\n\n// Infer from function return\ntype UnpackPromise<T> = T extends Promise<infer R> ? R : T;",
+        "submodules": [
+          { "name": "Basic Types, Type Inference & Annotations", "status": "pending" },
+          { "name": "Interfaces vs Type Aliases & Structural Typing", "status": "pending" },
+          { "name": "Generics: Functions, Classes & Constraints", "status": "pending" },
+          { "name": "Discriminated Unions & Exhaustive Pattern Matching", "status": "pending" },
+          { "name": "Utility Types & Mapped/Conditional Types", "status": "pending" },
+          { "name": "TypeScript with React: Props, Events & Generics", "status": "pending" },
+          { "name": "tsconfig.json Configuration & Strict Mode", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between `unknown` and `any` in TypeScript?",
+          "How do generics help you write reusable, type-safe functions?",
+          "Explain discriminated unions and when you'd use them."
+        ],
+        "resources": [
+          { "type": "docs", "label": "TypeScript Official Handbook", "url": "https://www.typescriptlang.org/docs/handbook/" },
+          { "type": "tool", "label": "TypeScript Playground", "url": "https://www.typescriptlang.org/play" },
+          { "type": "course", "label": "Total TypeScript by Matt Pocock", "url": "https://www.totaltypescript.com/" }
+        ],
+        "topics": ["TypeScript", "Generics", "Utility Types", "Discriminated Unions", "Type Guards", "tsconfig"],
+        "problems": ["typescript-generics-challenge", "discriminated-union-state-machine", "type-safe-api-client"],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://www.typescriptlang.org/"
+      },
+      {
+        "stepNumber": 6,
+        "title": "Performance, Testing & Build Tooling",
+        "subtitle": "Core Web Vitals, Code Splitting, Vitest & Webpack/Vite",
+        "description": "Ship fast, reliable frontend apps. Measure and optimize Core Web Vitals, implement code splitting, write unit/integration tests, and understand modern build pipelines.",
+        "guide": "### 1. Core Web Vitals (Google's UX Metrics)\n- **LCP (Largest Contentful Paint)**: < 2.5s — the time until the main content renders. Fix by preloading hero images and reducing server response time.\n- **CLS (Cumulative Layout Shift)**: < 0.1 — how much content shifts visually. Fix by specifying width/height on images and not injecting content above the fold.\n- **INP (Interaction to Next Paint)**: < 200ms — replaces FID. Fix by moving heavy work to Web Workers or using `scheduler.yield()`.\n\n### 2. Code Splitting & Lazy Loading\n```jsx\nconst Dashboard = React.lazy(() => import('./pages/Dashboard'));\n// Wrapped in <Suspense fallback={<Spinner />}>\n```\n\n### 3. Testing Pyramid\n- **Unit Tests** (Vitest/Jest): Test individual functions and components in isolation.\n- **Integration Tests** (React Testing Library): Test component interactions and user flows.\n- **E2E Tests** (Playwright/Cypress): Test complete user journeys in a real browser.",
+        "codeSnippet": "// Vitest unit test example\nimport { describe, it, expect } from 'vitest';\nimport { formatDate } from '../utils/formatDate';\n\ndescribe('formatDate', () => {\n  it('formats ISO date to human-readable string', () => {\n    expect(formatDate('2026-08-01')).toBe('August 1, 2026');\n  });\n  it('returns \\'Invalid Date\\' for bad input', () => {\n    expect(formatDate('not-a-date')).toBe('Invalid Date');\n  });\n});",
+        "submodules": [
+          { "name": "Core Web Vitals: LCP, CLS, INP — Measurement & Fixes", "status": "pending" },
+          { "name": "Code Splitting with React.lazy & Dynamic Imports", "status": "pending" },
+          { "name": "Bundle Analysis with Rollup Visualizer / Webpack Bundle Analyzer", "status": "pending" },
+          { "name": "Unit Testing with Vitest & Jest", "status": "pending" },
+          { "name": "Component Testing with React Testing Library", "status": "pending" },
+          { "name": "E2E Testing with Playwright", "status": "pending" },
+          { "name": "Vite vs Webpack: Module Bundling & HMR", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is Largest Contentful Paint and how do you improve it?",
+          "What is the difference between unit tests and integration tests?",
+          "How does tree shaking work and what code patterns prevent it?"
+        ],
+        "resources": [
+          { "type": "tool", "label": "web.dev — Core Web Vitals Guide", "url": "https://web.dev/vitals/" },
+          { "type": "docs", "label": "Vitest Documentation", "url": "https://vitest.dev/" },
+          { "type": "docs", "label": "Playwright Testing Framework", "url": "https://playwright.dev/" }
+        ],
+        "topics": ["Core Web Vitals", "LCP", "CLS", "Code Splitting", "Vitest", "Playwright", "Vite"],
+        "problems": ["bundle-size-optimization", "vitest-component-testing", "playwright-e2e-flow"],
+        "icon": "shield",
+        "color": "green",
+        "sourceUrl": "https://web.dev/"
+      }
+    ]
+  },
+  {
+    "id": "role-backend",
+    "category": "Role Roadmap",
+    "title": "Backend Developer Learning Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Build scalable server-side systems — from REST APIs to authentication, databases, caching, message queues, and containerized deployments.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Server-Side Programming & HTTP Fundamentals",
+        "subtitle": "Node.js/Python/Go, REST API Design & JSON Protocols",
+        "description": "Start building backend services with a server-side language. Understand HTTP methods, status codes, RESTful API conventions, middleware patterns, and request/response lifecycle.",
+        "guide": "### 1. Choosing Your Backend Language\n- **Node.js**: JavaScript everywhere, excellent for I/O-bound apps, huge npm ecosystem.\n- **Python (FastAPI/Django)**: Clean syntax, great for ML integration, strong typing with Pydantic.\n- **Go**: Compiled, ultra-fast, excellent concurrency with goroutines — ideal for high-throughput services.\n\n### 2. REST API Design Principles\n- Resources are nouns: `/users`, `/orders`, not `/getUsers`\n- HTTP verbs carry meaning: GET (read), POST (create), PUT/PATCH (update), DELETE (remove)\n- Use proper status codes: 200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Internal Server Error\n- Versioning: `/api/v1/users`\n\n### 3. Middleware Architecture (Express.js Example)\nMiddleware functions form a pipeline — each can read/modify the request/response and pass control to the next function with `next()`.",
+        "codeSnippet": "// Express.js REST endpoint with middleware\nconst express = require('express');\nconst app = express();\n\n// Middleware: parse JSON bodies\napp.use(express.json());\n\n// Route: GET /api/v1/users/:id\napp.get('/api/v1/users/:id', authenticate, async (req, res) => {\n  try {\n    const user = await User.findById(req.params.id);\n    if (!user) return res.status(404).json({ error: 'User not found' });\n    res.json(user);\n  } catch (err) {\n    res.status(500).json({ error: 'Internal server error' });\n  }\n});",
+        "submodules": [
+          { "name": "HTTP/1.1 & HTTP/2: Methods, Headers, Status Codes", "status": "pending" },
+          { "name": "RESTful API Design Principles & OpenAPI Spec", "status": "pending" },
+          { "name": "Express.js / FastAPI / Gin — Server Setup & Routing", "status": "pending" },
+          { "name": "Middleware Patterns: Auth, Logging, Error Handling", "status": "pending" },
+          { "name": "Request Validation & Serialization (Zod / Pydantic / go-validator)", "status": "pending" },
+          { "name": "Environment Configuration & dotenv Patterns", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What's the difference between PUT and PATCH in REST?",
+          "How do you design a rate-limiting middleware in Express?",
+          "What is idempotency and which HTTP methods are idempotent?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Express.js Official Guide", "url": "https://expressjs.com/en/guide/routing.html" },
+          { "type": "docs", "label": "FastAPI Documentation", "url": "https://fastapi.tiangolo.com/" },
+          { "type": "article", "label": "REST API Best Practices — Microsoft", "url": "https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design" }
+        ],
+        "topics": ["Node.js", "HTTP", "REST API", "Express.js", "Middleware", "Status Codes", "JSON"],
+        "problems": ["build-rest-api", "http-status-code-handling", "middleware-chain-design"],
+        "icon": "terminal",
+        "color": "indigo",
+        "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/HTTP"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Database Systems & Data Modeling",
+        "subtitle": "SQL, NoSQL, Indexing, Transactions & ORM Patterns",
+        "description": "Design robust data layers using relational databases (PostgreSQL, MySQL) and NoSQL stores (MongoDB, Redis). Master schema design, indexing, transactions, and ORMs.",
+        "guide": "### 1. SQL Relational Databases\nPostgreSQL is the gold standard for relational data. Key concepts:\n- **Normalization**: Eliminate data redundancy (1NF → 3NF)\n- **Indexes**: Speed up reads at the cost of slower writes\n- **Transactions (ACID)**: Group operations so they either all succeed or all fail\n- **Joins**: Combine related tables (INNER, LEFT, RIGHT, FULL OUTER)\n\n### 2. NoSQL — When to Break the Mold\n- **MongoDB (Document)**: Flexible schema, good for nested or polymorphic data\n- **Redis (Key-Value)**: In-memory, sub-millisecond reads — ideal for caching, sessions, rate limiting\n- **Cassandra (Wide Column)**: Massive write throughput, partitioned by design\n\n### 3. ORMs — Abstraction Tradeoffs\nORMs (Prisma, TypeORM, SQLAlchemy) auto-generate SQL from model definitions. Great for CRUD but can generate inefficient queries for complex operations — always check the generated SQL.",
+        "codeSnippet": "-- Optimized paginated query with indexed sort\nSELECT id, username, email, created_at\nFROM users\nWHERE created_at < $1  -- cursor-based pagination\nORDER BY created_at DESC\nLIMIT 20;\n\n-- Prisma schema (TypeScript ORM)\nmodel Order {\n  id        String   @id @default(cuid())\n  userId    String\n  total     Decimal  @db.Decimal(10, 2)\n  status    OrderStatus @default(PENDING)\n  createdAt DateTime @default(now())\n  user      User     @relation(fields: [userId], references: [id])\n}",
+        "submodules": [
+          { "name": "SQL: JOINs, Aggregations, Window Functions, CTEs", "status": "pending" },
+          { "name": "Schema Design & Data Normalization (1NF, 2NF, 3NF)", "status": "pending" },
+          { "name": "Database Indexing Strategies & EXPLAIN ANALYZE", "status": "pending" },
+          { "name": "ACID Transactions & Isolation Levels", "status": "pending" },
+          { "name": "MongoDB: Documents, Aggregation Pipeline & Atlas Search", "status": "pending" },
+          { "name": "Redis: Caching, TTL, Pub/Sub & Sorted Sets", "status": "pending" },
+          { "name": "Prisma / TypeORM / SQLAlchemy ORM Patterns", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "When would you choose MongoDB over PostgreSQL?",
+          "How do you design a caching layer with Redis to reduce database load?",
+          "What is the N+1 query problem and how do you fix it in an ORM?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Prisma Documentation", "url": "https://www.prisma.io/docs" },
+          { "type": "course", "label": "SQL for Developers — Mode Analytics", "url": "https://mode.com/sql-tutorial/" },
+          { "type": "docs", "label": "Redis Command Reference", "url": "https://redis.io/docs/latest/commands/" }
+        ],
+        "topics": ["PostgreSQL", "MongoDB", "Redis", "SQL Queries", "Indexing", "ACID", "Prisma"],
+        "problems": ["sql-join-optimization", "redis-caching-layer", "prisma-schema-migration"],
+        "icon": "database",
+        "color": "blue",
+        "sourceUrl": "https://www.postgresql.org/"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Authentication, Security & API Gateway",
+        "subtitle": "JWT, OAuth2, Session Cookies, Rate Limiting & CORS",
+        "description": "Protect your backend: implement secure authentication flows (JWT, OAuth2, Refresh tokens), password hashing, rate limiting, CORS policies, and API security headers.",
+        "guide": "### 1. JWT (JSON Web Tokens)\nJWT is a compact, self-contained token. Structure: `Header.Payload.Signature`\n- **Access Token**: Short-lived (15 min). Sent in Authorization header.\n- **Refresh Token**: Long-lived (7 days). Stored in HttpOnly cookie. Used to issue new access tokens.\n- ⚠️ Never store JWTs in localStorage — vulnerable to XSS attacks.\n\n### 2. OAuth2 & Social Login\nOAuth2 is an authorization framework. The Authorization Code Flow:\n1. User clicks 'Sign in with Google'\n2. Redirect to Google's auth server\n3. User grants permission\n4. Google redirects back with an auth `code`\n5. Your server exchanges the code for access + refresh tokens\n6. Fetch user profile and create a local session\n\n### 3. Rate Limiting\nProtect against brute force attacks and DDoS:\n```js\n// express-rate-limit example\nconst limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });\napp.use('/api', limiter);\n```",
+        "codeSnippet": "// JWT Auth Middleware (Node.js)\nconst authenticate = (req, res, next) => {\n  const token = req.headers.authorization?.split(' ')[1];\n  if (!token) return res.status(401).json({ error: 'Unauthorized' });\n  try {\n    req.user = jwt.verify(token, process.env.JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ error: 'Invalid or expired token' });\n  }\n};\n\n// bcrypt password hashing\nconst hash = await bcrypt.hash(password, 12); // salt rounds = 12\nconst isValid = await bcrypt.compare(plainPassword, hash);",
+        "submodules": [
+          { "name": "JWT Architecture: Access Token + Refresh Token Rotation", "status": "pending" },
+          { "name": "OAuth2 Authorization Code Flow (Google, GitHub, Discord)", "status": "pending" },
+          { "name": "Session-Based Auth vs Token-Based Auth Trade-offs", "status": "pending" },
+          { "name": "Password Security: bcrypt, Argon2id Hashing", "status": "pending" },
+          { "name": "Rate Limiting, Throttling & IP Blocking Strategies", "status": "pending" },
+          { "name": "CORS, CSP, HSTS & Security Headers", "status": "pending" },
+          { "name": "SQL Injection, XSS & OWASP Top 10 Defense", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "Why should you store refresh tokens in HttpOnly cookies instead of localStorage?",
+          "How does OAuth2 Authorization Code Flow work step-by-step?",
+          "What is CSRF and how do you protect against it in a stateless JWT setup?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "JWT.io — Debugger & Spec", "url": "https://jwt.io/" },
+          { "type": "guide", "label": "OWASP Top 10 Web Security Risks", "url": "https://owasp.org/www-project-top-ten/" },
+          { "type": "docs", "label": "Passport.js — Auth Middleware", "url": "http://www.passportjs.org/" }
+        ],
+        "topics": ["JWT", "OAuth2", "Rate Limiting", "CORS", "bcrypt", "Session Cookies", "OWASP"],
+        "problems": ["jwt-auth-middleware", "rate-limiter-redis", "oauth2-google-flow"],
+        "icon": "shield",
+        "color": "purple",
+        "sourceUrl": "https://oauth.net/2/"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Microservices, Message Queues & Caching",
+        "subtitle": "Event-Driven Architecture, Kafka, RabbitMQ & Redis Caching",
+        "description": "Scale your backend by breaking monoliths into microservices, decoupling services with message queues, and boosting performance with caching layers.",
+        "guide": "### 1. Monolith vs Microservices\n- **Monolith**: Single deployable unit — simpler to develop and debug. Start here.\n- **Microservices**: Independent services per domain (user-service, order-service, notification-service). Enable independent scaling and deployment.\n- **When to split**: When a single module has significantly different scaling needs, team ownership requirements, or tech stack requirements.\n\n### 2. Message Queues — Async Decoupling\n- **Kafka**: Distributed event streaming. Persistent log, consumer groups, high throughput. Best for event sourcing, analytics pipelines.\n- **RabbitMQ**: Traditional message broker. Routing via exchanges/queues. Best for task queues (email, PDF generation).\n\n### 3. Caching Strategies\n- **Cache-Aside (Lazy Loading)**: Check cache first, load from DB on miss, populate cache.\n- **Write-Through**: Write to cache and DB simultaneously.\n- **Cache Invalidation**: The hardest problem — use short TTLs or event-based invalidation.",
+        "codeSnippet": "// Redis cache-aside pattern with Node.js\nasync function getUserById(id) {\n  const cacheKey = `user:${id}`;\n  // 1. Check cache\n  const cached = await redis.get(cacheKey);\n  if (cached) return JSON.parse(cached);\n  // 2. Load from DB\n  const user = await db.users.findById(id);\n  // 3. Store in cache with TTL\n  await redis.setex(cacheKey, 300, JSON.stringify(user)); // 5 min TTL\n  return user;\n}",
+        "submodules": [
+          { "name": "Microservice Architecture Patterns (Saga, CQRS, Event Sourcing)", "status": "pending" },
+          { "name": "Apache Kafka: Topics, Partitions, Consumer Groups & Offsets", "status": "pending" },
+          { "name": "RabbitMQ: Exchanges, Queues, Routing Keys & Dead Letter Queues", "status": "pending" },
+          { "name": "Redis Caching: Cache-Aside, Write-Through & Cache Invalidation", "status": "pending" },
+          { "name": "gRPC & Protocol Buffers for Inter-Service Communication", "status": "pending" },
+          { "name": "API Gateway Patterns (Kong, AWS API Gateway, Traefik)", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between Kafka and RabbitMQ? When do you choose each?",
+          "How do you handle cache invalidation without causing stale data issues?",
+          "Explain the CQRS pattern and when it makes sense to use it."
+        ],
+        "resources": [
+          { "type": "docs", "label": "Apache Kafka Official Documentation", "url": "https://kafka.apache.org/documentation/" },
+          { "type": "docs", "label": "Redis Documentation", "url": "https://redis.io/docs/" },
+          { "type": "book", "label": "Designing Data-Intensive Applications — Martin Kleppmann", "url": "https://dataintensive.net/" }
+        ],
+        "topics": ["Microservices", "Kafka", "RabbitMQ", "Redis", "Cache-Aside", "CQRS", "Event Sourcing"],
+        "problems": ["kafka-producer-consumer", "redis-caching-layer", "message-queue-worker"],
+        "icon": "server",
+        "color": "green",
+        "sourceUrl": "https://kafka.apache.org/"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Docker, CI/CD & Cloud Deployment",
+        "subtitle": "Containerization, GitHub Actions & AWS/GCP Deployment",
+        "description": "Package and deploy your applications reliably. Master Docker container fundamentals, build CI/CD pipelines with GitHub Actions, and deploy to cloud platforms.",
+        "guide": "### 1. Docker Fundamentals\n- **Dockerfile**: Blueprint for your container image — each instruction creates a layer.\n- **Image**: Immutable snapshot built from Dockerfile.\n- **Container**: Running instance of an image.\n- **Docker Compose**: Orchestrate multi-container apps (app + db + redis) locally.\n\n### 2. Writing Production Dockerfiles\n- Use official slim base images (`node:20-alpine`, `python:3.12-slim`)\n- Multi-stage builds: Build in one stage, copy artifacts to a lean final stage\n- Run as non-root user: `USER node`\n- Only copy what's needed — use `.dockerignore`\n\n### 3. CI/CD with GitHub Actions\nAutomate build → test → deploy on every pull request merge:\n1. Checkout code\n2. Run tests\n3. Build Docker image\n4. Push to registry (ECR/GHCR)\n5. Deploy to cloud (ECS/GKE/Fly.io)",
+        "codeSnippet": "# Multi-stage production Dockerfile\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\nRUN npm run build\n\nFROM node:20-alpine AS runner\nWORKDIR /app\nUSER node\nCOPY --from=builder /app/dist ./dist\nCOPY --from=builder /app/node_modules ./node_modules\nEXPOSE 3000\nCMD [\"node\", \"dist/server.js\"]",
+        "submodules": [
+          { "name": "Docker: Dockerfile, Images, Containers & Volumes", "status": "pending" },
+          { "name": "Docker Compose: Multi-Container Development Environments", "status": "pending" },
+          { "name": "Multi-Stage Builds & Image Optimization", "status": "pending" },
+          { "name": "GitHub Actions: Workflow YAML, Secrets & Environments", "status": "pending" },
+          { "name": "Container Registries: GHCR, Docker Hub, AWS ECR", "status": "pending" },
+          { "name": "Cloud Deployment: AWS ECS, Fly.io, Railway, Render", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between a Docker image and a container?",
+          "How do you reduce Docker image size using multi-stage builds?",
+          "What is the difference between CI (Continuous Integration) and CD (Continuous Deployment)?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Docker Official Documentation", "url": "https://docs.docker.com/" },
+          { "type": "docs", "label": "GitHub Actions Documentation", "url": "https://docs.github.com/en/actions" },
+          { "type": "course", "label": "Docker & Kubernetes — TechWorld with Nana", "url": "https://www.youtube.com/c/TechWorldwithNana" }
+        ],
+        "topics": ["Docker", "Dockerfile", "Docker Compose", "GitHub Actions", "CI/CD", "AWS ECS", "Container Registry"],
+        "problems": ["dockerize-node-app", "github-actions-deploy", "multi-stage-build-optimization"],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://docs.docker.com/"
+      }
+    ]
+  },
+  {
+    "id": "role-devops",
+    "category": "Role Roadmap",
+    "title": "DevOps & Platform Engineering Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Master the tools and practices that bridge development and operations — Linux, containers, Kubernetes, cloud infrastructure, observability, and IaC.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Linux & Shell Scripting Mastery",
+        "subtitle": "Process Management, Networking, Permissions & Bash Automation",
+        "description": "Linux is the operating system of the cloud. Master terminal navigation, file system hierarchy, process management, networking tools, and Bash scripting for automation.",
+        "guide": "### 1. Linux File System Hierarchy\n- `/etc`: System-wide configuration files\n- `/var/log`: Log files\n- `/tmp`: Temporary files (cleared on reboot)\n- `/home/$USER`: User home directories\n- `/usr/local/bin`: Manually installed binaries\n\n### 2. Essential Commands\n```bash\nps aux            # list running processes\nlsof -i :3000     # what's listening on port 3000\nss -tulnp         # socket statistics\ncurl -v url       # verbose HTTP request\njq '.[].name' f.json  # parse JSON in terminal\ntail -f /var/log  # follow log file in real-time\n```\n\n### 3. Bash Scripting Patterns\n- Always use `#!/usr/bin/env bash` shebang\n- Enable strict mode: `set -euo pipefail`\n- Use functions to avoid repetition\n- Validate inputs and exit with meaningful codes",
+        "codeSnippet": "#!/usr/bin/env bash\nset -euo pipefail\n\n# Health-check script for a Node.js service\nSERVICE_URL=\"http://localhost:3000/health\"\nMAX_RETRIES=5\n\nfor i in $(seq 1 $MAX_RETRIES); do\n  STATUS=$(curl -s -o /dev/null -w \"%{http_code}\" \"$SERVICE_URL\")\n  if [[ \"$STATUS\" == \"200\" ]]; then\n    echo \"✅ Service healthy after $i attempt(s)\"\n    exit 0\n  fi\n  echo \"Attempt $i/$MAX_RETRIES failed (HTTP $STATUS), retrying...\"\n  sleep 3\ndone\n\necho \"❌ Service failed to become healthy\" && exit 1",
+        "submodules": [
+          { "name": "Linux File System Hierarchy & Navigation", "status": "pending" },
+          { "name": "File Permissions (chmod, chown, umask, ACLs)", "status": "pending" },
+          { "name": "Process Management: ps, kill, systemctl, journalctl", "status": "pending" },
+          { "name": "Networking: ss, netstat, curl, dig, nmap, tcpdump", "status": "pending" },
+          { "name": "Bash Scripting: Variables, Loops, Functions, Error Handling", "status": "pending" },
+          { "name": "cron & systemd timers for Scheduled Automation", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How do you find all processes listening on a specific port in Linux?",
+          "What does `set -euo pipefail` do in a Bash script?",
+          "How do you debug a failing cron job?"
+        ],
+        "resources": [
+          { "type": "course", "label": "The Linux Command Line — William Shotts (Free Book)", "url": "https://linuxcommand.org/tlcl.php" },
+          { "type": "tool", "label": "ExplainShell — Explain Any Shell Command", "url": "https://explainshell.com/" },
+          { "type": "game", "label": "OverTheWire: Bandit — Linux CTF Challenges", "url": "https://overthewire.org/wargames/bandit/" }
+        ],
+        "topics": ["Linux", "Bash Scripting", "Process Management", "File Permissions", "Networking", "cron", "systemctl"],
+        "problems": ["bash-automation-script", "linux-process-debug", "networking-diagnostics"],
+        "icon": "terminal",
+        "color": "green",
+        "sourceUrl": "https://linuxcommand.org/"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Docker & Container Orchestration",
+        "subtitle": "Images, Compose, Networking & Container Security",
+        "description": "Package applications into portable containers and orchestrate multi-service environments. Understand container networking, volume management, and security best practices.",
+        "guide": "### 1. Docker Networking Modes\n- **bridge** (default): Containers get their own virtual IP, communicate via container names in the same network.\n- **host**: Container shares the host's network stack — no isolation, maximum performance.\n- **none**: No network access — for security-sensitive workloads.\n\n### 2. Docker Compose for Local Dev\nDefine your entire stack in one YAML file and spin it up with `docker compose up -d`:\n- Services (app, postgres, redis, nginx)\n- Named volumes for data persistence\n- Environment variables via `.env` file\n- Health checks so services wait for dependencies\n\n### 3. Container Security Hardening\n- Run as non-root: `USER appuser`\n- Read-only filesystem: `--read-only`\n- Drop capabilities: `--cap-drop=ALL`\n- Scan images: `docker scout` or `trivy`",
+        "codeSnippet": "# docker-compose.yml for a full-stack app\nversion: '3.9'\nservices:\n  api:\n    build: ./backend\n    ports: [\"3000:3000\"]\n    environment:\n      - DATABASE_URL=postgres://user:pass@db:5432/myapp\n    depends_on:\n      db:\n        condition: service_healthy\n\n  db:\n    image: postgres:16-alpine\n    volumes: [\"pg_data:/var/lib/postgresql/data\"]\n    healthcheck:\n      test: [\"CMD-SHELL\", \"pg_isready -U user\"]\n      interval: 5s\n\nvolumes:\n  pg_data:",
+        "submodules": [
+          { "name": "Dockerfile: Layers, Cache Optimization & Multi-Stage Builds", "status": "pending" },
+          { "name": "Docker Networking: Bridge, Host, Overlay Networks", "status": "pending" },
+          { "name": "Docker Compose: Services, Volumes, Env Files, Health Checks", "status": "pending" },
+          { "name": "Container Security: Non-Root, Capability Drops, Image Scanning", "status": "pending" },
+          { "name": "Docker Registry: ECR, GHCR, Docker Hub Push/Pull", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between Docker networking modes: bridge, host, and none?",
+          "How do you share data between containers using volumes?",
+          "How do you scan a Docker image for vulnerabilities in a CI pipeline?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Docker Documentation", "url": "https://docs.docker.com/" },
+          { "type": "tool", "label": "Trivy — Container Vulnerability Scanner", "url": "https://github.com/aquasecurity/trivy" },
+          { "type": "youtube", "label": "Docker Tutorial for Beginners — TechWorld with Nana", "url": "https://www.youtube.com/watch?v=3c-iBn73dDE" }
+        ],
+        "topics": ["Docker", "Dockerfile", "Docker Compose", "Container Security", "Volumes", "Registry"],
+        "problems": ["docker-compose-setup", "multi-stage-dockerfile", "container-security-hardening"],
+        "icon": "cloud",
+        "color": "blue",
+        "sourceUrl": "https://docs.docker.com/"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Kubernetes — Container Orchestration",
+        "subtitle": "Pods, Services, Deployments, Ingress & Helm Charts",
+        "description": "Deploy and manage containerized workloads at scale with Kubernetes. Understand the control plane, workload resources, networking, and Helm for package management.",
+        "guide": "### 1. Kubernetes Core Concepts\n- **Pod**: Smallest deployable unit — one or more containers sharing network and storage.\n- **Deployment**: Declares the desired state (3 replicas of v1.2.0) and manages rolling updates.\n- **Service**: Stable virtual IP that load-balances traffic to a set of pods.\n- **Ingress**: HTTP/HTTPS routing rules that map hostnames/paths to services.\n- **ConfigMap & Secret**: Externalize configuration and sensitive values from container images.\n\n### 2. Kubernetes Networking\nEvery pod gets its own IP. Services use kube-proxy and iptables (or eBPF) to route traffic. CoreDNS enables service discovery by name (`my-svc.my-namespace.svc.cluster.local`).\n\n### 3. Helm — Kubernetes Package Manager\nHelm charts bundle all K8s manifests into a reusable, versioned package. Deploy a Redis cluster in one command: `helm install redis bitnami/redis`.",
+        "codeSnippet": "# Kubernetes Deployment manifest\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: api-deployment\nspec:\n  replicas: 3\n  selector:\n    matchLabels: { app: api }\n  template:\n    metadata:\n      labels: { app: api }\n    spec:\n      containers:\n        - name: api\n          image: ghcr.io/myorg/api:v1.2.0\n          resources:\n            requests: { cpu: \"100m\", memory: \"128Mi\" }\n            limits: { cpu: \"500m\", memory: \"512Mi\" }\n          readinessProbe:\n            httpGet: { path: /health, port: 3000 }",
+        "submodules": [
+          { "name": "Kubernetes Architecture: Control Plane vs Worker Nodes", "status": "pending" },
+          { "name": "Core Resources: Pods, ReplicaSets, Deployments, StatefulSets", "status": "pending" },
+          { "name": "Kubernetes Networking: Services, Ingress & CoreDNS", "status": "pending" },
+          { "name": "ConfigMaps, Secrets & Environment Variable Injection", "status": "pending" },
+          { "name": "Horizontal Pod Autoscaler (HPA) & Resource Requests/Limits", "status": "pending" },
+          { "name": "Helm Charts: Templating, Values & Repository Management", "status": "pending" },
+          { "name": "kubectl CLI Mastery & Context Switching", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between a Deployment and a StatefulSet?",
+          "How does Kubernetes handle rolling updates without downtime?",
+          "What happens when a pod fails its readiness probe?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Kubernetes Official Documentation", "url": "https://kubernetes.io/docs/" },
+          { "type": "tool", "label": "Play with Kubernetes — Free Cluster", "url": "https://labs.play-with-k8s.com/" },
+          { "type": "course", "label": "CKA Exam Prep — KodeKloud", "url": "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" }
+        ],
+        "topics": ["Kubernetes", "Pods", "Deployments", "Services", "Ingress", "Helm", "HPA"],
+        "problems": ["k8s-deployment-setup", "helm-chart-creation", "hpa-autoscaling-config"],
+        "icon": "cloud",
+        "color": "teal",
+        "sourceUrl": "https://kubernetes.io/"
+      },
+      {
+        "stepNumber": 4,
+        "title": "CI/CD Pipelines & Infrastructure as Code",
+        "subtitle": "GitHub Actions, Terraform, Ansible & GitOps",
+        "description": "Automate delivery pipelines from code commit to production deployment. Define infrastructure as version-controlled code using Terraform, and apply GitOps principles.",
+        "guide": "### 1. CI/CD Pipeline Stages\n1. **Source**: Pull Request opened → pipeline triggered\n2. **Build**: Compile code, build Docker image\n3. **Test**: Unit, integration, and security scans\n4. **Publish**: Push image to registry with commit SHA tag\n5. **Deploy**: Update Kubernetes deployment or trigger Helm upgrade\n6. **Verify**: Run smoke tests against the deployed environment\n\n### 2. Terraform — Infrastructure as Code\nTerraform uses HCL (HashiCorp Configuration Language) to declare cloud resources. The workflow:\n- `terraform plan` — preview changes\n- `terraform apply` — provision/modify resources\n- `terraform destroy` — tear down\n\nStore state remotely in S3 + DynamoDB for team collaboration.\n\n### 3. GitOps with ArgoCD\nStore your desired Kubernetes state (YAML manifests / Helm values) in Git. ArgoCD continuously syncs the cluster to match Git — automated, auditable deployments.",
+        "codeSnippet": "# GitHub Actions: Build, Test & Deploy\nname: CI/CD Pipeline\non:\n  push:\n    branches: [main]\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Build & push Docker image\n        run: |\n          docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .\n          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}\n      - name: Deploy to Kubernetes\n        run: |\n          kubectl set image deployment/api api=ghcr.io/${{ github.repository }}:${{ github.sha }}",
+        "submodules": [
+          { "name": "GitHub Actions: Workflows, Jobs, Steps & Reusable Workflows", "status": "pending" },
+          { "name": "Terraform: Providers, Resources, Modules & Remote State", "status": "pending" },
+          { "name": "Ansible: Playbooks, Roles & Inventory Management", "status": "pending" },
+          { "name": "GitOps with ArgoCD: Sync Policies & App-of-Apps Pattern", "status": "pending" },
+          { "name": "Secrets Management: Vault, AWS Secrets Manager, Sealed Secrets", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between Continuous Delivery and Continuous Deployment?",
+          "How do you manage Terraform state in a team environment?",
+          "What is GitOps and how does ArgoCD implement it?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Terraform Documentation", "url": "https://developer.hashicorp.com/terraform/docs" },
+          { "type": "docs", "label": "GitHub Actions Documentation", "url": "https://docs.github.com/en/actions" },
+          { "type": "docs", "label": "ArgoCD Documentation", "url": "https://argo-cd.readthedocs.io/" }
+        ],
+        "topics": ["GitHub Actions", "Terraform", "Ansible", "ArgoCD", "GitOps", "IaC", "CI/CD"],
+        "problems": ["terraform-vpc-setup", "github-actions-deploy", "argocd-app-sync"],
+        "icon": "code",
+        "color": "purple",
+        "sourceUrl": "https://developer.hashicorp.com/terraform"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Observability: Metrics, Logging & Tracing",
+        "subtitle": "Prometheus, Grafana, Loki, Jaeger & SLOs/SLIs",
+        "description": "Achieve full observability over your systems with the three pillars: metrics (Prometheus), logs (Loki), and distributed traces (Jaeger/Tempo). Define and monitor SLOs.",
+        "guide": "### 1. The Three Pillars of Observability\n- **Metrics** (Prometheus): Numeric time-series data — request rate, error rate, latency, CPU/memory usage. Alert on thresholds.\n- **Logs** (Loki / Elasticsearch): Structured event records — great for root cause analysis.\n- **Traces** (Jaeger / Tempo): Track a single request as it flows through multiple microservices — pinpoint latency bottlenecks.\n\n### 2. Prometheus Metrics Types\n- **Counter**: Monotonically increasing value (e.g., total HTTP requests)\n- **Gauge**: Value that can go up or down (e.g., active connections, memory usage)\n- **Histogram**: Samples observations, calculates percentiles (e.g., request duration p50/p95/p99)\n\n### 3. SLOs & Error Budgets\n- **SLI (Service Level Indicator)**: The metric being measured (e.g., request success rate)\n- **SLO (Service Level Objective)**: The target threshold (e.g., 99.9% success rate)\n- **Error Budget**: 100% - SLO = the allowed failure budget before reliability work must take priority",
+        "codeSnippet": "# Prometheus alert rule: High error rate\ngroups:\n  - name: api-alerts\n    rules:\n      - alert: HighErrorRate\n        expr: |\n          rate(http_requests_total{status=~\"5..\"}[5m])\n          / rate(http_requests_total[5m]) > 0.05\n        for: 2m\n        labels:\n          severity: critical\n        annotations:\n          summary: \"Error rate > 5% for 2 minutes\"",
+        "submodules": [
+          { "name": "Prometheus: Metrics Collection, PromQL & Alert Rules", "status": "pending" },
+          { "name": "Grafana: Dashboards, Data Sources & Alerting", "status": "pending" },
+          { "name": "Loki & Promtail: Structured Log Aggregation & LogQL", "status": "pending" },
+          { "name": "Distributed Tracing with Jaeger & OpenTelemetry", "status": "pending" },
+          { "name": "SLIs, SLOs, SLAs & Error Budget Management", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between metrics, logs, and traces?",
+          "How do you calculate p99 latency from a Prometheus Histogram?",
+          "What is an SLO and how does it relate to error budgets?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Prometheus Documentation", "url": "https://prometheus.io/docs/" },
+          { "type": "docs", "label": "Grafana Documentation", "url": "https://grafana.com/docs/" },
+          { "type": "article", "label": "Google SRE Book — Free Online", "url": "https://sre.google/sre-book/table-of-contents/" }
+        ],
+        "topics": ["Prometheus", "Grafana", "Loki", "Jaeger", "OpenTelemetry", "SLO", "SLI", "Alerting"],
+        "problems": ["prometheus-setup", "grafana-dashboard-creation", "slo-error-budget-calculation"],
+        "icon": "shield",
+        "color": "red",
+        "sourceUrl": "https://prometheus.io/"
+      }
+    ]
+  },
+  {
+    "id": "role-data-analyst",
+    "category": "Role Roadmap",
+    "title": "Data Analyst & Business Intelligence Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Transform raw data into actionable insights. Master SQL, Python data libraries, statistical analysis, visualization tools, and BI platforms.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "SQL for Data Analysis",
+        "subtitle": "Aggregations, Window Functions, CTEs & Query Optimization",
+        "description": "SQL is the universal language of data. Go beyond basic SELECT — master advanced aggregations, window functions, CTEs, and subquery patterns used daily by data analysts.",
+        "guide": "### 1. Aggregation Functions\n```sql\nSELECT \n  department,\n  COUNT(*) AS headcount,\n  AVG(salary) AS avg_salary,\n  MAX(salary) AS top_salary,\n  SUM(sales) AS total_revenue\nFROM employees\nGROUP BY department\nHAVING COUNT(*) > 10;\n```\n\n### 2. Window Functions — Analytics Without GROUP BY Collapse\nWindow functions compute values across a set of rows related to the current row, without collapsing the result:\n```sql\nSELECT \n  name, department, salary,\n  RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS dept_rank,\n  salary - AVG(salary) OVER (PARTITION BY department) AS vs_dept_avg\nFROM employees;\n```\n\n### 3. CTEs (Common Table Expressions)\nCTEs create named temporary result sets, making complex queries readable:\n```sql\nWITH monthly_revenue AS (\n  SELECT DATE_TRUNC('month', order_date) AS month,\n    SUM(total) AS revenue\n  FROM orders GROUP BY 1\n)\nSELECT month, revenue,\n  revenue - LAG(revenue) OVER (ORDER BY month) AS mom_change\nFROM monthly_revenue;\n```",
+        "codeSnippet": "-- Cohort retention analysis using window functions\nWITH cohorts AS (\n  SELECT user_id, MIN(DATE_TRUNC('month', created_at)) AS cohort_month\n  FROM orders GROUP BY user_id\n),\nactivity AS (\n  SELECT o.user_id, c.cohort_month,\n    DATE_TRUNC('month', o.created_at) AS activity_month,\n    EXTRACT(EPOCH FROM DATE_TRUNC('month', o.created_at) - c.cohort_month)\n      / (30 * 86400) AS months_since_signup\n  FROM orders o JOIN cohorts c ON o.user_id = c.user_id\n)\nSELECT cohort_month, months_since_signup,\n  COUNT(DISTINCT user_id) AS retained_users\nFROM activity\nGROUP BY 1, 2 ORDER BY 1, 2;",
+        "submodules": [
+          { "name": "Advanced SQL: GROUP BY, HAVING, ROLLUP, CUBE", "status": "pending" },
+          { "name": "Window Functions: RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD", "status": "pending" },
+          { "name": "Common Table Expressions (CTEs) & Recursive CTEs", "status": "pending" },
+          { "name": "JOIN Types: INNER, LEFT, RIGHT, FULL OUTER, CROSS, SELF", "status": "pending" },
+          { "name": "Subqueries: Correlated vs Non-Correlated", "status": "pending" },
+          { "name": "Query Performance: Indexes, EXPLAIN, Query Plans", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between RANK() and DENSE_RANK()?",
+          "How do you calculate a 7-day rolling average using window functions?",
+          "What is a correlated subquery and when is it a performance problem?"
+        ],
+        "resources": [
+          { "type": "course", "label": "Mode SQL Tutorial — Free & Interactive", "url": "https://mode.com/sql-tutorial/" },
+          { "type": "game", "label": "SQLZoo — Interactive SQL Practice", "url": "https://sqlzoo.net/" },
+          { "type": "course", "label": "Advanced SQL for Query Tuning — Pluralsight", "url": "https://www.pluralsight.com/" }
+        ],
+        "topics": ["SQL", "Window Functions", "CTEs", "Aggregations", "JOINs", "Subqueries", "Query Optimization"],
+        "problems": ["cohort-retention-sql", "window-function-ranking", "revenue-trend-analysis"],
+        "icon": "database",
+        "color": "blue",
+        "sourceUrl": "https://mode.com/sql-tutorial/"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Python for Data Analysis",
+        "subtitle": "NumPy, Pandas, Data Cleaning & Exploratory Data Analysis",
+        "description": "Use Python's data science stack to load, clean, transform, and explore datasets. Master Pandas for tabular data manipulation and NumPy for numerical operations.",
+        "guide": "### 1. Pandas Core Operations\nPandas DataFrames are the workhorse of Python data analysis:\n```python\nimport pandas as pd\n\n# Load data\ndf = pd.read_csv('sales.csv', parse_dates=['order_date'])\n\n# Inspect\ndf.info()        # dtypes and null counts\ndf.describe()    # statistical summary\ndf.isnull().sum() # missing value counts\n```\n\n### 2. Data Cleaning Patterns\n- Handle missing values: `fillna()`, `dropna()`, or imputation\n- Fix dtypes: `pd.to_datetime()`, `astype('category')`\n- Remove duplicates: `drop_duplicates(subset=['user_id', 'date'])`\n- Standardize strings: `str.strip()`, `str.lower()`, `str.replace()`\n\n### 3. GroupBy & Aggregation\n```python\ndf.groupby('region').agg(\n  total_revenue=('amount', 'sum'),\n  avg_order=('amount', 'mean'),\n  order_count=('id', 'count')\n).reset_index()\n```",
+        "codeSnippet": "import pandas as pd\nimport numpy as np\n\n# Load and clean sales data\ndf = pd.read_csv('sales.csv', parse_dates=['date'])\n\n# Remove duplicates and fill nulls\ndf = df.drop_duplicates(subset=['order_id'])\ndf['discount'].fillna(0, inplace=True)\n\n# Add computed columns\ndf['net_revenue'] = df['amount'] * (1 - df['discount'])\ndf['year_month'] = df['date'].dt.to_period('M')\n\n# Monthly revenue trend\nmonthly = df.groupby('year_month')['net_revenue'].sum().reset_index()\nmonthly['mom_growth'] = monthly['net_revenue'].pct_change() * 100\nprint(monthly.tail(6))",
+        "submodules": [
+          { "name": "NumPy: Arrays, Broadcasting, Vectorized Operations", "status": "pending" },
+          { "name": "Pandas: Series, DataFrame, Indexing, Slicing", "status": "pending" },
+          { "name": "Data Cleaning: Missing Values, Outlier Detection, Type Casting", "status": "pending" },
+          { "name": "GroupBy, Pivot Tables & Cross-tabulations", "status": "pending" },
+          { "name": "Merging & Joining DataFrames (merge, join, concat)", "status": "pending" },
+          { "name": "Time Series Analysis with Pandas DatetimeIndex", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How do you handle missing values in a Pandas DataFrame?",
+          "What is the difference between merge() and join() in Pandas?",
+          "How do you detect and remove outliers from a numeric column?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Pandas Official Documentation", "url": "https://pandas.pydata.org/docs/" },
+          { "type": "course", "label": "Kaggle Pandas Tutorial — Free", "url": "https://www.kaggle.com/learn/pandas" },
+          { "type": "book", "label": "Python for Data Analysis — Wes McKinney (O'Reilly)", "url": "https://wesmckinney.com/book/" }
+        ],
+        "topics": ["Python", "Pandas", "NumPy", "Data Cleaning", "EDA", "GroupBy", "Time Series"],
+        "problems": ["pandas-data-cleaning", "sales-analysis-pandas", "time-series-pandas"],
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://pandas.pydata.org/"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Data Visualization & Storytelling",
+        "subtitle": "Matplotlib, Seaborn, Plotly & BI Dashboards (Tableau/Power BI)",
+        "description": "Present data insights clearly through well-crafted visualizations. Choose the right chart type, design for clarity, and build interactive dashboards.",
+        "guide": "### 1. Chart Type Selection Guide\n| Data Question | Best Chart |\n|---|---|\n| Distribution of one variable | Histogram, Box Plot |\n| Relationship between two numeric vars | Scatter Plot |\n| Comparison across categories | Bar Chart |\n| Part-of-whole proportions | Pie / Donut (use sparingly) |\n| Trend over time | Line Chart, Area Chart |\n| Correlation matrix | Heatmap |\n\n### 2. Data Storytelling Principles\n- Lead with the insight, not the methodology\n- Use color purposefully — one accent color to highlight key data points\n- Remove chart junk (grid lines, borders, 3D effects)\n- Annotate the 'so what' directly on the chart\n\n### 3. Interactive Dashboards\nPlotly Dash and Streamlit allow building interactive analytics apps in pure Python. Tableau and Power BI are the industry-standard BI platforms.",
+        "codeSnippet": "import plotly.graph_objects as go\nimport pandas as pd\n\ndf = pd.read_csv('monthly_revenue.csv', parse_dates=['month'])\n\nfig = go.Figure()\nfig.add_trace(go.Scatter(\n  x=df['month'], y=df['revenue'],\n  mode='lines+markers',\n  line=dict(color='#6366f1', width=2.5),\n  fill='tozeroy',\n  fillcolor='rgba(99, 102, 241, 0.1)',\n  name='Monthly Revenue'\n))\nfig.update_layout(\n  title='Revenue Trend 2026',\n  template='plotly_dark',\n  height=400\n)\nfig.show()",
+        "submodules": [
+          { "name": "Matplotlib: Figure, Axes, Subplots & Customization", "status": "pending" },
+          { "name": "Seaborn: Statistical Plots, Heatmaps & Pair Plots", "status": "pending" },
+          { "name": "Plotly & Plotly Dash: Interactive Charts & Dashboards", "status": "pending" },
+          { "name": "Tableau: Calculated Fields, Filters & Dashboard Design", "status": "pending" },
+          { "name": "Data Storytelling: Chart Selection & Visual Design Principles", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "When would you use a box plot instead of a histogram?",
+          "How do you make a Tableau dashboard filter apply to multiple sheets?",
+          "What makes a data visualization misleading and how do you avoid it?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Plotly Documentation", "url": "https://plotly.com/python/" },
+          { "type": "course", "label": "Tableau Public — Free Learning Resources", "url": "https://public.tableau.com/" },
+          { "type": "book", "label": "Storytelling with Data — Cole Nussbaumer Knaflic", "url": "https://www.storytellingwithdata.com/" }
+        ],
+        "topics": ["Matplotlib", "Seaborn", "Plotly", "Tableau", "Power BI", "Dashboards", "Data Storytelling"],
+        "problems": ["sales-dashboard-plotly", "tableau-kpi-dashboard", "seaborn-eda-charts"],
+        "icon": "zap",
+        "color": "purple",
+        "sourceUrl": "https://plotly.com/"
+      }
+    ]
+  },
+  {
+    "id": "tech-react",
+    "category": "Tech Roadmap",
+    "title": "React Developer Mastery Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Go from React beginner to advanced — covering the component model, ecosystem tools, performance patterns, and modern React 18/19 features.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "React Fundamentals & JSX",
+        "subtitle": "Components, Props, JSX Syntax & React DOM",
+        "description": "Understand React's core mental model: components as building blocks, JSX as expressive UI syntax, and how React DOM efficiently updates the browser DOM.",
+        "guide": "### 1. Components as Functions\nModern React uses function components exclusively. A component is simply a JavaScript function that returns JSX:\n```jsx\nfunction Greeting({ name, age }) {\n  return <h1>Hello, {name}! You are {age} years old.</h1>;\n}\n```\n\n### 2. JSX — Not HTML\nJSX compiles to `React.createElement()` calls. Key differences from HTML:\n- `className` instead of `class`\n- `htmlFor` instead of `for`\n- `style` takes a JavaScript object: `style={{ fontSize: '16px' }}`\n- All tags must be closed: `<img />`, `<br />`\n\n### 3. React's Virtual DOM\nReact maintains an in-memory representation of the UI (Virtual DOM). On state change, React re-renders components to a new Virtual DOM, diffs it against the previous version (reconciliation), and applies only the minimal DOM updates needed.",
+        "codeSnippet": "// Function component with typed props (TypeScript)\ninterface CardProps {\n  title: string;\n  description: string;\n  badge?: 'new' | 'popular' | 'beta';\n}\n\nexport function Card({ title, description, badge }: CardProps) {\n  return (\n    <article className=\"card\">\n      {badge && <span className={`badge badge-${badge}`}>{badge}</span>}\n      <h2>{title}</h2>\n      <p>{description}</p>\n    </article>\n  );\n}",
+        "submodules": [
+          { "name": "JSX Syntax, Expressions & Conditional Rendering", "status": "pending" },
+          { "name": "Props: Passing Data, Default Values & Type Checking", "status": "pending" },
+          { "name": "Lists & Keys: Efficient Rendering of Collections", "status": "pending" },
+          { "name": "Event Handling: onClick, onChange, onSubmit Patterns", "status": "pending" },
+          { "name": "React Virtual DOM & Reconciliation Algorithm (Fiber)", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the purpose of the key prop when rendering lists in React?",
+          "How does React's reconciliation algorithm decide what to update?",
+          "What is the difference between controlled and uncontrolled components?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "React Docs — Describing the UI", "url": "https://react.dev/learn/describing-the-ui" },
+          { "type": "interactive", "label": "React Official Tutorial — Tic-Tac-Toe", "url": "https://react.dev/learn/tutorial-tic-tac-toe" },
+          { "type": "youtube", "label": "React Course 2024 — Scrimba", "url": "https://scrimba.com/learn/learnreact" }
+        ],
+        "topics": ["React", "JSX", "Components", "Props", "Virtual DOM", "Reconciliation", "Fiber"],
+        "problems": ["react-card-component", "conditional-rendering-practice", "list-key-optimization"],
+        "icon": "code",
+        "color": "teal",
+        "sourceUrl": "https://react.dev/"
+      },
+      {
+        "stepNumber": 2,
+        "title": "State Management & React Hooks",
+        "subtitle": "useState, useEffect, useReducer, useContext & Custom Hooks",
+        "description": "Master React's hook system for managing component state, side effects, and sharing logic across components.",
+        "guide": "### 1. useState — Local Component State\n```jsx\nconst [count, setCount] = useState(0);\n// Functional update (safe for concurrent mode)\nsetCount(prev => prev + 1);\n```\n\n### 2. useEffect — Synchronizing with External Systems\n```jsx\nuseEffect(() => {\n  const sub = websocket.subscribe(handleMessage);\n  return () => sub.unsubscribe(); // cleanup function\n}, [userId]); // dependency array — re-runs when userId changes\n```\nKey rule: if you use a value inside useEffect, it must be in the dependency array.\n\n### 3. useReducer — Complex State Machines\nWhen state transitions have complex logic or multiple sub-values, useReducer is cleaner:\n```jsx\nconst [state, dispatch] = useReducer(reducer, initialState);\ndispatch({ type: 'INCREMENT', payload: 5 });\n```\n\n### 4. Custom Hooks — Reusable Logic\nAny function starting with `use` that calls other hooks is a custom hook. Extract repeated patterns into hooks like `useLocalStorage`, `useDebounce`, `useMediaQuery`.",
+        "codeSnippet": "// Custom hook: useDebounce\nfunction useDebounce<T>(value: T, delay: number): T {\n  const [debounced, setDebounced] = useState(value);\n  useEffect(() => {\n    const timer = setTimeout(() => setDebounced(value), delay);\n    return () => clearTimeout(timer);\n  }, [value, delay]);\n  return debounced;\n}\n\n// Usage in search component\nconst [query, setQuery] = useState('');\nconst debouncedQuery = useDebounce(query, 300);\nuseEffect(() => { search(debouncedQuery); }, [debouncedQuery]);",
+        "submodules": [
+          { "name": "useState: State Initialization, Updates & Batching", "status": "pending" },
+          { "name": "useEffect: Dependency Array, Cleanup & Common Pitfalls", "status": "pending" },
+          { "name": "useReducer: Reducers, Actions & State Machines", "status": "pending" },
+          { "name": "useContext: Context Creation, Provider & Consumer Patterns", "status": "pending" },
+          { "name": "useMemo & useCallback: Memoization & Referential Stability", "status": "pending" },
+          { "name": "useRef: DOM Refs, Mutable Containers & forwardRef", "status": "pending" },
+          { "name": "Custom Hooks: Patterns & Best Practices", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "When does useEffect run and how does the cleanup function work?",
+          "What is the difference between useMemo and useCallback?",
+          "When would you choose useReducer over useState?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "React Docs — Adding Interactivity", "url": "https://react.dev/learn/adding-interactivity" },
+          { "type": "article", "label": "A Complete Guide to useEffect — Overreacted", "url": "https://overreacted.io/a-complete-guide-to-useeffect/" },
+          { "type": "tool", "label": "React Devtools — Browser Extension", "url": "https://react.dev/learn/react-developer-tools" }
+        ],
+        "topics": ["useState", "useEffect", "useReducer", "useContext", "useMemo", "useCallback", "Custom Hooks"],
+        "problems": ["custom-hook-usefetch", "useReducer-state-machine", "context-theme-provider"],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://react.dev/reference/react"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Advanced Patterns & Ecosystem",
+        "subtitle": "React Query, Zustand, React Router, Form Libraries & Testing",
+        "description": "Master the React ecosystem: data fetching with TanStack Query, global state with Zustand, routing with React Router, forms with React Hook Form, and component testing.",
+        "guide": "### 1. TanStack Query (React Query) — Server State\nTanStack Query handles all the hard parts of server state: caching, background refetching, stale-while-revalidate, optimistic updates, and pagination.\n```jsx\nconst { data, isLoading, error } = useQuery({\n  queryKey: ['users', userId],\n  queryFn: () => fetch(`/api/users/${userId}`).then(r => r.json()),\n  staleTime: 5 * 60 * 1000, // 5 minutes\n});\n```\n\n### 2. Zustand — Minimal Global State\nZustand uses a simple hook-based API without boilerplate:\n```jsx\nconst useStore = create((set) => ({\n  user: null,\n  setUser: (user) => set({ user }),\n  logout: () => set({ user: null }),\n}));\n```\n\n### 3. React Hook Form — Performant Forms\nRHF uses uncontrolled inputs by default — avoids re-rendering on every keystroke. Integrates with Zod for schema validation.",
+        "codeSnippet": "// React Hook Form + Zod validation\nimport { useForm } from 'react-hook-form';\nimport { zodResolver } from '@hookform/resolvers/zod';\nimport { z } from 'zod';\n\nconst schema = z.object({\n  email: z.string().email('Invalid email'),\n  password: z.string().min(8, 'Min 8 characters'),\n});\n\nexport function LoginForm() {\n  const { register, handleSubmit, formState: { errors } } = useForm({\n    resolver: zodResolver(schema)\n  });\n  return (\n    <form onSubmit={handleSubmit(onSubmit)}>\n      <input {...register('email')} />\n      {errors.email && <p>{errors.email.message}</p>}\n    </form>\n  );\n}",
+        "submodules": [
+          { "name": "TanStack Query: useQuery, useMutation & Optimistic Updates", "status": "pending" },
+          { "name": "Zustand: Store Creation, Slices & Devtools", "status": "pending" },
+          { "name": "React Router v6/v7: Routes, Loaders & Actions", "status": "pending" },
+          { "name": "React Hook Form + Zod: Validation & Error Messages", "status": "pending" },
+          { "name": "React Testing Library: Queries, Events & async/await", "status": "pending" },
+          { "name": "Framer Motion: Animations, Gestures & Layout Animations", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How does TanStack Query handle caching and background refetching?",
+          "What is the difference between Zustand and Redux Toolkit?",
+          "How do you test a component that makes async API calls?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "TanStack Query Documentation", "url": "https://tanstack.com/query/latest/docs/framework/react/overview" },
+          { "type": "docs", "label": "Zustand GitHub", "url": "https://github.com/pmndrs/zustand" },
+          { "type": "docs", "label": "React Hook Form Documentation", "url": "https://react-hook-form.com/" }
+        ],
+        "topics": ["TanStack Query", "Zustand", "React Router", "React Hook Form", "Zod", "React Testing Library", "Framer Motion"],
+        "problems": ["tanstack-query-pagination", "zustand-cart-store", "rhf-zod-form-validation"],
+        "icon": "tool",
+        "color": "green",
+        "sourceUrl": "https://tanstack.com/"
+      }
+    ]
+  },
+  {
+    "id": "tech-python",
+    "category": "Tech Roadmap",
+    "title": "Python Developer Path",
+    "creator": "GrindFam Curriculum",
+    "description": "Master Python from fundamentals to advanced topics — covering OOP, async programming, web frameworks, data science integration, and deployment.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Python Core Language Mastery",
+        "subtitle": "Pythonic Code, Data Structures, Decorators & Generators",
+        "description": "Go beyond Python syntax to write truly Pythonic code. Master built-in data structures, comprehensions, decorators, context managers, and generators.",
+        "guide": "### 1. Python's Built-in Data Structures\n- **list**: Ordered, mutable, allows duplicates — O(1) append, O(n) search\n- **dict**: Hash map — O(1) average lookup, insertion, deletion\n- **set**: Unordered unique collection — O(1) membership test\n- **tuple**: Immutable sequence — hashable, usable as dict key\n- **deque (collections)**: O(1) append/pop from both ends\n\n### 2. Comprehensions\n```python\n# List comprehension\nsquares = [x**2 for x in range(10) if x % 2 == 0]\n\n# Dict comprehension\nword_freq = {word: text.count(word) for word in set(text.split())}\n\n# Generator (lazy evaluation — memory efficient)\ninfinity = (x**2 for x in range(10**9))\n```\n\n### 3. Decorators\nDecorators are higher-order functions that wrap other functions to add behavior:\n```python\ndef timer(func):\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)\n        print(f'{func.__name__} took {time.perf_counter()-start:.4f}s')\n        return result\n    return wrapper\n```",
+        "codeSnippet": "from functools import wraps, lru_cache\nfrom contextlib import contextmanager\n\n# Decorator with arguments using wraps\ndef retry(max_attempts=3, exceptions=(Exception,)):\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except exceptions as e:\n                    if attempt == max_attempts - 1:\n                        raise\n            return None\n        return wrapper\n    return decorator\n\n# Context manager using generator\n@contextmanager\ndef timer(label: str):\n    import time\n    start = time.perf_counter()\n    yield\n    print(f'{label}: {time.perf_counter() - start:.4f}s')",
+        "submodules": [
+          { "name": "Python Data Structures: list, dict, set, tuple, deque", "status": "pending" },
+          { "name": "Comprehensions: List, Dict, Set & Generator Expressions", "status": "pending" },
+          { "name": "Decorators: functools.wraps, Class-Based Decorators", "status": "pending" },
+          { "name": "Generators & Iterators: yield, send() & Generator Pipelines", "status": "pending" },
+          { "name": "Context Managers: with statement & contextlib", "status": "pending" },
+          { "name": "Type Hints & mypy Static Type Checking", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between a generator and a list comprehension?",
+          "How do decorators work under the hood?",
+          "What is the GIL and how does it affect Python concurrency?"
+        ],
+        "resources": [
+          { "type": "book", "label": "Fluent Python — Luciano Ramalho (O'Reilly)", "url": "https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" },
+          { "type": "docs", "label": "Python Official Docs", "url": "https://docs.python.org/3/" },
+          { "type": "course", "label": "Python Beyond the Basics — OOP & Advanced Concepts", "url": "https://realpython.com/" }
+        ],
+        "topics": ["Python", "Decorators", "Generators", "Comprehensions", "Context Managers", "Type Hints", "GIL"],
+        "problems": ["python-decorator-challenge", "generator-pipeline", "lru-cache-implementation"],
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://docs.python.org/3/"
+      },
+      {
+        "stepNumber": 2,
+        "title": "FastAPI — Modern Python Web APIs",
+        "subtitle": "Async APIs, Pydantic Validation, Dependency Injection & OpenAPI",
+        "description": "Build high-performance REST APIs with FastAPI. Leverage Python's async/await for I/O concurrency, Pydantic for data validation, and automatic OpenAPI documentation.",
+        "guide": "### 1. Why FastAPI?\n- **Performance**: One of the fastest Python frameworks — comparable to Node.js/Go for I/O-bound workloads (uses Starlette + uvicorn).\n- **Type Safety**: Pydantic models validate request/response bodies at runtime.\n- **Auto Documentation**: Swagger UI and ReDoc generated automatically from type hints.\n- **Async Native**: `async def` route handlers use Python's asyncio — handle thousands of concurrent connections.\n\n### 2. Pydantic Models\n```python\nfrom pydantic import BaseModel, EmailStr, Field\n\nclass UserCreate(BaseModel):\n    username: str = Field(min_length=3, max_length=50)\n    email: EmailStr\n    password: str = Field(min_length=8)\n```\n\n### 3. Dependency Injection\nFastAPI's `Depends()` system handles database connections, authentication, and shared logic cleanly — injected automatically into route handlers.",
+        "codeSnippet": "from fastapi import FastAPI, Depends, HTTPException, status\nfrom pydantic import BaseModel\nfrom sqlalchemy.ext.asyncio import AsyncSession\n\napp = FastAPI(title=\"GrindFam API\", version=\"1.0.0\")\n\nclass UserResponse(BaseModel):\n    id: str\n    username: str\n    email: str\n    class Config:\n        from_attributes = True\n\n@app.get(\"/users/{user_id}\", response_model=UserResponse)\nasync def get_user(\n    user_id: str,\n    db: AsyncSession = Depends(get_db),\n    current_user = Depends(require_auth)\n):\n    user = await db.get(User, user_id)\n    if not user:\n        raise HTTPException(status_code=404, detail=\"User not found\")\n    return user",
+        "submodules": [
+          { "name": "FastAPI: Routing, Path Parameters & Query Parameters", "status": "pending" },
+          { "name": "Pydantic v2: Models, Validators, Custom Types & Serialization", "status": "pending" },
+          { "name": "Async SQLAlchemy & Alembic Migrations", "status": "pending" },
+          { "name": "FastAPI Dependency Injection & Middleware", "status": "pending" },
+          { "name": "JWT Authentication & OAuth2 Password Flow", "status": "pending" },
+          { "name": "Background Tasks, WebSockets & File Uploads", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How does FastAPI's dependency injection system work?",
+          "What is the difference between async def and def route handlers in FastAPI?",
+          "How does Pydantic validate incoming request data?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "FastAPI Official Documentation", "url": "https://fastapi.tiangolo.com/" },
+          { "type": "docs", "label": "Pydantic v2 Documentation", "url": "https://docs.pydantic.dev/latest/" },
+          { "type": "youtube", "label": "FastAPI Full Course — ArjanCodes", "url": "https://www.youtube.com/c/ArjanCodes" }
+        ],
+        "topics": ["FastAPI", "Pydantic", "Async/Await", "SQLAlchemy", "Alembic", "JWT", "OpenAPI"],
+        "problems": ["fastapi-crud-api", "pydantic-validation-challenge", "async-sqlalchemy-patterns"],
+        "icon": "terminal",
+        "color": "green",
+        "sourceUrl": "https://fastapi.tiangolo.com/"
+      }
+    ]
+  },
+  {
+    "id": "tech-system-design",
+    "category": "System Design",
+    "title": "System Design Interview Preparation",
+    "creator": "GrindFam Curriculum",
+    "description": "Master scalable system design concepts for senior-level interviews at FAANG and top tech companies — from fundamentals to building real-world systems like WhatsApp, Netflix, and Twitter.",
+    "steps": [
+      {
+        "stepNumber": 1,
+        "title": "Scalability & Load Balancing",
+        "subtitle": "Horizontal vs Vertical Scaling, Load Balancers & CDN",
+        "description": "Understand the core scaling strategies that allow systems to grow from thousands to billions of users. Learn load balancing algorithms, CDN architecture, and stateless service design.",
+        "guide": "### 1. Horizontal vs Vertical Scaling\n- **Vertical Scaling (Scale Up)**: Add more CPU/RAM to a single server. Simple but limited — every machine has a hardware ceiling.\n- **Horizontal Scaling (Scale Out)**: Add more servers. Theoretically unlimited. Requires stateless services (no session data stored locally on the server).\n\n### 2. Load Balancing Algorithms\n| Algorithm | Best For |\n|---|---|\n| **Round Robin** | Equal-capacity servers, uniform request cost |\n| **Least Connections** | Varying request processing time |\n| **IP Hash** | Sticky sessions (same user → same server) |\n| **Weighted Round Robin** | Mixed-capacity server pool |\n\n### 3. CDN (Content Delivery Network)\nCDNs cache static assets (JS bundles, images, videos) at edge nodes geographically close to users. Reduces origin server load and dramatically improves global latency.\n- **Push CDN**: You push content to CDN explicitly (good for predictable content)\n- **Pull CDN**: CDN fetches from origin on first request, caches for TTL (good for dynamic content)",
+        "codeSnippet": "# NGINX Load Balancer Configuration\nupstream api_servers {\n  least_conn;  # Least connections algorithm\n  server api-1.internal:3000 weight=3;\n  server api-2.internal:3000 weight=3;\n  server api-3.internal:3000 weight=1;  # Canary server\n}\n\nserver {\n  listen 80;\n  location /api/ {\n    proxy_pass http://api_servers;\n    proxy_set_header X-Real-IP $remote_addr;\n    proxy_connect_timeout 5s;\n    proxy_read_timeout 30s;\n  }\n}",
+        "submodules": [
+          { "name": "Horizontal vs Vertical Scaling Trade-offs", "status": "pending" },
+          { "name": "Load Balancer Algorithms: Round Robin, Least Connections, IP Hash", "status": "pending" },
+          { "name": "Stateless Services & Session Management Patterns", "status": "pending" },
+          { "name": "CDN Architecture: Push vs Pull, Edge Caching, Cache Invalidation", "status": "pending" },
+          { "name": "DNS & Global Load Balancing (GeoDNS, Anycast)", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between horizontal and vertical scaling?",
+          "How do you handle user sessions when scaling horizontally?",
+          "When would you use a CDN and what are its trade-offs?"
+        ],
+        "resources": [
+          { "type": "book", "label": "System Design Interview — Alex Xu", "url": "https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF" },
+          { "type": "course", "label": "ByteByteGo — System Design Newsletter", "url": "https://bytebytego.com/" },
+          { "type": "youtube", "label": "System Design Concepts — Gaurav Sen", "url": "https://www.youtube.com/c/GauravSensei" }
+        ],
+        "topics": ["Scalability", "Load Balancing", "CDN", "Horizontal Scaling", "Stateless Services", "NGINX"],
+        "problems": ["design-load-balancer", "cdn-cache-invalidation", "horizontal-scaling-architecture"],
+        "icon": "cloud",
+        "color": "blue",
+        "sourceUrl": "https://bytebytego.com/"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Database Scaling & Distributed Storage",
+        "subtitle": "Sharding, Replication, CAP Theorem & NoSQL Trade-offs",
+        "description": "Design data layers that scale to petabytes. Understand database replication for read scaling, sharding for write scaling, and the fundamental CAP theorem trade-offs.",
+        "guide": "### 1. Read Scaling with Replication\n- **Primary-Replica**: One primary handles writes, multiple read replicas handle reads.\n- **Trade-off**: Replication lag — replicas may be slightly behind the primary. Reads might see stale data.\n- **Use case**: Analytics dashboards, search, reporting — workloads tolerant of eventual consistency.\n\n### 2. Write Scaling with Sharding\nSplitting a large table across multiple database servers (shards) based on a shard key:\n- **Range Sharding**: Users A-M on shard 1, N-Z on shard 2. Simple but hotspot risk.\n- **Hash Sharding**: `shard_id = hash(user_id) % num_shards`. Even distribution but hard to add shards.\n- **Directory Sharding**: A lookup table maps each entity to its shard. Flexible but the lookup table is a bottleneck.\n\n### 3. CAP Theorem\nIn a distributed system, you can guarantee at most 2 of 3:\n- **C**onsistency: Every read gets the most recent write\n- **A**vailability: Every request gets a response\n- **P**artition Tolerance: System continues despite network partitions (always required in practice)\n\n→ Real systems choose **CP** (PostgreSQL, HBase) or **AP** (Cassandra, DynamoDB in eventual mode).",
+        "codeSnippet": "// Consistent hashing for shard routing\nclass ConsistentHashRing {\n  constructor(shards, virtualNodes = 150) {\n    this.ring = new SortedMap();\n    for (const shard of shards) {\n      for (let i = 0; i < virtualNodes; i++) {\n        const key = hash(`${shard.id}:${i}`);\n        this.ring.set(key, shard);\n      }\n    }\n  }\n\n  getShard(entityId) {\n    const key = hash(entityId);\n    // Find the first shard clockwise from the key\n    return this.ring.ceilingEntry(key)?.value \n      ?? this.ring.firstEntry().value;\n  }\n}",
+        "submodules": [
+          { "name": "Database Replication: Primary-Replica, Multi-Primary", "status": "pending" },
+          { "name": "Database Sharding: Range, Hash & Directory-Based Sharding", "status": "pending" },
+          { "name": "Consistent Hashing for Shard Routing", "status": "pending" },
+          { "name": "CAP Theorem & PACELC Model", "status": "pending" },
+          { "name": "NoSQL Selection: When to use MongoDB, Cassandra, DynamoDB", "status": "pending" },
+          { "name": "OLAP vs OLTP: Data Warehouses (BigQuery, Redshift, Snowflake)", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "How would you shard a users table with 1 billion rows?",
+          "Explain the CAP theorem with real database examples.",
+          "What is consistent hashing and why is it used in distributed caches?"
+        ],
+        "resources": [
+          { "type": "article", "label": "Designing Data-Intensive Applications — Chapter 6 (Partitioning)", "url": "https://dataintensive.net/" },
+          { "type": "youtube", "label": "CAP Theorem — Martin Kleppmann", "url": "https://www.youtube.com/watch?v=ZxgG7aQYBR8" },
+          { "type": "course", "label": "ByteByteGo — System Design Course", "url": "https://bytebytego.com/" }
+        ],
+        "topics": ["Sharding", "Replication", "CAP Theorem", "Consistent Hashing", "NoSQL", "OLAP", "Cassandra"],
+        "problems": ["database-sharding-design", "cap-theorem-analysis", "consistent-hashing-implementation"],
+        "icon": "database",
+        "color": "purple",
+        "sourceUrl": "https://bytebytego.com/"
+      },
+      {
+        "stepNumber": 3,
+        "title": "Caching Architecture",
+        "subtitle": "Cache Strategies, Redis, Eviction Policies & Cache Stampede",
+        "description": "Design effective caching layers that dramatically reduce database load and improve response times. Understand eviction policies, distributed cache coordination, and cache failure modes.",
+        "guide": "### 1. Caching Strategies\n| Strategy | When Data is Loaded | Consistency |\n|---|---|---|\n| **Cache-Aside** | On cache miss | Eventual |\n| **Write-Through** | On every write | Strong |\n| **Write-Behind** | Async after write | Eventual |\n| **Read-Through** | On cache miss (cache fetches) | Eventual |\n\n### 2. Cache Eviction Policies\n- **LRU (Least Recently Used)**: Evicts the least recently accessed item — most common.\n- **LFU (Least Frequently Used)**: Evicts the item with fewest accesses — better for popularity-skewed data.\n- **TTL (Time To Live)**: Evict after a fixed time regardless of access pattern.\n\n### 3. Cache Stampede (Thundering Herd)\nWhen many concurrent requests all miss cache simultaneously for the same key — all rush to the database. Solutions:\n- **Cache Locking**: First request gets a mutex, others wait\n- **Probabilistic Early Expiry**: Randomly refresh before actual TTL expires\n- **Background Refresh**: Async refresh before expiry (stale-while-revalidate)",
+        "codeSnippet": "// Cache-aside with distributed lock to prevent stampede\nasync function getCachedUser(userId: string) {\n  const cacheKey = `user:${userId}`;\n  const cached = await redis.get(cacheKey);\n  if (cached) return JSON.parse(cached);\n\n  // Distributed lock prevents stampede\n  const lockKey = `lock:user:${userId}`;\n  const acquired = await redis.set(lockKey, '1', 'NX', 'EX', 5);\n\n  if (!acquired) {\n    // Another instance is fetching — wait and retry\n    await sleep(100);\n    return getCachedUser(userId);\n  }\n\n  try {\n    const user = await db.users.findById(userId);\n    await redis.setex(cacheKey, 300, JSON.stringify(user));\n    return user;\n  } finally {\n    await redis.del(lockKey);\n  }\n}",
+        "submodules": [
+          { "name": "Cache-Aside, Write-Through & Write-Behind Strategies", "status": "pending" },
+          { "name": "Redis Data Structures: Strings, Hashes, Sets, Sorted Sets, Streams", "status": "pending" },
+          { "name": "Cache Eviction Policies: LRU, LFU & TTL", "status": "pending" },
+          { "name": "Cache Stampede Prevention: Locks, Early Expiry & SWR", "status": "pending" },
+          { "name": "Distributed Cache: Redis Cluster vs Redis Sentinel", "status": "pending" },
+          { "name": "CDN as Cache Layer: Edge Caching & Purge Strategies", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "What is the difference between Cache-Aside and Write-Through caching?",
+          "How do you prevent a cache stampede (thundering herd)?",
+          "When would you use Redis Sorted Sets?"
+        ],
+        "resources": [
+          { "type": "docs", "label": "Redis Documentation", "url": "https://redis.io/docs/" },
+          { "type": "article", "label": "Caching Strategies — AWS Architecture Blog", "url": "https://aws.amazon.com/caching/best-practices/" },
+          { "type": "course", "label": "Redis University — Free Courses", "url": "https://university.redis.com/" }
+        ],
+        "topics": ["Caching", "Redis", "Cache-Aside", "LRU", "Cache Stampede", "Write-Through", "TTL"],
+        "problems": ["design-cache-layer", "redis-lru-implementation", "cache-stampede-solution"],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://redis.io/"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Designing Real-World Systems",
+        "subtitle": "URL Shortener, Rate Limiter, Notification System & News Feed",
+        "description": "Practice end-to-end system design by building the architectures behind common interview problems. Apply all concepts — databases, caching, queues, and APIs — in realistic designs.",
+        "guide": "### 1. Design a URL Shortener (bit.ly / tinyurl)\n**Requirements**: Generate short codes, redirect to original URL, track click analytics.\n**Core Design**:\n1. Use base-62 encoding of a unique ID (nanoid or DB auto-increment)\n2. Store `short_code → long_url` in Redis (cache) + PostgreSQL (source of truth)\n3. Use a redirect endpoint: `301 Moved Permanently` (cached by browser) vs `302 Found` (not cached — for analytics)\n4. Click tracking: async Kafka event → analytics consumer → ClickHouse\n\n### 2. Design a Rate Limiter\n**Algorithms**:\n- **Fixed Window**: Count requests per time bucket. Simple but allows burst at window edges.\n- **Sliding Window Log**: Store timestamps of recent requests. Accurate but high memory.\n- **Token Bucket**: Refill tokens at a fixed rate. Allows controlled bursts.\n- **Leaky Bucket**: Output rate is fixed — smooth traffic.\n\n**Implementation**: Redis + Lua scripts for atomic operations.\n\n### 3. Design a News Feed (Twitter/Instagram)\n**Fan-out-on-write**: When a user posts, pre-compute and push the post to all followers' feed caches (great for high read throughput, costly for users with millions of followers).\n**Fan-out-on-read**: Read from followed users at query time. Consistent but expensive at read time.\n**Hybrid**: Fan-out-on-write for non-celebrity users, fan-out-on-read for celebrities.",
+        "codeSnippet": "-- Rate limiter using Redis sliding window (Lua)\nlocal key = KEYS[1]\nlocal now = tonumber(ARGV[1])  -- Unix timestamp ms\nlocal window = tonumber(ARGV[2])  -- window size ms\nlocal limit = tonumber(ARGV[3])\n\n-- Remove entries outside window\nredis.call('ZREMRANGEBYSCORE', key, 0, now - window)\n-- Count current requests\nlocal count = redis.call('ZCARD', key)\n\nif count < limit then\n  redis.call('ZADD', key, now, now)\n  redis.call('PEXPIRE', key, window)\n  return 1  -- allowed\nelse\n  return 0  -- denied\nend",
+        "submodules": [
+          { "name": "Design URL Shortener: ID Generation, Encoding & Analytics", "status": "pending" },
+          { "name": "Design Rate Limiter: Fixed Window, Sliding Window & Token Bucket", "status": "pending" },
+          { "name": "Design Notification System: Fan-out, Push/Pull & Priority Queues", "status": "pending" },
+          { "name": "Design News Feed: Fan-out-on-Write vs Fan-out-on-Read", "status": "pending" },
+          { "name": "Design WhatsApp: Message Queue, WebSocket & End-to-End Encryption", "status": "pending" },
+          { "name": "Design Netflix: Video Processing Pipeline, CDN & Adaptive Streaming", "status": "pending" }
+        ],
+        "interviewFaqs": [
+          "Design a URL shortener that handles 1 billion URLs.",
+          "How would you design a rate limiter for 10,000 requests per second?",
+          "What is the difference between fan-out-on-write and fan-out-on-read in a news feed?"
+        ],
+        "resources": [
+          { "type": "book", "label": "System Design Interview Vol 1 & 2 — Alex Xu", "url": "https://bytebytego.com/" },
+          { "type": "youtube", "label": "System Design Playlist — Gaurav Sen", "url": "https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX" },
+          { "type": "course", "label": "Grokking System Design — Educative.io", "url": "https://www.educative.io/courses/grokking-modern-system-design-interview-for-engineers-managers" }
+        ],
+        "topics": ["URL Shortener", "Rate Limiter", "News Feed", "Fan-out", "Token Bucket", "WhatsApp Design", "Netflix Architecture"],
+        "problems": ["design-url-shortener", "design-rate-limiter", "design-news-feed", "design-whatsapp"],
+        "icon": "database",
+        "color": "red",
+        "sourceUrl": "https://bytebytego.com/"
       }
     ]
   }

@@ -320,14 +320,52 @@ html, body, div, header, nav, aside, main, button {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #141414;
+  background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: var(--color-border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #444444;
+  background: var(--color-border-hover);
 }
 
+/* NodeDetailPanel scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
 
+/* Light mode roadmap card backgrounds */
+html.light [class*="bg-[#0d1117]"],
+html.light [class*="bg-[#0d1117]" i] {
+  background-color: #1e293b !important;
+}
+
+/* Light mode node detail panel code block */
+html.light pre[class*="bg-[#0d1117]"] {
+  background-color: #1e293b !important;
+}
+
+/* Ensure NodeDetailPanel respects light mode */
+html.light .node-detail-panel {
+  background-color: var(--color-bg) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Roadmap infographic path light mode */
+html.light [class*="bg-[#0d1117]"] code {
+  color: #10b981 !important;
+}
+
+/* Animate fadeIn */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

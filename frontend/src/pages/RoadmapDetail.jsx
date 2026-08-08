@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { InfographicRoadmapPath } from '../components/InfographicRoadmapPath';
+import { NodeDetailPanel } from '../components/NodeDetailPanel';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getRoadmapById } from '../lib/roadmapDataLoader';
 import {
-  ArrowLeft, Bookmark, Layers, Check, X, ExternalLink, Route, Sparkles
+  ArrowLeft, Bookmark, Layers, CheckCircle2, Route, Sparkles,
+  BarChart2, Clock, Trophy, Zap, BookOpen
 } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const colorGradients = {
+  red:    'from-rose-500 to-red-600',
+  blue:   'from-blue-500 to-indigo-600',
+  yellow: 'from-amber-400 to-yellow-600',
+  green:  'from-emerald-400 to-teal-600',
+  purple: 'from-purple-500 to-pink-600',
+  teal:   'from-teal-400 to-cyan-600',
+  indigo: 'from-indigo-500 to-violet-600',
+};
 
 export function RoadmapDetail() {
   const { roadmapId } = useParams();
@@ -55,11 +68,7 @@ export function RoadmapDetail() {
     const savedProgress = localStorage.getItem('grindfam_roadmap_progress');
     let map = {};
     if (savedProgress) {
-      try {
-        map = JSON.parse(savedProgress);
-      } catch (e) {
-        console.error(e);
-      }
+      try { map = JSON.parse(savedProgress); } catch (e) { console.error(e); }
     }
     map[roadmapId] = updated;
     localStorage.setItem('grindfam_roadmap_progress', JSON.stringify(map));
@@ -68,10 +77,14 @@ export function RoadmapDetail() {
   if (!roadmap) {
     return (
       <div className="p-8 text-center space-y-4">
-        <h2 className="text-xl font-bold text-[#F4F4F5]">Roadmap Not Found</h2>
+        <div className="w-16 h-16 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] flex items-center justify-center mx-auto">
+          <Route className="w-8 h-8 text-[var(--color-text-dim)]" />
+        </div>
+        <h2 className="text-xl font-bold text-[var(--color-text)]">Roadmap Not Found</h2>
+        <p className="text-sm text-[var(--color-text-muted)]">The roadmap you're looking for doesn't exist.</p>
         <button
           onClick={() => navigate('/roadmaps')}
-          className="px-4 py-2 bg-[#EA5D3A] text-white rounded-lg text-xs font-bold"
+          className="px-4 py-2 bg-[#EA5D3A] text-white rounded-lg text-xs font-bold hover:bg-[#F2633F] transition-colors"
         >
           Back to All Roadmaps
         </button>
@@ -80,74 +93,122 @@ export function RoadmapDetail() {
   }
 
   const progressPercent = Math.round((completedSteps.length / roadmap.steps.length) * 100) || 0;
+  const firstStepColor = roadmap.steps[0]?.color || 'blue';
+  const headerGradient = colorGradients[firstStepColor] || colorGradients.blue;
+
+  const estimatedHours = roadmap.steps.reduce((acc, step) => {
+    return acc + (step.submodules?.length || 3) * 1.5;
+  }, 0);
 
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Back Navigation */}
       <button
         onClick={() => navigate('/roadmaps')}
-        className="flex items-center gap-2 text-xs font-semibold text-[#9CA3AF] hover:text-white transition-colors"
+        className="flex items-center gap-2 text-xs font-semibold text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to All Roadmaps</span>
       </button>
 
-      {/* Header Banner — Consistent Slate Dark Theme */}
-      <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] p-6 md:p-8">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#EA5D3A]/8 rounded-full blur-3xl pointer-events-none" />
+      {/* ── Premium Header Banner ── */}
+      <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${headerGradient} p-6 md:p-8`}>
+        {/* Dot grid background */}
+        <div className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '28px 28px'
+          }}
+        />
+        {/* Glow orb */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
 
         <div className="relative z-10 space-y-5">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 pb-5 border-b border-[#2C2C2C]">
+          <div className="flex flex-col md:flex-row md:items-start justify-between gap-5 pb-5 border-b border-white/20">
             <div className="space-y-2">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded bg-[#262626] border border-[#333333] text-[#EA5D3A] text-xs font-medium">
+                <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs font-bold border border-white/30">
                   {roadmap.category}
                 </span>
-                <span className="text-xs text-[#9CA3AF] font-medium">
-                  Source: <strong className="text-[#F4F4F5]">{roadmap.creator}</strong>
+                <span className="text-xs text-white/70 font-medium">
+                  by <strong className="text-white">{roadmap.creator}</strong>
                 </span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-[#F4F4F5] tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-tight">
                 {roadmap.title}
               </h1>
+              {roadmap.description && (
+                <p className="text-sm text-white/80 leading-relaxed max-w-lg">
+                  {roadmap.description}
+                </p>
+              )}
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-shrink-0">
               <button
                 onClick={toggleFollow}
-                className={`px-4 py-2 rounded-lg font-bold text-xs transition-all flex items-center gap-2 ${
+                className={`px-4 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 border ${
                   isFollowing
-                    ? 'bg-[#EA5D3A] text-white shadow-sm'
-                    : 'bg-[#1E1E1E] hover:bg-[#262626] text-[#F4F4F5] border border-[#333333]'
+                    ? 'bg-white text-gray-900 border-transparent shadow-lg'
+                    : 'bg-white/20 text-white border-white/30 hover:bg-white/30'
                 }`}
               >
                 <Bookmark className="w-4 h-4" />
-                <span>{isFollowing ? 'Following (Active)' : 'Follow Roadmap'}</span>
+                <span>{isFollowing ? '✓ Following' : 'Follow Path'}</span>
               </button>
             </div>
           </div>
 
-          {/* Progress Summary */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-xs font-bold">
-              <span className="text-[#9CA3AF]">Progress</span>
-              <span className="text-[#EA5D3A] font-mono">{completedSteps.length} / {roadmap.steps.length} Milestones ({progressPercent}%)</span>
+          {/* Stats Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { icon: <Layers className="w-4 h-4" />, label: 'Milestones', value: roadmap.steps.length },
+              { icon: <CheckCircle2 className="w-4 h-4" />, label: 'Completed', value: completedSteps.length },
+              { icon: <Clock className="w-4 h-4" />, label: 'Est. Hours', value: `~${Math.round(estimatedHours)}h` },
+              { icon: <Trophy className="w-4 h-4" />, label: 'Progress', value: `${progressPercent}%` },
+            ].map((stat, idx) => (
+              <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/20">
+                <div className="flex items-center gap-2 text-white/70 text-xs mb-1">
+                  {stat.icon}
+                  <span>{stat.label}</span>
+                </div>
+                <p className="text-white font-extrabold text-lg font-mono">{stat.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress Bar */}
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-xs font-bold text-white/80">
+              <span>Learning Progress</span>
+              <span className="font-mono text-white">{completedSteps.length} / {roadmap.steps.length} Milestones</span>
             </div>
-            <div className="w-full bg-[#141414] h-2 rounded-full overflow-hidden border border-[#2C2C2C]">
-              <div
-                className="bg-[#EA5D3A] h-full rounded-full transition-all duration-500"
-                style={{ width: `${progressPercent}%` }}
+            <div className="w-full bg-white/20 h-2.5 rounded-full overflow-hidden">
+              <motion.div
+                className="bg-white h-full rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercent}%` }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Interactive Infographic Roadmap Canvas */}
-      <div className="bg-[#1E1E1E] border border-[#333333] rounded-lg p-6">
-        <h2 className="text-base font-bold text-[#F4F4F5] mb-4 flex items-center gap-2">
-          <Layers className="w-5 h-5 text-[#EA5D3A]" /> Interactive Learning Roadmap
-        </h2>
+      {/* ── Interactive Roadmap Path ── */}
+      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-base font-bold text-[var(--color-text)] flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-[#EA5D3A]" />
+            Interactive Learning Path
+          </h2>
+          <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)]">
+            <MousePointerClickIcon />
+            <span className="hidden sm:inline">Click any milestone to view details</span>
+            <span className="sm:hidden">Tap to explore</span>
+          </div>
+        </div>
+
         <InfographicRoadmapPath
           steps={roadmap.steps}
           completedSteps={completedSteps}
@@ -156,66 +217,25 @@ export function RoadmapDetail() {
         />
       </div>
 
-      {/* Step Detail Modal */}
+      {/* ── Node Detail Side Panel ── */}
       {selectedStep && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setSelectedStep(null)}>
-          <div className="w-full max-w-xl bg-[#1E1E1E] border border-[#333333] rounded-lg p-6 shadow-2xl space-y-4" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between pb-3 border-b border-[#2C2C2C]">
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded bg-[#EA5D3A]/15 text-[#EA5D3A] text-xs font-bold">
-                  Milestone {selectedStep.stepNumber}
-                </span>
-                <h3 className="text-base font-bold text-[#F4F4F5]">{selectedStep.title}</h3>
-              </div>
-              <button onClick={() => setSelectedStep(null)} className="p-1 text-[#9CA3AF] hover:text-white rounded-lg">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <p className="text-xs text-[#9CA3AF] leading-relaxed">{selectedStep.subtitle || selectedStep.description}</p>
-
-            {selectedStep.topics && selectedStep.topics.length > 0 && (
-              <div>
-                <h4 className="text-[11px] font-bold uppercase tracking-wider text-[#9CA3AF] mb-2">Key Topics Covered</h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedStep.topics.map((t, idx) => (
-                    <span key={idx} className="px-2.5 py-1 rounded-md bg-[#141414] border border-[#2C2C2C] text-xs text-[#F4F4F5]">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="pt-3 border-t border-[#2C2C2C] flex items-center justify-between">
-              <button
-                onClick={() => toggleStepCompleted(selectedStep.stepNumber)}
-                className={`px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition-all ${
-                  completedSteps.includes(selectedStep.stepNumber)
-                    ? 'bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/30'
-                    : 'bg-[#EA5D3A] text-white'
-                }`}
-              >
-                <Check className="w-4 h-4" />
-                <span>{completedSteps.includes(selectedStep.stepNumber) ? 'Completed' : 'Mark as Completed'}</span>
-              </button>
-
-              {selectedStep.sourceUrl && (
-                <a
-                  href={selectedStep.sourceUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-xs text-[#EA5D3A] hover:underline flex items-center gap-1 font-semibold"
-                >
-                  <span>Learn More</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
-          </div>
-        </div>
+        <NodeDetailPanel
+          step={selectedStep}
+          isCompleted={completedSteps.includes(selectedStep.stepNumber)}
+          onClose={() => setSelectedStep(null)}
+          onToggleComplete={toggleStepCompleted}
+        />
       )}
     </div>
+  );
+}
+
+/* Inline small icon component */
+function MousePointerClickIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 9l11 2.5-11 2L9 22l-2-8L1 11.5z"/>
+    </svg>
   );
 }
 
