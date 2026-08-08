@@ -48,6 +48,9 @@ export function SheetsExplorer() {
   const [searchQuery, setSearchQuery] = useState('');
   const [creatorFilter, setCreatorFilter] = useState('ALL');
 
+  const progressMap = useTrackStore((state) => state.progressMap);
+  const getProblemProgress = useTrackStore((state) => state.getProblemProgress);
+
   useEffect(() => {
     async function fetchSheetsAndProgress() {
       try {
@@ -78,46 +81,6 @@ export function SheetsExplorer() {
 
         activeSheets.sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setSheets(activeSheets);
-
-        const stats = {};
-        const solvedMap = {};
-
-        if (user) {
-          const { data: progressData } = await supabase
-            .from('user_progress')
-            .select('problem_id, problems(source_id)')
-            .eq('user_id', user.id)
-            .eq('status', 'solved');
-
-          if (progressData) {
-            progressData.forEach(item => {
-              const srcId = item.problems?.source_id;
-              if (srcId) {
-                solvedMap[srcId] = (solvedMap[srcId] || 0) + 1;
-              }
-            });
-          }
-        }
-
-        activeSheets.forEach(s => {
-          const total = s.total_problems || 0;
-          let solved = 0;
-          if (s.steps && Array.isArray(s.steps)) {
-            s.steps.forEach(step => {
-              (step.problems || []).forEach(p => {
-                if (useTrackStore.getState().getProblemProgress(p).status === 'solved') {
-                  solved++;
-                }
-              });
-            });
-          } else {
-            solved = solvedMap[s.id] || 0;
-          }
-          const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
-          stats[s.id] = { total, solved, percentage };
-        });
-
-        setSheetStats(stats);
       } catch (err) {
         console.warn('Error fetching sheets. Using local fallback.', err);
         const fallbackSheets = sheetsData.map((s, idx) => ({
@@ -136,6 +99,34 @@ export function SheetsExplorer() {
 
     fetchSheetsAndProgress();
   }, [user]);
+
+  // Recalculate sheet statistics whenever sheets or progressMap changes
+  useEffect(() => {
+    if (!sheets || sheets.length === 0) return;
+    const stats = {};
+    sheets.forEach(s => {
+      const localSheet = sheetsData.find(ls => 
+        ls.slug === s.slug || 
+        ls.sheet_name?.toLowerCase().trim() === s.name?.toLowerCase().trim()
+      );
+
+      let solved = 0;
+      let total = s.total_problems || (localSheet ? localSheet.total_problems_count : 0) || 0;
+
+      if (localSheet && localSheet.steps) {
+        localSheet.steps.forEach(step => {
+          (step.problems || []).forEach(p => {
+            if (getProblemProgress(p).status === 'solved') {
+              solved++;
+            }
+          });
+        });
+      }
+      const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
+      stats[s.id] = { total, solved, percentage };
+    });
+    setSheetStats(stats);
+  }, [sheets, progressMap, getProblemProgress]);
 
   const filteredSheets = sheets.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

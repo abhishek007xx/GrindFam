@@ -50,44 +50,33 @@ export function CompaniesGrid() {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
 
+  const progressMap = useTrackStore((state) => state.progressMap);
+  const getProblemProgress = useTrackStore((state) => state.getProblemProgress);
+
   useEffect(() => {
     async function fetchCompaniesAndProgress() {
       try {
         setLoading(true);
 
-        const { data, error } = await supabase
+        const { data: remoteCompanies, error: compErr } = await supabase
           .from('companies')
-          .select(`
-            *,
-            company_tracks (
-              id,
-              role,
-              level,
-              roadmap
-            )
-          `)
+          .select('*, company_tracks(*, roadmap:company_track_roadmaps(*))')
           .order('name');
 
-        let rawCompanies = data || [];
-        if (error || !data || data.length === 0) {
-          rawCompanies = companiesData.map((c, cIdx) => ({
-            id: `local-comp-${c.slug}`,
+        let rawCompanies = remoteCompanies;
+        if (compErr || !remoteCompanies || remoteCompanies.length === 0) {
+          rawCompanies = companiesData.map((c, idx) => ({
+            id: `local-${c.slug}`,
             name: c.company_name === 'Meta / Facebook' ? 'Meta' : c.company_name,
             slug: c.slug,
             logo_url: c.logo_url,
-            popularity_rank: c.popularity_rank ?? cIdx,
+            popularity_rank: c.popularity_rank ?? idx,
             company_tracks: c.roles.map((r, rIdx) => ({
-              id: `${c.slug}-track-${rIdx}`,
-              role: r.role_name,
+              id: `local-track-${c.slug}-${rIdx}`,
+              role_name: r.role_name,
               level: r.level,
-              roadmap: { problems_count: r.problems ? r.problems.length : 0 }
+              roadmap: { problems_count: r.problems.length }
             }))
-          }));
-        } else {
-          const localMap = new Map(companiesData.map(c => [c.slug, c.popularity_rank]));
-          rawCompanies = rawCompanies.map(c => ({
-            ...c,
-            popularity_rank: localMap.get(c.slug) ?? 999
           }));
         }
 
@@ -106,51 +95,6 @@ export function CompaniesGrid() {
         const activeCompanies = Array.from(uniqueMap.values());
         activeCompanies.sort((a, b) => (a.popularity_rank ?? 999) - (b.popularity_rank ?? 999));
         setCompanies(activeCompanies);
-
-        const stats = {};
-        const solvedMap = {};
-
-        if (user) {
-          const { data: progressData } = await supabase
-            .from('user_progress')
-            .select('problem_id, problems(source_id)')
-            .eq('user_id', user.id)
-            .eq('status', 'solved');
-
-          if (progressData) {
-            progressData.forEach(item => {
-              const srcId = item.problems?.source_id;
-              if (srcId) {
-                solvedMap[srcId] = (solvedMap[srcId] || 0) + 1;
-              }
-            });
-          }
-        }
-
-        activeCompanies.forEach(comp => {
-          let solved = 0;
-          let totalProblems = 0;
-
-          const compData = companiesData.find(c => c.slug === comp.slug);
-          if (compData && compData.roles) {
-            compData.roles.forEach(r => {
-              (r.problems || []).forEach(p => {
-                totalProblems++;
-                if (useTrackStore.getState().getProblemProgress(p).status === 'solved') {
-                  solved++;
-                }
-              });
-            });
-          } else {
-            totalProblems = (comp.company_tracks || []).reduce((acc, t) => acc + (t.roadmap?.problems_count || 15), 0);
-            solved = (comp.company_tracks || []).reduce((acc, t) => acc + (solvedMap[t.id] || 0), 0);
-          }
-
-          const percentage = totalProblems > 0 ? Math.round((solved / totalProblems) * 100) : 0;
-          stats[comp.id] = { total: totalProblems, solved, percentage, tracksCount: comp.company_tracks?.length || 3 };
-        });
-
-        setCompanyStats(stats);
       } catch (err) {
         console.warn('Error fetching companies.', err);
       } finally {
@@ -161,12 +105,41 @@ export function CompaniesGrid() {
     fetchCompaniesAndProgress();
   }, [user]);
 
+  // Recalculate company statistics whenever companies or progressMap changes
+  useEffect(() => {
+    if (!companies || companies.length === 0) return;
+    const stats = {};
+    companies.forEach(comp => {
+      let solved = 0;
+      let totalProblems = 0;
+
+      const compData = companiesData.find(c => 
+        c.slug === comp.slug || 
+        c.company_name?.toLowerCase().trim() === comp.name?.toLowerCase().trim()
+      );
+
+      if (compData && compData.roles) {
+        compData.roles.forEach(r => {
+          (r.problems || []).forEach(p => {
+            totalProblems++;
+            if (getProblemProgress(p).status === 'solved') {
+              solved++;
+            }
+          });
+        });
+      }
+
+      const percentage = totalProblems > 0 ? Math.round((solved / totalProblems) * 100) : 0;
+      stats[comp.id] = { total: totalProblems, solved, percentage, tracksCount: comp.company_tracks?.length || 3 };
+    });
+    setCompanyStats(stats);
+  }, [companies, progressMap, getProblemProgress]);
+
   const filteredCompanies = companies.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           c.slug.toLowerCase().includes(searchQuery.toLowerCase());
     if (roleFilter === 'ALL') return matchesSearch;
     const hasRole = c.company_tracks?.some(t =>
-      t.role.toLowerCase().includes(roleFilter.toLowerCase()) ||
       t.level?.toLowerCase().includes(roleFilter.toLowerCase())
     );
     return matchesSearch && hasRole;
