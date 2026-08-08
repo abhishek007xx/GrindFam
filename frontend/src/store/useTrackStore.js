@@ -92,20 +92,42 @@ export const useTrackStore = create((set, get) => ({
   // Lookup progress for any problem object or ID
   getProblemProgress: (prob) => {
     if (!prob) return { status: 'not_started', solve_count: 0, solved_at: null, personal_notes: '' };
-    const map = get().progressMap;
+    const map = get().progressMap || {};
     const keys = getProblemKeys(prob);
 
+    let bestStatus = 'not_started';
+    let maxSolveCount = 0;
+    let lastSolvedAt = null;
+    let notes = '';
+
     for (const k of keys) {
-      if (map[k]) {
-        return {
-          status: map[k].status || 'not_started',
-          solve_count: map[k].solve_count || (map[k].status === 'solved' ? 1 : 0),
-          solved_at: map[k].solved_at || null,
-          personal_notes: map[k].personal_notes || ''
-        };
+      const rec = map[k];
+      if (rec) {
+        const status = rec.status || 'not_started';
+        const count = rec.solve_count || (status === 'solved' ? 1 : 0);
+        if (status === 'solved') {
+          bestStatus = 'solved';
+        } else if (status === 'revision_needed' && bestStatus === 'not_started') {
+          bestStatus = 'revision_needed';
+        }
+        if (count > maxSolveCount) {
+          maxSolveCount = count;
+        }
+        if (rec.solved_at && (!lastSolvedAt || new Date(rec.solved_at) > new Date(lastSolvedAt))) {
+          lastSolvedAt = rec.solved_at;
+        }
+        if (rec.personal_notes && rec.personal_notes.trim()) {
+          notes = rec.personal_notes;
+        }
       }
     }
-    return { status: 'not_started', solve_count: 0, solved_at: null, personal_notes: '' };
+
+    return {
+      status: bestStatus,
+      solve_count: maxSolveCount,
+      solved_at: lastSolvedAt,
+      personal_notes: notes
+    };
   },
 
   // Toggle problem status: not_started -> solved (1x) -> revision_needed -> not_started

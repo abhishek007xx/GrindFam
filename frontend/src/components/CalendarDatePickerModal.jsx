@@ -3,13 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, X, Check, Flame } from 'lucide-react';
 
 export default function CalendarDatePickerModal({ isOpen, onClose, selectedDate, onSelectDate }) {
+  const parseSafeDate = (val) => {
+    if (!val) return new Date();
+    const parsed = new Date(val);
+    return isNaN(parsed.getTime()) ? new Date() : parsed;
+  };
+
   const [currentMonth, setCurrentMonth] = useState(() => {
-    const initial = selectedDate ? new Date(selectedDate) : new Date();
+    const initial = parseSafeDate(selectedDate);
     return new Date(initial.getFullYear(), initial.getMonth(), 1);
   });
 
   const [pickedDate, setPickedDate] = useState(() => {
-    return selectedDate || new Date().toISOString().split('T')[0];
+    if (selectedDate && typeof selectedDate === 'string' && selectedDate.includes('-')) {
+      return selectedDate;
+    }
+    return new Date().toISOString().split('T')[0];
   });
 
   if (!isOpen) return null;
