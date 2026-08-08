@@ -278,22 +278,9 @@ export default function StitchSquadLounge({ showSidebar = true, onOpenCreateSqua
 
           <div className="flex items-center gap-2">
             <button
-              onClick={onOpenCreateSquad}
-              className="hidden sm:flex px-2.5 py-1 rounded bg-[#EA5D3A]/20 border border-[#EA5D3A]/50 text-[#EA5D3A] hover:bg-[#EA5D3A] hover:text-white text-xs font-bold font-['JetBrains_Mono'] items-center gap-1 transition-all cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[16px]">add_circle</span> + Create Squad
-            </button>
-
-            <button
-              onClick={onOpenJoinSquad}
-              className="hidden sm:flex px-2.5 py-1 rounded bg-[#353534] text-[#4cd7f6] hover:bg-[#4cd7f6] hover:text-black text-xs font-bold font-['JetBrains_Mono'] items-center gap-1 transition-all cursor-pointer"
-            >
-              <span className="material-symbols-outlined text-[16px]">group_add</span> + Join
-            </button>
-
-            <button
               onClick={() => setShowAddMemberModal(true)}
               className="px-3 py-1 rounded bg-[#EA5D3A] text-white hover:brightness-110 text-xs font-bold font-['Outfit'] flex items-center gap-1 cursor-pointer shadow-md"
+              title="Add Member to Squad"
             >
               <span className="material-symbols-outlined text-[16px]">person_add</span> Add Member
             </button>
@@ -305,15 +292,15 @@ export default function StitchSquadLounge({ showSidebar = true, onOpenCreateSqua
               }`}
               title="Toggle Members Panel"
             >
-              <span className="material-symbols-outlined text-[16px]">group</span> Members ({members.length})
+              <span className="material-symbols-outlined text-[16px]">group</span> Roster
             </button>
 
             <button
               onClick={handleLeaveSquad}
-              className="px-2.5 py-1 rounded bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 text-xs font-bold font-['JetBrains_Mono'] flex items-center gap-1 transition-colors cursor-pointer"
+              className="p-1.5 rounded bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
               title="Leave Squad"
             >
-              <span className="material-symbols-outlined text-[16px]">logout</span> Leave
+              <span className="material-symbols-outlined text-[16px]">logout</span>
             </button>
           </div>
         </header>

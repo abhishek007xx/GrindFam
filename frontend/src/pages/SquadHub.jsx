@@ -279,22 +279,48 @@ export default function SquadHub({ platformTotal = 0 }) {
 
           {/* Expandable Slide-Up Panel */}
           <div className={`transition-all duration-300 overflow-hidden ${
-            isBottomToolsOpen ? 'max-h-[500px] opacity-100 mt-3 space-y-3' : 'max-h-0 opacity-0 mt-0 pointer-events-none'
+            isBottomToolsOpen ? 'max-h-[650px] opacity-100 mt-3 space-y-3' : 'max-h-0 opacity-0 mt-0 pointer-events-none'
           }`}>
-            {/* Create & Join Squad Action Buttons */}
-            <div className="space-y-2">
+            {/* Squad Action Buttons Grid */}
+            <div className="space-y-1.5 font-['JetBrains_Mono'] text-xs">
+              <p className="text-[10px] font-bold text-[#EA5D3A] uppercase tracking-wider px-1">Squad Controls</p>
+
               <button 
                 onClick={() => setIsCreateModalOpen(true)}
-                className="w-full bg-[#EA5D3A] text-white py-2.5 rounded-lg font-['JetBrains_Mono'] text-xs font-bold hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.3)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                className="w-full bg-[#EA5D3A] text-white py-2 rounded-lg font-bold hover:brightness-110 shadow-[0_0_12px_rgba(234,93,58,0.3)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <span className="material-symbols-outlined text-[18px]">add_circle</span> Create New Squad
+                <span className="material-symbols-outlined text-[16px]">add_circle</span> + Create Squad
               </button>
 
               <button 
                 onClick={() => setIsJoinModalOpen(true)}
-                className="w-full bg-[#1c1b1b] border border-[#4cd7f6]/50 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 py-2 rounded-lg font-['JetBrains_Mono'] text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                className="w-full bg-[#1c1b1b] border border-[#4cd7f6]/50 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <span className="material-symbols-outlined text-[18px]">group_add</span> Join Squad by Code
+                <span className="material-symbols-outlined text-[16px]">group_add</span> + Join Squad
+              </button>
+
+              <button 
+                onClick={() => setActiveScreen('settings')}
+                className="w-full text-left px-2.5 py-1.5 rounded bg-[#201f1f] border border-[#4cd7f6]/30 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 font-bold flex items-center justify-between transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">manage_accounts</span> Members & Roles
+                </span>
+                <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+              </button>
+
+              <button 
+                onClick={() => {
+                  const code = activeSquad?.invite_code || activeSquad?.code;
+                  if (code) {
+                    navigator.clipboard.writeText(code);
+                    alert(`Invite code ${code} copied to clipboard!`);
+                  }
+                }}
+                className="w-full text-left px-2.5 py-1.5 rounded bg-[#1c1b1b] border border-[#EA5D3A]/30 text-[#EA5D3A] hover:bg-[#EA5D3A]/10 font-bold flex items-center justify-between transition-colors cursor-pointer"
+              >
+                <span>Code: {activeSquad?.invite_code || activeSquad?.code || 'SQUAD'}</span>
+                <span className="material-symbols-outlined text-[14px]">content_copy</span>
               </button>
             </div>
 
