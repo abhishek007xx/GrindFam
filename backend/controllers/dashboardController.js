@@ -319,7 +319,7 @@ const syncLeetCodeData = async (req, res) => {
 
 /**
  * GET /api/dashboard/global-leaderboard
- * Worldwide leaderboard for all registered platform users + community members
+ * Worldwide leaderboard for ALL registered platform users using 100% real data.
  */
 const getGlobalLeaderboard = async (req, res) => {
   try {
@@ -340,306 +340,184 @@ const getGlobalLeaderboard = async (req, res) => {
       console.warn('Error fetching profiles for global leaderboard:', dbErr.message);
     }
 
-    // 2. Fetch daily activity for all registered users
-    const todayDate = new Date().toISOString().split('T')[0];
-    let userStatsMap = new Map();
-
-    if (dbProfiles.length > 0) {
-      const userIds = dbProfiles.map((p) => p.id);
-      try {
-        const { data: activityRows } = await supabase
-          .from('daily_activity')
-          .select('user_id, activity_date, solved_count')
-          .in('user_id', userIds);
-
-        (activityRows || []).forEach((row) => {
-          if (!userStatsMap.has(row.user_id)) {
-            userStatsMap.set(row.user_id, { todayCount: 0, platformTotal: 0, streak: 0, dates: [] });
-          }
-          const stats = userStatsMap.get(row.user_id);
-          const solved = row.solved_count || 0;
-          stats.platformTotal += solved;
-          if (row.activity_date === todayDate) {
-            stats.todayCount = solved;
-          }
-          if (solved > 0) {
-            stats.dates.push(row.activity_date);
-          }
-        });
-
-        // Compute streak for each user
-        userStatsMap.forEach((stats) => {
-          if (stats.dates.length > 0) {
-            const sortedDates = Array.from(new Set(stats.dates)).sort().reverse();
-            const todayStr = todayDate;
-            const yesterdayDate = new Date();
-            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-            const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
-
-            if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
-              let checkDate = new Date(sortedDates[0]);
-              let streakCount = 0;
-              for (const dStr of sortedDates) {
-                const expected = checkDate.toISOString().split('T')[0];
-                if (dStr === expected) {
-                  streakCount++;
-                  checkDate.setDate(checkDate.getDate() - 1);
-                } else {
-                  break;
-                }
-              }
-              stats.streak = streakCount;
-            }
-          }
-        });
-      } catch (actErr) {
-        console.warn('Error reading activity for global leaderboard:', actErr.message);
-      }
+    if (dbProfiles.length === 0) {
+      return res.json({
+        globalStats: {
+          totalRegisteredUsers: 0,
+          totalSolvedWorldwide: 0,
+          activeToday: 0,
+          highestStreak: 0
+        },
+        leaderboard: []
+      });
     }
 
-    // 3. Transform DB profiles into standardized leaderboard entries
-    const registeredEntries = dbProfiles.map((p) => {
-      const isSelf = p.id === currentUserId;
-      const stats = userStatsMap.get(p.id) || { todayCount: 0, platformTotal: 0, streak: 0 };
+    const todayDate = new Date().toISOString().split('T')[0];
+    const userIds = dbProfiles.map((p) => p.id);
 
-      // Generate realistic breakdown if zero or low
-      const total = stats.platformTotal || (p.leetcode_username ? 45 : 0);
-      const easy = Math.round(total * 0.45);
-      const medium = Math.round(total * 0.42);
-      const hard = Math.max(0, total - easy - medium);
+    // 2. Query real daily_activity for all registered users
+    let activityStatsMap = new Map();
+    try {
+      const { data: activityRows } = await supabase
+        .from('daily_activity')
+        .select('user_id, activity_date, solved_count')
+        .in('user_id', userIds);
 
-      let tier = 'Apprentice';
-      if (total >= 500) tier = 'Grandmaster';
-      else if (total >= 250) tier = 'Master';
-      else if (total >= 100) tier = 'Expert';
-      else if (total >= 30) tier = 'Knight';
+      (activityRows || []).forEach((row) => {
+        if (!activityStatsMap.has(row.user_id)) {
+          activityStatsMap.set(row.user_id, { todayCount: 0, platformTotal: 0, dates: [] });
+        }
+        const stats = activityStatsMap.get(row.user_id);
+        const solved = row.solved_count || 0;
+        stats.platformTotal += solved;
+        if (row.activity_date === todayDate) {
+          stats.todayCount = solved;
+        }
+        if (solved > 0) {
+          stats.dates.push(row.activity_date);
+        }
+      });
+    } catch (actErr) {
+      console.warn('Error reading daily_activity for global leaderboard:', actErr.message);
+    }
 
-      return {
-        id: p.id,
-        name: p.name || p.username || p.leetcode_username || 'GrindFam Pioneer',
-        username: p.username || p.leetcode_username || 'grinder',
-        leetcodeUsername: p.leetcode_username || p.username || 'leetcode_user',
-        avatarUrl: p.avatar_url || null,
-        country: p.country || '🇮HN Worldwide',
-        countryCode: p.country_code || 'WW',
-        targetCompany: p.target_company || 'Google L5 / Meta E4',
-        tier,
-        platformTotal: total,
-        todayCount: stats.todayCount || (total > 0 ? Math.floor(Math.random() * 4) + 1 : 0),
-        easyCount: easy,
-        mediumCount: medium,
-        hardCount: hard,
-        streak: stats.streak || (total > 0 ? Math.floor(Math.random() * 12) + 2 : 0),
-        xp: total * 50 + (stats.streak || 1) * 20,
-        targetHit: (stats.todayCount || 0) >= 3,
-        isSelf,
-        isRegistered: true,
-        joinedAt: p.created_at || new Date().toISOString()
-      };
-    });
+    // 3. Query real user_progress for difficulty breakdown & solved problems count
+    let progressStatsMap = new Map();
+    try {
+      const { data: progressRows } = await supabase
+        .from('user_progress')
+        .select('user_id, status, problem_id, solved_at, problems(difficulty)')
+        .in('user_id', userIds)
+        .eq('status', 'solved');
 
-    // 4. Global curated community leaders to populate top worldwide leaderboard ranks
-    const globalCommunitySeeds = [
-      {
-        id: 'global-seed-1',
-        name: 'Alex Chen',
-        username: 'alex_algorithm',
-        leetcodeUsername: 'alexchen_code',
-        avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80',
-        country: '🇺🇸 United States',
-        countryCode: 'US',
-        targetCompany: 'Google L6 Staff',
-        tier: 'Grandmaster',
-        platformTotal: 742,
-        todayCount: 8,
-        easyCount: 210,
-        mediumCount: 380,
-        hardCount: 152,
-        streak: 42,
-        xp: 38500,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-01-10T10:00:00Z'
-      },
-      {
-        id: 'global-seed-2',
-        name: 'Aarav Sharma',
-        username: 'aarav_dsa',
-        leetcodeUsername: 'aarav_sharma',
-        avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=250&q=80',
-        country: '🇮🇳 India',
-        countryCode: 'IN',
-        targetCompany: 'Meta E5 Senior',
-        tier: 'Grandmaster',
-        platformTotal: 689,
-        todayCount: 6,
-        easyCount: 195,
-        mediumCount: 350,
-        hardCount: 144,
-        streak: 29,
-        xp: 35100,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-01-15T12:00:00Z'
-      },
-      {
-        id: 'global-seed-3',
-        name: 'Elena Rostova',
-        username: 'elena_dev',
-        leetcodeUsername: 'elena_rostova',
-        avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=250&q=80',
-        country: '🇩🇪 Germany',
-        countryCode: 'DE',
-        targetCompany: 'Amazon SDE-3',
-        tier: 'Grandmaster',
-        platformTotal: 615,
-        todayCount: 5,
-        easyCount: 180,
-        mediumCount: 315,
-        hardCount: 120,
-        streak: 35,
-        xp: 31400,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-02-01T08:00:00Z'
-      },
-      {
-        id: 'global-seed-4',
-        name: 'Kenji Takahashi',
-        username: 'kenji_tokyo',
-        leetcodeUsername: 'kenji_t',
-        avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=250&q=80',
-        country: '🇯🇵 Japan',
-        countryCode: 'JP',
-        targetCompany: 'ByteDance Staff',
-        tier: 'Master',
-        platformTotal: 498,
-        todayCount: 7,
-        easyCount: 150,
-        mediumCount: 260,
-        hardCount: 88,
-        streak: 21,
-        xp: 25300,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-02-10T09:30:00Z'
-      },
-      {
-        id: 'global-seed-5',
-        name: 'Sophie Martin',
-        username: 'sophie_code',
-        leetcodeUsername: 'sophie_m',
-        avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=250&q=80',
-        country: '🇬🇧 United Kingdom',
-        countryCode: 'UK',
-        targetCompany: 'Microsoft L63',
-        tier: 'Master',
-        platformTotal: 432,
-        todayCount: 4,
-        easyCount: 130,
-        mediumCount: 230,
-        hardCount: 72,
-        streak: 18,
-        xp: 22000,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-02-14T11:00:00Z'
-      },
-      {
-        id: 'global-seed-6',
-        name: 'Marcus Vance',
-        username: 'marcus_v',
-        leetcodeUsername: 'marcus_vance',
-        avatarUrl: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=250&q=80',
-        country: '🇨🇦 Canada',
-        countryCode: 'CA',
-        targetCompany: 'Apple ICT4',
-        tier: 'Master',
-        platformTotal: 388,
-        todayCount: 6,
-        easyCount: 120,
-        mediumCount: 200,
-        hardCount: 68,
-        streak: 14,
-        xp: 19700,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-02-20T14:00:00Z'
-      },
-      {
-        id: 'global-seed-7',
-        name: 'Priya Mehta',
-        username: 'priya_m',
-        leetcodeUsername: 'priya_mehta',
-        avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=250&q=80',
-        country: '🇮🇳 India',
-        countryCode: 'IN',
-        targetCompany: 'Uber Senior SE',
-        tier: 'Master',
-        platformTotal: 345,
-        todayCount: 5,
-        easyCount: 110,
-        mediumCount: 180,
-        hardCount: 55,
-        streak: 26,
-        xp: 17800,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-03-01T16:00:00Z'
-      },
-      {
-        id: 'global-seed-8',
-        name: 'Liam O\'Connor',
-        username: 'liam_dev',
-        leetcodeUsername: 'liam_oc',
-        avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=250&q=80',
-        country: '🇸🇬 Singapore',
-        countryCode: 'SG',
-        targetCompany: 'Grab Lead Engineer',
-        tier: 'Expert',
-        platformTotal: 290,
-        todayCount: 3,
-        easyCount: 95,
-        mediumCount: 150,
-        hardCount: 45,
-        streak: 12,
-        xp: 14800,
-        targetHit: true,
-        isSelf: false,
-        isRegistered: true,
-        joinedAt: '2025-03-05T10:00:00Z'
-      }
-    ];
+      (progressRows || []).forEach((row) => {
+        if (!progressStatsMap.has(row.user_id)) {
+          progressStatsMap.set(row.user_id, { totalSolved: 0, easyCount: 0, mediumCount: 0, hardCount: 0, todaySolved: 0 });
+        }
+        const stats = progressStatsMap.get(row.user_id);
+        stats.totalSolved += 1;
 
-    // Combine registered profiles + global seeds, ensuring uniqueness by ID or username
-    const registeredMap = new Map();
-    registeredEntries.forEach((r) => registeredMap.set(r.id, r));
+        const diff = row.problems?.difficulty;
+        if (diff === 'Easy') stats.easyCount += 1;
+        else if (diff === 'Medium') stats.mediumCount += 1;
+        else if (diff === 'Hard') stats.hardCount += 1;
 
-    globalCommunitySeeds.forEach((seed) => {
-      if (!registeredMap.has(seed.id)) {
-        registeredMap.set(seed.id, seed);
-      }
-    });
+        if (row.solved_at && row.solved_at.startsWith(todayDate)) {
+          stats.todaySolved += 1;
+        }
+      });
+    } catch (progErr) {
+      console.warn('Error reading user_progress for global leaderboard:', progErr.message);
+    }
 
-    const allGlobalEntries = Array.from(registeredMap.values());
+    // 4. Optionally fetch live LeetCode profile stats for users with leetcode_username
+    const realLeaderboardEntries = await Promise.all(
+      dbProfiles.map(async (p) => {
+        const isSelf = p.id === currentUserId;
+
+        const actStats = activityStatsMap.get(p.id) || { todayCount: 0, platformTotal: 0, dates: [] };
+        const progStats = progressStatsMap.get(p.id) || { totalSolved: 0, easyCount: 0, mediumCount: 0, hardCount: 0, todaySolved: 0 };
+
+        let todayCount = Math.max(actStats.todayCount, progStats.todaySolved);
+        let platformTotal = Math.max(actStats.platformTotal, progStats.totalSolved);
+        let easyCount = progStats.easyCount;
+        let mediumCount = progStats.mediumCount;
+        let hardCount = progStats.hardCount;
+        let liveAvatar = p.avatar_url;
+        let realName = p.name || p.username || p.leetcode_username || 'GrindFam User';
+
+        // Fetch live LeetCode stats if user has leetcode_username and DB stats are low
+        if (p.leetcode_username && p.leetcode_username.trim()) {
+          try {
+            const lcData = await fetchUserTodayData(p.leetcode_username);
+            if (!lcData.error) {
+              if (lcData.totalSolved > platformTotal) {
+                platformTotal = lcData.totalSolved;
+              }
+              if (lcData.todayCount > todayCount) {
+                todayCount = lcData.todayCount;
+              }
+              if (lcData.easyCount > easyCount) easyCount = lcData.easyCount;
+              if (lcData.mediumCount > mediumCount) mediumCount = lcData.mediumCount;
+              if (lcData.hardCount > hardCount) hardCount = lcData.hardCount;
+              if (lcData.avatarUrl && !liveAvatar) {
+                liveAvatar = lcData.avatarUrl;
+              }
+            }
+          } catch (lcErr) {
+            // Silence error and use DB stats
+          }
+        }
+
+        // Calculate REAL active streak
+        let streak = 0;
+        if (actStats.dates && actStats.dates.length > 0) {
+          const sortedDates = Array.from(new Set(actStats.dates)).sort().reverse();
+          const todayStr = todayDate;
+          const yesterdayDate = new Date();
+          yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+          const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
+
+          if (sortedDates[0] === todayStr || sortedDates[0] === yesterdayStr) {
+            let checkDate = new Date(sortedDates[0]);
+            for (const dStr of sortedDates) {
+              const expected = checkDate.toISOString().split('T')[0];
+              if (dStr === expected) {
+                streak++;
+                checkDate.setDate(checkDate.getDate() - 1);
+              } else {
+                break;
+              }
+            }
+          }
+        } else if (todayCount > 0) {
+          streak = 1;
+        }
+
+        // Real Tier based on total solved
+        let tier = 'Apprentice';
+        if (platformTotal >= 500) tier = 'Grandmaster';
+        else if (platformTotal >= 250) tier = 'Master';
+        else if (platformTotal >= 100) tier = 'Expert';
+        else if (platformTotal >= 30) tier = 'Knight';
+
+        const xp = platformTotal * 50 + streak * 20;
+
+        return {
+          id: p.id,
+          name: realName,
+          username: p.username || p.leetcode_username || 'grinder',
+          leetcodeUsername: p.leetcode_username || p.username || 'user',
+          avatarUrl: liveAvatar || null,
+          country: p.country || '🌐 Worldwide',
+          countryCode: p.country_code || 'WW',
+          targetCompany: p.target_company || 'Software Engineer',
+          tier,
+          platformTotal,
+          todayCount,
+          easyCount,
+          mediumCount,
+          hardCount,
+          streak,
+          xp,
+          targetHit: todayCount >= 3,
+          isSelf,
+          isRegistered: true,
+          joinedAt: p.created_at || new Date().toISOString()
+        };
+      })
+    );
 
     // Sort default by platformTotal descending
-    allGlobalEntries.sort((a, b) => b.platformTotal - a.platformTotal);
+    realLeaderboardEntries.sort((a, b) => b.platformTotal - a.platformTotal);
 
-    // Assign worldwide ranks
-    const rankedLeaderboard = allGlobalEntries.map((item, idx) => {
+    // Assign real rankings
+    const rankedLeaderboard = realLeaderboardEntries.map((item, idx) => {
       let badge = null;
-      if (idx === 0) badge = '🥇 Worldwide #1';
-      else if (idx === 1) badge = '🥈 Worldwide #2';
-      else if (idx === 2) badge = '🥉 Worldwide #3';
-      else if (item.streak >= 20) badge = `🔥 ${item.streak} Day Streak`;
+      if (idx === 0 && item.platformTotal > 0) badge = '🥇 Worldwide #1';
+      else if (idx === 1 && item.platformTotal > 0) badge = '🥈 Worldwide #2';
+      else if (idx === 2 && item.platformTotal > 0) badge = '🥉 Worldwide #3';
+      else if (item.streak >= 7) badge = `🔥 ${item.streak} Day Streak`;
       else if (item.platformTotal >= 500) badge = '👑 Grandmaster';
 
       return {
@@ -651,7 +529,7 @@ const getGlobalLeaderboard = async (req, res) => {
 
     const totalSolvedWorldwide = rankedLeaderboard.reduce((sum, item) => sum + (item.platformTotal || 0), 0);
     const activeToday = rankedLeaderboard.filter((item) => (item.todayCount || 0) > 0).length;
-    const highestStreak = Math.max(...rankedLeaderboard.map((item) => item.streak || 0));
+    const highestStreak = Math.max(0, ...rankedLeaderboard.map((item) => item.streak || 0));
 
     return res.json({
       globalStats: {

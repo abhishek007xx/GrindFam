@@ -73,37 +73,62 @@ export default function WorldwideLeaderboard() {
     } catch (err) {
       console.warn('Failed to fetch global leaderboard from backend, querying Supabase directly...', err);
       try {
-        // Direct Supabase Fallback Query
+        // Direct Supabase Fallback Query using 100% real user progress data
         const { data: dbProfiles } = await supabase.from('profiles').select('*');
         if (dbProfiles && dbProfiles.length > 0) {
-          const formatted = dbProfiles.map((p, idx) => ({
-            id: p.id,
-            name: p.name || p.username || p.leetcode_username || 'GrindFam Grinder',
-            username: p.username || p.leetcode_username || 'grinder',
-            leetcodeUsername: p.leetcode_username || 'leetcode',
-            avatarUrl: p.avatar_url || null,
-            country: '🌐 Worldwide',
-            countryCode: 'WW',
-            targetCompany: 'Google / Meta',
-            tier: 'Expert',
-            platformTotal: 120 + idx * 15,
-            todayCount: Math.floor(Math.random() * 5),
-            easyCount: 50 + idx * 5,
-            mediumCount: 50 + idx * 8,
-            hardCount: 20 + idx * 2,
-            streak: 5 + idx,
-            xp: (120 + idx * 15) * 50,
-            targetHit: true,
-            isSelf: p.id === currentUser?.id,
-            isRegistered: true,
-            rank: idx + 1
-          }));
-          setLeaderboard(formatted);
+          const userIds = dbProfiles.map(p => p.id);
+          const { data: progressData } = await supabase
+            .from('user_progress')
+            .select('user_id, status, problems(difficulty)')
+            .in('user_id', userIds)
+            .eq('status', 'solved');
+
+          const progressMap = new Map();
+          (progressData || []).forEach(r => {
+            if (!progressMap.has(r.user_id)) {
+              progressMap.set(r.user_id, { total: 0, easy: 0, medium: 0, hard: 0 });
+            }
+            const pStats = progressMap.get(r.user_id);
+            pStats.total += 1;
+            if (r.problems?.difficulty === 'Easy') pStats.easy += 1;
+            else if (r.problems?.difficulty === 'Medium') pStats.medium += 1;
+            else if (r.problems?.difficulty === 'Hard') pStats.hard += 1;
+          });
+
+          const formatted = dbProfiles.map((p) => {
+            const pStats = progressMap.get(p.id) || { total: 0, easy: 0, medium: 0, hard: 0 };
+            return {
+              id: p.id,
+              name: p.name || p.username || p.leetcode_username || 'GrindFam Grinder',
+              username: p.username || p.leetcode_username || 'grinder',
+              leetcodeUsername: p.leetcode_username || 'user',
+              avatarUrl: p.avatar_url || null,
+              country: p.country || '🌐 Worldwide',
+              countryCode: p.country_code || 'WW',
+              targetCompany: p.target_company || 'Software Engineer',
+              tier: pStats.total >= 500 ? 'Grandmaster' : pStats.total >= 250 ? 'Master' : pStats.total >= 100 ? 'Expert' : pStats.total >= 30 ? 'Knight' : 'Apprentice',
+              platformTotal: pStats.total,
+              todayCount: 0,
+              easyCount: pStats.easy,
+              mediumCount: pStats.medium,
+              hardCount: pStats.hard,
+              streak: 0,
+              xp: pStats.total * 50,
+              targetHit: false,
+              isSelf: p.id === currentUser?.id,
+              isRegistered: true
+            };
+          });
+
+          formatted.sort((a, b) => b.platformTotal - a.platformTotal);
+          const ranked = formatted.map((item, i) => ({ ...item, rank: i + 1 }));
+
+          setLeaderboard(ranked);
           setGlobalStats({
-            totalRegisteredUsers: formatted.length,
-            totalSolvedWorldwide: formatted.reduce((acc, curr) => acc + curr.platformTotal, 0),
-            activeToday: formatted.filter(f => f.todayCount > 0).length,
-            highestStreak: Math.max(...formatted.map(f => f.streak))
+            totalRegisteredUsers: ranked.length,
+            totalSolvedWorldwide: ranked.reduce((acc, curr) => acc + curr.platformTotal, 0),
+            activeToday: 0,
+            highestStreak: 0
           });
         }
       } catch (sbErr) {
