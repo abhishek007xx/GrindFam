@@ -401,82 +401,132 @@ export default function StitchSettings() {
         {/* ─── TAB: MEMBERS & ROLES ─── */}
         {activeTab === 'members' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center flex-wrap gap-3">
               <div>
                 <h2 className="font-['Outfit'] text-xl font-bold text-[#e5e2e1]">Squad Members & Roles</h2>
-                <p className="font-['Inter'] text-sm text-[#e1bfb7]">Manage squad members, assign roles, or invite developers.</p>
+                <p className="font-['Inter'] text-sm text-[#e1bfb7]">
+                  {activeSquad?.name ? `Managing ${activeSquad.name}` : 'Manage squad members, assign roles, or invite developers.'}
+                </p>
               </div>
-              {isAdmin && (
+              
+              <div className="flex items-center gap-2">
                 <button 
                   onClick={() => setShowAddMemberModal(true)}
                   className="bg-[#EA5D3A] text-white px-4 py-2 rounded-lg font-['Outfit'] font-bold text-sm hover:brightness-110 transition-all flex items-center gap-1.5 cursor-pointer shadow-lg shadow-orange-500/20"
                 >
                   <span className="material-symbols-outlined text-[18px]">person_add</span> Add Member
                 </button>
-              )}
+                {activeSquad?.invite_code && (
+                  <button 
+                    onClick={handleCopyInviteCode}
+                    className="bg-[#353534] border border-[#EA5D3A]/40 text-[#EA5D3A] hover:bg-[#EA5D3A]/10 px-3 py-2 rounded-lg font-['JetBrains_Mono'] font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">content_copy</span> Copy Code
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {members.map(member => {
-                const isMemberAdmin = (member.roles || []).includes('admin') || member.role === 'admin';
-                const isSelf = member.user_id === user?.id;
+            {/* Members Roster List */}
+            {(() => {
+              const displayMembers = members.length > 0 ? members : (user ? [{
+                user_id: user.id,
+                name: profile?.name || profile?.username || user.email?.split('@')[0] || 'Current Grinder',
+                username: profile?.username || profile?.leetcode_username || 'you',
+                role: 'admin',
+                roles: ['admin'],
+                avatar_url: profile?.avatar_url || user?.user_metadata?.avatar_url,
+                isOnline: true
+              }] : []);
 
+              if (displayMembers.length === 0) {
                 return (
-                  <div key={member.user_id} className="p-4 rounded-xl bg-[#1c1b1b] border border-[#59413b]/30 flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative">
-                        <div className="w-10 h-10 rounded-full bg-[#353534] flex items-center justify-center text-white font-bold border border-[#59413b]">
-                          {(member.name || 'M').charAt(0).toUpperCase()}
-                        </div>
-                        {member.isOnline && (
-                          <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#10B981] rounded-full border border-black"></div>
-                        )}
-                      </div>
-                      <div>
-                        <div className="font-semibold text-sm text-[#e5e2e1] flex items-center gap-2">
-                          <span>{member.name}</span>
-                          {isSelf && <span className="text-[10px] bg-[#4cd7f6]/20 text-[#4cd7f6] px-2 py-0.5 rounded font-['JetBrains_Mono']">YOU</span>}
-                        </div>
-                        <span className="text-xs text-[#e1bfb7] font-['JetBrains_Mono']">
-                          @{member.username || member.leetcode_username || 'member'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      {isAdmin && !isSelf ? (
-                        <select 
-                          value={member.role || 'member'}
-                          onChange={(e) => handleRoleChange(member.user_id, e.target.value)}
-                          className="bg-[#121212] text-[#4cd7f6] border border-[#4cd7f6]/40 rounded px-2.5 py-1 text-xs font-['JetBrains_Mono'] font-bold outline-none cursor-pointer"
-                        >
-                          <option value="member">Member</option>
-                          <option value="mentor">Mentor</option>
-                          <option value="moderator">Moderator</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      ) : (
-                        <span className={`px-2.5 py-1 rounded text-xs font-['JetBrains_Mono'] font-bold ${
-                          isMemberAdmin ? 'bg-[#EA5D3A]/20 text-[#EA5D3A] border border-[#EA5D3A]/40' : 'bg-[#353534] text-[#e1bfb7]'
-                        }`}>
-                          {member.role || 'member'}
-                        </span>
-                      )}
-
-                      {isAdmin && !isSelf && (
-                        <button 
-                          onClick={() => { setKickTarget(member); setShowConfirmModal('kick'); }}
-                          className="p-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 transition-colors cursor-pointer"
-                          title="Kick Member"
-                        >
-                          <span className="material-symbols-outlined text-[16px]">person_remove</span>
-                        </button>
-                      )}
+                  <div className="p-8 rounded-xl bg-[#1c1b1b] border border-[#59413b]/30 text-center space-y-4">
+                    <span className="material-symbols-outlined text-4xl text-[#EA5D3A]">group_off</span>
+                    <h3 className="font-['Outfit'] text-lg font-bold text-white">No Squad Members Loaded</h3>
+                    <p className="font-['Inter'] text-sm text-[#e1bfb7]">
+                      Invite your developer friends to your squad by username or share your squad invite code.
+                    </p>
+                    <div className="flex justify-center gap-3 pt-2">
+                      <button 
+                        onClick={() => setShowAddMemberModal(true)}
+                        className="bg-[#EA5D3A] text-white px-4 py-2 rounded-lg font-bold text-xs"
+                      >
+                        + Add Member by Username
+                      </button>
                     </div>
                   </div>
                 );
-              })}
-            </div>
+              }
+
+              return (
+                <div className="space-y-3">
+                  {displayMembers.map(member => {
+                    const isMemberAdmin = (member.roles || []).includes('admin') || member.role === 'admin';
+                    const isSelf = member.user_id === user?.id;
+
+                    return (
+                      <div key={member.user_id} className="p-4 rounded-xl bg-[#1c1b1b] border border-[#59413b]/30 flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-3">
+                          <div className="relative">
+                            <div className="w-10 h-10 rounded-full bg-[#353534] flex items-center justify-center text-white font-bold border border-[#59413b] overflow-hidden">
+                              {member.avatar_url ? (
+                                <img src={member.avatar_url} alt={member.name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                              ) : (
+                                (member.name || 'M').charAt(0).toUpperCase()
+                              )}
+                            </div>
+                            {member.isOnline && (
+                              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-[#10B981] rounded-full border border-black"></div>
+                            )}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-sm text-[#e5e2e1] flex items-center gap-2">
+                              <span>{member.name}</span>
+                              {isSelf && <span className="text-[10px] bg-[#4cd7f6]/20 text-[#4cd7f6] px-2 py-0.5 rounded font-['JetBrains_Mono']">YOU</span>}
+                            </div>
+                            <span className="text-xs text-[#e1bfb7] font-['JetBrains_Mono']">
+                              @{member.username || member.leetcode_username || 'member'}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          {!isSelf ? (
+                            <select 
+                              value={member.role || 'member'}
+                              onChange={(e) => handleRoleChange(member.user_id, e.target.value)}
+                              className="bg-[#121212] text-[#4cd7f6] border border-[#4cd7f6]/40 rounded px-2.5 py-1 text-xs font-['JetBrains_Mono'] font-bold outline-none cursor-pointer"
+                            >
+                              <option value="member">Member</option>
+                              <option value="mentor">Mentor</option>
+                              <option value="moderator">Moderator</option>
+                              <option value="admin">Admin</option>
+                            </select>
+                          ) : (
+                            <span className={`px-2.5 py-1 rounded text-xs font-['JetBrains_Mono'] font-bold ${
+                              isMemberAdmin ? 'bg-[#EA5D3A]/20 text-[#EA5D3A] border border-[#EA5D3A]/40' : 'bg-[#353534] text-[#e1bfb7]'
+                            }`}>
+                              {member.role || 'admin'}
+                            </span>
+                          )}
+
+                          {!isSelf && (
+                            <button 
+                              onClick={() => { setKickTarget(member); setShowConfirmModal('kick'); }}
+                              className="p-1.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 transition-colors cursor-pointer"
+                              title="Kick Member"
+                            >
+                              <span className="material-symbols-outlined text-[16px]">person_remove</span>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
         )}
 
