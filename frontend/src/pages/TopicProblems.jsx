@@ -162,29 +162,7 @@ export function TopicProblems() {
 
         setProblems(allProblems);
 
-        // Fetch user progress
-        if (user && allProblems.length > 0) {
-          const problemIds = allProblems.filter(p => !String(p.id).startsWith('local-')).map(p => p.id);
-          if (problemIds.length > 0) {
-            const { data: progressData } = await supabase
-              .from('user_progress')
-              .select('problem_id, status, solved_at, personal_notes')
-              .eq('user_id', user.id)
-              .in('problem_id', problemIds);
-
-            if (progressData) {
-              const map = {};
-              progressData.forEach(item => {
-                map[item.problem_id] = {
-                  status: item.status,
-                  solved_at: item.solved_at,
-                  personal_notes: item.personal_notes
-                };
-              });
-              setProgressMap(map);
-            }
-          }
-        }
+        // Progress is handled centrally via useTrackStore
       } catch (err) {
         console.warn('Error fetching topic problems:', err);
       } finally {

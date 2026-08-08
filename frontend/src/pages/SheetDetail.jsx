@@ -99,27 +99,6 @@ export function SheetDetail() {
           // Collapse all categories by default so topics are closed initially
           const initialOpen = {};
           setOpenCategories(initialOpen);
-
-          if (user && problemsData && problemsData.length > 0) {
-            const problemIds = problemsData.map(p => p.id);
-            const { data: userProgress } = await supabase
-              .from('user_progress')
-              .select('problem_id, status, solved_at, personal_notes')
-              .eq('user_id', user.id)
-              .in('problem_id', problemIds);
-
-            if (userProgress) {
-              const map = {};
-              userProgress.forEach(item => {
-                map[item.problem_id] = {
-                  status: item.status,
-                  solved_at: item.solved_at,
-                  personal_notes: item.personal_notes
-                };
-              });
-              setProgressMap(map);
-            }
-          }
         } else {
           // Fallback to local dataset
           console.warn('Supabase sheet query failed or empty. Loading local sheet fallback.');
