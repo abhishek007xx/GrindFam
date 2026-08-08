@@ -324,10 +324,20 @@ export const useTrackStore = create((set, get) => ({
     }
   },
 
-  // Sync recent accepted submissions from LeetCode into progressMap & Supabase
-  syncLeetCodeUserProgress: async (userId, leetcodeUsername) => {
+  // Sync recent accepted submissions from LeetCode into progressMap & Supabase with smart caching policy
+  syncLeetCodeUserProgress: async (userId, leetcodeUsername, options = {}) => {
     if (!leetcodeUsername || !String(leetcodeUsername).trim()) return;
     const cleanUsername = String(leetcodeUsername).trim();
+    const { force = false, minIntervalMs = 30 * 60 * 1000 } = options;
+
+    const cacheKey = `grindfam_last_lc_sync_${userId || cleanUsername}`;
+    const lastSyncTime = parseInt(localStorage.getItem(cacheKey) || '0', 10);
+    const now = Date.now();
+
+    // Skip external network calls if data was synced recently and force sync is not requested by user
+    if (!force && lastSyncTime > 0 && (now - lastSyncTime) < minIntervalMs) {
+      return;
+    }
 
     let solvedSlugs = [];
 
@@ -441,6 +451,7 @@ export const useTrackStore = create((set, get) => ({
       });
 
       try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextMap)); } catch (_) {}
+      try { localStorage.setItem(cacheKey, String(now)); } catch (_) {}
       set({ progressMap: nextMap });
     }
   }
