@@ -15,6 +15,7 @@ export default function SquadChat() {
   const [sending, setSending] = useState(false);
   const [errorToast, setErrorToast] = useState(null);
   const [showEmojiPickerForMsg, setShowEmojiPickerForMsg] = useState(null);
+  const [showInputEmojiPicker, setShowInputEmojiPicker] = useState(false);
 
   const messagesEndRef = useRef(null);
   const scrollContainerRef = useRef(null);
@@ -275,6 +276,18 @@ export default function SquadChat() {
           </div>
         )}
         <form onSubmit={handleSend} className="relative">
+          {showInputEmojiPicker && (
+            <div className="absolute bottom-14 right-2 z-50 shadow-2xl rounded-2xl overflow-hidden border border-[#333333]">
+              <EmojiPicker
+                theme="dark"
+                onEmojiClick={(emojiData) => {
+                  setNewMessage(prev => prev + emojiData.emoji);
+                  setShowInputEmojiPicker(false);
+                  inputRef.current?.focus();
+                }}
+              />
+            </div>
+          )}
           <div className="flex items-center bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl focus-within:border-[#EA5D3A] transition-colors shadow-sm">
             <button type="button" className="p-3 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0">
               <Plus className="w-4 h-4" />
@@ -287,13 +300,17 @@ export default function SquadChat() {
               placeholder={`Message #${channelName}`}
               className="flex-1 bg-transparent text-sm text-[#F4F4F5] dark:text-[#F4F4F5] light:text-slate-900 placeholder-[#A3A3A3] dark:placeholder-[#A3A3A3] light:placeholder-slate-400 outline-none py-2.5 px-1"
             />
-            <button type="button" className="p-3 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0">
+            <button 
+              type="button" 
+              onClick={() => setShowInputEmojiPicker(!showInputEmojiPicker)}
+              className="p-3 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-500 hover:text-white dark:hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0 cursor-pointer"
+            >
               <Smile className="w-4 h-4" />
             </button>
             <button
               type="submit"
               disabled={!newMessage.trim() || sending}
-              className="p-3 text-[#EA5D3A] hover:text-[#F2704E] disabled:opacity-30 transition-colors flex-shrink-0"
+              className="p-3 text-[#EA5D3A] hover:text-[#F2704E] disabled:opacity-30 transition-colors flex-shrink-0 cursor-pointer"
             >
               {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </button>

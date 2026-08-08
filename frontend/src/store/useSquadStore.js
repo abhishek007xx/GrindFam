@@ -332,6 +332,47 @@ export const useSquadStore = create((set, get) => ({
     await get().fetchSquadData(squadId);
   },
 
+  kickMember: async (squadId, targetUserId) => {
+    const { error } = await supabase
+      .from('squad_members')
+      .delete()
+      .eq('squad_id', squadId)
+      .eq('user_id', targetUserId);
+
+    if (error) throw error;
+    await get().fetchSquadData(squadId);
+  },
+
+  addMemberByUsername: async (squadId, usernameOrEmail) => {
+    const cleanInput = (usernameOrEmail || '').trim().toLowerCase();
+    if (!cleanInput) throw new Error('Please enter a username or email');
+
+    const { data: prof, error: profErr } = await supabase
+      .from('profiles')
+      .select('id, username, leetcode_username')
+      .or(`username.ilike.${cleanInput},leetcode_username.ilike.${cleanInput},email.ilike.${cleanInput}`)
+      .maybeSingle();
+
+    if (profErr || !prof) throw new Error(`User "${usernameOrEmail}" not found.`);
+
+    const { error: joinErr } = await supabase
+      .from('squad_members')
+      .insert([{
+        squad_id: squadId,
+        user_id: prof.id,
+        role: 'member',
+        roles: ['member']
+      }]);
+
+    if (joinErr) {
+      if (joinErr.code === '23505') throw new Error('User is already a member of this squad!');
+      throw joinErr;
+    }
+
+    await get().fetchSquadData(squadId);
+    return prof;
+  },
+
   deleteSquad: async (squadId) => {
     const { error } = await supabase.from('squads').delete().eq('id', squadId);
     if (error) throw error;
