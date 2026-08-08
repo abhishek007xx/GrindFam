@@ -200,15 +200,22 @@ export default function SquadHub({ platformTotal = 0 }) {
 
           {/* Contextual Squad Section: Active Squad */}
           <div className="mt-6 pt-4 border-t border-white/10 px-2">
-            <h3 className="font-['Outfit'] text-sm font-bold text-white mb-2">{activeSquad?.name || 'DSA Dream Team'}</h3>
+            <h3 className="font-['Outfit'] text-sm font-bold text-white mb-2 flex items-center justify-between">
+              <span className="truncate">{activeSquad?.name || 'DSA Dream Team'}</span>
+              <span className="text-[10px] text-[#4cd7f6] bg-[#4cd7f6]/10 px-1.5 py-0.5 rounded font-mono font-bold">
+                {activeSquad?.squad_type || 'Private'}
+              </span>
+            </h3>
+
             <div className="space-y-1 font-['JetBrains_Mono'] text-xs">
               <button 
                 onClick={() => setActiveScreen('lounge')}
-                className={`w-full text-left px-2 py-1.5 rounded transition-colors flex items-center gap-2 cursor-pointer ${
-                  activeScreen === 'lounge' ? 'text-[#EA5D3A] bg-[#353534]/30 font-bold' : 'text-[#e1bfb7] hover:text-white'
+                className={`w-full text-left px-2 py-1.5 rounded transition-colors flex items-center justify-between cursor-pointer ${
+                  activeScreen === 'lounge' ? 'text-[#EA5D3A] bg-[#353534]/40 font-bold border-l-2 border-[#EA5D3A]' : 'text-[#e1bfb7] hover:text-white'
                 }`}
               >
-                <span className="text-[#e1bfb7]">#</span> general
+                <span className="flex items-center gap-2"><span className="text-[#e1bfb7]">#</span> general</span>
+                <span className="w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse"></span>
               </button>
               <button 
                 onClick={() => setActiveScreen('lounge')}
@@ -222,20 +229,51 @@ export default function SquadHub({ platformTotal = 0 }) {
               >
                 <span className="material-symbols-outlined text-[16px]">help</span> doubt-solver
               </button>
-              <div className="flex items-center gap-2 text-[#4cd7f6] px-2 py-1.5 font-bold">
-                <div className="w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse shadow-[0_0_8px_#EA5D3A]" /> Live Squad
-              </div>
+            </div>
+
+            {/* Quick Feature Action Buttons in Sidebar */}
+            <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+              <button 
+                onClick={() => {
+                  const code = activeSquad?.invite_code || activeSquad?.code;
+                  if (code) {
+                    navigator.clipboard.writeText(code);
+                    alert(`Invite code ${code} copied to clipboard!`);
+                  }
+                }}
+                className="w-full text-left px-2.5 py-1.5 rounded bg-[#1c1b1b] border border-[#EA5D3A]/30 text-[#EA5D3A] hover:bg-[#EA5D3A]/10 font-['JetBrains_Mono'] text-[11px] font-bold flex items-center justify-between transition-colors cursor-pointer"
+              >
+                <span>Code: {activeSquad?.invite_code || activeSquad?.code || 'SQUAD'}</span>
+                <span className="material-symbols-outlined text-[14px]">content_copy</span>
+              </button>
+
+              <button 
+                onClick={() => setActiveScreen('settings')}
+                className="w-full text-left px-2.5 py-1.5 rounded bg-[#201f1f] border border-[#4cd7f6]/30 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 font-['JetBrains_Mono'] text-[11px] font-bold flex items-center justify-between transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">manage_accounts</span> Members & Roles
+                </span>
+                <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+              </button>
             </div>
           </div>
         </nav>
 
-        {/* Join New Squad Button */}
-        <div className="py-4">
+        {/* Create & Join Squad Action Buttons */}
+        <div className="py-4 space-y-2">
+          <button 
+            onClick={() => setIsCreateModalOpen(true)}
+            className="w-full bg-[#EA5D3A] text-white py-2.5 rounded-lg font-['JetBrains_Mono'] text-xs font-bold hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.3)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
+          >
+            <span className="material-symbols-outlined text-[18px]">add_circle</span> Create New Squad
+          </button>
+
           <button 
             onClick={() => setIsJoinModalOpen(true)}
-            className="w-full bg-[#EA5D3A] text-white py-2.5 rounded-lg font-['JetBrains_Mono'] text-xs font-bold hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.3)] transition-all cursor-pointer"
+            className="w-full bg-[#1c1b1b] border border-[#4cd7f6]/50 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 py-2 rounded-lg font-['JetBrains_Mono'] text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
-            Join New Squad
+            <span className="material-symbols-outlined text-[18px]">group_add</span> Join Squad by Code
           </button>
         </div>
 
