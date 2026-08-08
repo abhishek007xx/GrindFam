@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { InfographicRoadmapPath } from '../components/InfographicRoadmapPath';
+import { RoadmapFlowChart } from '../components/RoadmapFlowChart';
 import { NodeDetailPanel } from '../components/NodeDetailPanel';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getRoadmapById } from '../lib/roadmapDataLoader';
 import {
   ArrowLeft, Bookmark, Layers, CheckCircle2, Route, Sparkles,
-  BarChart2, Clock, Trophy, Zap, BookOpen
+  BarChart2, Clock, Trophy, Zap, BookOpen, GitGraph, Network
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -27,6 +28,7 @@ export function RoadmapDetail() {
   const [selectedStep, setSelectedStep] = useState(null);
   const [completedSteps, setCompletedSteps] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [viewMode, setViewMode] = useState('flowchart'); // 'flowchart' | 'timeline'
 
   useEffect(() => {
     const rmData = getRoadmapById(roadmapId);
@@ -195,26 +197,63 @@ export function RoadmapDetail() {
         </div>
       </div>
 
-      {/* ── Interactive Roadmap Path ── */}
-      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-base font-bold text-[var(--color-text)] flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-[#EA5D3A]" />
-            Interactive Learning Path
-          </h2>
-          <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)]">
-            <MousePointerClickIcon />
-            <span className="hidden sm:inline">Click any milestone to view details</span>
-            <span className="sm:hidden">Tap to explore</span>
+      {/* ── Interactive Roadmap View Canvas ── */}
+      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[var(--color-border)]">
+          <div>
+            <h2 className="text-base font-bold text-[var(--color-text)] flex items-center gap-2">
+              <Network className="w-5 h-5 text-[#EA5D3A]" />
+              Interactive Topic Graph
+            </h2>
+            <p className="text-xs text-[var(--color-text-muted)] mt-0.5">
+              Click any topic node or module pill to explore detailed guides, resources, and practice problems.
+            </p>
+          </div>
+
+          {/* View Mode Switcher Pills */}
+          <div className="flex items-center gap-1 bg-[var(--color-surface-elevated)] p-1 rounded-xl border border-[var(--color-border)] self-stretch sm:self-auto">
+            <button
+              onClick={() => setViewMode('flowchart')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                viewMode === 'flowchart'
+                  ? 'bg-amber-400 text-amber-950 shadow-sm'
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text)]'
+              }`}
+            >
+              <Network className="w-3.5 h-3.5" />
+              <span>Diagram View</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode('timeline')}
+              className={`flex-1 sm:flex-none px-3 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                viewMode === 'timeline'
+                  ? 'bg-[#EA5D3A] text-white shadow-sm'
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text)]'
+              }`}
+            >
+              <GitGraph className="w-3.5 h-3.5" />
+              <span>Highway Path</span>
+            </button>
           </div>
         </div>
 
-        <InfographicRoadmapPath
-          steps={roadmap.steps}
-          completedSteps={completedSteps}
-          onToggleStep={toggleStepCompleted}
-          onSelectStep={(step) => setSelectedStep(step)}
-        />
+        {/* Dynamic View Rendering */}
+        {viewMode === 'flowchart' ? (
+          <RoadmapFlowChart
+            steps={roadmap.steps}
+            completedSteps={completedSteps}
+            onToggleStep={toggleStepCompleted}
+            onSelectStep={(step) => setSelectedStep(step)}
+          />
+        ) : (
+          <InfographicRoadmapPath
+            steps={roadmap.steps}
+            completedSteps={completedSteps}
+            onToggleStep={toggleStepCompleted}
+            onSelectStep={(step) => setSelectedStep(step)}
+          />
+        )}
       </div>
 
       {/* ── Node Detail Side Panel ── */}
@@ -227,15 +266,6 @@ export function RoadmapDetail() {
         />
       )}
     </div>
-  );
-}
-
-/* Inline small icon component */
-function MousePointerClickIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M9 9l11 2.5-11 2L9 22l-2-8L1 11.5z"/>
-    </svg>
   );
 }
 
