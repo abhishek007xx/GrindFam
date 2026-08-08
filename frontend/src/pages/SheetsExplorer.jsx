@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import { getCreatorAvatarUrl } from '../lib/iconHelper';
 import {
   FileCode2, Search, ArrowRight, CheckCircle2, User,
@@ -100,7 +101,18 @@ export function SheetsExplorer() {
 
         activeSheets.forEach(s => {
           const total = s.total_problems || 0;
-          const solved = solvedMap[s.id] || 0;
+          let solved = 0;
+          if (s.steps && Array.isArray(s.steps)) {
+            s.steps.forEach(step => {
+              (step.problems || []).forEach(p => {
+                if (useTrackStore.getState().getProblemProgress(p).status === 'solved') {
+                  solved++;
+                }
+              });
+            });
+          } else {
+            solved = solvedMap[s.id] || 0;
+          }
           const percentage = total > 0 ? Math.round((solved / total) * 100) : 0;
           stats[s.id] = { total, solved, percentage };
         });

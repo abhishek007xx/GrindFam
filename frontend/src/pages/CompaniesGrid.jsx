@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import { getCompanyLogoUrl } from '../lib/iconHelper';
 import {
   Building2, Search, ArrowRight, CheckCircle2,
@@ -127,8 +128,24 @@ export function CompaniesGrid() {
         }
 
         activeCompanies.forEach(comp => {
-          const totalProblems = (comp.company_tracks || []).reduce((acc, t) => acc + (t.roadmap?.problems_count || 15), 0);
-          const solved = (comp.company_tracks || []).reduce((acc, t) => acc + (solvedMap[t.id] || 0), 0);
+          let solved = 0;
+          let totalProblems = 0;
+
+          const compData = companiesData.find(c => c.slug === comp.slug);
+          if (compData && compData.roles) {
+            compData.roles.forEach(r => {
+              (r.problems || []).forEach(p => {
+                totalProblems++;
+                if (useTrackStore.getState().getProblemProgress(p).status === 'solved') {
+                  solved++;
+                }
+              });
+            });
+          } else {
+            totalProblems = (comp.company_tracks || []).reduce((acc, t) => acc + (t.roadmap?.problems_count || 15), 0);
+            solved = (comp.company_tracks || []).reduce((acc, t) => acc + (solvedMap[t.id] || 0), 0);
+          }
+
           const percentage = totalProblems > 0 ? Math.round((solved / totalProblems) * 100) : 0;
           stats[comp.id] = { total: totalProblems, solved, percentage, tracksCount: comp.company_tracks?.length || 3 };
         });

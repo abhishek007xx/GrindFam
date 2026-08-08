@@ -397,7 +397,7 @@ export function SheetDetail() {
                     const catProblems = groupedProblems[catName];
                     const isOpen = openCategories[catName] ?? false; // CLOSED BY DEFAULT
                     const catTotal = catProblems.length;
-                    const catSolved = catProblems.filter(p => progressMap[p.id]?.status === 'solved').length;
+                    const catSolved = catProblems.filter(p => getProblemProgress(p).status === 'solved').length;
                     const catPercentage = catTotal > 0 ? Math.round((catSolved / catTotal) * 100) : 0;
 
                     return (
@@ -582,8 +582,8 @@ export function SheetDetail() {
           isOpen={Boolean(activeNotesProblem)}
           onClose={() => setActiveNotesProblem(null)}
           problemTitle={activeNotesProblem.title}
-          initialNotes={progressMap[activeNotesProblem.id]?.personal_notes || ''}
-          onSave={(notes) => saveNotesOptimistic(user?.id, activeNotesProblem.id, notes)}
+          initialNotes={getProblemProgress(activeNotesProblem).personal_notes || ''}
+          onSave={(notes) => saveNotesOptimistic(user?.id, activeNotesProblem, notes)}
         />
       )}
 
