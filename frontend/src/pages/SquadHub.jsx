@@ -21,14 +21,18 @@ export default function SquadHub({ platformTotal = 0 }) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [isStreakOpen, setIsStreakOpen] = useState(false);
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
   const [inviteCodeInput, setInviteCodeInput] = useState('');
+  const [createSquadForm, setCreateSquadForm] = useState({ name: '', goal: '', squad_type: 'private' });
   const [joinError, setJoinError] = useState(null);
+  const [createError, setCreateError] = useState(null);
   const [isJoining, setIsJoining] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
   
   const navigate = useNavigate();
-  const { joinByCode, activeSquad } = useSquadStore();
+  const { joinByCode, createSquad, activeSquad } = useSquadStore();
   const streakDays = platformTotal > 0 ? Math.max(1, Math.floor(platformTotal / 3)) : 0;
 
   const handleJoinSquadSubmit = async (e) => {
@@ -45,6 +49,27 @@ export default function SquadHub({ platformTotal = 0 }) {
       setJoinError(err.message || 'Failed to join squad with code');
     } finally {
       setIsJoining(false);
+    }
+  };
+
+  const handleCreateSquadSubmit = async (e) => {
+    e.preventDefault();
+    if (!createSquadForm.name.trim() || isCreating) return;
+    setIsCreating(true);
+    setCreateError(null);
+    try {
+      await createSquad({
+        name: createSquadForm.name.trim(),
+        goal: createSquadForm.goal.trim(),
+        squad_type: createSquadForm.squad_type
+      });
+      setIsCreateModalOpen(false);
+      setCreateSquadForm({ name: '', goal: '', squad_type: 'private' });
+      setActiveScreen('lounge');
+    } catch (err) {
+      setCreateError(err.message || 'Failed to create squad');
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -273,9 +298,102 @@ export default function SquadHub({ platformTotal = 0 }) {
         </div>
       </aside>
 
+      {/* Create New Squad Modal */}
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-[#1c1b1b] border border-[#EA5D3A]/50 p-6 rounded-2xl max-w-md w-full shadow-2xl space-y-6">
+            <div className="flex justify-between items-center">
+              <h3 className="font-['Outfit'] text-2xl font-bold text-white">Create New Squad</h3>
+              <button 
+                onClick={() => { setIsCreateModalOpen(false); setCreateError(null); }}
+                className="text-[#e1bfb7] hover:text-white"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <p className="font-['Inter'] text-sm text-[#e1bfb7]">
+              Build a dedicated community squad for LeetCode grinding, interview prep, and peer code reviews.
+            </p>
+
+            {createError && (
+              <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-xs font-bold">
+                {createError}
+              </div>
+            )}
+
+            <form onSubmit={handleCreateSquadSubmit} className="space-y-4">
+              <div>
+                <label className="font-['JetBrains_Mono'] text-xs text-[#e1bfb7] uppercase tracking-wider block mb-1">
+                  Squad Name
+                </label>
+                <input 
+                  type="text" 
+                  value={createSquadForm.name}
+                  onChange={(e) => setCreateSquadForm({ ...createSquadForm, name: e.target.value })}
+                  placeholder="e.g. FAANG Crackers"
+                  className="w-full bg-[#121212] border border-[#59413b] rounded-lg px-4 py-2 font-['Inter'] text-sm text-[#e5e2e1] focus:outline-none focus:border-[#EA5D3A]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="font-['JetBrains_Mono'] text-xs text-[#e1bfb7] uppercase tracking-wider block mb-1">
+                  Squad Goal
+                </label>
+                <input 
+                  type="text" 
+                  value={createSquadForm.goal}
+                  onChange={(e) => setCreateSquadForm({ ...createSquadForm, goal: e.target.value })}
+                  placeholder="e.g. Solve 100 Medium Graph problems"
+                  className="w-full bg-[#121212] border border-[#59413b] rounded-lg px-4 py-2 font-['Inter'] text-sm text-[#e5e2e1] focus:outline-none focus:border-[#EA5D3A]"
+                />
+              </div>
+
+              <div>
+                <label className="font-['JetBrains_Mono'] text-xs text-[#e1bfb7] uppercase tracking-wider block mb-1">
+                  Squad Type
+                </label>
+                <select 
+                  value={createSquadForm.squad_type}
+                  onChange={(e) => setCreateSquadForm({ ...createSquadForm, squad_type: e.target.value })}
+                  className="w-full bg-[#121212] border border-[#59413b] rounded-lg px-4 py-2 font-['Inter'] text-sm text-[#4cd7f6] focus:outline-none focus:border-[#EA5D3A]"
+                >
+                  <option value="private">Private (Invite Only)</option>
+                  <option value="public">Public Squad</option>
+                  <option value="community">Community Tier</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button 
+                  type="button"
+                  onClick={() => setIsCreateModalOpen(false)}
+                  className="px-4 py-2 rounded-lg bg-[#353534] text-[#e1bfb7] hover:text-white transition-colors text-sm font-bold cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit"
+                  disabled={isCreating || !createSquadForm.name.trim()}
+                  className="px-6 py-2 rounded-lg bg-[#EA5D3A] text-white hover:brightness-110 transition-all text-sm font-bold shadow-lg shadow-orange-500/20 disabled:opacity-50 cursor-pointer"
+                >
+                  {isCreating ? 'Creating...' : 'Create Squad'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* ── MAIN CONTENT CANVAS ── */}
       <main className={`flex-1 min-w-0 h-full ${activeScreen === 'lounge' || activeScreen === 'dms' ? 'overflow-hidden flex flex-col' : 'overflow-y-auto'}`}>
-        {activeScreen === 'lounge' && <StitchSquadLounge showSidebar={false} />}
+        {activeScreen === 'lounge' && (
+          <StitchSquadLounge 
+            showSidebar={false} 
+            onOpenCreateSquad={() => setIsCreateModalOpen(true)}
+            onOpenJoinSquad={() => setIsJoinModalOpen(true)}
+          />
+        )}
         {activeScreen === 'dashboard' && <StitchSquadDashboard onNavigate={setActiveScreen} />}
         {activeScreen === 'dms' && <StitchDMHub />}
         {activeScreen === 'reviews' && <StitchCodeReviewHub />}

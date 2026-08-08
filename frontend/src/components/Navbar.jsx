@@ -406,6 +406,24 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
             <Moon className="w-4 h-4 text-indigo-500 transition-transform duration-300 group-hover:-rotate-12" />
           )}
         </button>
+
+        {/* User Profile Avatar Link */}
+        <button
+          onClick={() => navigate('/settings')}
+          className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 overflow-hidden flex-shrink-0 cursor-pointer hover:ring-2 hover:ring-[#EA5D3A] transition-all ml-1"
+          title={`${name} - Settings`}
+        >
+          {profile?.avatar_url || user?.user_metadata?.avatar_url ? (
+            <img
+              src={profile?.avatar_url || user?.user_metadata?.avatar_url}
+              alt={name}
+              className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
+          ) : (
+            initials
+          )}
+        </button>
       </div>
 
       <SettingsModal
