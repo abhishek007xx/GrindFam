@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
-const { getDashboardData, syncLeetCodeData, getGlobalLeaderboard } = require('../controllers/dashboardController');
+const { getDashboardData, syncLeetCodeData, syncUserLeetCodeSolvedProblems, getGlobalLeaderboard } = require('../controllers/dashboardController');
 
 // GET /api/dashboard
 router.get('/', authMiddleware, getDashboardData);
@@ -11,5 +11,8 @@ router.get('/global-leaderboard', authMiddleware, getGlobalLeaderboard);
 
 // POST /api/dashboard/sync — Manual force sync LeetCode data
 router.post('/sync', authMiddleware, syncLeetCodeData);
+
+// POST /api/dashboard/sync-leetcode-solved — Sync user's LeetCode solved problems
+router.post('/sync-leetcode-solved', authMiddleware, syncUserLeetCodeSolvedProblems);
 
 module.exports = router;

@@ -334,6 +334,65 @@ const syncLeetCodeData = async (req, res) => {
 };
 
 /**
+ * POST /api/dashboard/sync-leetcode-solved
+ * Fetches all accepted submissions from LeetCode GraphQL for the logged-in user,
+ * upserts them into user_progress table in Supabase, and returns solvedSlugs.
+ */
+const syncUserLeetCodeSolvedProblems = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    let leetcodeUsername = null;
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('leetcode_username')
+      .eq('id', userId)
+      .maybeSingle();
+
+    leetcodeUsername = profile?.leetcode_username;
+    if (!leetcodeUsername && req.user?.user_metadata?.leetcode_username) {
+      leetcodeUsername = req.user.user_metadata.leetcode_username;
+    }
+
+    if (!leetcodeUsername) {
+      return res.status(400).json({ error: 'No LeetCode username linked to your profile.' });
+    }
+
+    const lcData = await fetchUserTodayData(leetcodeUsername);
+    const solvedSlugs = lcData.recentAcSubmissions || [];
+
+    if (solvedSlugs.length > 0) {
+      const rowsToUpsert = solvedSlugs.map(slug => ({
+        user_id: userId,
+        problem_id: slug,
+        status: 'solved',
+        solve_count: 1,
+        solved_at: new Date().toISOString()
+      }));
+
+      try {
+        await supabase.from('user_progress').upsert(rowsToUpsert, { onConflict: 'user_id,problem_id' });
+      } catch (upsertErr) {
+        console.warn('user_progress upsert warning:', upsertErr.message);
+      }
+    }
+
+    return res.json({
+      success: true,
+      leetcodeUsername,
+      solvedSlugs,
+      totalSolved: lcData.totalSolved || solvedSlugs.length
+    });
+  } catch (err) {
+    console.error('Error in syncUserLeetCodeSolvedProblems:', err);
+    return res.status(500).json({ error: err.message || 'Failed to sync LeetCode solved problems' });
+  }
+};
+
+/**
  * GET /api/dashboard/global-leaderboard
  * Worldwide leaderboard for ALL registered platform users using 100% real data.
  */
@@ -565,6 +624,7 @@ const getGlobalLeaderboard = async (req, res) => {
 module.exports = {
   getDashboardData,
   syncLeetCodeData,
+  syncUserLeetCodeSolvedProblems,
   getGlobalLeaderboard
 };
 

@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+import axios from 'axios';
 import { supabase } from '../lib/supabaseClient';
+import { API_BASE_URL } from '../config/api';
 
 const LOCAL_STORAGE_KEY = 'grindfam_global_progress_v2';
 
@@ -319,54 +321,57 @@ export const useTrackStore = create((set, get) => ({
     if (!leetcodeUsername || !leetcodeUsername.trim()) return;
     const cleanUsername = leetcodeUsername.trim();
 
+    let solvedSlugs = [];
+
+    // 1. Try backend sync endpoint with session auth
     try {
-      const res = await fetch(`https://alfa-leetcode-api.onrender.com/${cleanUsername}/acSubmission`);
-      if (!res.ok) return;
-      const data = await res.json();
-      const submissionList = data?.count ? data?.submission : Array.isArray(data) ? data : [];
-
-      if (submissionList && submissionList.length > 0) {
-        const currentMap = get().progressMap;
-        const nextMap = { ...currentMap };
-        const rowsToUpsert = [];
-
-        submissionList.forEach(sub => {
-          const slug = sub.titleSlug || sub.title;
-          if (slug) {
-            const keys = getProblemKeys(slug);
-            const existing = get().getProblemProgress(slug);
-            const record = {
-              status: 'solved',
-              solve_count: Math.max(1, existing.solve_count || 1),
-              solved_at: sub.timestamp ? new Date(parseInt(sub.timestamp, 10) * 1000).toISOString() : new Date().toISOString(),
-              personal_notes: existing.personal_notes || ''
-            };
-            keys.forEach(k => { nextMap[k] = record; });
-
-            if (userId) {
-              rowsToUpsert.push({
-                user_id: userId,
-                problem_id: slug,
-                status: 'solved',
-                solve_count: Math.max(1, existing.solve_count || 1),
-                solved_at: record.solved_at,
-                personal_notes: record.personal_notes
-              });
-            }
-          }
+      const session = (await supabase.auth.getSession())?.data?.session;
+      const token = session?.access_token;
+      if (token) {
+        const response = await axios.post(`${API_BASE_URL}/dashboard/sync-leetcode-solved`, {}, {
+          headers: { Authorization: `Bearer ${token}` }
         });
-
-        try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextMap)); } catch (_) {}
-        set({ progressMap: nextMap });
-
-        if (userId && rowsToUpsert.length > 0) {
-          try {
-            await supabase.from('user_progress').upsert(rowsToUpsert, { onConflict: 'user_id,problem_id' });
-          } catch (_) {}
+        if (response.data?.solvedSlugs && Array.isArray(response.data.solvedSlugs)) {
+          solvedSlugs = response.data.solvedSlugs;
         }
       }
-    } catch (err) {
-      console.warn('Frontend LeetCode sync warning:', err);
+    } catch (backendErr) {
+      console.warn('Backend LeetCode sync error, falling back:', backendErr?.message);
+    }
+
+    // 2. Fallback to public Alfa LeetCode API if backend returned empty
+    if (solvedSlugs.length === 0) {
+      try {
+        const res = await fetch(`https://alfa-leetcode-api.onrender.com/${cleanUsername}/acSubmission`);
+        if (res.ok) {
+          const data = await res.json();
+          const submissionList = data?.count ? data?.submission : Array.isArray(data) ? data : [];
+          solvedSlugs = submissionList.map(s => s.titleSlug || s.title).filter(Boolean);
+        }
+      } catch (alfaErr) {
+        console.warn('Alfa LeetCode API fallback error:', alfaErr?.message);
+      }
+    }
+
+    // 3. Mark all solvedSlugs as solved in progressMap for all key variations
+    if (solvedSlugs.length > 0) {
+      const currentMap = get().progressMap;
+      const nextMap = { ...currentMap };
+
+      solvedSlugs.forEach(slug => {
+        const keys = getProblemKeys(slug);
+        const existing = get().getProblemProgress(slug);
+        const record = {
+          status: 'solved',
+          solve_count: Math.max(1, existing.solve_count || 1),
+          solved_at: existing.solved_at || new Date().toISOString(),
+          personal_notes: existing.personal_notes || ''
+        };
+        keys.forEach(k => { nextMap[k] = record; });
+      });
+
+      try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextMap)); } catch (_) {}
+      set({ progressMap: nextMap });
     }
   }
 }));
