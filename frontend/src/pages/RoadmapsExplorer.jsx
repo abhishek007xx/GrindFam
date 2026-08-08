@@ -183,6 +183,8 @@ export function RoadmapsExplorer() {
       if (selectedCategory === 'COMPANY') return matchesSearch && (cat.includes('company') || id.startsWith('company-'));
       if (selectedCategory === 'SHEET') return matchesSearch && (cat.includes('sheet') || cat.includes('dsa') || id.startsWith('sheet-'));
       if (selectedCategory === 'TECH') return matchesSearch && (cat.includes('tech') || id.startsWith('tech-'));
+      if (selectedCategory === 'BEGINNER') return matchesSearch && (cat.includes('beginner') || id.startsWith('beg-'));
+      if (selectedCategory === 'BESTPRACTICES') return matchesSearch && (cat.includes('best practices') || id.startsWith('best-'));
       if (selectedCategory === 'SYSTEMDESIGN') return matchesSearch && (
         cat.includes('system') || id.includes('system-design') || rm.title.toLowerCase().includes('system design')
       );
@@ -241,9 +243,11 @@ export function RoadmapsExplorer() {
       {/* ── Filter Pills ── */}
       <div className="flex items-center gap-2 overflow-x-auto w-full pb-1">
         {[
-          { id: 'ALL', label: 'All Paths' },
+          { id: 'ALL', label: 'All Paths (109)' },
           { id: 'ROLE', label: 'Role Tracks' },
           { id: 'TECH', label: 'Tech Roadmaps' },
+          { id: 'BEGINNER', label: 'Beginners' },
+          { id: 'BESTPRACTICES', label: 'Best Practices' },
           { id: 'COMPANY', label: 'Company Prep' },
           { id: 'SYSTEMDESIGN', label: 'System Design' },
           { id: 'SHEET', label: 'DSA Sheets' },
