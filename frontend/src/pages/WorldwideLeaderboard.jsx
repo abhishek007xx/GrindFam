@@ -97,7 +97,7 @@ export default function WorldwideLeaderboard() {
 
           const formatted = dbProfiles.map((p) => {
             const pStats = progressMap.get(p.id) || { total: 0, easy: 0, medium: 0, hard: 0 };
-            const userAvatar = p.avatar_url || p.avatarUrl || (p.leetcode_username ? `https://assets.leetcode.com/users/${p.leetcode_username}/avatar_1.png` : null);
+            const userAvatar = p.avatar_url || p.avatarUrl || null;
             return {
               id: p.id,
               name: p.name || p.username || p.leetcode_username || 'GrindFam Grinder',
@@ -326,11 +326,10 @@ export default function WorldwideLeaderboard() {
                   🥈 RANK #2
                 </div>
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-slate-200 to-slate-500 p-0.5 mt-2 mb-3 shadow-md group-hover:scale-105 transition-transform">
-                  <div className="w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
-                    {topThreePodium.second.avatarUrl ? (
-                      <img src={topThreePodium.second.avatarUrl} alt={topThreePodium.second.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-slate-200 font-extrabold text-xl">{getInitials(topThreePodium.second.name)}</span>
+                  <div className="relative w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
+                    <span className="text-slate-200 font-extrabold text-xl select-none">{getInitials(topThreePodium.second.name)}</span>
+                    {(topThreePodium.second.avatarUrl || topThreePodium.second.avatar_url) && (
+                      <img src={topThreePodium.second.avatarUrl || topThreePodium.second.avatar_url} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     )}
                   </div>
                 </div>
@@ -376,11 +375,10 @@ export default function WorldwideLeaderboard() {
               <div className="relative mt-2 mb-3">
                 <Crown className="w-7 h-7 text-amber-400 absolute -top-5 left-1/2 -translate-x-1/2 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)] animate-bounce" />
                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-300 via-amber-500 to-yellow-600 p-1 shadow-xl group-hover:scale-105 transition-transform">
-                  <div className="w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
-                    {topThreePodium.first.avatarUrl ? (
-                      <img src={topThreePodium.first.avatarUrl} alt={topThreePodium.first.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-amber-400 font-extrabold text-2xl">{getInitials(topThreePodium.first.name)}</span>
+                  <div className="relative w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
+                    <span className="text-amber-400 font-extrabold text-2xl select-none">{getInitials(topThreePodium.first.name)}</span>
+                    {(topThreePodium.first.avatarUrl || topThreePodium.first.avatar_url) && (
+                      <img src={topThreePodium.first.avatarUrl || topThreePodium.first.avatar_url} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     )}
                   </div>
                 </div>
@@ -425,11 +423,10 @@ export default function WorldwideLeaderboard() {
                   🥉 RANK #3
                 </div>
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-600 to-amber-900 p-0.5 mt-2 mb-3 shadow-md group-hover:scale-105 transition-transform">
-                  <div className="w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
-                    {topThreePodium.third.avatarUrl ? (
-                      <img src={topThreePodium.third.avatarUrl} alt={topThreePodium.third.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-amber-500 font-extrabold text-xl">{getInitials(topThreePodium.third.name)}</span>
+                  <div className="relative w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
+                    <span className="text-amber-500 font-extrabold text-xl select-none">{getInitials(topThreePodium.third.name)}</span>
+                    {(topThreePodium.third.avatarUrl || topThreePodium.third.avatar_url) && (
+                      <img src={topThreePodium.third.avatarUrl || topThreePodium.third.avatar_url} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                     )}
                   </div>
                 </div>
@@ -651,11 +648,10 @@ export default function WorldwideLeaderboard() {
                   {/* Grinder Info */}
                   <div className="flex items-center gap-3 min-w-0 pr-2">
                     <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${gradient} p-0.5 flex-shrink-0 shadow-md`}>
-                      <div className="w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
-                        {user.avatarUrl ? (
-                          <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <span className="text-white font-bold text-xs">{getInitials(user.name)}</span>
+                      <div className="relative w-full h-full rounded-full bg-[#141414] overflow-hidden flex items-center justify-center">
+                        <span className="text-white font-bold text-xs select-none">{getInitials(user.name)}</span>
+                        {(user.avatarUrl || user.avatar_url) && (
+                          <img src={user.avatarUrl || user.avatar_url} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
                         )}
                       </div>
                     </div>

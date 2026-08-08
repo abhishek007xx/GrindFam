@@ -276,7 +276,7 @@ const getDashboardData = async (req, res) => {
 
         const targetHit = todayCount >= dailyTarget;
 
-        const userAvatar = profile.avatar_url || (profile.leetcode_username ? `https://assets.leetcode.com/users/${profile.leetcode_username}/avatar_1.png` : null);
+        const userAvatar = profile.avatar_url || profile.avatarUrl || null;
 
         return {
           id: profile.id,
@@ -589,7 +589,7 @@ const getGlobalLeaderboard = async (req, res) => {
 
         const xp = platformTotal * 50 + streak * 20;
 
-        const userAvatar = liveAvatar || p.avatar_url || (p.leetcode_username ? `https://assets.leetcode.com/users/${p.leetcode_username}/avatar_1.png` : null);
+        const userAvatar = liveAvatar || p.avatar_url || p.avatarUrl || null;
 
         return {
           id: p.id,

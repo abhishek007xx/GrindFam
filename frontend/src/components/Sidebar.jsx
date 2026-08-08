@@ -301,16 +301,15 @@ export default function Sidebar({
           title={`${name} (@${handle})`}
           onClick={() => navigate('/settings')}
         >
-          <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 overflow-hidden flex-shrink-0">
-            {avatarUrl ? (
+          <div className="relative w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 overflow-hidden flex-shrink-0">
+            <span className="select-none">{initials}</span>
+            {avatarUrl && (
               <img
                 src={avatarUrl}
-                alt={name}
-                className="w-full h-full object-cover"
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
-            ) : (
-              initials
             )}
           </div>
         </div>
@@ -318,16 +317,15 @@ export default function Sidebar({
         <div className="p-2.5 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 rounded-xl space-y-2 flex-shrink-0 shadow-sm">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0 cursor-pointer" onClick={() => navigate('/settings')}>
-              <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
-                {avatarUrl ? (
+              <div className="relative w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
+                <span className="select-none">{initials}</span>
+                {avatarUrl && (
                   <img
                     src={avatarUrl}
-                    alt={name}
-                    className="w-full h-full object-cover"
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
-                ) : (
-                  initials
                 )}
               </div>
               <div className="min-w-0">
