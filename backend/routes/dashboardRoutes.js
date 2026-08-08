@@ -13,6 +13,10 @@ router.get('/global-leaderboard', authMiddleware, getGlobalLeaderboard);
 router.post('/sync', authMiddleware, syncLeetCodeData);
 
 // POST /api/dashboard/sync-leetcode-solved — Sync user's LeetCode solved problems
-router.post('/sync-leetcode-solved', authMiddleware, syncUserLeetCodeSolvedProblems);
+router.post('/sync-leetcode-solved', syncUserLeetCodeSolvedProblems);
+
+// Public GET & POST /api/dashboard/leetcode-solved — Fetch LeetCode solved problems for username
+router.get('/leetcode-solved', syncUserLeetCodeSolvedProblems);
+router.post('/leetcode-solved', syncUserLeetCodeSolvedProblems);
 
 module.exports = router;

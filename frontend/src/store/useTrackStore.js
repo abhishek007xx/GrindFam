@@ -341,33 +341,18 @@ export const useTrackStore = create((set, get) => ({
 
     let solvedSlugs = [];
 
-    // Tier 1: Direct LeetCode GraphQL fetch
+    // Tier 1: Vercel Native Serverless API Route (CORS-free, server-side Node.js execution)
     try {
-      const gqlRes = await fetch('https://leetcode.com/graphql', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          query: `
-            query getUserProfile($username: String!) {
-              recentAcSubmissionList(username: $username, limit: 100) {
-                title
-                titleSlug
-                timestamp
-              }
-            }
-          `,
-          variables: { username: cleanUsername }
-        })
-      });
-      if (gqlRes.ok) {
-        const gqlData = await gqlRes.json();
-        const list = gqlData?.data?.recentAcSubmissionList || [];
-        if (list.length > 0) {
-          solvedSlugs = list.map(s => s.titleSlug || s.title).filter(Boolean);
+      const url = `${API_BASE_URL}/dashboard/leetcode-solved?username=${encodeURIComponent(cleanUsername)}`;
+      const vercelRes = await fetch(url);
+      if (vercelRes.ok) {
+        const vercelData = await vercelRes.json();
+        if (vercelData?.solvedSlugs && Array.isArray(vercelData.solvedSlugs) && vercelData.solvedSlugs.length > 0) {
+          solvedSlugs = vercelData.solvedSlugs;
         }
       }
-    } catch (gqlErr) {
-      console.warn('Direct LeetCode GraphQL fetch error:', gqlErr?.message);
+    } catch (vercelErr) {
+      console.warn('Vercel serverless API sync error:', vercelErr?.message);
     }
 
     // Tier 2: CORS Proxy fallback if direct fetch blocked by browser CORS

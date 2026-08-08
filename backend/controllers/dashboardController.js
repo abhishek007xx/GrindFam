@@ -340,31 +340,27 @@ const syncLeetCodeData = async (req, res) => {
  */
 const syncUserLeetCodeSolvedProblems = async (req, res) => {
   try {
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    let userId = req.user?.id || null;
+    let leetcodeUsername = req.query?.username || req.body?.username || null;
 
-    let leetcodeUsername = null;
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('leetcode_username')
-      .eq('id', userId)
-      .maybeSingle();
+    if (userId && !leetcodeUsername) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('leetcode_username')
+        .eq('id', userId)
+        .maybeSingle();
 
-    leetcodeUsername = profile?.leetcode_username;
-    if (!leetcodeUsername && req.user?.user_metadata?.leetcode_username) {
-      leetcodeUsername = req.user.user_metadata.leetcode_username;
+      leetcodeUsername = profile?.leetcode_username || req.user?.user_metadata?.leetcode_username || null;
     }
 
     if (!leetcodeUsername) {
-      return res.status(400).json({ error: 'No LeetCode username linked to your profile.' });
+      return res.status(400).json({ error: 'No LeetCode username provided or linked to your profile.' });
     }
 
     const lcData = await fetchUserTodayData(leetcodeUsername);
     const solvedSlugs = lcData.recentAcSubmissions || [];
 
-    if (solvedSlugs.length > 0) {
+    if (userId && solvedSlugs.length > 0) {
       const rowsToUpsert = solvedSlugs.map(slug => ({
         user_id: userId,
         problem_id: slug,
