@@ -5,6 +5,7 @@ import axios from 'axios';
 import { supabase } from '../lib/supabaseClient';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { useAuth } from '../context/AuthContext';
+import { useTrackStore } from '../store/useTrackStore';
 import StatsCards from '../components/StatsCards';
 import LeaderboardTable from '../components/LeaderboardTable';
 import WeeklyProgress from '../components/WeeklyProgress';
@@ -204,12 +205,13 @@ const Dashboard = () => {
         sessionStorage.setItem('grindfam_dashboard_cache', JSON.stringify(response.data));
       } catch (e) {}
       if (response.data?.dailyTarget) setDailyTarget(response.data.dailyTarget);
+      if (user?.id) useTrackStore.getState().fetchUserProgress(user.id);
     } catch (err) {
       setError(err.response?.data?.error || err.message || 'Failed to sync LeetCode data.');
     } finally {
       setRefreshing(false);
     }
-  }, [token]);
+  }, [token, user]);
 
   // Handle URL search params for tab switching & smooth scrolling (?tab=leaderboard|friends|addFriend|squad)
   useEffect(() => {

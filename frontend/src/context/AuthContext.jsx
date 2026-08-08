@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../supabase';
+import useTrackStore from '../store/useTrackStore';
 
 const AuthContext = createContext();
 
@@ -77,6 +78,7 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
+        useTrackStore.getState().fetchUserProgress(session.user.id);
       }
       setLoading(false);
     });
@@ -87,6 +89,7 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         await fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
+        useTrackStore.getState().fetchUserProgress(session.user.id);
       } else {
         setProfile(null);
       }

@@ -10,7 +10,7 @@ import YouTubeModal from '../components/YouTubeModal';
 import {
   ArrowLeft, CheckSquare, Square, ExternalLink, FileText,
   Youtube, ChevronDown, ChevronUp, Search, CheckCircle,
-  RotateCcw, User, Sparkles, Check
+  RotateCcw, User, Sparkles, Check, Flame
 } from 'lucide-react';
 
 function ProgressRing({ percentage, size = 80, strokeWidth = 8 }) {
@@ -43,8 +43,8 @@ function ProgressRing({ percentage, size = 80, strokeWidth = 8 }) {
         />
         <defs>
           <linearGradient id="emerald-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#10b981" />
-            <stop offset="100%" stopColor="#14b8a6" />
+            <stop offset="0%" stopColor="#EA5D3A" />
+            <stop offset="100%" stopColor="#F2704E" />
           </linearGradient>
         </defs>
       </svg>
@@ -71,7 +71,7 @@ export function SheetDetail() {
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
   const [activeYouTubeVideo, setActiveYouTubeVideo] = useState(null);
 
-  const { progressMap, setProgressMap, toggleStatusOptimistic, saveNotesOptimistic } = useTrackStore();
+  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
 
   useEffect(() => {
     async function fetchSheetDetails() {
@@ -238,12 +238,12 @@ export function SheetDetail() {
   // Derived Overall Statistics
   const totalProblems = sortedProblems.length;
   const solvedCount = useMemo(() => {
-    return sortedProblems.filter(p => progressMap[p.id]?.status === 'solved').length;
-  }, [sortedProblems, progressMap]);
+    return sortedProblems.filter(p => getProblemProgress(p).status === 'solved').length;
+  }, [sortedProblems, progressMap, getProblemProgress]);
 
   const revisionCount = useMemo(() => {
-    return sortedProblems.filter(p => progressMap[p.id]?.status === 'revision_needed').length;
-  }, [sortedProblems, progressMap]);
+    return sortedProblems.filter(p => getProblemProgress(p).status === 'revision_needed').length;
+  }, [sortedProblems, progressMap, getProblemProgress]);
 
   const completionPercentage = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
@@ -462,8 +462,9 @@ export function SheetDetail() {
                         {isOpen && (
                           <div className="divide-y divide-[#2C2C2C]">
                             {catProblems.map((prob) => {
-                              const userState = progressMap[prob.id] || {};
+                              const userState = getProblemProgress(prob);
                               const status = userState.status || 'not_started';
+                              const solveCount = userState.solve_count || (status === 'solved' ? 1 : 0);
                               const isSolved = status === 'solved';
                               const isRevision = status === 'revision_needed';
                               const hasNotes = Boolean(userState.personal_notes && userState.personal_notes.trim());
@@ -478,7 +479,7 @@ export function SheetDetail() {
                                 >
                                   <div className="flex items-center gap-4 min-w-0">
                                     <button
-                                      onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
+                                      onClick={() => toggleStatusOptimistic(user?.id, prob)}
                                       className="focus:outline-none flex-shrink-0 transition-transform active:scale-90"
                                       title="Toggle status: Solved -> Revision Needed -> Not Started"
                                     >
@@ -541,6 +542,19 @@ export function SheetDetail() {
                                   </div>
 
                                   <div className="flex items-center gap-3 flex-shrink-0">
+                                    <button
+                                      onClick={() => incrementSolveCount(user?.id, prob)}
+                                      className={`px-2.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 border transition-all cursor-pointer ${
+                                        solveCount > 0
+                                          ? 'bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-red-500/20 border-amber-500/40 text-amber-300 hover:scale-105 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                                          : 'bg-[#141414] border-[#333333] text-zinc-400 hover:text-white'
+                                      }`}
+                                      title="Click to log a solve / revision iteration"
+                                    >
+                                      <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                                      <span>{solveCount > 0 ? `${solveCount}x Solved` : '+ Solve'}</span>
+                                    </button>
+
                                     {prob.youtube_tutorial_url && (
                                       <button
                                         onClick={() => setActiveYouTubeVideo({ url: prob.youtube_tutorial_url, title: prob.title })}

@@ -65,7 +65,7 @@ export function TopicProblems() {
   const [difficultyFilter, setDifficultyFilter] = useState('ALL');
   const [sourceFilter, setSourceFilter] = useState('ALL');
 
-  const { progressMap, setProgressMap, toggleStatusOptimistic } = useTrackStore();
+  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount } = useTrackStore();
 
   useEffect(() => {
     async function fetchTopicProblems() {
@@ -207,7 +207,7 @@ export function TopicProblems() {
 
   // Stats
   const totalProblems = problems.length;
-  const solvedCount = problems.filter(p => progressMap[p.id]?.status === 'solved').length;
+  const solvedCount = problems.filter(p => getProblemProgress(p).status === 'solved').length;
   const percentage = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
   const difficultyBreakdown = useMemo(() => {
@@ -333,15 +333,16 @@ export function TopicProblems() {
           </div>
           <div className="divide-y divide-[#2C2C2C]">
             {filteredProblems.map((prob) => {
-              const userState = progressMap[prob.id] || {};
+              const userState = getProblemProgress(prob);
               const status = userState.status || 'not_started';
+              const solveCount = userState.solve_count || (status === 'solved' ? 1 : 0);
               const isSolved = status === 'solved';
               const isRevision = status === 'revision_needed';
               const leetcodeUrl = prob.leetcode_url || `https://leetcode.com/problems/${prob.leetcode_slug}/`;
               return (
                 <motion.div key={prob.id} variants={rowVariants}
-                  className={`grid grid-cols-[40px_1fr_100px_80px_40px] sm:grid-cols-[40px_1fr_120px_100px_80px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#262626]/40 ${isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''}`}>
-                  <button onClick={() => toggleStatusOptimistic(user?.id, prob.id)} className="focus:outline-none transition-transform active:scale-90" title="Toggle status">
+                  className={`grid grid-cols-[40px_1fr_100px_80px_70px_40px] sm:grid-cols-[40px_1fr_120px_100px_110px_40px] gap-3 px-4 sm:px-5 py-3.5 items-center transition-colors hover:bg-[#262626]/40 ${isSolved ? 'bg-emerald-950/5' : isRevision ? 'bg-amber-950/5' : ''}`}>
+                  <button onClick={() => toggleStatusOptimistic(user?.id, prob)} className="focus:outline-none transition-transform active:scale-90" title="Toggle status">
                     <AnimatePresence mode="wait">
                       {isSolved ? (
                         <motion.div key="solved" initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} className="w-5 h-5 rounded-md bg-emerald-500 text-black flex items-center justify-center">
@@ -369,9 +370,18 @@ export function TopicProblems() {
                     <span className={`w-2 h-2 rounded-full inline-block ${prob.difficulty === 'Easy' ? 'bg-emerald-500' : prob.difficulty === 'Medium' ? 'bg-amber-500' : 'bg-rose-500'}`} />
                     {prob.difficulty}
                   </span>
-                  <span className={`text-[10px] font-semibold ${isSolved ? 'text-emerald-400' : isRevision ? 'text-amber-400' : 'text-[#4B5563]'}`}>
-                    {isSolved ? 'Solved' : isRevision ? 'Revision' : '—'}
-                  </span>
+                  <button
+                    onClick={() => incrementSolveCount(user?.id, prob)}
+                    className={`px-2 py-1 rounded-lg text-[11px] font-extrabold flex items-center justify-center gap-1 border transition-all cursor-pointer ${
+                      solveCount > 0
+                        ? 'bg-amber-500/20 border-amber-500/40 text-amber-300 hover:scale-105 shadow-xs'
+                        : 'bg-[#141414] border-[#333333] text-zinc-400 hover:text-white'
+                    }`}
+                    title="Click to log solve / revision count"
+                  >
+                    <Flame className="w-3 h-3 text-amber-400 fill-amber-400" />
+                    <span>{solveCount > 0 ? `${solveCount}x` : '+ Solve'}</span>
+                  </button>
                   <a href={leetcodeUrl} target="_blank" rel="noopener noreferrer" className="p-1 rounded hover:bg-[#333333] transition-colors">
                     <ExternalLink className="w-3.5 h-3.5 text-[#6B7280] hover:text-[#EA5D3A] transition-colors" />
                   </a>

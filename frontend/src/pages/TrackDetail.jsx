@@ -70,7 +70,7 @@ export function TrackDetail() {
   const [openCategories, setOpenCategories] = useState({});
 
   // Zustand Store
-  const { progressMap, setProgressMap, toggleStatusOptimistic, saveNotesOptimistic } = useTrackStore();
+  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
 
   useEffect(() => {
     async function fetchTrackAndProblems() {
@@ -160,12 +160,12 @@ export function TrackDetail() {
   // Derived Statistics
   const totalProblems = problems.length;
   const solvedCount = useMemo(() => {
-    return problems.filter(p => progressMap[p.id]?.status === 'solved').length;
-  }, [problems, progressMap]);
+    return problems.filter(p => getProblemProgress(p).status === 'solved').length;
+  }, [problems, progressMap, getProblemProgress]);
 
   const revisionCount = useMemo(() => {
-    return problems.filter(p => progressMap[p.id]?.status === 'revision_needed').length;
-  }, [problems, progressMap]);
+    return problems.filter(p => getProblemProgress(p).status === 'revision_needed').length;
+  }, [problems, progressMap, getProblemProgress]);
 
   const completionPercentage = totalProblems > 0 ? Math.round((solvedCount / totalProblems) * 100) : 0;
 
@@ -177,7 +177,7 @@ export function TrackDetail() {
 
       const matchesDifficulty = difficultyFilter === 'ALL' || p.difficulty.toUpperCase() === difficultyFilter.toUpperCase();
 
-      const userStatus = progressMap[p.id]?.status || 'not_started';
+      const userStatus = getProblemProgress(p).status || 'not_started';
       let matchesStatus = true;
       if (statusFilter === 'SOLVED') matchesStatus = userStatus === 'solved';
       if (statusFilter === 'REVISION') matchesStatus = userStatus === 'revision_needed';
@@ -185,7 +185,7 @@ export function TrackDetail() {
 
       return matchesSearch && matchesDifficulty && matchesStatus;
     });
-  }, [problems, searchQuery, difficultyFilter, statusFilter, progressMap]);
+  }, [problems, searchQuery, difficultyFilter, statusFilter, progressMap, getProblemProgress]);
 
   const sourceCompanyObj = useMemo(() => {
     return companiesData.find(c => c.slug === companySlug) || null;
@@ -496,7 +496,7 @@ export function TrackDetail() {
                         </div>
                         <span className="text-xs font-extrabold text-[#EA5D3A] font-mono">
                           {catPercentage}%
-                        </span>
+                      </span>
                       </div>
                     </div>
 
@@ -504,8 +504,9 @@ export function TrackDetail() {
                     {isOpen && (
                       <div className="divide-y divide-zinc-800/70">
                         {catProblems.map((prob) => {
-                          const userState = progressMap[prob.id] || {};
+                          const userState = getProblemProgress(prob);
                           const status = userState.status || 'not_started';
+                          const solveCount = userState.solve_count || (status === 'solved' ? 1 : 0);
                           const isSolved = status === 'solved';
                           const isRevision = status === 'revision_needed';
                           const hasNotes = Boolean(userState.personal_notes && userState.personal_notes.trim());
@@ -521,7 +522,7 @@ export function TrackDetail() {
                             >
                               <div className="flex items-center gap-4 min-w-0">
                                 <button
-                                  onClick={() => toggleStatusOptimistic(user?.id, prob.id)}
+                                  onClick={() => toggleStatusOptimistic(user?.id, prob)}
                                   className="focus:outline-none flex-shrink-0 transition-transform active:scale-95"
                                   title="Click to toggle status: Solved -> Needs Revision -> Not Started"
                                 >
@@ -558,6 +559,18 @@ export function TrackDetail() {
                               </div>
 
                               <div className="flex items-center gap-3 flex-shrink-0">
+                                <button
+                                  onClick={() => incrementSolveCount(user?.id, prob)}
+                                  className={`px-2.5 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 border transition-all cursor-pointer ${
+                                    solveCount > 0
+                                      ? 'bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-red-500/20 border-amber-500/40 text-amber-300 hover:scale-105 shadow-[0_0_12px_rgba(245,158,11,0.2)]'
+                                      : 'bg-[#141414] border-[#333333] text-zinc-400 hover:text-white'
+                                  }`}
+                                  title="Click to log a solve / revision iteration"
+                                >
+                                  <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                                  <span>{solveCount > 0 ? `${solveCount}x Solved` : '+ Solve'}</span>
+                                </button>
                                 {prob.frequency_score && (
                                   <div className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#181514] border border-zinc-800 text-[11px] font-bold text-[#EA5D3A]">
                                     <Flame className="w-3 h-3 text-[#EA5D3A]" />
