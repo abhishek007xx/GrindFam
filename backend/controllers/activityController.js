@@ -16,7 +16,7 @@ const getHeatmapData = async (req, res) => {
     const startStr = startDate.toISOString().split('T')[0];
     const endStr = endDate.toISOString().split('T')[0];
 
-    const { data: rows, error } = await supabase
+    const { data: rows } = await supabase
       .from('daily_activity')
       .select('activity_date, solved_count')
       .eq('user_id', userId)
@@ -24,15 +24,37 @@ const getHeatmapData = async (req, res) => {
       .lte('activity_date', endStr)
       .order('activity_date', { ascending: true });
 
-    if (error) {
-      console.error('Error fetching heatmap data:', error);
-      return res.status(500).json({ error: 'Failed to fetch activity data' });
-    }
+    // Also query user_progress table to count problems solved per day
+    let progressRows = [];
+    try {
+      const { data: progData } = await supabase
+        .from('user_progress')
+        .select('solved_at')
+        .eq('user_id', userId)
+        .eq('status', 'solved')
+        .gte('solved_at', startStr);
+      progressRows = progData || [];
+    } catch (_) {}
 
-    // Build a map of date -> solved_count
+    // Build a map of date -> solved_count combining both tables
     const activityMap = {};
     (rows || []).forEach((row) => {
-      activityMap[row.activity_date] = row.solved_count || 0;
+      if (row.activity_date) {
+        activityMap[row.activity_date] = Math.max(activityMap[row.activity_date] || 0, row.solved_count || 0);
+      }
+    });
+
+    // Count user_progress entries by date if higher
+    const progCountMap = {};
+    (progressRows || []).forEach((row) => {
+      if (row.solved_at) {
+        const dStr = row.solved_at.split('T')[0];
+        progCountMap[dStr] = (progCountMap[dStr] || 0) + 1;
+      }
+    });
+
+    Object.entries(progCountMap).forEach(([dStr, pCount]) => {
+      activityMap[dStr] = Math.max(activityMap[dStr] || 0, pCount);
     });
 
     // Build full 365-day array

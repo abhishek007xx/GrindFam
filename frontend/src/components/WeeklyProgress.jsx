@@ -7,10 +7,16 @@ const WeeklyProgress = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] }
   const todayIndex = new Date().getDay() - 1;
   const adjustedTodayIndex = todayIndex < 0 ? 6 : todayIndex; // Sunday = 6
 
-  // Use real weeklyData if provided, otherwise fallback to today's count
-  const weekData = (Array.isArray(weeklyData) && weeklyData.length === 7)
-    ? weeklyData
-    : days.map((_, i) => (i === adjustedTodayIndex ? yourTodayCount : 0));
+  // Prepare weekData array and ensure today's count is AT LEAST yourTodayCount
+  const initialWeekData = (Array.isArray(weeklyData) && weeklyData.length === 7)
+    ? [...weeklyData]
+    : days.map(() => 0);
+
+  if (yourTodayCount > 0) {
+    initialWeekData[adjustedTodayIndex] = Math.max(initialWeekData[adjustedTodayIndex] || 0, yourTodayCount);
+  }
+
+  const weekData = initialWeekData;
 
   const totalSolved = weekData.reduce((a, b) => a + b, 0);
   const activeDays = weekData.filter((v) => v > 0).length || 1;
