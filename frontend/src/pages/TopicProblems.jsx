@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTrackStore } from '../store/useTrackStore';
 import {
   ArrowLeft, ExternalLink, Search, Hash, CheckCircle, Check,
-  RotateCcw, Building2, FileCode2, Sparkles, Filter
+  RotateCcw, Building2, FileCode2, Sparkles, Filter, Flame
 } from 'lucide-react';
 
 function ProgressRing({ percentage, size = 64, strokeWidth = 6 }) {
