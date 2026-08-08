@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import StitchSquadLounge from '../components/stitch/StitchSquadLounge';
 import StitchSquadDashboard from '../components/stitch/StitchSquadDashboard';
-import PeerCodeReviewQueue from '../components/community/PeerCodeReviewQueue';
-import DMList from '../components/squad/DMList';
-import DMChat from '../components/squad/DMChat';
-import SquadLeaderboard from '../components/squad/SquadLeaderboard';
-import { useSquadStore } from '../store/useSquadStore';
+import StitchCodeReviewHub from '../components/stitch/StitchCodeReviewHub';
+import StitchSquadLeaderboard from '../components/stitch/StitchSquadLeaderboard';
+import StitchDMHub from '../components/stitch/StitchDMHub';
+import StitchSquadRepo from '../components/stitch/StitchSquadRepo';
+import StitchSettings from '../components/stitch/StitchSettings';
 
 export default function SquadHub() {
-  const { activeDMThread } = useSquadStore();
-
-  // Screen selection: 'lounge', 'dashboard', 'reviews', 'leaderboard', 'dms'
+  // Screen selection: 'lounge', 'dashboard', 'reviews', 'leaderboard', 'dms', 'repo', 'settings'
   const [activeScreen, setActiveScreen] = useState('lounge');
 
   return (
@@ -83,10 +81,34 @@ export default function SquadHub() {
               <span className="material-symbols-outlined text-[16px]">chat_bubble</span>
               <span>Direct Messages</span>
             </button>
+
+            <button
+              onClick={() => setActiveScreen('repo')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-['JetBrains_Mono'] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                activeScreen === 'repo'
+                  ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40 font-bold'
+                  : 'text-[#e1bfb7] hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[16px]">folder_open</span>
+              <span>Repository</span>
+            </button>
+
+            <button
+              onClick={() => setActiveScreen('settings')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-['JetBrains_Mono'] font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                activeScreen === 'settings'
+                  ? 'bg-[#353534]/50 text-white border border-[#59413b] font-bold'
+                  : 'text-[#e1bfb7] hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[16px]">settings</span>
+              <span>Settings</span>
+            </button>
           </div>
         </div>
 
-        <button className="bg-[#f2633f] text-white text-xs px-4 py-2 rounded font-['JetBrains_Mono'] font-bold hover:brightness-110 shadow-[0_0_10px_rgba(242,99,63,0.3)] transition-all cursor-pointer">
+        <button className="bg-[#f2633f] text-white text-xs px-4 py-2 rounded font-['JetBrains_Mono'] font-bold hover:brightness-110 shadow-[0_0_10px_rgba(242,99,63,0.3)] transition-all cursor-pointer shrink-0">
           Join New Squad
         </button>
       </header>
@@ -96,37 +118,22 @@ export default function SquadHub() {
       {activeScreen === 'dashboard' && <StitchSquadDashboard />}
       {activeScreen === 'reviews' && (
         <div className="max-w-[1440px] mx-auto p-4 md:p-8">
-          <PeerCodeReviewQueue />
+          <StitchCodeReviewHub />
         </div>
       )}
       {activeScreen === 'leaderboard' && (
-        <div className="max-w-[1440px] mx-auto p-4 md:p-8">
-          <SquadLeaderboard />
-        </div>
+        <StitchSquadLeaderboard />
       )}
       {activeScreen === 'dms' && (
-        <div className="max-w-[1440px] mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-4 bg-[#0e0e0e] border border-white/10 rounded-xl p-4 min-h-[550px]">
-            <h3 className="font-['Outfit'] text-base font-bold text-white mb-3 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#4cd7f6]">chat_bubble</span> Direct Messages
-            </h3>
-            <DMList />
-          </div>
-
-          <div className="lg:col-span-8 bg-[#131313] border border-white/10 rounded-xl p-5 min-h-[550px]">
-            {activeDMThread ? (
-              <DMChat />
-            ) : (
-              <div className="text-center py-28 space-y-4">
-                <span className="material-symbols-outlined text-[#4cd7f6] text-5xl">forum</span>
-                <h4 className="font-['Outfit'] text-lg font-bold text-white">Select a Chat or Start a New DM</h4>
-                <p className="font-['Inter'] text-xs text-[#e1bfb7] max-w-sm mx-auto">
-                  Direct messaging for coders: share problem links, discuss solutions, and review code together in real-time.
-                </p>
-              </div>
-            )}
-          </div>
+        <div className="max-w-[1440px] mx-auto p-4 md:p-8">
+          <StitchDMHub />
         </div>
+      )}
+      {activeScreen === 'repo' && (
+        <StitchSquadRepo />
+      )}
+      {activeScreen === 'settings' && (
+        <StitchSettings />
       )}
     </div>
   );
