@@ -71,16 +71,24 @@ export default function StitchSquadDashboard({ onNavigate }) {
                 <div className="relative w-10 h-10 rounded-full">
                   {isOnline ? (
                     <>
-                      <div className="w-full h-full rounded-full bg-[#353534] flex items-center justify-center ring-2 ring-[#10B981] shadow-[0_0_8px_#10B981] transition-transform group-hover:scale-110 text-[#e1bfb7] font-['Outfit'] font-bold text-lg">
-                        {initial}
+                      <div className="w-full h-full rounded-full bg-[#353534] flex items-center justify-center ring-2 ring-[#10B981] shadow-[0_0_8px_#10B981] transition-transform group-hover:scale-110 text-[#e1bfb7] font-['Outfit'] font-bold text-lg overflow-hidden">
+                        {member.avatar_url ? (
+                          <img src={member.avatar_url} alt={name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                        ) : (
+                          initial
+                        )}
                       </div>
                       <div className="absolute -bottom-1 -right-1 bg-[#0D0D0D] rounded-full p-[2px]">
                         <div className="w-3 h-3 rounded-full bg-[#10B981]" />
                       </div>
                     </>
                   ) : (
-                    <div className="w-full h-full rounded-full bg-[#353534] flex items-center justify-center ring-2 ring-[#6B7280] text-[#e1bfb7] font-['Outfit'] font-bold text-lg">
-                      {initial}
+                    <div className="w-full h-full rounded-full bg-[#353534] flex items-center justify-center ring-2 ring-[#6B7280] text-[#e1bfb7] font-['Outfit'] font-bold text-lg overflow-hidden">
+                      {member.avatar_url ? (
+                        <img src={member.avatar_url} alt={name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                      ) : (
+                        initial
+                      )}
                     </div>
                   )}
                 </div>
