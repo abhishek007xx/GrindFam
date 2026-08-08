@@ -274,7 +274,7 @@ export default function SquadHub({ platformTotal = 0 }) {
       </aside>
 
       {/* ── MAIN CONTENT CANVAS ── */}
-      <main className="flex-1 min-w-0 overflow-y-auto h-full">
+      <main className={`flex-1 min-w-0 h-full ${activeScreen === 'lounge' || activeScreen === 'dms' ? 'overflow-hidden flex flex-col' : 'overflow-y-auto'}`}>
         {activeScreen === 'lounge' && <StitchSquadLounge showSidebar={false} />}
         {activeScreen === 'dashboard' && <StitchSquadDashboard onNavigate={setActiveScreen} />}
         {activeScreen === 'dms' && <StitchDMHub />}
