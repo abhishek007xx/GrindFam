@@ -116,15 +116,18 @@ const fetchUserTodayData = async (username, userId = null) => {
         const slug = sub.titleSlug || sub.title;
         if (slug) allSolvedSlugs.add(slug);
 
-        const subTimestampMs = parseInt(sub.timestamp, 10) * 1000;
-        const subDate = new Date(subTimestampMs);
-        const subUtcStr = subDate.toISOString().split('T')[0];
-        const subLocalStr = formatDateStr(subDate);
+        let rawTs = parseInt(sub.timestamp, 10);
+        if (!isNaN(rawTs) && rawTs > 0) {
+          const subTimestampMs = rawTs < 1e11 ? rawTs * 1000 : rawTs;
+          const subDate = new Date(subTimestampMs);
+          const subUtcStr = subDate.toISOString().split('T')[0];
+          const subLocalStr = formatDateStr(subDate);
 
-        const diffHours = (now.getTime() - subTimestampMs) / (1000 * 60 * 60);
+          const diffHours = (now.getTime() - subTimestampMs) / (1000 * 60 * 60);
 
-        if (diffHours <= 24 || subUtcStr === todayUtcStr || subLocalStr === todayLocalStr) {
-          todayProblemSlugs.add(slug);
+          if ((diffHours >= 0 && diffHours <= 24) || subUtcStr === todayUtcStr || subLocalStr === todayLocalStr) {
+            todayProblemSlugs.add(slug);
+          }
         }
       });
 
