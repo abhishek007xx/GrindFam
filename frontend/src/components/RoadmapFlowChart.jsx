@@ -197,21 +197,21 @@ export function RoadmapFlowChart({ steps, completedSteps, onToggleStep, onSelect
                   </p>
                 </div>
 
-                {/* ── Submodules / Topic Diagram Boxes (roadmap.sh layout) ── */}
+                {/* ── Submodules / Topic Diagram Boxes (roadmap.sh compound box style) ── */}
                 {step.submodules && step.submodules.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-[var(--color-border)] space-y-2">
+                  <div className="mt-4 pt-4 border-t border-[var(--color-border)] space-y-2.5">
                     <div className="flex items-center justify-between text-[11px] font-bold text-[var(--color-text-dim)] uppercase tracking-wider">
                       <span className="flex items-center gap-1.5">
                         <Layers className="w-3.5 h-3.5 text-amber-400" />
-                        Core Modules ({step.submodules.length})
+                        Key Topics & Concepts ({step.submodules.length})
                       </span>
                       <span className="text-[10px] text-[#EA5D3A] flex items-center gap-1 font-semibold">
-                        Click node for details <ChevronRight className="w-3 h-3" />
+                        Click any box for details <ChevronRight className="w-3 h-3" />
                       </span>
                     </div>
 
-                    {/* Submodule grid pills */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {/* Submodule grid boxes (roadmap.sh compound button style) */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                       {step.submodules.map((sub, sIdx) => (
                         <div
                           key={sIdx}
@@ -219,13 +219,9 @@ export function RoadmapFlowChart({ steps, completedSteps, onToggleStep, onSelect
                             e.stopPropagation();
                             onSelectStep(step);
                           }}
-                          className="group/sub relative bg-[var(--color-surface-elevated)] border border-[var(--color-border)] hover:border-amber-400/60 p-2.5 rounded-xl flex items-center justify-between text-xs font-semibold text-[var(--color-text)] transition-all cursor-pointer hover:bg-amber-400/10 hover:shadow-sm"
+                          className="group/sub relative bg-amber-100 dark:bg-amber-950/40 border-2 border-amber-400/80 dark:border-amber-500/50 p-2.5 rounded-xl flex items-center justify-center text-center text-xs font-black text-amber-950 dark:text-amber-200 transition-all cursor-pointer hover:bg-amber-300 dark:hover:bg-amber-900/60 hover:scale-[1.02] shadow-sm"
                         >
-                          <div className="flex items-center gap-2 min-w-0 pr-1">
-                            <span className="w-2 h-2 rounded-full bg-amber-400 flex-shrink-0 group-hover/sub:scale-125 transition-transform" />
-                            <span className="truncate">{sub.name}</span>
-                          </div>
-                          <ChevronRight className="w-3.5 h-3.5 text-[var(--color-text-dim)] group-hover/sub:text-amber-400 opacity-0 group-hover/sub:opacity-100 transition-all flex-shrink-0" />
+                          <span className="truncate">{sub.name}</span>
                         </div>
                       ))}
                     </div>

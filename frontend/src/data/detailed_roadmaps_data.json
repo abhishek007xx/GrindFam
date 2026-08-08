@@ -1160,138 +1160,176 @@
     "steps": [
       {
         "stepNumber": 1,
-        "title": "Foundations & Core Concepts of Data Analyst",
-        "subtitle": "Architecture, Theory & Basic Syntax",
-        "description": "Master the fundamental building blocks, core principles, and basic syntax of Data Analyst.",
-        "guide": "### 1. Introduction to Data Analyst\nUnderstand the core mental model, historical context, and primary use cases.\n\n### 2. Basic Setup & Syntax\nInstall standard developer tooling, set up your development environment, and write your first program.",
-        "codeSnippet": "# Core initialization example for Data Analyst\nprint('Initializing Data Analyst environment...')",
+        "title": "Building a Strong Foundation \u2014 Excel & Reporting",
+        "subtitle": "Analysis, Reporting, Formulas & Pivot Tables",
+        "description": "Master Excel for data analysis and reporting. Master formulas (IF, DATEDIF, VLOOKUP/HLOOKUP, REPLACE, CONCAT, TRIM, AVERAGE, COUNT, SUM), Pivot Tables, and Charting.",
+        "guide": "### 1. Excel Core Functions\n- **Logic**: IF, AND, OR, DATEDIF\n- **Lookup**: VLOOKUP, HLOOKUP, XLOOKUP, INDEX/MATCH\n- **Text Cleaning**: REPLACE, SUBSTITUTE, UPPER, LOWER, PROPER, CONCAT, TRIM\n- **Aggregations**: SUM, AVERAGE, COUNT, COUNTA, MIN, MAX\n\n### 2. Pivot Tables & Charting\nBuild dynamic pivot tables, slicers, and bar/line charts for executive reporting.",
+        "codeSnippet": "=VLOOKUP(A2, SalesData!$A$2:$D$100, 3, FALSE)\n=IF(B2>10000, \"High Volume\", \"Standard\")",
         "submodules": [
           {
-            "name": "Data Analyst Core Concepts & Theory",
+            "name": "IF / DATEDIF",
             "status": "pending"
           },
           {
-            "name": "Environment Setup & Tooling",
+            "name": "VLOOKUP / HLOOKUP",
             "status": "pending"
           },
           {
-            "name": "Basic Syntax & Primitives",
+            "name": "REPLACE / SUBSTITUTE",
+            "status": "pending"
+          },
+          {
+            "name": "UPPER / LOWER / PROPER",
+            "status": "pending"
+          },
+          {
+            "name": "CONCAT / TRIM",
+            "status": "pending"
+          },
+          {
+            "name": "AVERAGE / COUNT / SUM / MIN / MAX",
+            "status": "pending"
+          },
+          {
+            "name": "Pivot Tables & Dynamic Slicers",
+            "status": "pending"
+          },
+          {
+            "name": "Charting & Visual Reporting",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "What are the key advantages of using Data Analyst?",
-          "How does the core execution lifecycle work in Data Analyst?"
-        ],
-        "resources": [
-          {
-            "type": "docs",
-            "label": "Official Data Analyst Documentation",
-            "url": "https://roadmap.sh"
-          }
-        ],
-        "topics": [
-          "Data",
-          "Foundations",
-          "Setup",
-          "Syntax"
-        ],
-        "problems": [
-          "role-data-analyst-foundations-drill"
-        ],
-        "icon": "code",
-        "color": "blue",
-        "sourceUrl": "https://roadmap.sh"
-      },
-      {
-        "stepNumber": 2,
-        "title": "Intermediate Concepts & Practical Application",
-        "subtitle": "Workflows, Patterns & Best Practices",
-        "description": "Deep dive into real-world application patterns, library ecosystems, and project architecture for Data Analyst.",
-        "guide": "### 1. Architectural Patterns\nLearn industry-standard patterns, component modularity, and error handling.\n\n### 2. Integration & APIs\nConnect your application with external services, databases, and third-party APIs.",
-        "codeSnippet": "// Intermediate workflow implementation sketch for Data Analyst\nasync function executeWorkflow() {\n  console.log('Running Data Analyst pipeline...');\n}",
-        "submodules": [
-          {
-            "name": "Design Patterns & Code Modularization",
-            "status": "pending"
-          },
-          {
-            "name": "API & Data Integration",
-            "status": "pending"
-          },
-          {
-            "name": "Error Handling & Logging Best Practices",
-            "status": "pending"
-          }
-        ],
-        "interviewFaqs": [
-          "How do you structure production applications using Data Analyst?",
-          "What are common anti-patterns to avoid in Data Analyst?"
-        ],
-        "resources": [
-          {
-            "type": "article",
-            "label": "Data Analyst Best Practices Guide",
-            "url": "https://roadmap.sh"
-          }
-        ],
-        "topics": [
-          "Architecture",
-          "Patterns",
-          "Integration",
-          "Best Practices"
-        ],
-        "problems": [
-          "role-data-analyst-intermediate-lab"
-        ],
-        "icon": "zap",
-        "color": "yellow",
-        "sourceUrl": "https://roadmap.sh"
-      },
-      {
-        "stepNumber": 3,
-        "title": "Advanced Mastery, Optimization & Deployment",
-        "subtitle": "Performance Tuning, Security & Production Deployment",
-        "description": "Master high-performance optimization, security hardening, scaling, and production deployment pipelines for Data Analyst.",
-        "guide": "### 1. Performance Optimization\nAudit bottlenecks, memory usage, and execution speed.\n\n### 2. Production Deployment & Security\nConfigure automated CI/CD pipelines, containerize with Docker, and enforce security policies.",
-        "codeSnippet": "# Production deployment & optimization script for Data Analyst\necho 'Deploying Data Analyst service to production...'",
-        "submodules": [
-          {
-            "name": "Performance Audit & Memory Optimization",
-            "status": "pending"
-          },
-          {
-            "name": "Security Hardening & Best Practices",
-            "status": "pending"
-          },
-          {
-            "name": "Production Deployment & CI/CD Pipeline",
-            "status": "pending"
-          }
-        ],
-        "interviewFaqs": [
-          "How do you troubleshoot performance bottlenecks in Data Analyst?",
-          "What security considerations are mandatory before deploying Data Analyst to production?"
+          "What is the difference between VLOOKUP and XLOOKUP in Excel?",
+          "How do you create a dynamic pivot table with calculated fields?"
         ],
         "resources": [
           {
             "type": "course",
-            "label": "Advanced Data Analyst Masterclass",
-            "url": "https://roadmap.sh"
+            "label": "DataCamp \u2014 Data Analyst with Excel",
+            "url": "https://www.datacamp.com/"
           }
         ],
         "topics": [
-          "Performance",
-          "Security",
-          "Deployment",
-          "CI/CD"
+          "Excel",
+          "VLOOKUP",
+          "Pivot Tables",
+          "Reporting",
+          "Formulas"
         ],
         "problems": [
-          "role-data-analyst-production-drill"
+          "excel-formula-mastery"
         ],
-        "icon": "shield",
-        "color": "purple",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/data-analyst"
+      },
+      {
+        "stepNumber": 2,
+        "title": "Key Concepts of Data & Analytics Types",
+        "subtitle": "Data Collection, Cleanup, Statistical Analysis & Analytics Types",
+        "description": "Understand the lifecycle of data: Collection, Cleanup, Exploration, Visualisation, Statistical Analysis, and Machine Learning. Master Descriptive, Diagnostic, Predictive, and Prescriptive analytics.",
+        "guide": "### 1. Data Analytics Types\n- **Descriptive**: What happened?\n- **Diagnostic**: Why did it happen?\n- **Predictive**: What will happen?\n- **Prescriptive**: What action should we take?\n\n### 2. Statistical Analysis\nApply mathematical techniques to summarize, interpret, and draw inferences (hypothesis testing, regression, correlation).",
+        "codeSnippet": "import scipy.stats as stats\n# Hypothesis testing (t-test)\nt_stat, p_val = stats.ttest_ind(group_a, group_b)\nprint('P-value:', p_val)",
+        "submodules": [
+          {
+            "name": "Data Collection & Gathering",
+            "status": "pending"
+          },
+          {
+            "name": "Data Cleanup & Imputation",
+            "status": "pending"
+          },
+          {
+            "name": "Data Exploration (EDA)",
+            "status": "pending"
+          },
+          {
+            "name": "Statistical Analysis & Hypothesis Testing",
+            "status": "pending"
+          },
+          {
+            "name": "Descriptive & Diagnostic Analytics",
+            "status": "pending"
+          },
+          {
+            "name": "Predictive & Prescriptive Analytics",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Explain the difference between Descriptive and Predictive Analytics.",
+          "What is p-value in hypothesis testing?"
+        ],
+        "resources": [
+          {
+            "type": "article",
+            "label": "Understanding Statistical Analysis",
+            "url": "https://roadmap.sh/data-analyst"
+          }
+        ],
+        "topics": [
+          "Data Collection",
+          "Data Cleanup",
+          "Statistical Analysis",
+          "EDA"
+        ],
+        "problems": [
+          "statistical-analysis-drill"
+        ],
+        "icon": "zap",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/data-analyst"
+      },
+      {
+        "stepNumber": 3,
+        "title": "SQL, Programming Skills & Business Intelligence",
+        "subtitle": "Learn SQL, Python, R, Pandas, Seaborn & Power BI / Tableau",
+        "description": "Query relational databases with SQL, manipulate dataframes with Python (Pandas/NumPy) or R, and build dashboards in Power BI or Tableau.",
+        "guide": "### 1. SQL Mastery\nWindow functions (RANK, DENSE_RANK, LAG, LEAD), GROUP BY aggregations, CTEs, and JOINs.\n\n### 2. Python & R for Data Science\nPandas for data manipulation, Matplotlib/Seaborn for charts, and Plotly for interactive dashboards.",
+        "codeSnippet": "import pandas as pd\ndf = pd.read_csv('sales.csv')\nmonthly_sales = df.groupby(df['date'].dt.to_period('M'))['amount'].sum()",
+        "submodules": [
+          {
+            "name": "Learn SQL (Window Functions & Joins)",
+            "status": "pending"
+          },
+          {
+            "name": "Python & R Data Manipulation (Pandas, NumPy)",
+            "status": "pending"
+          },
+          {
+            "name": "Data Visualisation Libraries (Seaborn, Plotly)",
+            "status": "pending"
+          },
+          {
+            "name": "BI Tools (Power BI, Tableau, Looker)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How do you perform cohort analysis in SQL?",
+          "When would you use Power BI over custom Python dashboards?"
+        ],
+        "resources": [
+          {
+            "type": "course",
+            "label": "roadmap.sh \u2014 Master SQL",
+            "url": "https://roadmap.sh/sql"
+          }
+        ],
+        "topics": [
+          "SQL",
+          "Python",
+          "Pandas",
+          "Power BI",
+          "Tableau"
+        ],
+        "problems": [
+          "sql-data-analyst-queries"
+        ],
+        "icon": "database",
+        "color": "teal",
+        "sourceUrl": "https://roadmap.sh/data-analyst"
       }
     ]
   },

@@ -203,6 +203,95 @@ for item in catalog:
         }
     ]
 
+    # Custom override for Data Analyst to match roadmap.sh diagram screenshot 100%
+    if r_id == "role-data-analyst":
+        steps = [
+            {
+                "stepNumber": 1,
+                "title": "Building a Strong Foundation — Excel & Reporting",
+                "subtitle": "Analysis, Reporting, Formulas & Pivot Tables",
+                "description": "Master Excel for data analysis and reporting. Master formulas (IF, DATEDIF, VLOOKUP/HLOOKUP, REPLACE, CONCAT, TRIM, AVERAGE, COUNT, SUM), Pivot Tables, and Charting.",
+                "guide": "### 1. Excel Core Functions\n- **Logic**: IF, AND, OR, DATEDIF\n- **Lookup**: VLOOKUP, HLOOKUP, XLOOKUP, INDEX/MATCH\n- **Text Cleaning**: REPLACE, SUBSTITUTE, UPPER, LOWER, PROPER, CONCAT, TRIM\n- **Aggregations**: SUM, AVERAGE, COUNT, COUNTA, MIN, MAX\n\n### 2. Pivot Tables & Charting\nBuild dynamic pivot tables, slicers, and bar/line charts for executive reporting.",
+                "codeSnippet": "=VLOOKUP(A2, SalesData!$A$2:$D$100, 3, FALSE)\n=IF(B2>10000, \"High Volume\", \"Standard\")",
+                "submodules": [
+                    {"name": "IF / DATEDIF", "status": "pending"},
+                    {"name": "VLOOKUP / HLOOKUP", "status": "pending"},
+                    {"name": "REPLACE / SUBSTITUTE", "status": "pending"},
+                    {"name": "UPPER / LOWER / PROPER", "status": "pending"},
+                    {"name": "CONCAT / TRIM", "status": "pending"},
+                    {"name": "AVERAGE / COUNT / SUM / MIN / MAX", "status": "pending"},
+                    {"name": "Pivot Tables & Dynamic Slicers", "status": "pending"},
+                    {"name": "Charting & Visual Reporting", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "What is the difference between VLOOKUP and XLOOKUP in Excel?",
+                    "How do you create a dynamic pivot table with calculated fields?"
+                ],
+                "resources": [
+                    {"type": "course", "label": "DataCamp — Data Analyst with Excel", "url": "https://www.datacamp.com/"}
+                ],
+                "topics": ["Excel", "VLOOKUP", "Pivot Tables", "Reporting", "Formulas"],
+                "problems": ["excel-formula-mastery"],
+                "icon": "code",
+                "color": "yellow",
+                "sourceUrl": "https://roadmap.sh/data-analyst"
+            },
+            {
+                "stepNumber": 2,
+                "title": "Key Concepts of Data & Analytics Types",
+                "subtitle": "Data Collection, Cleanup, Statistical Analysis & Analytics Types",
+                "description": "Understand the lifecycle of data: Collection, Cleanup, Exploration, Visualisation, Statistical Analysis, and Machine Learning. Master Descriptive, Diagnostic, Predictive, and Prescriptive analytics.",
+                "guide": "### 1. Data Analytics Types\n- **Descriptive**: What happened?\n- **Diagnostic**: Why did it happen?\n- **Predictive**: What will happen?\n- **Prescriptive**: What action should we take?\n\n### 2. Statistical Analysis\nApply mathematical techniques to summarize, interpret, and draw inferences (hypothesis testing, regression, correlation).",
+                "codeSnippet": "import scipy.stats as stats\n# Hypothesis testing (t-test)\nt_stat, p_val = stats.ttest_ind(group_a, group_b)\nprint('P-value:', p_val)",
+                "submodules": [
+                    {"name": "Data Collection & Gathering", "status": "pending"},
+                    {"name": "Data Cleanup & Imputation", "status": "pending"},
+                    {"name": "Data Exploration (EDA)", "status": "pending"},
+                    {"name": "Statistical Analysis & Hypothesis Testing", "status": "pending"},
+                    {"name": "Descriptive & Diagnostic Analytics", "status": "pending"},
+                    {"name": "Predictive & Prescriptive Analytics", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "Explain the difference between Descriptive and Predictive Analytics.",
+                    "What is p-value in hypothesis testing?"
+                ],
+                "resources": [
+                    {"type": "article", "label": "Understanding Statistical Analysis", "url": "https://roadmap.sh/data-analyst"}
+                ],
+                "topics": ["Data Collection", "Data Cleanup", "Statistical Analysis", "EDA"],
+                "problems": ["statistical-analysis-drill"],
+                "icon": "zap",
+                "color": "blue",
+                "sourceUrl": "https://roadmap.sh/data-analyst"
+            },
+            {
+                "stepNumber": 3,
+                "title": "SQL, Programming Skills & Business Intelligence",
+                "subtitle": "Learn SQL, Python, R, Pandas, Seaborn & Power BI / Tableau",
+                "description": "Query relational databases with SQL, manipulate dataframes with Python (Pandas/NumPy) or R, and build dashboards in Power BI or Tableau.",
+                "guide": "### 1. SQL Mastery\nWindow functions (RANK, DENSE_RANK, LAG, LEAD), GROUP BY aggregations, CTEs, and JOINs.\n\n### 2. Python & R for Data Science\nPandas for data manipulation, Matplotlib/Seaborn for charts, and Plotly for interactive dashboards.",
+                "codeSnippet": "import pandas as pd\ndf = pd.read_csv('sales.csv')\nmonthly_sales = df.groupby(df['date'].dt.to_period('M'))['amount'].sum()",
+                "submodules": [
+                    {"name": "Learn SQL (Window Functions & Joins)", "status": "pending"},
+                    {"name": "Python & R Data Manipulation (Pandas, NumPy)", "status": "pending"},
+                    {"name": "Data Visualisation Libraries (Seaborn, Plotly)", "status": "pending"},
+                    {"name": "BI Tools (Power BI, Tableau, Looker)", "status": "pending"}
+                ],
+                "interviewFaqs": [
+                    "How do you perform cohort analysis in SQL?",
+                    "When would you use Power BI over custom Python dashboards?"
+                ],
+                "resources": [
+                    {"type": "course", "label": "roadmap.sh — Master SQL", "url": "https://roadmap.sh/sql"}
+                ],
+                "topics": ["SQL", "Python", "Pandas", "Power BI", "Tableau"],
+                "problems": ["sql-data-analyst-queries"],
+                "icon": "database",
+                "color": "teal",
+                "sourceUrl": "https://roadmap.sh/data-analyst"
+            }
+        ]
+
     detailed_roadmaps.append({
         "id": r_id,
         "category": category,
