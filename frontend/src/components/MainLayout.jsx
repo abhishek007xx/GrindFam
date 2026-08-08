@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import EditTargetModal from './EditTargetModal';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function MainLayout({ children, onRefresh, refreshing, platformTotal = 0 }) {
+  const [isEditTargetOpen, setIsEditTargetOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(() => {
     try {
@@ -46,6 +48,7 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
             platformTotal={platformTotal}
             isCollapsed={isCollapsed}
             onToggleCollapse={toggleCollapse}
+            onEditTarget={() => setIsEditTargetOpen(true)}
           />
         </div>
       </div>
@@ -59,6 +62,10 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
               onNavigate={() => setMobileOpen(false)}
               platformTotal={platformTotal}
               isCollapsed={false}
+              onEditTarget={() => {
+                setMobileOpen(false);
+                setIsEditTargetOpen(true);
+              }}
             />
           </div>
         </div>
@@ -78,6 +85,16 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
           <div className="max-w-7xl mx-auto w-full max-w-full p-4 md:p-6 lg:p-8">{children}</div>
         </main>
       </div>
+
+      <EditTargetModal
+        isOpen={isEditTargetOpen}
+        currentTarget={parseInt(localStorage.getItem('grindfam_daily_target') || '5', 10)}
+        onClose={() => setIsEditTargetOpen(false)}
+        onSave={async (newTarget) => {
+          localStorage.setItem('grindfam_daily_target', newTarget.toString());
+          if (onRefresh) onRefresh();
+        }}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { Flame, Calendar, TrendingUp, Award, Loader2, GitCommit } from 'lucide-react';
+import CalendarDatePickerModal from './CalendarDatePickerModal';
 
 import { API_BASE_URL } from '../config/api';
 
@@ -60,6 +61,8 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const [loading, setLoading] = useState(true);
   const [hoveredDay, setHoveredDay] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedCalendarDate, setSelectedCalendarDate] = useState(() => new Date().toISOString().split('T')[0]);
 
   const activeLevelColors = theme === 'light' ? levelColorsLight : levelColorsDark;
 
@@ -271,7 +274,11 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           <p className="text-base font-extrabold text-white dark:text-white light:text-slate-900">{stats.totalSolved || 0}</p>
           <p className="text-[10px] text-slate-500 dark:text-[#A3A3A3]">Total Solved</p>
         </div>
-        <div className="text-center">
+        <div
+          onClick={() => setIsDatePickerOpen(true)}
+          className="text-center cursor-pointer p-1 rounded-xl hover:bg-white/5 transition-all"
+          title="Click to open interactive Date Calendar"
+        >
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Calendar className="w-3.5 h-3.5 text-blue-500" />
           </div>
@@ -321,6 +328,15 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </p>
         </div>
       )}
+
+      <CalendarDatePickerModal
+        isOpen={isDatePickerOpen}
+        onClose={() => setIsDatePickerOpen(false)}
+        selectedDate={selectedCalendarDate}
+        onSelectDate={(newDate) => {
+          setSelectedCalendarDate(newDate);
+        }}
+      />
     </div>
   );
 };

@@ -4,6 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { supabase } from '../lib/supabaseClient';
 import SettingsModal from './SettingsModal';
+import NotificationsDropdown from './NotificationsDropdown';
+import CalendarDatePickerModal from './CalendarDatePickerModal';
+import StreakModal from './StreakModal';
 import { companiesData, sheetsData } from '../lib/dataFallback';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -33,6 +36,11 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
   const dateStr = now.toLocaleDateString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric'
   });
+
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isStreakOpen, setIsStreakOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
 
   const streakDays = platformTotal > 0 ? Math.max(1, Math.floor(platformTotal / 3)) : 0;
 
@@ -349,21 +357,41 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
 
       {/* Right Section */}
       <div className="flex items-center gap-2 sm:gap-3 ml-3">
-        <div className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-red-500/15 border border-amber-500/30 text-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.25)]" title={`${streakDays} Day Streak`}>
+        <div
+          onClick={() => setIsStreakOpen(true)}
+          className="flex items-center gap-1.5 px-3 h-8 rounded-full bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-red-500/15 border border-amber-500/30 text-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.25)] cursor-pointer hover:scale-105 transition-all"
+          title={`${streakDays} Day Streak - Click for breakdown`}
+        >
           <Flame className="w-4 h-4 text-amber-400 fill-amber-400 animate-pulse" />
           <span className="font-extrabold font-mono text-xs text-amber-300 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)] font-sans">
             {streakDays}
           </span>
         </div>
 
-        <div className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 shadow-sm">
-          <Calendar className="w-3.5 h-3.5" />
-          <span>{dateStr}</span>
-        </div>
-
-        <button className="relative p-2 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 transition-colors">
-          <Bell className="w-4 h-4" />
+        <button
+          onClick={() => setIsCalendarOpen(true)}
+          className="hidden md:flex items-center gap-1.5 px-3 h-8 rounded-full bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-slate-50 border border-[#333333] dark:border-[#333333] light:border-slate-200 text-xs font-medium text-zinc-400 dark:text-zinc-400 light:text-slate-600 hover:border-[#EA5D3A]/60 hover:text-white transition-all shadow-sm cursor-pointer"
+          title="Click to open Date Calendar"
+        >
+          <Calendar className="w-3.5 h-3.5 text-[#EA5D3A]" />
+          <span>{selectedDate || dateStr}</span>
         </button>
+
+        <div className="relative">
+          <button
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            className="relative p-2 rounded-xl hover:bg-white/5 dark:hover:bg-white/5 light:hover:bg-slate-100 text-[#A3A3A3] dark:text-[#A3A3A3] light:text-slate-600 transition-colors"
+            title="Notifications"
+          >
+            <Bell className="w-4 h-4 text-[#EA5D3A]" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse" />
+          </button>
+
+          <NotificationsDropdown
+            isOpen={isNotificationsOpen}
+            onClose={() => setIsNotificationsOpen(false)}
+          />
+        </div>
 
         {/* Dark / Light Theme Toggle Button */}
         <button
@@ -383,6 +411,23 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed, onRefresh, ref
       <SettingsModal
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
+      />
+
+      <CalendarDatePickerModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={selectedDate}
+        onSelectDate={(newDate) => {
+          setSelectedDate(newDate);
+          navigate(`/dashboard?date=${newDate}`);
+        }}
+      />
+
+      <StreakModal
+        isOpen={isStreakOpen}
+        onClose={() => setIsStreakOpen(false)}
+        streakDays={streakDays}
+        platformTotal={platformTotal}
       />
     </header>
   );

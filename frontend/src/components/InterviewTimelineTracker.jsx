@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Target, CheckCircle2, Flame, Edit3, X, Clock } from 'lucide-react';
+import { Target, CheckCircle2, Flame, Edit3, X, Clock, Calendar as CalendarIcon } from 'lucide-react';
 import { companiesData } from '../lib/dataFallback';
+import CalendarDatePickerModal from './CalendarDatePickerModal';
 
 const STORAGE_KEY = 'grindfam_interview_target';
 
@@ -207,6 +208,19 @@ export default function InterviewTimelineTracker({ totalTrackProblems = 50, solv
           />
         </div>
       </div>
+
+      <CalendarDatePickerModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={interviewDate}
+        onSelectDate={(newDate) => {
+          setInterviewDate(newDate);
+          try {
+            const payload = { company: targetCompany, role: targetRole, date: newDate, updatedAt: new Date().toISOString() };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          } catch (_) {}
+        }}
+      />
     </div>
   );
 }
