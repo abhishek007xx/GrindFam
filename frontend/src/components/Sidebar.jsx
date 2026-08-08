@@ -22,7 +22,7 @@ const mainNavItems = [
 ];
 
 const socialNavItems = [
-  { id: 'community', label: 'Grind Hub', icon: Users, path: '/community' },
+  { id: 'community', label: 'Community', icon: Users, path: '/community' },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
 ];
 
