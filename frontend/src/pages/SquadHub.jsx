@@ -23,6 +23,7 @@ export default function SquadHub({ platformTotal = 0 }) {
   const [isJoinModalOpen, setIsJoinModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
+  const [isBottomToolsOpen, setIsBottomToolsOpen] = useState(false);
   const [inviteCodeInput, setInviteCodeInput] = useState('');
   const [createSquadForm, setCreateSquadForm] = useState({ name: '', goal: '', squad_type: 'private' });
   const [joinError, setJoinError] = useState(null);
@@ -260,79 +261,101 @@ export default function SquadHub({ platformTotal = 0 }) {
           </div>
         </nav>
 
-        {/* Create & Join Squad Action Buttons */}
-        <div className="py-4 space-y-2">
-          <button 
-            onClick={() => setIsCreateModalOpen(true)}
-            className="w-full bg-[#EA5D3A] text-white py-2.5 rounded-lg font-['JetBrains_Mono'] text-xs font-bold hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.3)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
-          >
-            <span className="material-symbols-outlined text-[18px]">add_circle</span> Create New Squad
-          </button>
-
-          <button 
-            onClick={() => setIsJoinModalOpen(true)}
-            className="w-full bg-[#1c1b1b] border border-[#4cd7f6]/50 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 py-2 rounded-lg font-['JetBrains_Mono'] text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
-          >
-            <span className="material-symbols-outlined text-[18px]">group_add</span> Join Squad by Code
-          </button>
-        </div>
-
-        {/* Workspace Tools: Streak, Calendar, Theme, Notifications */}
-        <div className="border-t border-white/10 pt-3 pb-2 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
+        {/* Collapsible Bottom Drawer (Closed by default, expands up on ^ click) */}
+        <div className="border-t border-white/10 pt-3 flex flex-col mt-auto">
+          {/* Header Toggle Button with ^ Chevron Icon */}
           <button
-            onClick={() => setIsStreakOpen(true)}
-            className="flex items-center justify-between px-3 py-2 rounded text-amber-400 hover:bg-amber-500/10 transition-colors text-left cursor-pointer font-bold"
+            onClick={() => setIsBottomToolsOpen(!isBottomToolsOpen)}
+            className="w-full px-3 py-2.5 rounded-lg bg-[#1c1b1b] border border-[#EA5D3A]/40 text-[#EA5D3A] hover:bg-[#EA5D3A]/10 transition-all font-['JetBrains_Mono'] text-xs font-bold flex items-center justify-between cursor-pointer shadow-md"
+            title={isBottomToolsOpen ? "Close Tools Menu" : "Expand Tools & Squad Actions Menu"}
           >
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-[18px]">local_fire_department</span> Streak
-            </div>
-            <span>{streakDays}</span>
-          </button>
-          <button
-            onClick={() => setIsCalendarOpen(true)}
-            className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[18px]">calendar_today</span> Calendar
-          </button>
-          <div className="relative">
-            <button
-              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-              className="flex items-center justify-between w-full px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
-            >
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[18px]">notifications</span> Notifications
-              </div>
-              <span className="w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse"></span>
-            </button>
-            <NotificationsDropdown isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
-          </div>
-          <button
-            onClick={toggleTheme}
-            className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[18px]">
-              {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+            <span className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px]">build</span> Tools & Squad Actions
             </span>
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            <span className="material-symbols-outlined text-[20px] transition-transform duration-300">
+              {isBottomToolsOpen ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}
+            </span>
           </button>
-        </div>
 
-        {/* Footer Links: Settings, Support */}
-        <div className="border-t border-white/10 pt-3 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
-          <button
-            onClick={() => setActiveScreen('settings')}
-            className={`flex items-center gap-3 px-3 py-2 rounded transition-colors text-left cursor-pointer ${
-              activeScreen === 'settings' ? 'text-[#4cd7f6] bg-[#353534]/30 font-bold' : 'text-[#e1bfb7] hover:text-white'
-            }`}
-          >
-            <span className="material-symbols-outlined text-[18px]">settings</span> Settings
-          </button>
-          <button 
-            onClick={() => setIsSupportModalOpen(true)}
-            className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-[18px]">help</span> Support
-          </button>
+          {/* Expandable Slide-Up Panel */}
+          <div className={`transition-all duration-300 overflow-hidden ${
+            isBottomToolsOpen ? 'max-h-[500px] opacity-100 mt-3 space-y-3' : 'max-h-0 opacity-0 mt-0 pointer-events-none'
+          }`}>
+            {/* Create & Join Squad Action Buttons */}
+            <div className="space-y-2">
+              <button 
+                onClick={() => setIsCreateModalOpen(true)}
+                className="w-full bg-[#EA5D3A] text-white py-2.5 rounded-lg font-['JetBrains_Mono'] text-xs font-bold hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.3)] transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span className="material-symbols-outlined text-[18px]">add_circle</span> Create New Squad
+              </button>
+
+              <button 
+                onClick={() => setIsJoinModalOpen(true)}
+                className="w-full bg-[#1c1b1b] border border-[#4cd7f6]/50 text-[#4cd7f6] hover:bg-[#4cd7f6]/10 py-2 rounded-lg font-['JetBrains_Mono'] text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              >
+                <span className="material-symbols-outlined text-[18px]">group_add</span> Join Squad by Code
+              </button>
+            </div>
+
+            {/* Workspace Tools: Streak, Calendar, Theme, Notifications */}
+            <div className="border-t border-white/10 pt-2 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
+              <button
+                onClick={() => setIsStreakOpen(true)}
+                className="flex items-center justify-between px-3 py-2 rounded text-amber-400 hover:bg-amber-500/10 transition-colors text-left cursor-pointer font-bold"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[18px]">local_fire_department</span> Streak
+                </div>
+                <span>{streakDays}</span>
+              </button>
+              <button
+                onClick={() => setIsCalendarOpen(true)}
+                className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[18px]">calendar_today</span> Calendar
+              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                  className="flex items-center justify-between w-full px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[18px]">notifications</span> Notifications
+                  </div>
+                  <span className="w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse"></span>
+                </button>
+                <NotificationsDropdown isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+              </div>
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[18px]">
+                  {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+                </span>
+                {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
+            </div>
+
+            {/* Footer Links: Settings, Support */}
+            <div className="border-t border-white/10 pt-2 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
+              <button
+                onClick={() => setActiveScreen('settings')}
+                className={`flex items-center gap-3 px-3 py-2 rounded transition-colors text-left cursor-pointer ${
+                  activeScreen === 'settings' ? 'text-[#4cd7f6] bg-[#353534]/30 font-bold' : 'text-[#e1bfb7] hover:text-white'
+                }`}
+              >
+                <span className="material-symbols-outlined text-[18px]">settings</span> Settings
+              </button>
+              <button 
+                onClick={() => setIsSupportModalOpen(true)}
+                className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[18px]">help</span> Support
+              </button>
+            </div>
+          </div>
         </div>
       </aside>
 
