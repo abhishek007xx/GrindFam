@@ -6,10 +6,22 @@ import StitchSquadLeaderboard from '../components/stitch/StitchSquadLeaderboard'
 import StitchDMHub from '../components/stitch/StitchDMHub';
 import StitchSquadRepo from '../components/stitch/StitchSquadRepo';
 import StitchSettings from '../components/stitch/StitchSettings';
+import { useTheme } from '../context/ThemeContext';
+import NotificationsDropdown from '../components/NotificationsDropdown';
+import CalendarDatePickerModal from '../components/CalendarDatePickerModal';
+import StreakModal from '../components/StreakModal';
+import { useNavigate } from 'react-router-dom';
 
-export default function SquadHub() {
+export default function SquadHub({ platformTotal = 0 }) {
   // Screen selection: 'lounge', 'dashboard', 'dms', 'reviews', 'leaderboard', 'repo', 'settings'
   const [activeScreen, setActiveScreen] = useState('lounge');
+  const { theme, toggleTheme } = useTheme();
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [isStreakOpen, setIsStreakOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const navigate = useNavigate();
+  const streakDays = platformTotal > 0 ? Math.max(1, Math.floor(platformTotal / 3)) : 0;
 
   const navItems = [
     { id: 'lounge', label: 'Home', icon: 'home' },
@@ -84,7 +96,47 @@ export default function SquadHub() {
           </button>
         </div>
 
-        {/* Footer Links: Settings, Support, Sign Out */}
+        {/* Workspace Tools: Streak, Calendar, Theme, Notifications */}
+        <div className="border-t border-white/10 pt-3 pb-2 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
+          <button
+            onClick={() => setIsStreakOpen(true)}
+            className="flex items-center justify-between px-3 py-2 rounded text-amber-400 hover:bg-amber-500/10 transition-colors text-left cursor-pointer font-bold"
+          >
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[18px]">local_fire_department</span> Streak
+            </div>
+            <span>{streakDays}</span>
+          </button>
+          <button
+            onClick={() => setIsCalendarOpen(true)}
+            className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[18px]">calendar_today</span> Calendar
+          </button>
+          <div className="relative">
+            <button
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+              className="flex items-center justify-between w-full px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+            >
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-[18px]">notifications</span> Notifications
+              </div>
+              <span className="w-2 h-2 rounded-full bg-[#EA5D3A] animate-pulse"></span>
+            </button>
+            <NotificationsDropdown isOpen={isNotificationsOpen} onClose={() => setIsNotificationsOpen(false)} />
+          </div>
+          <button
+            onClick={toggleTheme}
+            className="flex items-center gap-3 px-3 py-2 rounded text-[#e1bfb7] hover:text-white transition-colors text-left cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[18px]">
+              {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+            </span>
+            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div>
+
+        {/* Footer Links: Settings, Support */}
         <div className="border-t border-white/10 pt-3 flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
           <button
             onClick={() => setActiveScreen('settings')}
@@ -110,6 +162,21 @@ export default function SquadHub() {
         {activeScreen === 'repo' && <StitchSquadRepo />}
         {activeScreen === 'settings' && <StitchSettings />}
       </main>
+      <CalendarDatePickerModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        selectedDate={selectedDate}
+        onSelectDate={(newDate) => {
+          setSelectedDate(newDate);
+          navigate(`/dashboard?date=${newDate}`);
+        }}
+      />
+      <StreakModal
+        isOpen={isStreakOpen}
+        onClose={() => setIsStreakOpen(false)}
+        streakDays={streakDays}
+        platformTotal={platformTotal}
+      />
     </div>
   );
 }
