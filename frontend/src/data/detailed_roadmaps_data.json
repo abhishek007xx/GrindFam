@@ -3,143 +3,1117 @@
     "id": "role-frontend",
     "category": "Role Roadmap",
     "title": "Frontend Developer",
-    "creator": "roadmap.sh Standards",
+    "creator": "roadmap.sh & GrindFam",
     "description": "Master modern web user interfaces \u2014 HTML5, CSS3, JavaScript, React, Next.js, Web Performance, and Vitest testing.",
     "steps": [
       {
         "stepNumber": 1,
-        "title": "Foundations & Core Concepts of Frontend Developer",
-        "subtitle": "Architecture, Theory & Basic Syntax",
-        "description": "Master the fundamental building blocks, core principles, and basic syntax of Frontend Developer.",
-        "guide": "### 1. Introduction to Frontend Developer\nUnderstand the core mental model, historical context, and primary use cases.\n\n### 2. Basic Setup & Syntax\nInstall standard developer tooling, set up your development environment, and write your first program.",
-        "codeSnippet": "# Core initialization example for Frontend Developer\nprint('Initializing Frontend Developer environment...')",
+        "title": "Internet & How the Web Works",
+        "subtitle": "HTTP, HTTPS, DNS, Domain Names & Browsers",
+        "description": "Learn the foundational networking mechanics that power the web: HTTP request/response lifecycles, DNS resolution, domain hosting, and browser rendering engines.",
+        "guide": "### \ud83c\udf10 1. How Does the Internet Work?\nThe internet is a global network of interconnected computers communicating via standardized protocols (TCP/IP). When a browser makes a request, packet routing delivers data across network nodes.\n\n### \ud83d\udd12 2. HTTP & HTTPS Protocols\n- **HTTP**: Stateless protocol operating on port 80 over TCP.\n- **HTTPS**: Encrypted HTTP using TLS/SSL certificates over port 443.\n- **Key Methods**: GET, POST, PUT, DELETE, PATCH, OPTIONS.\n- **Status Codes**: 2xx (Success), 3xx (Redirection), 4xx (Client Error), 5xx (Server Error).\n\n### \ud83d\udd0d 3. DNS (Domain Name System)\nTranslates human-readable domain names (e.g. `leetcode.com`) into IP addresses (`104.18.2.14`).\nResolution hierarchy: Browser Cache -> OS Cache -> Recursive Resolver -> Root Server -> TLD Server -> Authoritative Nameserver.",
+        "codeSnippet": "# Inspect HTTP headers using curl\ncurl -I -v https://api.grindfam.dev/v1/health\n\n# DNS lookup with dig\ndig A leetcode.com +short",
         "submodules": [
           {
-            "name": "Frontend Developer Core Concepts & Theory",
+            "name": "How does the internet work?",
             "status": "pending"
           },
           {
-            "name": "Environment Setup & Tooling",
+            "name": "What is HTTP & HTTPS?",
             "status": "pending"
           },
           {
-            "name": "Basic Syntax & Primitives",
+            "name": "What is Domain Name?",
+            "status": "pending"
+          },
+          {
+            "name": "What is web hosting & CDN?",
+            "status": "pending"
+          },
+          {
+            "name": "DNS & how it works?",
+            "status": "pending"
+          },
+          {
+            "name": "Browsers & Rendering Engines",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "What are the key advantages of using Frontend Developer?",
-          "How does the core execution lifecycle work in Frontend Developer?"
-        ],
-        "resources": [
-          {
-            "type": "docs",
-            "label": "Official Frontend Developer Documentation",
-            "url": "https://roadmap.sh"
-          }
+          "What happens step-by-step when you type a URL into a web browser address bar?",
+          "What is the difference between HTTP/1.1, HTTP/2, and HTTP/3 (QUIC)?",
+          "How does TLS handshaking secure HTTPS traffic?"
         ],
         "topics": [
-          "Frontend",
-          "Foundations",
-          "Setup",
-          "Syntax"
+          "Internet",
+          "HTTP",
+          "DNS",
+          "Hosting",
+          "Browsers"
         ],
         "problems": [
-          "role-frontend-foundations-drill"
+          "browser-url-navigation-flow",
+          "dns-resolution-drill"
         ],
-        "icon": "code",
-        "color": "blue",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "globe",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
       },
       {
         "stepNumber": 2,
-        "title": "Intermediate Concepts & Practical Application",
-        "subtitle": "Workflows, Patterns & Best Practices",
-        "description": "Deep dive into real-world application patterns, library ecosystems, and project architecture for Frontend Developer.",
-        "guide": "### 1. Architectural Patterns\nLearn industry-standard patterns, component modularity, and error handling.\n\n### 2. Integration & APIs\nConnect your application with external services, databases, and third-party APIs.",
-        "codeSnippet": "// Intermediate workflow implementation sketch for Frontend Developer\nasync function executeWorkflow() {\n  console.log('Running Frontend Developer pipeline...');\n}",
+        "title": "HTML5 & Semantic Web Structure",
+        "subtitle": "Elements, Forms, Validations, Accessibility (a11y) & SEO",
+        "description": "Master semantic HTML markup, accessible form architecture, native input validation, ARIA roles, and Search Engine Optimization best practices.",
+        "guide": "### \ud83c\udfd7\ufe0f 1. Semantic HTML Elements\nSemantic markup gives meaning to Web content: `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<footer>`.\n\n### \u267f 2. Web Accessibility (a11y)\n- Use proper heading hierarchy (`<h1>` to `<h6>`).\n- Always provide `alt` text for images.\n- ARIA attributes (`aria-label`, `aria-expanded`, `role=\"button\"`) when custom UI controls are necessary.\n- Ensure full keyboard navigation capability (`tabindex`, `Focus indicator`).\n\n### \ud83d\udd0d 3. SEO Fundamentals\n- Document `<title>` and `<meta name=\"description\">`.\n- Open Graph tags (`og:title`, `og:image`) for social sharing cards.\n- Structured Data (JSON-LD) for Google rich search results.",
+        "codeSnippet": "<!-- Accessible & Semantic HTML Form -->\n<form action=\"/login\" method=\"POST\" className=\"space-y-4\">\n  <label htmlFor=\"email-input\" className=\"block text-sm font-medium\">\n    Email Address <span className=\"text-red-500\">*</span>\n  </label>\n  <input \n    id=\"email-input\" \n    type=\"email\" \n    required \n    aria-required=\"true\"\n    placeholder=\"you@example.com\"\n    className=\"w-full px-3 py-2 border rounded-lg\"\n  />\n  <button type=\"submit\" className=\"px-4 py-2 bg-blue-600 text-white font-bold rounded-lg\">\n    Sign In\n  </button>\n</form>",
         "submodules": [
           {
-            "name": "Design Patterns & Code Modularization",
+            "name": "Learn HTML Basics",
             "status": "pending"
           },
           {
-            "name": "API & Data Integration",
+            "name": "Writing Semantic HTML",
             "status": "pending"
           },
           {
-            "name": "Error Handling & Logging Best Practices",
+            "name": "Forms & Native Validations",
+            "status": "pending"
+          },
+          {
+            "name": "Accessibility (a11y & ARIA)",
+            "status": "pending"
+          },
+          {
+            "name": "SEO Basics & Meta Tags",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you structure production applications using Frontend Developer?",
-          "What are common anti-patterns to avoid in Frontend Developer?"
-        ],
-        "resources": [
-          {
-            "type": "article",
-            "label": "Frontend Developer Best Practices Guide",
-            "url": "https://roadmap.sh"
-          }
+          "Why is semantic HTML critical for SEO and Accessibility?",
+          "What is the difference between `<script>`, `<script async>`, and `<script defer>`?",
+          "How do `aria-hidden` and `tabindex` work?"
         ],
         "topics": [
-          "Architecture",
-          "Patterns",
-          "Integration",
-          "Best Practices"
+          "HTML5",
+          "Semantic Markup",
+          "Forms",
+          "Accessibility",
+          "SEO"
         ],
         "problems": [
-          "role-frontend-intermediate-lab"
+          "accessible-modal-component",
+          "semantic-form-validation"
         ],
-        "icon": "zap",
+        "icon": "code",
         "color": "yellow",
-        "sourceUrl": "https://roadmap.sh"
+        "sourceUrl": "https://roadmap.sh/frontend"
       },
       {
         "stepNumber": 3,
-        "title": "Advanced Mastery, Optimization & Deployment",
-        "subtitle": "Performance Tuning, Security & Production Deployment",
-        "description": "Master high-performance optimization, security hardening, scaling, and production deployment pipelines for Frontend Developer.",
-        "guide": "### 1. Performance Optimization\nAudit bottlenecks, memory usage, and execution speed.\n\n### 2. Production Deployment & Security\nConfigure automated CI/CD pipelines, containerize with Docker, and enforce security policies.",
-        "codeSnippet": "# Production deployment & optimization script for Frontend Developer\necho 'Deploying Frontend Developer service to production...'",
+        "title": "CSS Core, Layouts & Responsive Design",
+        "subtitle": "Box Model, Flexbox, CSS Grid & Media Queries",
+        "description": "Master CSS styling fundamentals: Box Model (margin, border, padding, content), Flexbox, CSS Grid, relative vs absolute positioning, and fluid media queries.",
+        "guide": "### \ud83d\udce6 1. The CSS Box Model\nEvery HTML element is rendered as a rectangular box:\n`Total Width = content + padding + border + margin`\nUse `box-sizing: border-box;` globally to include padding and border within element total width.\n\n### \ud83d\udcd0 2. CSS Flexbox vs CSS Grid\n- **Flexbox (1D)**: Ideal for linear components (navbars, button groups, vertical stacks). `display: flex; justify-content: center; align-items: center;`\n- **CSS Grid (2D)**: Ideal for two-dimensional page layouts. `display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));`\n\n### \ud83d\udcf1 3. Responsive Design\nMobile-first approach using CSS media queries (`@media (min-width: 768px)`) and relative units (`rem`, `em`, `vw`, `vh`, `%`).",
+        "codeSnippet": "/* Modern CSS Grid & Flexbox setup */\n.grid-container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));\n  gap: 1.5rem;\n}\n\n.card {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  padding: 1.25rem;\n  border-radius: 0.75rem;\n}",
         "submodules": [
           {
-            "name": "Performance Audit & Memory Optimization",
+            "name": "Learn CSS Basics & Selectors",
             "status": "pending"
           },
           {
-            "name": "Security Hardening & Best Practices",
+            "name": "Box Model & Specificity",
             "status": "pending"
           },
           {
-            "name": "Production Deployment & CI/CD Pipeline",
+            "name": "Making Layouts (Flexbox & Grid)",
+            "status": "pending"
+          },
+          {
+            "name": "Responsive Design & Media Queries",
+            "status": "pending"
+          },
+          {
+            "name": "CSS Units (rem, em, vh, vw, px)",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you troubleshoot performance bottlenecks in Frontend Developer?",
-          "What security considerations are mandatory before deploying Frontend Developer to production?"
+          "Explain CSS specificity calculation (inline > ID > Class > Element).",
+          "What is the difference between `display: none` and `visibility: hidden`?",
+          "How does `position: absolute` position itself relative to `position: relative` ancestors?"
         ],
-        "resources": [
+        "topics": [
+          "CSS3",
+          "Box Model",
+          "Flexbox",
+          "CSS Grid",
+          "Responsive"
+        ],
+        "problems": [
+          "responsive-navbar-flexbox",
+          "dashboard-grid-layout"
+        ],
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 4,
+        "title": "JavaScript Core & Language Syntax",
+        "subtitle": "Variables, Scope, Execution Context, Closures & Prototypes",
+        "description": "Master core JavaScript mechanics: Data Types, Hoisting, Scope Chain, Call Stack, Event Loop, Closures, High-Order Functions, and Prototypal Inheritance.",
+        "guide": "### \ud83e\udde0 1. Variables & Scope\n- `var`: Function-scoped, hoisted with `undefined`.\n- `let` & `const`: Block-scoped, Temporal Dead Zone (TDZ).\n\n### \ud83d\udd12 2. Closures & Scopes\nA closure is a function bundled together with references to its surrounding state (lexical environment).\nEnables private data encapsulation in modules.\n\n### \u26a1 3. The Event Loop & Call Stack\nJavaScript is single-threaded and non-blocking using the Event Loop:\nCall Stack -> Microtask Queue (Promises, process.nextTick) -> Macrotask Queue (setTimeout, setInterval, I/O).",
+        "codeSnippet": "// JavaScript Closure Example\nfunction createCounter() {\n  let count = 0;\n  return {\n    increment: () => ++count,\n    getCount: () => count\n  };\n}\nconst counter = createCounter();\nconsole.log(counter.increment()); // 1",
+        "submodules": [
           {
-            "type": "course",
-            "label": "Advanced Frontend Developer Masterclass",
-            "url": "https://roadmap.sh"
+            "name": "Learn JS Basics & Data Types",
+            "status": "pending"
+          },
+          {
+            "name": "Variables (var, let, const & TDZ)",
+            "status": "pending"
+          },
+          {
+            "name": "Functions, Arrow Functions & 'this'",
+            "status": "pending"
+          },
+          {
+            "name": "Scope, Hoisting & Closures",
+            "status": "pending"
+          },
+          {
+            "name": "Prototypes & ES6 Classes",
+            "status": "pending"
           }
+        ],
+        "interviewFaqs": [
+          "Explain the JavaScript Event Loop, Microtasks, and Macrotasks.",
+          "What is a Closure and what are its practical applications?",
+          "How does the `this` keyword binding work in regular vs arrow functions?"
+        ],
+        "topics": [
+          "JavaScript",
+          "ES6+",
+          "Closures",
+          "Event Loop",
+          "Prototypes"
+        ],
+        "problems": [
+          "js-closure-counter",
+          "custom-promise-all-implementation"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 5,
+        "title": "JavaScript DOM Manipulation & Async JS",
+        "subtitle": "DOM APIs, Event Bubbling/Delegation, Fetch API, Promises & Async/Await",
+        "description": "Learn to dynamically manipulate webpage elements, attach high-performance event listeners with event delegation, handle asynchronous network calls, and parse JSON.",
+        "guide": "### \ud83c\udf33 1. DOM API & Manipulation\nSelect elements (`querySelector`, `querySelectorAll`), modify styles, classes (`classList.add`), and attributes.\n\n### \ud83c\udfaf 2. Event Delegation & Bubbling\nEvents trigger in 3 phases: Capturing -> Target -> Bubbling.\nEvent Delegation attaches a single event listener to a parent container to handle events on dynamic child elements using `event.target`.\n\n### \ud83d\udce1 3. Asynchronous JS: Promises & Async/Await\nHandle asynchronous network requests cleanly without callback hell.",
+        "codeSnippet": "// Async Fetch API with Error Handling\nasync function fetchUserData(userId) {\n  try {\n    const res = await fetch(`https://api.github.com/users/${userId}`);\n    if (!res.ok) throw new Error(`HTTP Error ${res.status}`);\n    const data = await res.json();\n    return data;\n  } catch (error) {\n    console.error('Fetch failed:', error.message);\n  }\n}",
+        "submodules": [
+          {
+            "name": "Learn DOM Manipulation API",
+            "status": "pending"
+          },
+          {
+            "name": "Events & Event Delegation",
+            "status": "pending"
+          },
+          {
+            "name": "Promises & Async / Await",
+            "status": "pending"
+          },
+          {
+            "name": "Fetch API & Ajax (XHR)",
+            "status": "pending"
+          },
+          {
+            "name": "Browser Storage (LocalStorage, SessionStorage, Cookies)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is Event Delegation and why is it beneficial for performance?",
+          "Explain the difference between `Promise.all()`, `Promise.allSettled()`, and `Promise.race()`.",
+          "What are the security implications of storing JWTs in LocalStorage vs HttpOnly Cookies?"
+        ],
+        "topics": [
+          "DOM",
+          "Events",
+          "Fetch API",
+          "Async/Await",
+          "Promises"
+        ],
+        "problems": [
+          "dom-event-delegation-list",
+          "async-retry-fetch-utility"
+        ],
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 6,
+        "title": "Version Control Systems (Git & VCS)",
+        "subtitle": "Git Commands, Branching Strategies, Rebase & Merge Conflict Resolution",
+        "description": "Master Git version control: commit history tracking, branching models (GitFlow, Trunk-based), interactive rebase, cherry-pick, and resolving merge conflicts.",
+        "guide": "### \ud83c\udf3f 1. Essential Git Commands\n- `git init` / `git clone`\n- `git add .` && `git commit -m \"feat: add user authentication\"`\n- `git checkout -b feature/auth` / `git switch -c feature/auth`\n- `git pull --rebase origin main`\n- `git push origin feature/auth`\n\n### \ud83d\udd04 2. Git Merge vs Git Rebase\n- **Git Merge**: Combines histories with a dedicated merge commit. Preserves exact history context.\n- **Git Rebase**: Re-applies commits on top of another base tip. Creates linear, clean commit history.",
+        "codeSnippet": "# Interactive rebase to squash last 3 commits\ngit rebase -i HEAD~3\n\n# Stash work in progress\ngit stash push -m 'WIP navigation bar'\ngit stash pop",
+        "submodules": [
+          {
+            "name": "Git Basics & Installation",
+            "status": "pending"
+          },
+          {
+            "name": "Commits, Staging & Diffing",
+            "status": "pending"
+          },
+          {
+            "name": "Branching & Merging Strategies",
+            "status": "pending"
+          },
+          {
+            "name": "Interactive Rebase & Cherry-Pick",
+            "status": "pending"
+          },
+          {
+            "name": "Resolving Merge Conflicts",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is the difference between `git merge` and `git rebase`?",
+          "How does `git reset --soft`, `--mixed`, and `--hard` differ?",
+          "Explain `git reflog` and how it recovers lost commits."
+        ],
+        "topics": [
+          "Git",
+          "VCS",
+          "Rebase",
+          "Branching",
+          "Merge Conflicts"
+        ],
+        "problems": [
+          "git-conflict-resolution-drill",
+          "git-interactive-rebase"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 7,
+        "title": "VCS Hosting Platforms & Code Collaboration",
+        "subtitle": "GitHub, GitLab, Bitbucket & Pull Request Workflows",
+        "description": "Learn remote repository hosting, Pull Request / Merge Request reviews, GitHub Actions automation, issue tracking, and branch protection rules.",
+        "guide": "### \ud83d\udc19 1. GitHub Workflows\n- **Pull Requests**: Code review process with line-by-line comments and suggestions.\n- **Branch Protection Rules**: Require PR reviews, status checks, and linear history before merging into `main`.\n- **Forks & Upstreams**: Contributing to open-source software.",
+        "codeSnippet": "# Standard PR CLI flow with GitHub CLI (gh)\ngh pr create --title 'feat: responsive navigation' --body 'Adds mobile hamburger menu'",
+        "submodules": [
+          {
+            "name": "GitHub Basics & Repositories",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab & Enterprise VCS",
+            "status": "pending"
+          },
+          {
+            "name": "Bitbucket Workflows",
+            "status": "pending"
+          },
+          {
+            "name": "Pull Requests & Code Reviews",
+            "status": "pending"
+          },
+          {
+            "name": "GitHub Actions Basics",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What makes an effective Pull Request description and code review?",
+          "How do branch protection rules safeguard production code?"
+        ],
+        "topics": [
+          "GitHub",
+          "GitLab",
+          "Bitbucket",
+          "Pull Requests",
+          "Code Review"
+        ],
+        "problems": [
+          "github-pr-collaboration-drill"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 8,
+        "title": "Modern Package Managers",
+        "subtitle": "npm, pnpm, yarn, package.json & Lockfiles",
+        "description": "Understand JavaScript package management: semantic versioning (`^`, `~`), dependency resolution (`node_modules`), workspace monorepos, and lockfile determinism.",
+        "guide": "### \ud83d\udce6 1. Package Managers Comparison\n- **npm**: Default Node package manager using `package-lock.json`.\n- **yarn**: Fast package manager with workspaces support using `yarn.lock`.\n- **pnpm**: Ultra-fast, disk-space efficient using content-addressable hard links and symlinks to global store.\n\n### \ud83c\udff7\ufe0f 2. Semantic Versioning (SemVer)\n`MAJOR.MINOR.PATCH` (e.g. `2.4.1`)\n- `^2.4.1`: Compatible with backwards-compatible updates up to `3.0.0`.\n- `~2.4.1`: Compatible with patch updates only up to `2.5.0`.",
+        "codeSnippet": "# Install dependency with pnpm\npnpm add react react-dom\n\n# Run audit for security vulnerabilities\nnpm audit fix",
+        "submodules": [
+          {
+            "name": "npm (Node Package Manager)",
+            "status": "pending"
+          },
+          {
+            "name": "pnpm (Fast & Efficient)",
+            "status": "pending"
+          },
+          {
+            "name": "yarn & Yarn Workspaces",
+            "status": "pending"
+          },
+          {
+            "name": "package.json & SemVer Versioning",
+            "status": "pending"
+          },
+          {
+            "name": "Lockfiles & Deterministic Builds",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why is `package-lock.json` / `pnpm-lock.yaml` essential in Git repos?",
+          "How does `pnpm` save disk space compared to `npm`?"
+        ],
+        "topics": [
+          "npm",
+          "pnpm",
+          "yarn",
+          "SemVer",
+          "Package Managers"
+        ],
+        "problems": [
+          "package-json-dep-audit"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 9,
+        "title": "Pick a Framework: React, Vue, Angular, Svelte",
+        "subtitle": "Component-Driven UI Architecture & State Management",
+        "description": "Choose and master a modern component framework: React.js, Vue.js, Angular, Svelte, or Solid JS. Master component lifecycles, props, state, and reactivity.",
+        "guide": "### \u269b\ufe0f 1. React.js Core Concepts\n- **Virtual DOM**: Reconciliation algorithm (Fiber) computes minimal DOM mutations.\n- **JSX**: Declarative syntax combining HTML structures with JavaScript expressions.\n- **Hooks**: `useState`, `useEffect`, `useContext`, `useMemo`, `useCallback`.\n\n### \ud83d\udc9a 2. Vue.js & Svelte\n- **Vue.js**: Reactive proxy system (`ref()`, `reactive()`) and Single File Components (`.vue`).\n- **Svelte**: Compile-time framework with zero Virtual DOM overhead.",
+        "codeSnippet": "// React Functional Component with Hooks\nimport React, { useState, useEffect } from 'react';\n\nexport function Counter() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  }, [count]);\n  return (\n    <button onClick={() => setCount(c => c + 1)} className=\"btn\">\n      Clicked {count} times\n    </button>\n  );\n}",
+        "submodules": [
+          {
+            "name": "React.js Framework",
+            "status": "pending"
+          },
+          {
+            "name": "Vue.js Framework",
+            "status": "pending"
+          },
+          {
+            "name": "Angular Framework",
+            "status": "pending"
+          },
+          {
+            "name": "Svelte & SvelteKit",
+            "status": "pending"
+          },
+          {
+            "name": "Solid JS & Qwik",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is the Virtual DOM and how does React Reconciliation work?",
+          "Explain the rules of Hooks in React.",
+          "What is the difference between props and state?"
+        ],
+        "topics": [
+          "React",
+          "Vue.js",
+          "Angular",
+          "Svelte",
+          "Frameworks"
+        ],
+        "problems": [
+          "react-custom-hooks-exercise",
+          "vue-reactive-state-component"
+        ],
+        "icon": "code",
+        "color": "purple",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 10,
+        "title": "Writing Modern CSS & Utility Frameworks",
+        "subtitle": "Tailwind CSS, CSS Modules & Styled Components",
+        "description": "Learn modern CSS methodologies: Utility-first Tailwind CSS, CSS Modules for scoped component styling, and CSS-in-JS libraries (Styled Components, Emotion).",
+        "guide": "### \ud83c\udfa8 1. Tailwind CSS\nUtility-first CSS framework providing atomic low-level utility classes (`flex`, `pt-4`, `text-center`, `hover:bg-blue-600`). Purges unused CSS at build time via PostCSS.\n\n### \ud83d\udd12 2. CSS Modules & CSS-in-JS\nScoped styling preventing global CSS namespace pollution by hashing class names at compile time (`styles.header_3a9f2`).",
+        "codeSnippet": "/* Styled Components example */\nimport styled from 'styled-components';\n\nconst PrimaryButton = styled.button`\n  background: ${props => props.primary ? '#EA5D3A' : '#1e293b'};\n  color: white;\n  padding: 0.5rem 1rem;\n  border-radius: 0.5rem;\n  font-weight: 700;\n`;",
+        "submodules": [
+          {
+            "name": "Tailwind CSS Utility Framework",
+            "status": "pending"
+          },
+          {
+            "name": "CSS Modules (Scoped Classes)",
+            "status": "pending"
+          },
+          {
+            "name": "CSS-in-JS (Styled Components, Emotion)",
+            "status": "pending"
+          },
+          {
+            "name": "Shadcn UI & UI Component Libraries",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What are the pros and cons of Utility-First CSS (Tailwind) vs CSS Modules?",
+          "How does Tailwind CSS achieve zero runtime performance overhead?"
+        ],
+        "topics": [
+          "Tailwind",
+          "CSS Modules",
+          "Styled Components",
+          "Shadcn UI"
+        ],
+        "problems": [
+          "tailwind-responsive-card-grid"
+        ],
+        "icon": "code",
+        "color": "purple",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 11,
+        "title": "CSS Architecture & Preprocessors",
+        "subtitle": "BEM Methodology, Sass / SCSS & PostCSS",
+        "description": "Maintain scalable enterprise CSS codebases using BEM (Block Element Modifier) naming conventions, Sass CSS preprocessor nesting and mixins, and PostCSS plugins.",
+        "guide": "### \ud83e\uddf1 1. BEM (Block Element Modifier)\n- **Block**: Standalone entity (`.card`, `.nav`).\n- **Element**: Part of block (`.card__title`, `.nav__item`).\n- **Modifier**: Variation (`.card--featured`, `.button--disabled`).\n\n### \ud83d\udc85 2. Sass / SCSS\nPre-processor adding variables, nesting, mixins (`@mixin`), extensions (`@extend`), and module imports (`@use`).",
+        "codeSnippet": "/* SCSS Mixin & Nesting */\n@mixin flex-center {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.hero-banner {\n  @include flex-center;\n  background: #0f172a;\n  \n  &__heading {\n    font-size: 2rem;\n    color: #f8fafc;\n    \n    &--highlight {\n      color: #EA5D3A;\n    }\n  }\n}",
+        "submodules": [
+          {
+            "name": "BEM (Block Element Modifier)",
+            "status": "pending"
+          },
+          {
+            "name": "CSS Preprocessors (Sass / SCSS)",
+            "status": "pending"
+          },
+          {
+            "name": "PostCSS & Autoprefixer",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why is BEM naming convention useful in large team web projects?",
+          "What is PostCSS Autoprefixer and why is it necessary for cross-browser support?"
+        ],
+        "topics": [
+          "BEM",
+          "Sass",
+          "SCSS",
+          "PostCSS",
+          "CSS Architecture"
+        ],
+        "problems": [
+          "sass-theme-mixin-system"
+        ],
+        "icon": "code",
+        "color": "purple",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 12,
+        "title": "Build Tools: Linters, Formatters & Code Quality",
+        "subtitle": "ESLint, Prettier, Biome & Husky Git Hooks",
+        "description": "Enforce automated code quality, formatting consistency, and error prevention using ESLint, Prettier, Biome, and git pre-commit hooks via Husky and lint-staged.",
+        "guide": "### \ud83e\uddf9 1. ESLint & Code Linting\nAnalyzes static JavaScript/TypeScript code to discover syntax errors, unused variables, anti-patterns, and hook dependency issues.\n\n### \ud83c\udfa8 2. Prettier Formatters\nOpinionated automatic code formatter for consistent indentation, quotes, semicolons, and trailing commas across teams.\n\n### \ud83d\udc36 3. Git Hooks with Husky\nAutomatically trigger `npm run lint` and `npm run format` on staged files prior to Git commit.",
+        "codeSnippet": "// .eslintrc.js config snippet\nmodule.exports = {\n  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],\n  rules: {\n    'react/react-in-jsx-scope': 'off',\n    'no-unused-vars': 'warn'\n  }\n};",
+        "submodules": [
+          {
+            "name": "ESLint Static Code Analysis",
+            "status": "pending"
+          },
+          {
+            "name": "Prettier Automatic Code Formatting",
+            "status": "pending"
+          },
+          {
+            "name": "Biome Toolchain (All-in-one)",
+            "status": "pending"
+          },
+          {
+            "name": "Husky & lint-staged Git Hooks",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is the difference between code linting (ESLint) and code formatting (Prettier)?",
+          "How do pre-commit hooks enforce code quality before code reaches GitHub?"
+        ],
+        "topics": [
+          "ESLint",
+          "Prettier",
+          "Biome",
+          "Husky",
+          "Code Quality"
+        ],
+        "problems": [
+          "eslint-custom-rule-setup"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 13,
+        "title": "Build Tools: Module Bundlers & Dev Servers",
+        "subtitle": "Vite, Webpack, SWC, esbuild, Rollup & Parcel",
+        "description": "Understand modern JavaScript bundlers, native ES modules (ESM), Hot Module Replacement (HMR), tree shaking, code splitting, and bundle size optimization.",
+        "guide": "### \u26a1 1. Vite & Native ESM\nVite serves code over native ES Modules during development for instant HMR without bundling, and bundles production builds with Rollup and esbuild.\n\n### \ud83d\udce6 2. Webpack & Bundler Mechanics\nWebpack bundles asset dependency graphs (JS, CSS, images) into static production bundles. Features loaders (`babel-loader`, `css-loader`) and plugins (`HtmlWebpackPlugin`).\n\n### \ud83c\udf33 3. Tree Shaking & Code Splitting\nEliminates dead, unused exports from production bundles. Dynamic `import()` splits code into separate lazy-loaded chunks.",
+        "codeSnippet": "// vite.config.js\nimport { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\n\nexport default defineConfig({\n  plugins: [react()],\n  server: {\n    port: 3000,\n    open: true\n  }\n});",
+        "submodules": [
+          {
+            "name": "Vite Dev Server & Build Tool",
+            "status": "pending"
+          },
+          {
+            "name": "Webpack & Loaders / Plugins",
+            "status": "pending"
+          },
+          {
+            "name": "esbuild & SWC High-Speed Compilers",
+            "status": "pending"
+          },
+          {
+            "name": "Rollup & Parcel Bundlers",
+            "status": "pending"
+          },
+          {
+            "name": "Code Splitting & Tree Shaking",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why is Vite dramatically faster than Webpack in development?",
+          "What is Tree Shaking and how does ES6 module syntax (`import`/`export`) enable it?"
+        ],
+        "topics": [
+          "Vite",
+          "Webpack",
+          "esbuild",
+          "Bundlers",
+          "Code Splitting"
+        ],
+        "problems": [
+          "vite-custom-plugin-setup",
+          "webpack-code-split-optimization"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 14,
+        "title": "Frontend Testing: Unit, Integration & E2E",
+        "subtitle": "Vitest, Jest, React Testing Library, Playwright & Cypress",
+        "description": "Master automated testing strategies: Unit tests, component integration testing with React Testing Library, mock service workers (MSW), and End-to-End (E2E) testing with Playwright.",
+        "guide": "### \ud83e\uddea 1. Testing Pyramid\n- **Unit Tests**: Test isolated utility functions and pure logic (Vitest / Jest).\n- **Integration Tests**: Test UI components interacting together (React Testing Library).\n- **E2E Tests**: Test full real browser user journeys (Playwright / Cypress).\n\n### \ud83c\udfad 2. React Testing Library Philosophy\nTest components based on how users interact with them, querying by accessible text, label, and role (`getByRole('button')`) rather than implementation details.",
+        "codeSnippet": "// React Testing Library with Vitest\nimport { render, screen, fireEvent } from '@testing-library/react';\nimport { Counter } from './Counter';\n\ntest('increments counter on button click', () => {\n  render(<Counter />);\n  const button = screen.getByRole('button');\n  fireEvent.click(button);\n  expect(screen.getByText(/Clicked 1 times/i)).toBeInTheDocument();\n});",
+        "submodules": [
+          {
+            "name": "Vitest & Jest Unit Testing",
+            "status": "pending"
+          },
+          {
+            "name": "React Testing Library (RTL)",
+            "status": "pending"
+          },
+          {
+            "name": "Playwright End-to-End Testing",
+            "status": "pending"
+          },
+          {
+            "name": "Cypress E2E Testing",
+            "status": "pending"
+          },
+          {
+            "name": "MSW (Mock Service Worker)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why does React Testing Library discourage testing component state directly?",
+          "How does MSW (Mock Service Worker) intercept network calls at the network layer?"
+        ],
+        "topics": [
+          "Testing",
+          "Vitest",
+          "Jest",
+          "Playwright",
+          "Cypress"
+        ],
+        "problems": [
+          "unit-test-component-rtl",
+          "e2e-login-flow-playwright"
+        ],
+        "icon": "award",
+        "color": "green",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 15,
+        "title": "Authentication Strategies & User Identity",
+        "subtitle": "JWT, OAuth 2.0, SSO, Session Auth & Cookie Security",
+        "description": "Implement enterprise web authentication: JSON Web Tokens (JWT), OAuth 2.0 social sign-in (Google/GitHub), Single Sign-On (SSO), HttpOnly cookies, and Refresh Token rotation.",
+        "guide": "### \ud83d\udd11 1. Session-Based vs JWT Token Authentication\n- **Session Auth**: Server stores session state in memory/Redis, sends `session_id` in HttpOnly Cookie.\n- **JWT Auth**: Stateless token containing signed payload (`{ sub, exp, role }`). Sent in `Authorization: Bearer <token>` header or HttpOnly Cookie.\n\n### \ud83d\udee1\ufe0f 2. Secure Token Storage\nNever store sensitive JWT access tokens in LocalStorage due to XSS vulnerability. Use `HttpOnly`, `SameSite=Strict`, `Secure` cookies for refresh tokens.",
+        "codeSnippet": "// Axios Interceptor for Automatic JWT Refresh Token Rotation\napiClient.interceptors.response.use(\n  response => response,\n  async error => {\n    if (error.response?.status === 401) {\n      await refreshAccessToken();\n      return apiClient(error.config);\n    }\n    return Promise.reject(error);\n  }\n);",
+        "submodules": [
+          {
+            "name": "JWT (JSON Web Tokens)",
+            "status": "pending"
+          },
+          {
+            "name": "OAuth 2.0 & OpenID Connect (OIDC)",
+            "status": "pending"
+          },
+          {
+            "name": "SSO (Single Sign-On)",
+            "status": "pending"
+          },
+          {
+            "name": "Session-based Authentication & Cookies",
+            "status": "pending"
+          },
+          {
+            "name": "Passkeys & WebAuthn",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why is storing JWT tokens in LocalStorage unsafe against XSS attacks?",
+          "Explain the OAuth 2.0 Authorization Code Flow with PKCE."
+        ],
+        "topics": [
+          "JWT",
+          "OAuth",
+          "SSO",
+          "Authentication",
+          "Security"
+        ],
+        "problems": [
+          "jwt-auth-interceptor-flow"
+        ],
+        "icon": "shield",
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 16,
+        "title": "Web Security Basics & Vulnerabilities",
+        "subtitle": "CORS, HTTPS, Content Security Policy (CSP) & OWASP Top 10",
+        "description": "Secure frontend applications against OWASP Top 10 vulnerabilities: Cross-Site Scripting (XSS), Cross-Site Request Forgery (CSRF), CORS misconfigurations, and CSP headers.",
+        "guide": "### \ud83d\udee1\ufe0f 1. CORS (Cross-Origin Resource Sharing)\nBrowser security mechanism enforcing Same-Origin Policy (SOP). Server must return `Access-Control-Allow-Origin: https://myfrontend.com` header for cross-origin requests.\n\n### \ud83d\udd12 2. XSS & CSRF Mitigation\n- **XSS (Cross-Site Scripting)**: Escape user input HTML. React escapes JSX values by default.\n- **CSRF (Cross-Site Request Forgery)**: Mitigate with Anti-CSRF tokens and `SameSite=Lax/Strict` cookies.\n\n### \ud83d\udcdc 3. Content Security Policy (CSP)\nHTTP header restricting resource origins (scripts, styles, images): `Content-Security-Policy: default-src 'self'; script-src 'self' https://trusted.cdn.com`",
+        "codeSnippet": "/* Security HTTP Headers config */\nContent-Security-Policy: default-src 'self'; script-src 'self' 'nonce-rAnd0m';\nX-Frame-Options: DENY\nX-Content-Type-Options: nosniff\nReferrer-Policy: strict-origin-when-cross-origin",
+        "submodules": [
+          {
+            "name": "CORS (Cross-Origin Resource Sharing)",
+            "status": "pending"
+          },
+          {
+            "name": "HTTPS & SSL/TLS Encryption",
+            "status": "pending"
+          },
+          {
+            "name": "Content Security Policy (CSP)",
+            "status": "pending"
+          },
+          {
+            "name": "OWASP Security Risks (XSS, CSRF)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is a CORS preflight request (`OPTIONS`) and when does the browser trigger it?",
+          "How does Content Security Policy (CSP) stop reflected XSS scripts?"
+        ],
+        "topics": [
+          "CORS",
+          "HTTPS",
+          "CSP",
+          "OWASP",
+          "XSS",
+          "CSRF"
+        ],
+        "problems": [
+          "xss-sanitization-utility",
+          "cors-express-middleware-fix"
+        ],
+        "icon": "shield",
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 17,
+        "title": "Web Components & Native Modular UI",
+        "subtitle": "Custom Elements, Shadow DOM & HTML Templates",
+        "description": "Build framework-agnostic native web components using W3C standards: Custom Elements API (`customElements.define`), Shadow DOM encapsulation, and `<template>` tags.",
+        "guide": "### \ud83e\udde9 1. Web Components Standards\n- **Custom Elements**: Define reusable HTML tags (`<user-avatar>`).\n- **Shadow DOM**: Provides scoped DOM tree and styles isolated from global CSS.\n- **HTML Templates**: Declarative template structures instantiated dynamically.",
+        "codeSnippet": "// Native Custom Element with Shadow DOM\nclass UserBadge extends HTMLElement {\n  constructor() {\n    super();\n    const shadow = this.attachShadow({ mode: 'open' });\n    shadow.innerHTML = `\n      <style>:host { font-weight: bold; color: #EA5D3A; }</style>\n      <span>GrindFam Pro</span>\n    `;\n  }\n}\ncustomElements.define('user-badge', UserBadge);",
+        "submodules": [
+          {
+            "name": "Custom Elements API",
+            "status": "pending"
+          },
+          {
+            "name": "Shadow DOM Encapsulation",
+            "status": "pending"
+          },
+          {
+            "name": "HTML Templates & Slots",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is Shadow DOM open vs closed mode?",
+          "What are the benefits of Web Components over framework-specific components?"
+        ],
+        "topics": [
+          "Web Components",
+          "Custom Elements",
+          "Shadow DOM",
+          "Templates"
+        ],
+        "problems": [
+          "native-web-component-tooltip"
+        ],
+        "icon": "code",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 18,
+        "title": "Type Checkers: TypeScript Masterclass",
+        "subtitle": "Static Types, Interfaces, Generics, Utility Types & Type Narrowing",
+        "description": "Master TypeScript static typing for robust frontend applications: Type Inference, Interfaces vs Type Aliases, Generics (`<T>`), Union & Intersection types, and Utility Types (`Partial`, `Pick`, `Omit`).",
+        "guide": "### \ud83d\udcd8 1. TypeScript Core Fundamentals\nTypeScript compiles to plain JavaScript while catching type errors at build time.\n\n### \ud83e\uddec 2. Generics & Utility Types\nGenerics enable reusable, type-safe functions and data structures.\n- `Partial<T>`: Makes all properties optional.\n- `Pick<T, K>`: Extracts subset of properties.\n- `Omit<T, K>`: Removes subset of properties.",
+        "codeSnippet": "// TypeScript Interface & Generic Function\ninterface UserProfile {\n  id: string;\n  username: string;\n  email: string;\n  rating?: number;\n}\n\nasync function fetchApiData<T>(url: string): Promise<T> {\n  const res = await fetch(url);\n  return res.json() as Promise<T>;\n}",
+        "submodules": [
+          {
+            "name": "TypeScript Syntax & Compiler Config",
+            "status": "pending"
+          },
+          {
+            "name": "Interfaces vs Type Aliases",
+            "status": "pending"
+          },
+          {
+            "name": "Generics & High-Level Constraints",
+            "status": "pending"
+          },
+          {
+            "name": "Utility Types (Pick, Omit, Record, Partial)",
+            "status": "pending"
+          },
+          {
+            "name": "Type Narrowing & Discriminated Unions",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is the difference between `type` and `interface` in TypeScript?",
+          "How does Discriminated Union pattern work in TypeScript pattern matching?"
+        ],
+        "topics": [
+          "TypeScript",
+          "Generics",
+          "Interfaces",
+          "Utility Types",
+          "Types"
+        ],
+        "problems": [
+          "ts-generic-api-response-wrapper",
+          "ts-discriminated-union-state"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 19,
+        "title": "SSR & Meta Frameworks (Next.js, Nuxt, SvelteKit)",
+        "subtitle": "Server-Side Rendering, App Router, Hydration & Server Components",
+        "description": "Architect high-performance web apps with Next.js (App Router, Server Components, Server Actions), Nuxt.js, or SvelteKit for optimal SEO and instant initial page load speeds.",
+        "guide": "### \ud83d\ude80 1. Rendering Strategies\n- **CSR (Client-Side Rendering)**: Empty HTML shell, JS fetches data in browser.\n- **SSR (Server-Side Rendering)**: HTML rendered on server per request.\n- **SSG (Static Site Generation)**: HTML generated at build time.\n- **ISR (Incremental Static Regeneration)**: Re-generates static pages in background on demand.\n\n### \u26a1 2. React Server Components (RSC)\nServer Components execute exclusively on the server, sending zero JS bundle payload to the browser.",
+        "codeSnippet": "// Next.js App Router Server Component\nexport default async function DashboardPage() {\n  const data = await fetch('https://api.grindfam.dev/stats', { next: { revalidate: 60 } });\n  const stats = await data.json();\n  \n  return (\n    <main className=\"p-8\">\n      <h1 className=\"text-2xl font-bold\">Daily LeetCode Stats</h1>\n      <p>Solved Today: {stats.solved}</p>\n    </main>\n  );\n}",
+        "submodules": [
+          {
+            "name": "Server-Side Rendering (SSR) Mechanics",
+            "status": "pending"
+          },
+          {
+            "name": "Next.js App Router & Server Components",
+            "status": "pending"
+          },
+          {
+            "name": "Nuxt.js (Vue.js SSR Framework)",
+            "status": "pending"
+          },
+          {
+            "name": "SvelteKit (Svelte SSR)",
+            "status": "pending"
+          },
+          {
+            "name": "Hydration & Rehydration Performance",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is React Hydration and what causes Hydration Mismatch errors?",
+          "Compare SSR vs SSG vs ISR rendering strategies in Next.js."
+        ],
+        "topics": [
+          "Next.js",
+          "SSR",
+          "Nuxt.js",
+          "SvelteKit",
+          "Server Components"
+        ],
+        "problems": [
+          "nextjs-server-action-form",
+          "isr-revalidation-route"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 20,
+        "title": "GraphQL & Advanced Data Fetching",
+        "subtitle": "GraphQL Schemas, Queries, Mutations, Apollo & TanStack Query",
+        "description": "Fetch data efficiently using GraphQL queries, mutations, subscriptions, Apollo Client, and handle server state management with TanStack Query (React Query).",
+        "guide": "### \ud83d\udcca 1. GraphQL vs REST\nGraphQL avoids over-fetching and under-fetching by allowing clients to request exact JSON field structures in a single request endpoint (`/graphql`).\n\n### \ud83d\udd04 2. Server State with TanStack Query\nHandles caching, background re-fetching, deduplication, and optimistic UI updates automatically.",
+        "codeSnippet": "# GraphQL Query Example\nquery GetUserProfile($userId: ID!) {\n  user(id: $userId) {\n    name\n    email\n    solvedProblems {\n      title\n      difficulty\n    }\n  }\n}",
+        "submodules": [
+          {
+            "name": "GraphQL Schema Definition Language (SDL)",
+            "status": "pending"
+          },
+          {
+            "name": "GraphQL Queries & Mutations",
+            "status": "pending"
+          },
+          {
+            "name": "Apollo Client & Relay Modern",
+            "status": "pending"
+          },
+          {
+            "name": "TanStack Query (React Query) Caching",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How does GraphQL solve the N+1 problem on backend resolvers?",
+          "Why is TanStack Query preferred over Redux for managing remote server data?"
+        ],
+        "topics": [
+          "GraphQL",
+          "Apollo",
+          "TanStack Query",
+          "REST",
+          "API"
+        ],
+        "problems": [
+          "graphql-query-resolver-client"
+        ],
+        "icon": "database",
+        "color": "teal",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 21,
+        "title": "Static Site Generators (SSG)",
+        "subtitle": "Astro, Next.js SSG, Vuepress & Eleventy",
+        "description": "Build ultra-fast content websites and documentation sites using Astro (Islands Architecture), Next.js SSG, Vuepress, and Eleventy.",
+        "guide": "### \ud83c\udfdd\ufe0f 1. Astro & Islands Architecture\nAstro renders HTML at build time and ships zero client-side JavaScript by default. Interactive UI components (React/Vue) are rendered as isolated interactive 'islands' hydrated on demand.",
+        "codeSnippet": "---\n// Astro Component Frontmatter\nimport ReactButton from '../components/ReactButton.jsx';\n---\n<html lang=\"en\">\n  <body>\n    <h1>Welcome to Astro Docs</h1>\n    <!-- Hydrates React component only when visible -->\n    <ReactButton client:visible />\n  </body>\n</html>",
+        "submodules": [
+          {
+            "name": "Astro Islands Architecture",
+            "status": "pending"
+          },
+          {
+            "name": "Next.js Static Site Generation",
+            "status": "pending"
+          },
+          {
+            "name": "Vuepress & VitePress Documentation",
+            "status": "pending"
+          },
+          {
+            "name": "Eleventy (11ty) Static Site Generator",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is Islands Architecture in Astro and how does it minimize client JS bundles?",
+          "When should you choose SSG over SSR?"
+        ],
+        "topics": [
+          "Astro",
+          "SSG",
+          "Vuepress",
+          "Eleventy",
+          "Islands Architecture"
+        ],
+        "problems": [
+          "astro-island-hydration-demo"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 22,
+        "title": "PWAs & Modern Browser APIs",
+        "subtitle": "Service Workers, WebSockets, Storage & Web Push Notifications",
+        "description": "Build Progressive Web Apps (PWAs) with offline functionality, Service Worker caching strategies, WebSockets for real-time bidirectional data, and native browser APIs.",
+        "guide": "### \ud83d\udcf1 1. Progressive Web Apps (PWAs)\nPWAs deliver native app experiences on the web using Web App Manifest (`manifest.json`) and Service Workers for offline caching.\n\n### \ud83d\udd0c 2. Real-Time WebSockets\nWebSockets maintain a continuous, full-duplex TCP connection between client and server for instant live updates (chat rooms, live leaderboards).",
+        "codeSnippet": "// Registering Service Worker for Offline Cache\nif ('serviceWorker' in navigator) {\n  window.addEventListener('load', () => {\n    navigator.serviceWorker.register('/sw.js')\n      .then(reg => console.log('SW Registered!', reg.scope))\n      .catch(err => console.error('SW Registration Failed:', err));\n  });\n}",
+        "submodules": [
+          {
+            "name": "Progressive Web Apps (PWAs) & Manifest",
+            "status": "pending"
+          },
+          {
+            "name": "Service Workers & Offline Caching",
+            "status": "pending"
+          },
+          {
+            "name": "WebSockets Real-Time Communication",
+            "status": "pending"
+          },
+          {
+            "name": "Browser APIs (IndexedDB, Web Push, Device Orientation)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What are the different Service Worker caching strategies (Cache First, Network First, Stale While Revalidate)?",
+          "How do WebSockets differ from Server-Sent Events (SSE) and HTTP Long Polling?"
+        ],
+        "topics": [
+          "PWAs",
+          "Service Workers",
+          "WebSockets",
+          "Browser APIs",
+          "IndexedDB"
+        ],
+        "problems": [
+          "service-worker-offline-cache-strategy",
+          "websocket-realtime-chat-client"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 23,
+        "title": "Performance Optimization & Web Vitals",
+        "subtitle": "PRPL Pattern, RAIL Model, Core Web Vitals (LCP, INP, CLS) & Lighthouse",
+        "description": "Optimize web application performance to achieve 100/100 Lighthouse scores: Monitor Core Web Vitals (Largest Contentful Paint, Interaction to Next Paint, Cumulative Layout Shift), eliminate render-blocking resources, and use Chrome DevTools.",
+        "guide": "### \u26a1 1. Core Web Vitals (Google UX Metrics)\n- **LCP (Largest Contentful Paint)**: Measures loading performance (< 2.5s).\n- **INP (Interaction to Next Paint)**: Measures responsiveness to user clicks (< 200ms).\n- **CLS (Cumulative Layout Shift)**: Measures visual layout stability (< 0.1).\n\n### \ud83c\udfce\ufe0f 2. PRPL Pattern\n- **Push / Preload** critical assets (`<link rel=\"preload\">`).\n- **Render** initial route ASAP.\n- **Pre-cache** remaining assets in background.\n- **Lazy load** secondary routes on demand.",
+        "codeSnippet": "<!-- Preload critical fonts and images -->\n<link rel=\"preload\" href=\"/fonts/inter.woff2\" as=\"font\" type=\"font/woff2\" crossorigin />\n<link rel=\"modulepreload\" href=\"/src/main.js\" />",
+        "submodules": [
+          {
+            "name": "Core Web Vitals (LCP, INP, CLS)",
+            "status": "pending"
+          },
+          {
+            "name": "PRPL & RAIL Performance Models",
+            "status": "pending"
+          },
+          {
+            "name": "Lighthouse Auditing & Optimization",
+            "status": "pending"
+          },
+          {
+            "name": "Chrome DevTools Profiling & Flamecharts",
+            "status": "pending"
+          },
+          {
+            "name": "Image Optimization & Next-Gen Formats (WebP/AVIF)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How do you debug and fix high Cumulative Layout Shift (CLS)?",
+          "What techniques reduce Largest Contentful Paint (LCP) for hero images?"
         ],
         "topics": [
           "Performance",
-          "Security",
-          "Deployment",
-          "CI/CD"
+          "Web Vitals",
+          "Lighthouse",
+          "DevTools",
+          "Optimization"
         ],
         "problems": [
-          "role-frontend-production-drill"
+          "web-vitals-cls-fix",
+          "image-lazyloading-intersection-observer"
         ],
-        "icon": "shield",
-        "color": "purple",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/frontend"
+      },
+      {
+        "stepNumber": 24,
+        "title": "Mobile & Desktop Cross-Platform Apps",
+        "subtitle": "React Native, Flutter, Electron & Tauri",
+        "description": "Extend frontend web development skills to cross-platform native iOS, Android, and Desktop (macOS/Windows) applications using React Native, Flutter, Electron, and Tauri.",
+        "guide": "### \ud83d\udcf1 1. Mobile Development\n- **React Native**: Renders native iOS/Android UI components using JavaScript bridge or New Architecture (JSI / Fabric).\n- **Flutter**: Dart framework rendering custom pixels via Skia / Impeller engine.\n\n### \ud83d\udda5\ufe0f 2. Desktop Development\n- **Electron**: Bundles Node.js runtime and Chromium browser into desktop app.\n- **Tauri**: Ultra-lightweight Rust backend with web view web frontend.",
+        "codeSnippet": "// React Native View Component\nimport { View, Text, StyleSheet } from 'react-native';\n\nexport default function App() {\n  return (\n    <View style={styles.container}>\n      <Text style={styles.title}>GrindFam Mobile</Text>\n    </View>\n  );\n}",
+        "submodules": [
+          {
+            "name": "React Native (iOS & Android)",
+            "status": "pending"
+          },
+          {
+            "name": "Flutter & Dart Cross-Platform",
+            "status": "pending"
+          },
+          {
+            "name": "Electron Desktop Apps (Node + Chromium)",
+            "status": "pending"
+          },
+          {
+            "name": "Tauri (Lightweight Rust + Web)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How does Tauri achieve a fraction of Electron's bundle size and RAM usage?",
+          "What is the difference between React Native bridge and new JSI architecture?"
+        ],
+        "topics": [
+          "React Native",
+          "Flutter",
+          "Electron",
+          "Tauri",
+          "Mobile",
+          "Desktop"
+        ],
+        "problems": [
+          "react-native-flexbox-mobile-view"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/frontend"
       }
     ]
   },
@@ -147,143 +1121,540 @@
     "id": "role-backend",
     "category": "Role Roadmap",
     "title": "Backend Developer",
-    "creator": "roadmap.sh Standards",
+    "creator": "roadmap.sh & GrindFam",
     "description": "Build scalable server-side systems \u2014 Node.js/Python/Go, REST APIs, PostgreSQL, Redis, Kafka, Microservices, and Docker.",
     "steps": [
       {
         "stepNumber": 1,
-        "title": "Foundations & Core Concepts of Backend Developer",
-        "subtitle": "Architecture, Theory & Basic Syntax",
-        "description": "Master the fundamental building blocks, core principles, and basic syntax of Backend Developer.",
-        "guide": "### 1. Introduction to Backend Developer\nUnderstand the core mental model, historical context, and primary use cases.\n\n### 2. Basic Setup & Syntax\nInstall standard developer tooling, set up your development environment, and write your first program.",
-        "codeSnippet": "# Core initialization example for Backend Developer\nprint('Initializing Backend Developer environment...')",
+        "title": "Internet & Networking Fundamentals",
+        "subtitle": "HTTP/HTTPS, TCP/IP, UDP, DNS, TLS & Sockets",
+        "description": "Understand core networking principles powering modern backends: OSI model layers, TCP three-way handshake, UDP datagrams, HTTP headers, and socket programming.",
+        "guide": "### \ud83c\udf10 1. TCP vs UDP Protocols\n- **TCP**: Connection-oriented, reliable, ordered packet delivery with error checking (Web APIs, SSH, Email).\n- **UDP**: Connectionless, low-latency, unordered delivery without delivery guarantees (Video streaming, Gaming, DNS).\n\n### \ud83d\udd12 2. TLS / SSL Encryption Handshake\nSymmetric encryption (AES) for payload transfer using asymmetric public/private keys (RSA/ECC) established during handshaking.",
+        "codeSnippet": "// Basic Node.js HTTP Server\nconst http = require('http');\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'application/json' });\n  res.end(JSON.stringify({ status: 'ok', timestamp: Date.now() }));\n});\nserver.listen(4000);",
         "submodules": [
           {
-            "name": "Backend Developer Core Concepts & Theory",
+            "name": "How does the internet work?",
             "status": "pending"
           },
           {
-            "name": "Environment Setup & Tooling",
+            "name": "HTTP / HTTPS & HTTP/2 & HTTP/3",
             "status": "pending"
           },
           {
-            "name": "Basic Syntax & Primitives",
+            "name": "TCP / IP vs UDP Protocols",
+            "status": "pending"
+          },
+          {
+            "name": "DNS Resolution Mechanics",
+            "status": "pending"
+          },
+          {
+            "name": "Sockets & WebSockets Protocols",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "What are the key advantages of using Backend Developer?",
-          "How does the core execution lifecycle work in Backend Developer?"
-        ],
-        "resources": [
-          {
-            "type": "docs",
-            "label": "Official Backend Developer Documentation",
-            "url": "https://roadmap.sh"
-          }
+          "Explain TCP 3-way handshake (SYN, SYN-ACK, ACK).",
+          "What is the difference between TCP and UDP?"
         ],
         "topics": [
-          "Backend",
-          "Foundations",
-          "Setup",
-          "Syntax"
+          "Networking",
+          "HTTP",
+          "TCP",
+          "UDP",
+          "Sockets"
         ],
         "problems": [
-          "role-backend-foundations-drill"
+          "socket-client-server-implementation"
         ],
-        "icon": "code",
+        "icon": "globe",
         "color": "blue",
-        "sourceUrl": "https://roadmap.sh"
+        "sourceUrl": "https://roadmap.sh/backend"
       },
       {
         "stepNumber": 2,
-        "title": "Intermediate Concepts & Practical Application",
-        "subtitle": "Workflows, Patterns & Best Practices",
-        "description": "Deep dive into real-world application patterns, library ecosystems, and project architecture for Backend Developer.",
-        "guide": "### 1. Architectural Patterns\nLearn industry-standard patterns, component modularity, and error handling.\n\n### 2. Integration & APIs\nConnect your application with external services, databases, and third-party APIs.",
-        "codeSnippet": "// Intermediate workflow implementation sketch for Backend Developer\nasync function executeWorkflow() {\n  console.log('Running Backend Developer pipeline...');\n}",
+        "title": "OS & General Programming Concepts",
+        "subtitle": "Processes, Threads, Concurrency, Memory Management & I/O Calls",
+        "description": "Master operating system fundamentals: Process management, multithreading, concurrency vs parallelism, blocking vs non-blocking I/O calls, and memory management.",
+        "guide": "### \u2699\ufe0f 1. Processes vs Threads\n- **Process**: Independent execution environment with isolated virtual memory space.\n- **Thread**: Lightweight execution unit sharing parent process memory address space.\n\n### \ud83d\udd04 2. Non-blocking Async I/O\nAsync I/O delegates OS disk/network calls to background worker pools (libuv/epoll) notifying main event loops upon completion.",
+        "codeSnippet": "# Python Multiprocessing vs Threading\nfrom concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor\n\ndef worker(x):\n    return x * x\n\nwith ThreadPoolExecutor(max_workers=4) as executor:\n    results = list(executor.map(worker, range(10)))",
         "submodules": [
           {
-            "name": "Design Patterns & Code Modularization",
+            "name": "Process Management & Lifecycle",
             "status": "pending"
           },
           {
-            "name": "API & Data Integration",
+            "name": "Threads & Multithreading",
             "status": "pending"
           },
           {
-            "name": "Error Handling & Logging Best Practices",
+            "name": "Concurrency vs Parallelism",
+            "status": "pending"
+          },
+          {
+            "name": "Blocking vs Non-Blocking I/O",
+            "status": "pending"
+          },
+          {
+            "name": "POSIX File Systems & Signals",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you structure production applications using Backend Developer?",
-          "What are common anti-patterns to avoid in Backend Developer?"
-        ],
-        "resources": [
-          {
-            "type": "article",
-            "label": "Backend Developer Best Practices Guide",
-            "url": "https://roadmap.sh"
-          }
+          "What is a deadlock and what are the 4 Coffman conditions required for it?",
+          "Compare OS Process vs Thread."
         ],
         "topics": [
-          "Architecture",
-          "Patterns",
-          "Integration",
-          "Best Practices"
+          "OS",
+          "Threads",
+          "Processes",
+          "Concurrency",
+          "I/O"
         ],
         "problems": [
-          "role-backend-intermediate-lab"
+          "producer-consumer-mutex-queue"
         ],
-        "icon": "zap",
-        "color": "yellow",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "terminal",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
       },
       {
         "stepNumber": 3,
-        "title": "Advanced Mastery, Optimization & Deployment",
-        "subtitle": "Performance Tuning, Security & Production Deployment",
-        "description": "Master high-performance optimization, security hardening, scaling, and production deployment pipelines for Backend Developer.",
-        "guide": "### 1. Performance Optimization\nAudit bottlenecks, memory usage, and execution speed.\n\n### 2. Production Deployment & Security\nConfigure automated CI/CD pipelines, containerize with Docker, and enforce security policies.",
-        "codeSnippet": "# Production deployment & optimization script for Backend Developer\necho 'Deploying Backend Developer service to production...'",
+        "title": "Pick a Backend Language",
+        "subtitle": "Node.js / TypeScript, Python, Java, Go, Rust, or C#",
+        "description": "Deeply master your core backend programming language: memory model, package management, async execution model, and concurrency primitives.",
+        "guide": "### \ud83d\udfe2 Node.js / TypeScript\nSingle-threaded event-driven event loop architecture using libuv for asynchronous I/O.\n\n### \ud83d\udc0d Python\nDynamic, high-level language with asyncio event loops and GIL (Global Interpreter Lock).\n\n### \ud83d\udd37 Go (Golang)\nStatically typed compiled language with lightweight goroutines (M:N scheduler) and channels.",
+        "codeSnippet": "// Go Goroutine Concurrent Worker\npackage main\nimport (\"fmt\"; \"sync\")\nfunc main() {\n    var wg sync.WaitGroup\n    wg.Add(1)\n    go func() {\n        defer wg.Done()\n        fmt.Println(\"Worker running in Goroutine\")\n    }()\n    wg.Wait()\n}",
         "submodules": [
           {
-            "name": "Performance Audit & Memory Optimization",
+            "name": "Node.js / JavaScript / TypeScript",
             "status": "pending"
           },
           {
-            "name": "Security Hardening & Best Practices",
+            "name": "Python (FastAPI / Django)",
             "status": "pending"
           },
           {
-            "name": "Production Deployment & CI/CD Pipeline",
+            "name": "Go (Golang)",
+            "status": "pending"
+          },
+          {
+            "name": "Java (Spring Boot)",
+            "status": "pending"
+          },
+          {
+            "name": "Rust (Actix / Axum)",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you troubleshoot performance bottlenecks in Backend Developer?",
-          "What security considerations are mandatory before deploying Backend Developer to production?"
-        ],
-        "resources": [
-          {
-            "type": "course",
-            "label": "Advanced Backend Developer Masterclass",
-            "url": "https://roadmap.sh"
-          }
+          "How does Go scheduler manage thousands of Goroutines efficiently?",
+          "What is Python GIL?"
         ],
         "topics": [
-          "Performance",
-          "Security",
-          "Deployment",
-          "CI/CD"
+          "Node.js",
+          "Python",
+          "Go",
+          "Java",
+          "Backend Languages"
         ],
         "problems": [
-          "role-backend-production-drill"
+          "concurrent-web-crawler-go"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Relational Databases (RDBMS)",
+        "subtitle": "PostgreSQL, MySQL, SQL Queries, Joins, Indexing & ACID Transactions",
+        "description": "Master relational database architecture: SQL DDL/DML queries, complex INNER/LEFT/OUTER joins, ACID transaction guarantees, and indexing.",
+        "guide": "### \ud83d\uddc4\ufe0f 1. ACID Guarantees\n- **Atomicity**: Transactions commit completely or roll back entirely.\n- **Consistency**: Data adheres to schema constraints (FK, Unique, Check).\n- **Isolation**: Concurrent transactions execute without mutual interference.\n- **Durability**: Committed data persists to non-volatile disk storage (WAL).\n\n### \u26a1 2. B-Tree Indexes\nB-Tree indexes speed up `WHERE`, `JOIN`, and `ORDER BY` lookups from O(N) linear scans to O(log N) tree traversals.",
+        "codeSnippet": "-- SQL Transaction with Row-Level Locking\nBEGIN;\nSELECT balance FROM accounts WHERE user_id = 101 FOR UPDATE;\nUPDATE accounts SET balance = balance - 100 WHERE user_id = 101;\nUPDATE accounts SET balance = balance + 100 WHERE user_id = 202;\nCOMMIT;",
+        "submodules": [
+          {
+            "name": "PostgreSQL & MySQL Databases",
+            "status": "pending"
+          },
+          {
+            "name": "SQL Data Types & Normalization (1NF to 3NF)",
+            "status": "pending"
+          },
+          {
+            "name": "Complex SQL Queries & Joins",
+            "status": "pending"
+          },
+          {
+            "name": "ACID Properties & Transactions",
+            "status": "pending"
+          },
+          {
+            "name": "B-Tree Indexes & EXPLAIN ANALYZE",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Explain Database Normalization up to 3NF.",
+          "What is the difference between B-Tree index and Hash Index?"
+        ],
+        "topics": [
+          "PostgreSQL",
+          "MySQL",
+          "SQL",
+          "ACID",
+          "Indexes"
+        ],
+        "problems": [
+          "sql-bank-account-transfer-transaction"
+        ],
+        "icon": "database",
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 5,
+        "title": "NoSQL Databases",
+        "subtitle": "MongoDB, Redis, Cassandra, Key-Value vs Document vs Column",
+        "description": "Learn when and how to choose non-relational database storage: Document stores (MongoDB), In-memory Key-Value caches (Redis), Columnar (Cassandra), and Graph databases (Neo4j).",
+        "guide": "### \ud83d\udcd1 1. Document Stores vs Key-Value\n- **Document (MongoDB)**: Stores flexible JSON-like BSON documents with dynamic schemas and embedded subdocuments.\n- **Key-Value (Redis)**: Ultra-fast in-memory data store supporting Strings, Hashes, Lists, Sets, and Sorted Sets (ZSET).\n\n### \ud83d\udcd0 2. CAP Theorem\nIn a distributed system, you can choose at most 2 out of 3 guarantees: Consistency, Availability, Partition Tolerance.",
+        "codeSnippet": "# Redis Sorted Set Leaderboard Operations\nZADD leaderboard 1500 'user_42'\nZADD leaderboard 2100 'user_99'\n\n# Get top 10 users with scores\nZREVRANGE leaderboard 0 9 WITHSCORES",
+        "submodules": [
+          {
+            "name": "MongoDB Document Database",
+            "status": "pending"
+          },
+          {
+            "name": "Redis In-Memory Key-Value Store",
+            "status": "pending"
+          },
+          {
+            "name": "Apache Cassandra (Column-Family)",
+            "status": "pending"
+          },
+          {
+            "name": "CAP Theorem & PACELC Theorem",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Explain CAP Theorem with real-world database examples.",
+          "When would you prefer MongoDB over PostgreSQL?"
+        ],
+        "topics": [
+          "MongoDB",
+          "Redis",
+          "NoSQL",
+          "CAP Theorem",
+          "Databases"
+        ],
+        "problems": [
+          "redis-rate-limiter-sliding-window"
+        ],
+        "icon": "database",
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 6,
+        "title": "API Design & Architecture Paradigms",
+        "subtitle": "REST APIs, GraphQL, gRPC & WebSockets",
+        "description": "Design clean, scalable backend API interfaces: RESTful resource endpoints, GraphQL schemas, high-performance binary gRPC (Protobuf), and real-time WebSockets.",
+        "guide": "### \ud83d\udee0\ufe0f 1. RESTful API Principles\nUse standard HTTP verbs (`GET`, `POST`, `PUT`, `DELETE`), status codes, and URI nouns (`/api/v1/users/42/orders`).\n\n### \u26a1 2. gRPC & Protocol Buffers\nHigh-performance RPC framework developed by Google over HTTP/2 using binary Protocol Buffers for minimal payload size and low latency.",
+        "codeSnippet": "// Protocol Buffer Schema (.proto)\nsyntax = \"proto3\";\n\nservice UserService {\n  rpc GetUser (UserRequest) returns (UserResponse);\n}\n\nmessage UserRequest {\n  string user_id = 1;\n}\nmessage UserResponse {\n  string name = 1;\n  string email = 2;\n}",
+        "submodules": [
+          {
+            "name": "REST API Best Practices & OpenAPI/Swagger",
+            "status": "pending"
+          },
+          {
+            "name": "GraphQL Schemas & Resolvers",
+            "status": "pending"
+          },
+          {
+            "name": "gRPC & Protocol Buffers (Protobuf)",
+            "status": "pending"
+          },
+          {
+            "name": "WebSockets & Server-Sent Events (SSE)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Compare REST vs GraphQL vs gRPC.",
+          "How does HTTP/2 multiplexing benefit gRPC streams?"
+        ],
+        "topics": [
+          "REST",
+          "GraphQL",
+          "gRPC",
+          "Protobuf",
+          "APIs"
+        ],
+        "problems": [
+          "grpc-user-service-protobuf"
+        ],
+        "icon": "code",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 7,
+        "title": "Caching Strategies & In-Memory Stores",
+        "subtitle": "Redis, Memcached, Cache-Aside, Write-Through & Invalidation",
+        "description": "Accelerate backend API response times with caching: Cache-Aside pattern, Write-Through/Write-Behind caching, TTL expiration policies, and cache invalidation strategies.",
+        "guide": "### \u26a1 1. Caching Strategies\n- **Cache-Aside (Lazy Loading)**: Read from Cache -> If Miss, Read DB -> Write to Cache.\n- **Write-Through**: Write to Cache and DB synchronously.\n- **Write-Behind (Write-Back)**: Write to Cache -> Async queue flushes to DB.\n\n### \ud83d\udca5 2. Cache Invalidation Gotchas\n- **Cache Stampede (Thundering Herd)**: Simultaneous cache expiration triggers burst of DB queries. Mitigate with Mutex locks or early refresh.",
+        "codeSnippet": "// Cache-Aside Pattern in Node.js with Redis\nasync function getCachedUser(userId) {\n  const cached = await redis.get(`user:${userId}`);\n  if (cached) return JSON.parse(cached);\n  \n  const user = await db.findUser(userId);\n  await redis.setex(`user:${userId}`, 3600, JSON.stringify(user));\n  return user;\n}",
+        "submodules": [
+          {
+            "name": "Redis In-Memory Caching",
+            "status": "pending"
+          },
+          {
+            "name": "Memcached Architecture",
+            "status": "pending"
+          },
+          {
+            "name": "Cache-Aside & Write-Through Patterns",
+            "status": "pending"
+          },
+          {
+            "name": "Cache Invalidation & Eviction (LRU/LFU)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How do you solve Cache Stampede and Cache Penetration?",
+          "Compare Cache-Aside vs Write-Through strategies."
+        ],
+        "topics": [
+          "Redis",
+          "Caching",
+          "Cache-Aside",
+          "LRU",
+          "Performance"
+        ],
+        "problems": [
+          "lru-cache-implementation-redis"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 8,
+        "title": "Authentication & Authorization Security",
+        "subtitle": "JWT Tokens, OAuth2, SAML, RBAC & Password Hashing (Bcrypt/Argon2)",
+        "description": "Secure backend services: Password hashing with Argon2/Bcrypt, stateless JWT verification, OAuth 2.0 / OpenID Connect authorization flows, Role-Based Access Control (RBAC), and Attribute-Based Access Control (ABAC).",
+        "guide": "### \ud83d\udd10 1. Password Hashing\nNever store plain-text passwords. Use key-stretching salted hash algorithms: Argon2id or Bcrypt with high cost factor.\n\n### \ud83d\udee1\ufe0f 2. Role-Based Access Control (RBAC)\nAssociate roles (Admin, Member, Guest) with granular permissions (`posts:create`, `users:delete`).",
+        "codeSnippet": "# Python Bcrypt Password Hashing\nimport bcrypt\n\npassword = b'super_secret_password'\nhashed = bcrypt.hashpw(password, bcrypt.gensalt(12))\n\n# Verification\nif bcrypt.checkpw(password, hashed):\n    print('Password Match!')",
+        "submodules": [
+          {
+            "name": "Password Hashing (Argon2 / Bcrypt)",
+            "status": "pending"
+          },
+          {
+            "name": "JWT Token Verification & Rotation",
+            "status": "pending"
+          },
+          {
+            "name": "OAuth 2.0 & OIDC Authorization Code Flow",
+            "status": "pending"
+          },
+          {
+            "name": "Role-Based Access Control (RBAC)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why should you use Argon2/Bcrypt over MD5 or SHA256 for password storage?",
+          "How does OAuth 2.0 PKCE prevent auth code interception?"
+        ],
+        "topics": [
+          "Auth",
+          "JWT",
+          "OAuth2",
+          "Bcrypt",
+          "RBAC",
+          "Security"
+        ],
+        "problems": [
+          "rbac-middleware-permission-checker"
         ],
         "icon": "shield",
-        "color": "purple",
-        "sourceUrl": "https://roadmap.sh"
+        "color": "red",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 9,
+        "title": "Message Brokers & Asynchronous Queues",
+        "subtitle": "Apache Kafka, RabbitMQ, Redis Pub/Sub & AWS SQS",
+        "description": "Decouple backend microservices with asynchronous messaging: Publish-Subscribe models, message queues (RabbitMQ, SQS), and log-based event streaming with Apache Kafka.",
+        "guide": "### \ud83d\udce9 1. Message Queue vs Event Stream\n- **RabbitMQ (AMQP Queue)**: Smart broker, dumb consumer. Message deleted upon ACK.\n- **Apache Kafka (Event Stream Log)**: Dumb broker, smart consumer. Persistent log offset enables message replaying.",
+        "codeSnippet": "// Kafka Consumer in Node.js (kafkajs)\nconst { Kafka } = require('kafkajs');\nconst kafka = new Kafka({ brokers: ['localhost:9092'] });\nconst consumer = kafka.consumer({ groupId: 'order-service' });\n\nawait consumer.connect();\nawait consumer.subscribe({ topic: 'order-events' });\nawait consumer.run({\n  eachMessage: async ({ message }) => {\n    console.log(`Order Processed: ${message.value.toString()}`);\n  }\n});",
+        "submodules": [
+          {
+            "name": "RabbitMQ (AMQP Protocol)",
+            "status": "pending"
+          },
+          {
+            "name": "Apache Kafka Event Streaming",
+            "status": "pending"
+          },
+          {
+            "name": "AWS SQS & SNS Queues",
+            "status": "pending"
+          },
+          {
+            "name": "Dead Letter Queues (DLQ) & Retry Policies",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Compare Kafka vs RabbitMQ.",
+          "How do you guarantee exactly-once message processing?"
+        ],
+        "topics": [
+          "Kafka",
+          "RabbitMQ",
+          "Queues",
+          "Event Streaming",
+          "PubSub"
+        ],
+        "problems": [
+          "kafka-order-event-consumer"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 10,
+        "title": "Containerization & Orchestration",
+        "subtitle": "Docker, Multi-Stage Builds, Docker Compose & Kubernetes",
+        "description": "Package backend services into immutable containers with Docker: Dockerfiles, multi-stage minimal builds, container networking, Docker Compose multi-service orchestration, and Kubernetes cluster fundamentals.",
+        "guide": "### \ud83d\udc33 1. Docker Multi-Stage Builds\nSeparate build dependencies from production runtime images to minimize security attack surface and reduce container image size (< 50MB).",
+        "codeSnippet": "# Multi-Stage Dockerfile for Go Application\nFROM golang:1.22-alpine AS builder\nWORKDIR /app\nCOPY . .\nRUN go build -o server main.go\n\nFROM alpine:latest\nWORKDIR /app\nCOPY --from=builder /app/server .\nEXPOSE 8080\nCMD [\"./server\"]",
+        "submodules": [
+          {
+            "name": "Docker Basics & Images / Containers",
+            "status": "pending"
+          },
+          {
+            "name": "Multi-Stage Dockerfiles",
+            "status": "pending"
+          },
+          {
+            "name": "Docker Compose Multi-Container Setup",
+            "status": "pending"
+          },
+          {
+            "name": "Kubernetes Architecture (Pods, Services, Deployments)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why are multi-stage Docker builds critical for production containers?",
+          "What is the difference between Docker image layer and container writable layer?"
+        ],
+        "topics": [
+          "Docker",
+          "Containers",
+          "Kubernetes",
+          "DevOps"
+        ],
+        "problems": [
+          "dockerfile-production-hardening"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 11,
+        "title": "Monitoring, Logging & Observability",
+        "subtitle": "Prometheus, Grafana, OpenTelemetry, ELK Stack & Tracing",
+        "description": "Instrument backend production systems for full observability: Structured JSON logging (Winston/Zap), Prometheus metrics scraping, Grafana dashboards, and OpenTelemetry distributed tracing across microservices.",
+        "guide": "### \ud83d\udcca 1. The Three Pillars of Observability\n- **Metrics**: Aggregated numerical counters/gauges (Prometheus).\n- **Logs**: Timestamped structured event strings (Elasticsearch / Loki).\n- **Traces**: Distributed request propagation paths (OpenTelemetry / Jaeger).",
+        "codeSnippet": "// Prometheus Custom Counter in Express\nconst client = require('prom-client');\nconst httpRequestCounter = new client.Counter({\n  name: 'http_requests_total',\n  help: 'Total HTTP requests count',\n  labelNames: ['method', 'status']\n});\n\napp.use((req, res, next) => {\n  res.on('finish', () => {\n    httpRequestCounter.inc({ method: req.method, status: res.statusCode });\n  });\n  next();\n});",
+        "submodules": [
+          {
+            "name": "Structured JSON Logging",
+            "status": "pending"
+          },
+          {
+            "name": "Prometheus Metrics & PromQL",
+            "status": "pending"
+          },
+          {
+            "name": "Grafana Dashboard Visualization",
+            "status": "pending"
+          },
+          {
+            "name": "OpenTelemetry & Jaeger Distributed Tracing",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Explain the Three Pillars of Observability.",
+          "How does distributed tracing track requests across microservice boundaries via TraceIDs?"
+        ],
+        "topics": [
+          "Prometheus",
+          "Grafana",
+          "Observability",
+          "OpenTelemetry",
+          "Logging"
+        ],
+        "problems": [
+          "prometheus-express-metrics-exporter"
+        ],
+        "icon": "award",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/backend"
+      },
+      {
+        "stepNumber": 12,
+        "title": "System Design Patterns & Scalability",
+        "subtitle": "Load Balancers, Rate Limiting, Sharding & Consistent Hashing",
+        "description": "Architect high-throughput scalable backend distributed systems: Load balancing algorithms (Round Robin, Least Connections), Consistent Hashing, Database Sharding, and Rate Limiting (Token Bucket).",
+        "guide": "### \u2696\ufe0f 1. Consistent Hashing\nDistributes keys across a hash ring of nodes, minimizing key re-mapping when nodes join or leave distributed caches or database shards.\n\n### \ud83d\udeb0 2. Rate Limiting Algorithms\n- **Token Bucket**: Tokens added at fixed rate; request consumes token.\n- **Leaky Bucket**: Requests queued and processed at constant rate.\n- **Sliding Window Log**: Redis sorted set timestamp tracking.",
+        "codeSnippet": "# Consistent Hashing Node Resolver (Python)\nimport hashlib\n\nclass ConsistentHashRing:\n    def __init__(self, nodes=None, replicas=3):\n        self.replicas = replicas\n        self.ring = {}\n        self.sorted_keys = []\n        if nodes:\n            for node in nodes:\n                self.add_node(node)",
+        "submodules": [
+          {
+            "name": "Load Balancing (Nginx, HAProxy, ALB)",
+            "status": "pending"
+          },
+          {
+            "name": "Consistent Hashing Ring Algorithm",
+            "status": "pending"
+          },
+          {
+            "name": "Database Sharding & Read Replicas",
+            "status": "pending"
+          },
+          {
+            "name": "Rate Limiting Algorithms (Token Bucket)",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How does Consistent Hashing work and why is it superior to `hash(key) % N`?",
+          "Explain Token Bucket vs Leaky Bucket rate limiting."
+        ],
+        "topics": [
+          "System Design",
+          "Load Balancing",
+          "Consistent Hashing",
+          "Sharding",
+          "Rate Limiting"
+        ],
+        "problems": [
+          "consistent-hashing-ring-implementation"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/backend"
       }
     ]
   },
@@ -435,143 +1806,281 @@
     "id": "role-devops",
     "category": "Role Roadmap",
     "title": "DevOps Engineer",
-    "creator": "roadmap.sh Standards",
+    "creator": "roadmap.sh & GrindFam",
     "description": "Bridge dev and ops \u2014 Linux, Docker containers, Kubernetes clusters, CI/CD with GitHub Actions, Terraform, and Prometheus.",
     "steps": [
       {
         "stepNumber": 1,
-        "title": "Foundations & Core Concepts of DevOps Engineer",
-        "subtitle": "Architecture, Theory & Basic Syntax",
-        "description": "Master the fundamental building blocks, core principles, and basic syntax of DevOps Engineer.",
-        "guide": "### 1. Introduction to DevOps Engineer\nUnderstand the core mental model, historical context, and primary use cases.\n\n### 2. Basic Setup & Syntax\nInstall standard developer tooling, set up your development environment, and write your first program.",
-        "codeSnippet": "# Core initialization example for DevOps Engineer\nprint('Initializing DevOps Engineer environment...')",
+        "title": "Linux Fundamentals & Command Line Mastery",
+        "subtitle": "Shell CLI, File Hierarchy, Permissions, Systemd & Cron",
+        "description": "Master Linux operating system internals: Bash scripting, Linux filesystem hierarchy (/var, /etc, /proc), file permissions (chmod/chown), Systemd service management, and cron automation.",
+        "guide": "### \ud83d\udc27 1. Linux Filesystem Hierarchy\n- `/etc`: System configuration files.\n- `/var`: Variable data (logs in `/var/log`, databases).\n- `/proc`: Virtual filesystem providing kernel & process information.\n\n### \ud83d\udd10 2. File Permissions (Octal Notation)\n- `chmod 755 script.sh`: Read/Write/Execute for Owner; Read/Execute for Group/Others.\n- `chown -R www-data:www-data /var/www/html`: Change ownership recursively.",
+        "codeSnippet": "# Systemd Service Configuration (/etc/systemd/system/app.service)\n[Unit]\nDescription=GrindFam Backend API Service\nAfter=network.target\n\n[Service]\nUser=ubuntu\nWorkingDirectory=/home/ubuntu/app\nExecStart=/usr/bin/node server.js\nRestart=always\n\n[Install]\nWantedBy=multi-user.target",
         "submodules": [
           {
-            "name": "DevOps Engineer Core Concepts & Theory",
+            "name": "Linux Filesystem Hierarchy ($HOME, /etc, /var)",
             "status": "pending"
           },
           {
-            "name": "Environment Setup & Tooling",
+            "name": "Bash & Shell Automation Scripting",
             "status": "pending"
           },
           {
-            "name": "Basic Syntax & Primitives",
+            "name": "File Permissions & Ownership (chmod, chown)",
+            "status": "pending"
+          },
+          {
+            "name": "Systemd Services & Process Management",
+            "status": "pending"
+          },
+          {
+            "name": "Cron Job Automation & Schedulers",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "What are the key advantages of using DevOps Engineer?",
-          "How does the core execution lifecycle work in DevOps Engineer?"
-        ],
-        "resources": [
-          {
-            "type": "docs",
-            "label": "Official DevOps Engineer Documentation",
-            "url": "https://roadmap.sh"
-          }
+          "What is Systemd and how does `systemctl` manage Linux services?",
+          "Explain Linux file permissions `chmod 755` vs `chmod 644`."
         ],
         "topics": [
-          "DevOps",
-          "Foundations",
-          "Setup",
-          "Syntax"
+          "Linux",
+          "Bash",
+          "Shell",
+          "Permissions",
+          "Systemd"
         ],
         "problems": [
-          "role-devops-foundations-drill"
+          "linux-bash-log-parser-script"
         ],
-        "icon": "code",
+        "icon": "terminal",
         "color": "blue",
-        "sourceUrl": "https://roadmap.sh"
+        "sourceUrl": "https://roadmap.sh/devops"
       },
       {
         "stepNumber": 2,
-        "title": "Intermediate Concepts & Practical Application",
-        "subtitle": "Workflows, Patterns & Best Practices",
-        "description": "Deep dive into real-world application patterns, library ecosystems, and project architecture for DevOps Engineer.",
-        "guide": "### 1. Architectural Patterns\nLearn industry-standard patterns, component modularity, and error handling.\n\n### 2. Integration & APIs\nConnect your application with external services, databases, and third-party APIs.",
-        "codeSnippet": "// Intermediate workflow implementation sketch for DevOps Engineer\nasync function executeWorkflow() {\n  console.log('Running DevOps Engineer pipeline...');\n}",
+        "title": "Networking, Firewalls & Protocols",
+        "subtitle": "IP Addressing, CIDR, DNS, SSH Key Auth, Firewalls & Load Balancers",
+        "description": "Understand cloud networking essentials: IPv4/IPv6, CIDR subnetting (`/24`, `/16`), DNS record types (A, CNAME, MX, TXT), SSH key authentication, UFW/iptables firewalls, and Reverse Proxies.",
+        "guide": "### \ud83c\udf10 1. CIDR Subnetting\n- `10.0.0.0/16`: 65,536 total IP addresses (`10.0.0.0` - `10.0.255.255`).\n- `192.168.1.0/24`: 256 IP addresses (`192.168.1.0` - `192.168.1.255`).\n\n### \ud83d\udd11 2. SSH Public/Private Key Auth\nGenerate ED25519 keypairs: `ssh-keygen -t ed25519 -C \"admin@grindfam.dev\"`. Copy public key to server `~/.ssh/authorized_keys`.",
+        "codeSnippet": "# Nginx Reverse Proxy Config (/etc/nginx/sites-available/api)\nserver {\n    listen 80;\n    server_name api.grindfam.dev;\n\n    location / {\n        proxy_pass http://127.0.0.1:4000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    }\n}",
         "submodules": [
           {
-            "name": "Design Patterns & Code Modularization",
+            "name": "IP Addressing & CIDR Subnetting",
             "status": "pending"
           },
           {
-            "name": "API & Data Integration",
+            "name": "DNS Record Types (A, CNAME, TXT, MX)",
             "status": "pending"
           },
           {
-            "name": "Error Handling & Logging Best Practices",
+            "name": "SSH Key Security & Tunneling",
+            "status": "pending"
+          },
+          {
+            "name": "UFW / iptables Firewall Configuration",
+            "status": "pending"
+          },
+          {
+            "name": "Nginx & HAProxy Reverse Proxies",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you structure production applications using DevOps Engineer?",
-          "What are common anti-patterns to avoid in DevOps Engineer?"
-        ],
-        "resources": [
-          {
-            "type": "article",
-            "label": "DevOps Engineer Best Practices Guide",
-            "url": "https://roadmap.sh"
-          }
+          "Explain CIDR notation and how `/24` subnet masking works.",
+          "How does Nginx act as a reverse proxy and load balancer?"
         ],
         "topics": [
-          "Architecture",
-          "Patterns",
-          "Integration",
-          "Best Practices"
+          "Networking",
+          "CIDR",
+          "DNS",
+          "SSH",
+          "Nginx"
         ],
         "problems": [
-          "role-devops-intermediate-lab"
+          "nginx-reverse-proxy-load-balancer"
         ],
-        "icon": "zap",
-        "color": "yellow",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "globe",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
       },
       {
         "stepNumber": 3,
-        "title": "Advanced Mastery, Optimization & Deployment",
-        "subtitle": "Performance Tuning, Security & Production Deployment",
-        "description": "Master high-performance optimization, security hardening, scaling, and production deployment pipelines for DevOps Engineer.",
-        "guide": "### 1. Performance Optimization\nAudit bottlenecks, memory usage, and execution speed.\n\n### 2. Production Deployment & Security\nConfigure automated CI/CD pipelines, containerize with Docker, and enforce security policies.",
-        "codeSnippet": "# Production deployment & optimization script for DevOps Engineer\necho 'Deploying DevOps Engineer service to production...'",
+        "title": "Containerization: Docker Masterclass",
+        "subtitle": "Docker CLI, Dockerfiles, Storage Volumes & Docker Compose",
+        "description": "Package production applications into isolated containers: Docker daemon architecture, Dockerfile instructions (`ENTRYPOINT` vs `CMD`), bind mounts, persistent volumes, and multi-container Docker Compose.",
+        "guide": "### \ud83d\udc33 1. ENTRYPOINT vs CMD\n- `ENTRYPOINT`: Defines executable command that always runs (e.g. `ENTRYPOINT [\"python\", \"app.py\"]`).\n- `CMD`: Provides default arguments passed to `ENTRYPOINT` that can be overridden at runtime.",
+        "codeSnippet": "# docker-compose.yml for Node.js API + PostgreSQL + Redis\nversion: '3.8'\nservices:\n  api:\n    build: .\n    ports:\n      - \"4000:4000\"\n    environment:\n      - DATABASE_URL=postgres://user:pass@db:5432/main\n    depends_on:\n      - db\n      - redis\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_PASSWORD: pass\n  redis:\n    image: redis:7-alpine",
         "submodules": [
           {
-            "name": "Performance Audit & Memory Optimization",
+            "name": "Docker Engine Architecture",
             "status": "pending"
           },
           {
-            "name": "Security Hardening & Best Practices",
+            "name": "Dockerfile Best Practices",
             "status": "pending"
           },
           {
-            "name": "Production Deployment & CI/CD Pipeline",
+            "name": "Docker Volumes & Bind Mounts",
+            "status": "pending"
+          },
+          {
+            "name": "Docker Networking (Bridge, Host, Overlay)",
+            "status": "pending"
+          },
+          {
+            "name": "Docker Compose Multi-Container Specs",
             "status": "pending"
           }
         ],
         "interviewFaqs": [
-          "How do you troubleshoot performance bottlenecks in DevOps Engineer?",
-          "What security considerations are mandatory before deploying DevOps Engineer to production?"
-        ],
-        "resources": [
-          {
-            "type": "course",
-            "label": "Advanced DevOps Engineer Masterclass",
-            "url": "https://roadmap.sh"
-          }
+          "What is the difference between `COPY` and `ADD` in Dockerfile?",
+          "Compare Docker Volume vs Bind Mount."
         ],
         "topics": [
-          "Performance",
-          "Security",
-          "Deployment",
-          "CI/CD"
+          "Docker",
+          "Containers",
+          "Docker Compose",
+          "DevOps"
         ],
         "problems": [
-          "role-devops-production-drill"
+          "docker-compose-three-tier-stack"
         ],
-        "icon": "shield",
-        "color": "purple",
-        "sourceUrl": "https://roadmap.sh"
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 4,
+        "title": "Container Orchestration: Kubernetes (K8s)",
+        "subtitle": "Pods, Deployments, Services, Ingress & Helm Charts",
+        "description": "Orchestrate containerized production workloads at scale: Kubernetes architecture (Control Plane, Worker Nodes, Kubelet), Pods, ReplicaSets, Deployments, NodePort/ClusterIP/LoadBalancer Services, Ingress Controllers, and Helm charts.",
+        "guide": "### \u2638\ufe0f 1. Kubernetes Architecture\n- **Control Plane**: API Server, etcd, Scheduler, Controller Manager.\n- **Worker Nodes**: Kubelet, Kube-Proxy, Container Runtime (containerd).\n\n### \ud83d\udce6 2. Key K8s Objects\n- **Pod**: Smallest deployable unit containing 1+ co-located containers.\n- **Deployment**: Declarative updates for Pods and ReplicaSets with zero-downtime rolling updates.\n- **Service**: Stable virtual IP address abstraction exposing Pods.",
+        "codeSnippet": "# Kubernetes Deployment Spec (deployment.yaml)\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: backend-api\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: backend-api\n  template:\n    metadata:\n      labels:\n        app: backend-api\n    spec:\n      containers:\n      - name: api\n        image: grindfam/backend:v1.2\n        ports:\n        - containerPort: 4000",
+        "submodules": [
+          {
+            "name": "Kubernetes Architecture & Control Plane",
+            "status": "pending"
+          },
+          {
+            "name": "Pods, Deployments & Rolling Updates",
+            "status": "pending"
+          },
+          {
+            "name": "Services (ClusterIP, NodePort, LoadBalancer)",
+            "status": "pending"
+          },
+          {
+            "name": "Ingress Controllers & Cert-Manager",
+            "status": "pending"
+          },
+          {
+            "name": "Helm Package Manager Charts",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "How does Kubernetes execute zero-downtime Rolling Updates?",
+          "What is the role of `etcd` in a Kubernetes cluster?"
+        ],
+        "topics": [
+          "Kubernetes",
+          "K8s",
+          "Pods",
+          "Deployments",
+          "Helm"
+        ],
+        "problems": [
+          "k8s-deployment-service-yaml-spec"
+        ],
+        "icon": "cloud",
+        "color": "indigo",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 5,
+        "title": "Infrastructure as Code (IaC): Terraform",
+        "subtitle": "Terraform HCL, Providers, State Files & Modules",
+        "description": "Automate cloud infrastructure provisioning using HashiCorp Terraform: HCL syntax, Terraform Providers (AWS/GCP/Azure), State file management (`terraform.tfstate`), remote backends (S3/DynamoDB locks), and reusable modules.",
+        "guide": "### \ud83c\udfd7\ufe0f 1. Terraform Execution Lifecycle\n1. `terraform init`: Downloads cloud providers and plugins.\n2. `terraform plan`: Generates execution plan showing resource diffs (+ add, ~ change, - destroy).\n3. `terraform apply`: Executes state changes against cloud APIs.\n\n### \ud83d\udd12 2. Remote State & Locking\nStore state in AWS S3 bucket with versioning and enable DynamoDB table state locking to prevent concurrent apply race conditions.",
+        "codeSnippet": "# Terraform AWS EC2 Instance Definition (main.tf)\nterraform {\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \"~> 5.0\"\n    }\n  }\n}\n\nresource \"aws_instance\" \"web_server\" {\n  ami           = \"ami-0c55b159cbfafe1f0\"\n  instance_type = \"t3.micro\"\n  tags = {\n    Name = \"GrindFam-Production-Server\"\n  }\n}",
+        "submodules": [
+          {
+            "name": "Terraform HCL Syntax & Workflow",
+            "status": "pending"
+          },
+          {
+            "name": "Providers & Cloud Resources (AWS / GCP)",
+            "status": "pending"
+          },
+          {
+            "name": "Terraform State Management & Remote S3 Backend",
+            "status": "pending"
+          },
+          {
+            "name": "Reusable Infrastructure Modules",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "Why is Terraform state locking with DynamoDB critical for team environments?",
+          "Compare Imperative (Ansible) vs Declarative (Terraform) IaC."
+        ],
+        "topics": [
+          "Terraform",
+          "IaC",
+          "HCL",
+          "AWS",
+          "State Management"
+        ],
+        "problems": [
+          "terraform-aws-vpc-ec2-provisioning"
+        ],
+        "icon": "tool",
+        "color": "blue",
+        "sourceUrl": "https://roadmap.sh/devops"
+      },
+      {
+        "stepNumber": 6,
+        "title": "CI/CD Pipelines & Continuous Delivery",
+        "subtitle": "GitHub Actions, Jenkins, GitLab CI & ArgoCD GitOps",
+        "description": "Automate software delivery pipelines: Continuous Integration (automated linting, testing, image building) and Continuous Deployment (staging/production releases, Canary deployments, ArgoCD GitOps).",
+        "guide": "### \ud83d\ude80 1. Continuous Integration (CI)\nAutomatically trigger automated test suites and container image builds on every Git push or Pull Request.\n\n### \ud83d\udd04 2. GitOps with ArgoCD\nGitOps uses Git repositories as single source of truth for infrastructure. ArgoCD continuously syncs Kubernetes cluster state with Git declarative manifests.",
+        "codeSnippet": "# .github/workflows/deploy.yml\nname: CI/CD Pipeline\non:\n  push:\n    branches: [main]\n\njobs:\n  build-and-deploy:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v4\n    - name: Run Unit Tests\n      run: npm test\n    - name: Build & Push Docker Image\n      run: |\n        docker build -t grindfam/api:${{ github.sha }} .\n        docker push grindfam/api:${{ github.sha }}",
+        "submodules": [
+          {
+            "name": "GitHub Actions Workflow YAML",
+            "status": "pending"
+          },
+          {
+            "name": "Jenkins & Pipeline Scripts",
+            "status": "pending"
+          },
+          {
+            "name": "GitLab CI/CD Pipelines",
+            "status": "pending"
+          },
+          {
+            "name": "GitOps with ArgoCD & Flux",
+            "status": "pending"
+          }
+        ],
+        "interviewFaqs": [
+          "What is GitOps and how does ArgoCD enforce cluster state synchronization?",
+          "Explain Blue-Green Deployment vs Canary Deployment."
+        ],
+        "topics": [
+          "CI/CD",
+          "GitHub Actions",
+          "ArgoCD",
+          "GitOps",
+          "Jenkins"
+        ],
+        "problems": [
+          "github-actions-docker-build-push"
+        ],
+        "icon": "zap",
+        "color": "yellow",
+        "sourceUrl": "https://roadmap.sh/devops"
       }
     ]
   },
