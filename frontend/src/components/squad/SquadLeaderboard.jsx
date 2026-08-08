@@ -121,8 +121,12 @@ export default function SquadLeaderboard() {
             {topThree[1] ? (
               <div className="p-4 bg-[#262626] border border-[#333333] rounded-lg flex flex-col items-center justify-end text-center mt-6">
                 <Award className="w-6 h-6 text-slate-300 mb-1" />
-                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2">
-                  {getInitial(topThree[1].name)}
+                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2 overflow-hidden">
+                  {topThree[1].avatar_url || topThree[1].avatarUrl ? (
+                    <img src={topThree[1].avatar_url || topThree[1].avatarUrl} alt={topThree[1].name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  ) : (
+                    getInitial(topThree[1].name)
+                  )}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[1].name}</span>
                 <span className="text-sm font-extrabold text-slate-300 mt-1">{topThree[1].points} pts</span>
@@ -133,8 +137,12 @@ export default function SquadLeaderboard() {
             {topThree[0] ? (
               <div className="p-5 bg-[#262626] border-2 border-[#EA5D3A]/50 rounded-lg flex flex-col items-center justify-end text-center shadow-lg shadow-[#EA5D3A]/10">
                 <Trophy className="w-8 h-8 text-[#EA5D3A] mb-1" />
-                <div className="w-12 h-12 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-extrabold text-base mb-2">
-                  {getInitial(topThree[0].name)}
+                <div className="w-12 h-12 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-extrabold text-base mb-2 overflow-hidden">
+                  {topThree[0].avatar_url || topThree[0].avatarUrl ? (
+                    <img src={topThree[0].avatar_url || topThree[0].avatarUrl} alt={topThree[0].name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  ) : (
+                    getInitial(topThree[0].name)
+                  )}
                 </div>
                 <span className="text-sm font-extrabold text-white truncate max-w-full">{topThree[0].name}</span>
                 <span className="text-base font-black text-[#EA5D3A] mt-1">{topThree[0].points} pts</span>
@@ -145,8 +153,12 @@ export default function SquadLeaderboard() {
             {topThree[2] ? (
               <div className="p-4 bg-[#262626] border border-[#333333] rounded-lg flex flex-col items-center justify-end text-center mt-8">
                 <Award className="w-6 h-6 text-amber-600 mb-1" />
-                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2">
-                  {getInitial(topThree[2].name)}
+                <div className="w-10 h-10 rounded-full bg-[#262626] border border-[#333333] flex items-center justify-center text-white font-bold text-sm mb-2 overflow-hidden">
+                  {topThree[2].avatar_url || topThree[2].avatarUrl ? (
+                    <img src={topThree[2].avatar_url || topThree[2].avatarUrl} alt={topThree[2].name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  ) : (
+                    getInitial(topThree[2].name)
+                  )}
                 </div>
                 <span className="text-xs font-bold text-white truncate max-w-full">{topThree[2].name}</span>
                 <span className="text-sm font-extrabold text-amber-600 mt-1">{topThree[2].points} pts</span>
@@ -169,8 +181,12 @@ export default function SquadLeaderboard() {
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="font-mono text-sm font-bold text-[#9CA3AF] w-6 text-center">#{m.rank}</span>
-                    <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                      {getInitial(m.name)}
+                    <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 overflow-hidden">
+                      {m.avatar_url || m.avatarUrl ? (
+                        <img src={m.avatar_url || m.avatarUrl} alt={m.name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                      ) : (
+                        getInitial(m.name)
+                      )}
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">

@@ -236,8 +236,12 @@ const LeaderboardTable = ({
 
                 {/* Member */}
                 <div className="flex items-center gap-2 min-w-0">
-                  <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[10px] border border-white/15 flex-shrink-0 shadow-sm`}>
-                    {initials}
+                  <div className={`w-7 h-7 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold text-[10px] border border-white/15 flex-shrink-0 shadow-sm overflow-hidden`}>
+                    {user.avatar_url || user.avatarUrl ? (
+                      <img src={user.avatar_url || user.avatarUrl} alt={user.name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    ) : (
+                      initials
+                    )}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1 flex-wrap">

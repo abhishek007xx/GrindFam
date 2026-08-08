@@ -104,8 +104,12 @@ export default function StitchSquadLeaderboard() {
                       <td className="py-6 px-6">
                         <div className="flex items-center gap-4">
                           <div className="relative">
-                            <div className="w-10 h-10 rounded-full bg-[#353534] flex items-center justify-center text-white font-bold border-2 border-[#2a2a2a]">
-                              {initial}
+                            <div className="w-10 h-10 rounded-full bg-[#353534] flex items-center justify-center text-white font-bold border-2 border-[#2a2a2a] overflow-hidden">
+                              {member.avatar_url || member.avatarUrl ? (
+                                <img src={member.avatar_url || member.avatarUrl} alt={name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                              ) : (
+                                initial
+                              )}
                             </div>
                             {member.isOnline && (
                               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-[#10B981] rounded-full border border-black"></div>
