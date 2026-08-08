@@ -22,6 +22,7 @@ import SquadHub from './pages/SquadHub';
 import LandingPage from './pages/LandingPage';
 import Portfolio from './pages/Portfolio';
 import PublicPortfolio from './pages/PublicPortfolio';
+import WorldwideLeaderboard from './pages/WorldwideLeaderboard';
 
 // Deep-link join handler component
 const DeepLinkJoinHandler = ({ children }) => {
@@ -139,6 +140,7 @@ function App() {
                 <Route path="/roadmaps" element={<ProtectedRoute><MainLayout><RoadmapsExplorer /></MainLayout></ProtectedRoute>} />
                 <Route path="/roadmap/:roadmapId" element={<ProtectedRoute><MainLayout><RoadmapDetail /></MainLayout></ProtectedRoute>} />
                 <Route path="/community" element={<ProtectedRoute><MainLayout><SquadHub /></MainLayout></ProtectedRoute>} />
+                <Route path="/leaderboard" element={<ProtectedRoute><MainLayout><WorldwideLeaderboard /></MainLayout></ProtectedRoute>} />
                 <Route path="/squad" element={<Navigate to="/community" replace />} />
                 <Route path="/topics/:tagName" element={<ProtectedRoute><MainLayout><TopicProblems /></MainLayout></ProtectedRoute>} />
                 <Route path="/settings" element={<ProtectedRoute><MainLayout><SettingsPage /></MainLayout></ProtectedRoute>} />
