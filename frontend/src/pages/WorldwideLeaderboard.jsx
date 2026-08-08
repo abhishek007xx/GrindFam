@@ -97,12 +97,14 @@ export default function WorldwideLeaderboard() {
 
           const formatted = dbProfiles.map((p) => {
             const pStats = progressMap.get(p.id) || { total: 0, easy: 0, medium: 0, hard: 0 };
+            const userAvatar = p.avatar_url || p.avatarUrl || (p.leetcode_username ? `https://assets.leetcode.com/users/${p.leetcode_username}/avatar_1.png` : null);
             return {
               id: p.id,
               name: p.name || p.username || p.leetcode_username || 'GrindFam Grinder',
               username: p.username || p.leetcode_username || 'grinder',
               leetcodeUsername: p.leetcode_username || 'user',
-              avatarUrl: p.avatar_url || null,
+              avatarUrl: userAvatar,
+              avatar_url: userAvatar,
               country: p.country || '🌐 Worldwide',
               countryCode: p.country_code || 'WW',
               targetCompany: p.target_company || 'Software Engineer',

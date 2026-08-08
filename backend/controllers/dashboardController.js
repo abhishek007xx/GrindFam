@@ -276,11 +276,14 @@ const getDashboardData = async (req, res) => {
 
         const targetHit = todayCount >= dailyTarget;
 
+        const userAvatar = profile.avatar_url || (profile.leetcode_username ? `https://assets.leetcode.com/users/${profile.leetcode_username}/avatar_1.png` : null);
+
         return {
           id: profile.id,
           name: profile.name || profile.leetcode_username || 'Grinder',
           leetcodeUsername: profile.leetcode_username,
-          avatarUrl: profile.avatar_url || null,
+          avatarUrl: userAvatar,
+          avatar_url: userAvatar,
           isSelf: profile.isSelf,
           relationshipId: profile.relationshipId,
           platformTotal,
@@ -586,12 +589,15 @@ const getGlobalLeaderboard = async (req, res) => {
 
         const xp = platformTotal * 50 + streak * 20;
 
+        const userAvatar = liveAvatar || p.avatar_url || (p.leetcode_username ? `https://assets.leetcode.com/users/${p.leetcode_username}/avatar_1.png` : null);
+
         return {
           id: p.id,
           name: realName,
           username: p.username || p.leetcode_username || 'grinder',
           leetcodeUsername: p.leetcode_username || p.username || 'user',
-          avatarUrl: liveAvatar || null,
+          avatarUrl: userAvatar,
+          avatar_url: userAvatar,
           country: p.country || '🌐 Worldwide',
           countryCode: p.country_code || 'WW',
           targetCompany: p.target_company || 'Software Engineer',
