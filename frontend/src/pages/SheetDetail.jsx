@@ -71,7 +71,7 @@ export function SheetDetail() {
   const [activeNotesProblem, setActiveNotesProblem] = useState(null);
   const [activeYouTubeVideo, setActiveYouTubeVideo] = useState(null);
 
-  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
+  const { progressMap, setProgressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
 
   useEffect(() => {
     async function fetchSheetDetails() {

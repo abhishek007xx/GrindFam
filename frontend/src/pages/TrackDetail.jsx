@@ -70,7 +70,7 @@ export function TrackDetail() {
   const [openCategories, setOpenCategories] = useState({});
 
   // Zustand Store
-  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
+  const { progressMap, setProgressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount, saveNotesOptimistic } = useTrackStore();
 
   useEffect(() => {
     async function fetchTrackAndProblems() {

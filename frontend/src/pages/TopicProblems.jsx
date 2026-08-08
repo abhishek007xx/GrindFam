@@ -65,7 +65,7 @@ export function TopicProblems() {
   const [difficultyFilter, setDifficultyFilter] = useState('ALL');
   const [sourceFilter, setSourceFilter] = useState('ALL');
 
-  const { progressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount } = useTrackStore();
+  const { progressMap, setProgressMap, getProblemProgress, toggleStatusOptimistic, incrementSolveCount } = useTrackStore();
 
   useEffect(() => {
     async function fetchTopicProblems() {
