@@ -274,7 +274,7 @@ export const useTrackStore = create((set, get) => ({
   },
 
   // Fetch complete user progress from Supabase & LeetCode
-  fetchUserProgress: async (userId, leetcodeUsername = null) => {
+  fetchUserProgress: async (userId, inputUsername = null) => {
     if (!userId) return;
     set({ loading: true });
     try {
@@ -285,8 +285,6 @@ export const useTrackStore = create((set, get) => ({
 
       if (error) {
         console.warn('Error loading user_progress:', error.message);
-        set({ loading: false });
-        return;
       }
 
       const map = {};
@@ -306,9 +304,22 @@ export const useTrackStore = create((set, get) => ({
       try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(merged)); } catch (_) {}
       set({ progressMap: merged, loading: false });
 
-      // Trigger LeetCode AC submissions sync if leetcodeUsername provided
-      if (leetcodeUsername) {
-        get().syncLeetCodeUserProgress(userId, leetcodeUsername);
+      // Determine LeetCode username (from input argument or Supabase profiles table)
+      let lcUsername = inputUsername;
+      if (!lcUsername) {
+        try {
+          const { data: profData } = await supabase
+            .from('profiles')
+            .select('leetcode_username')
+            .eq('id', userId)
+            .maybeSingle();
+          lcUsername = profData?.leetcode_username;
+        } catch (_) {}
+      }
+
+      // Trigger LeetCode AC submissions sync if username exists
+      if (lcUsername && String(lcUsername).trim()) {
+        get().syncLeetCodeUserProgress(userId, String(lcUsername).trim());
       }
     } catch (e) {
       console.warn('Failed to fetch user progress:', e);
@@ -318,8 +329,8 @@ export const useTrackStore = create((set, get) => ({
 
   // Sync recent accepted submissions from LeetCode into progressMap & Supabase
   syncLeetCodeUserProgress: async (userId, leetcodeUsername) => {
-    if (!leetcodeUsername || !leetcodeUsername.trim()) return;
-    const cleanUsername = leetcodeUsername.trim();
+    if (!leetcodeUsername || !String(leetcodeUsername).trim()) return;
+    const cleanUsername = String(leetcodeUsername).trim();
 
     let solvedSlugs = [];
 
