@@ -25,6 +25,18 @@ body { margin: 0; background-color: #141414; }
   --navbar-height:          64px;
 }
 
+/* Stitch MCP Glassmorphism Design System Utility Classes */
+.glass-panel {
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 51, 51, 0.6);
+}
+
+.interactive-glow:hover {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
 /* ==========================================================================
    Dynamic Accent Colors
    ========================================================================== */
