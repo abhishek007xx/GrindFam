@@ -15,43 +15,40 @@ export const normalizeSlug = (str) => {
     .replace(/^-+|-+$/g, '');
 };
 
+export const getRelaxedSlug = (str) => {
+  const base = normalizeSlug(str);
+  if (!base) return '';
+  return base
+    .replace(/\b(the|a|an|in|of|to|for|and|with|on)\b/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
 // Helper to extract all possible key variations for a problem
 export const getProblemKeys = (prob) => {
   if (!prob) return [];
   const keys = new Set();
 
-  if (typeof prob === 'string' || typeof prob === 'number') {
-    const str = String(prob);
+  const addKeyVariants = (val) => {
+    if (!val) return;
+    const str = String(val);
     keys.add(str);
     const norm = normalizeSlug(str);
     if (norm) keys.add(norm);
+    const relaxed = getRelaxedSlug(str);
+    if (relaxed) keys.add(relaxed);
+  };
+
+  if (typeof prob === 'string' || typeof prob === 'number') {
+    addKeyVariants(prob);
     return Array.from(keys);
   }
 
-  if (prob.id) {
-    keys.add(String(prob.id));
-    const norm = normalizeSlug(prob.id);
-    if (norm) keys.add(norm);
-  }
-  if (prob.leetcode_slug) {
-    keys.add(String(prob.leetcode_slug));
-    const norm = normalizeSlug(prob.leetcode_slug);
-    if (norm) keys.add(norm);
-  }
-  if (prob.slug) {
-    keys.add(String(prob.slug));
-    const norm = normalizeSlug(prob.slug);
-    if (norm) keys.add(norm);
-  }
-  if (prob.title_slug) {
-    keys.add(String(prob.title_slug));
-    const norm = normalizeSlug(prob.title_slug);
-    if (norm) keys.add(norm);
-  }
-  if (prob.title) {
-    const norm = normalizeSlug(prob.title);
-    if (norm) keys.add(norm);
-  }
+  if (prob.id) addKeyVariants(prob.id);
+  if (prob.leetcode_slug) addKeyVariants(prob.leetcode_slug);
+  if (prob.slug) addKeyVariants(prob.slug);
+  if (prob.title_slug) addKeyVariants(prob.title_slug);
+  if (prob.title) addKeyVariants(prob.title);
 
   return Array.from(keys);
 };
@@ -334,23 +331,85 @@ export const useTrackStore = create((set, get) => ({
 
     let solvedSlugs = [];
 
-    // 1. Try backend sync endpoint with session auth
+    // Tier 1: Direct LeetCode GraphQL fetch
     try {
-      const session = (await supabase.auth.getSession())?.data?.session;
-      const token = session?.access_token;
-      if (token) {
-        const response = await axios.post(`${API_BASE_URL}/dashboard/sync-leetcode-solved`, {}, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (response.data?.solvedSlugs && Array.isArray(response.data.solvedSlugs)) {
-          solvedSlugs = response.data.solvedSlugs;
+      const gqlRes = await fetch('https://leetcode.com/graphql', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          query: `
+            query getUserProfile($username: String!) {
+              recentAcSubmissionList(username: $username, limit: 100) {
+                title
+                titleSlug
+                timestamp
+              }
+            }
+          `,
+          variables: { username: cleanUsername }
+        })
+      });
+      if (gqlRes.ok) {
+        const gqlData = await gqlRes.json();
+        const list = gqlData?.data?.recentAcSubmissionList || [];
+        if (list.length > 0) {
+          solvedSlugs = list.map(s => s.titleSlug || s.title).filter(Boolean);
         }
       }
-    } catch (backendErr) {
-      console.warn('Backend LeetCode sync error, falling back:', backendErr?.message);
+    } catch (gqlErr) {
+      console.warn('Direct LeetCode GraphQL fetch error:', gqlErr?.message);
     }
 
-    // 2. Fallback to public Alfa LeetCode API if backend returned empty
+    // Tier 2: CORS Proxy fallback if direct fetch blocked by browser CORS
+    if (solvedSlugs.length === 0) {
+      try {
+        const proxyRes = await fetch(`https://corsproxy.io/?${encodeURIComponent('https://leetcode.com/graphql')}`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            query: `
+              query getUserProfile($username: String!) {
+                recentAcSubmissionList(username: $username, limit: 100) {
+                  title
+                  titleSlug
+                  timestamp
+                }
+              }
+            `,
+            variables: { username: cleanUsername }
+          })
+        });
+        if (proxyRes.ok) {
+          const proxyData = await proxyRes.json();
+          const list = proxyData?.data?.recentAcSubmissionList || [];
+          if (list.length > 0) {
+            solvedSlugs = list.map(s => s.titleSlug || s.title).filter(Boolean);
+          }
+        }
+      } catch (proxyErr) {
+        console.warn('CORS proxy fetch error:', proxyErr?.message);
+      }
+    }
+
+    // Tier 3: Try backend sync endpoint with session auth
+    if (solvedSlugs.length === 0) {
+      try {
+        const session = (await supabase.auth.getSession())?.data?.session;
+        const token = session?.access_token;
+        if (token) {
+          const response = await axios.post(`${API_BASE_URL}/dashboard/sync-leetcode-solved`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (response.data?.solvedSlugs && Array.isArray(response.data.solvedSlugs)) {
+            solvedSlugs = response.data.solvedSlugs;
+          }
+        }
+      } catch (backendErr) {
+        console.warn('Backend LeetCode sync error:', backendErr?.message);
+      }
+    }
+
+    // Tier 4: Try public Alfa LeetCode API as last resort
     if (solvedSlugs.length === 0) {
       try {
         const res = await fetch(`https://alfa-leetcode-api.onrender.com/${cleanUsername}/acSubmission`);
@@ -364,7 +423,7 @@ export const useTrackStore = create((set, get) => ({
       }
     }
 
-    // 3. Mark all solvedSlugs as solved in progressMap for all key variations
+    // Mark all solvedSlugs as solved in progressMap for all key variations
     if (solvedSlugs.length > 0) {
       const currentMap = get().progressMap;
       const nextMap = { ...currentMap };
