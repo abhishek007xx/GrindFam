@@ -135,10 +135,13 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   const yearlyPercent = Math.min(100, Math.round(((stats.activeDays || 0) / 365) * 100));
+  const donutRadius = 14;
+  const donutCircumference = 2 * Math.PI * donutRadius;
+  const donutStrokeOffset = donutCircumference * (1 - yearlyPercent / 100);
 
   return (
     <div className="dash-card p-4 border border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white rounded-2xl shadow-sm" id="activity-section">
-      {/* Header with Inline Metrics */}
+      {/* Header with Inline Metrics & Circular Donut Ring */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3 pb-3 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
@@ -157,7 +160,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {/* Inline Stats Chips right in Header */}
+        {/* Inline Stats Chips + ⭕ Circular Progress Donut Ring in Header */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[11px] font-bold">
             <Flame className="w-3.5 h-3.5" />
@@ -178,9 +181,28 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
             <span>Best: {stats.longestStreak || 0}d</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-bold">
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>Yearly: {yearlyPercent}%</span>
+          {/* ⭕ CIRCULAR DONUT RING GAUGE */}
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex-shrink-0">
+            <div className="relative w-8 h-8 flex-shrink-0">
+              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                <circle cx="18" cy="18" r={donutRadius} fill="none" stroke="#1B2B23" strokeWidth="3.5" />
+                <circle
+                  cx="18" cy="18" r={donutRadius}
+                  fill="none" stroke="#10B981" strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeDasharray={donutCircumference}
+                  strokeDashoffset={donutStrokeOffset}
+                  style={{ transition: 'stroke-dashoffset 0.8s ease-out' }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-mono text-[8px] font-black text-white">{yearlyPercent}%</span>
+              </div>
+            </div>
+            <div className="leading-tight">
+              <p className="text-[10px] font-bold text-emerald-400">Yearly Consistency</p>
+              <p className="text-[9px] text-zinc-400 font-medium">{stats.activeDays || 0}/365 Days</p>
+            </div>
           </div>
 
           {loading && <Loader2 className="w-4 h-4 animate-spin text-[#10B981] flex-shrink-0 ml-1" />}
