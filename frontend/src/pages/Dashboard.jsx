@@ -327,50 +327,47 @@ const Dashboard = () => {
     <div className="space-y-8 animate-fadeIn">
 
       {/* Greeting Header */}
-          <div className="relative overflow-hidden rounded-lg bg-[#1E1E1E] border border-[#333333] p-5 md:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <img
-              src="/logo.png"
-              alt="GrindFam Mascot"
-              className="absolute -bottom-8 -right-8 w-44 h-44 object-contain opacity-[0.05] grayscale pointer-events-none select-none"
-            />
-            <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#262626] border border-[#333333] text-[#9CA3AF] text-xs font-medium mb-2">
-                <Zap className="w-3.5 h-3.5 text-[#EA5D3A]" />
-                <span>Today&apos;s Focus</span>
-              </div>
-              <h2 className="text-2xl font-bold text-[#F4F4F5] tracking-tight">
-                Hey {name.split(' ')[0]}! 👋
-              </h2>
-              <p className="text-sm text-[#9CA3AF] mt-0.5">
-                {yourTodayCount === 0
-                  ? "Time to start grinding — your squad is counting on you!"
-                  : yourTodayCount >= dailyTarget
-                    ? "Target smashed! You're leading by example today."
-                    : `${dailyTarget - yourTodayCount} more to hit today's target. Keep grinding!`
-                }
-              </p>
-            </div>
-
-            <div className="relative z-10 flex items-center gap-2">
-              <button
-                onClick={() => setIsShareModalOpen(true)}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#EA5D3A] hover:bg-[#F2633F] text-white font-bold text-xs transition-all shadow-lg shadow-[#EA5D3A]/20 cursor-pointer"
-              >
-                <Share2 className="w-4 h-4" />
-                <span>Share Progress Card</span>
-              </button>
-
-              <button
-                onClick={handleManualSyncLeetCode}
-                disabled={refreshing}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1F2937] hover:bg-[#EA5D3A]/15 border border-[#30363D] hover:border-[#EA5D3A]/50 text-[#9CA3AF] hover:text-[#EA5D3A] font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
-                title="Sync latest submissions from LeetCode"
-              >
-                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                <span>{refreshing ? 'Syncing...' : 'Sync Data'}</span>
-              </button>
-            </div>
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1C1C22] via-[#251E1D] to-[#1C1C22] border border-[#33333E] p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-2xl mb-6">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#EA5D3A]/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A] text-xs font-bold mb-3 shadow-inner">
+            <Zap className="w-3.5 h-3.5 fill-[#EA5D3A]" />
+            <span>Today&apos;s Focus & Overview</span>
           </div>
+          <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+            Hey <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-100 to-[#EA5D3A]">{name.split(' ')[0]}</span>! 👋
+          </h2>
+          <p className="text-sm text-zinc-400 mt-1 font-medium max-w-xl">
+            {yourTodayCount === 0
+              ? "Time to start grinding — your squad is counting on you today!"
+              : yourTodayCount >= dailyTarget
+                ? "🎯 Target smashed! You are leading by example today."
+                : `🔥 ${dailyTarget - yourTodayCount} more problems to hit today's target. Keep grinding!`
+            }
+          </p>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-3 flex-wrap sm:flex-nowrap">
+          <button
+            onClick={() => setIsShareModalOpen(true)}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#EA5D3A] to-[#F2633F] hover:from-[#F2633F] hover:to-[#EA5D3A] text-white font-extrabold text-xs transition-all shadow-lg shadow-[#EA5D3A]/25 hover:scale-[1.02] cursor-pointer"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share Progress Card</span>
+          </button>
+
+          <button
+            onClick={handleManualSyncLeetCode}
+            disabled={refreshing}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#23232A] hover:bg-[#EA5D3A]/15 border border-[#33333F] hover:border-[#EA5D3A]/40 text-zinc-300 hover:text-white font-bold text-xs transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer shadow-md hover:scale-[1.02]"
+            title="Sync latest submissions from LeetCode"
+          >
+            <RefreshCw className={`w-4 h-4 text-[#EA5D3A] ${refreshing ? 'animate-spin' : ''}`} />
+            <span>{refreshing ? 'Syncing...' : 'Sync LeetCode'}</span>
+          </button>
+        </div>
+      </div>
 
       {/* Top-Level Navigation Tabs (Matches Reference Design) */}
       <div className="border-b border-[#30363D] mb-6 overflow-x-auto">
