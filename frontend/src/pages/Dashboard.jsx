@@ -418,10 +418,10 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="space-y-8">
-          {/* TAB 1: OVERVIEW (Main Dashboard Tab as requested) */}
+          {/* TAB 1: OVERVIEW (Main Dashboard Tab) */}
           {activeMainTab === 'overview' && (
-            <div className="space-y-6 animate-fadeIn">
-              {/* Row 1: Slim Squad members & hit target row */}
+            <div className="space-y-8 animate-fadeIn">
+              {/* Row 1: Key Metric Cards */}
               <StatsCards
                 stats={dashboardData.stats}
                 dailyTarget={dailyTarget}
@@ -430,9 +430,14 @@ const Dashboard = () => {
                 refreshing={refreshing}
               />
 
-              {/* Independent 2-Column Responsive Layout (Prevents vertical gaps & layout shifts) */}
+              {/* Row 2: Consistency & Activity Heatmap */}
+              <div className="w-full">
+                <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
+              </div>
+
+              {/* Row 3: Squad Leaderboard & Community Hub (Balanced 2-Column Grid) */}
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-                {/* Left Main Column (2/3 width) */}
+                {/* Left Column (2/3 width) - Leaderboard & Weekly Chart */}
                 <div className="xl:col-span-2 space-y-6" id="leaderboard-section">
                   <LeaderboardTable
                     leaderboard={dashboardData.leaderboard}
@@ -446,19 +451,14 @@ const Dashboard = () => {
                     platformTotal={yourPlatformTotal}
                     weeklyData={weeklyData}
                   />
-                  <DailyGrindProTip dailyTarget={dailyTarget} yourTodayCount={yourTodayCount} />
                 </div>
 
-                {/* Right Sidebar Column (1/3 width) */}
+                {/* Right Column (1/3 width) - Daily Goals, Activity Feed & Pro Tip */}
                 <div className="xl:col-span-1 space-y-6">
                   <DailyMicroGoals onXPEarned={(xp) => console.log('XP Earned:', xp)} />
                   <RecentActivity leaderboard={dashboardData.leaderboard} />
+                  <DailyGrindProTip dailyTarget={dailyTarget} yourTodayCount={yourTodayCount} />
                 </div>
-              </div>
-
-              {/* Row 4: All-Time Contribution Heatmap at the Bottom (Full Width, No Scrollbar) */}
-              <div className="w-full">
-                <ContributionHeatmap onWeeklyDataLoaded={(data) => setWeeklyData(data)} />
               </div>
             </div>
           )}
