@@ -7,6 +7,7 @@ export default function StitchCodeReviewHub() {
   const { activeSquad, peerReviews, fetchPeerReviews, giveKudos, addLineAnnotation, submitPeerReview } = useSquadStore();
   
   const [activeReviewId, setActiveReviewId] = useState(null);
+  const [selectedLanguageFilter, setSelectedLanguageFilter] = useState('All');
   const [isCreating, setIsCreating] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCode, setNewCode] = useState('');
@@ -20,7 +21,12 @@ export default function StitchCodeReviewHub() {
     }
   }, [activeSquad?.id, fetchPeerReviews]);
 
-  const activeReview = peerReviews.find(r => r.id === activeReviewId) || peerReviews[0];
+  const filteredReviews = peerReviews.filter(r => {
+    if (selectedLanguageFilter === 'All') return true;
+    return (r.language || '').toLowerCase() === selectedLanguageFilter.toLowerCase();
+  });
+
+  const activeReview = filteredReviews.find(r => r.id === activeReviewId) || filteredReviews[0] || peerReviews[0];
 
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +54,7 @@ export default function StitchCodeReviewHub() {
     try {
       await addLineAnnotation({
         reviewId: activeReview.id,
-        lineNumber: 0, // General comment
+        lineNumber: 0,
         commentText: newComment
       });
       setNewComment('');
@@ -56,6 +62,8 @@ export default function StitchCodeReviewHub() {
       console.error(err);
     }
   };
+
+  const languages = ['All', 'C++', 'Java', 'Python', 'JavaScript'];
 
   return (
     <div className="flex flex-1 overflow-hidden p-4 md:p-6 gap-6 w-full mx-auto font-['Inter'] antialiased">
@@ -65,27 +73,36 @@ export default function StitchCodeReviewHub() {
           <h2 className="font-['Outfit'] text-xl font-bold text-[#e5e2e1]">Review Queue</h2>
           <button 
             onClick={() => setIsCreating(!isCreating)}
-            className="bg-[#EA5D3A] text-white px-4 py-2 rounded text-sm font-medium hover:brightness-110 hover:shadow-[0_0_8px_rgba(234,93,58,0.5)] transition-all flex items-center gap-2"
+            className="bg-[#EA5D3A] text-white px-4 py-2 rounded text-sm font-medium hover:brightness-110 hover:shadow-[0_0_8px_rgba(234,93,58,0.5)] transition-all flex items-center gap-2 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[18px]">{isCreating ? 'close' : 'add'}</span>
             {isCreating ? 'Cancel' : 'New Snippet'}
           </button>
         </div>
 
-        {/* Filters */}
+        {/* Language Filters */}
         <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          <button className="bg-[#03b5d3]/20 text-[#4cd7f6] border border-[#4cd7f6]/50 px-3 py-1 rounded-full text-xs font-['JetBrains_Mono'] whitespace-nowrap">All</button>
-          <button className="bg-[#353534]/50 text-[#e1bfb7] border border-transparent hover:border-[#333333] px-3 py-1 rounded-full text-xs font-['JetBrains_Mono'] whitespace-nowrap transition-colors">C++</button>
-          <button className="bg-[#353534]/50 text-[#e1bfb7] border border-transparent hover:border-[#333333] px-3 py-1 rounded-full text-xs font-['JetBrains_Mono'] whitespace-nowrap transition-colors">Java</button>
-          <button className="bg-[#353534]/50 text-[#e1bfb7] border border-transparent hover:border-[#333333] px-3 py-1 rounded-full text-xs font-['JetBrains_Mono'] whitespace-nowrap transition-colors">Python</button>
+          {languages.map(lang => (
+            <button 
+              key={lang}
+              onClick={() => setSelectedLanguageFilter(lang)}
+              className={`px-3 py-1 rounded-full text-xs font-['JetBrains_Mono'] whitespace-nowrap transition-colors cursor-pointer ${
+                selectedLanguageFilter === lang 
+                  ? 'bg-[#03b5d3]/20 text-[#4cd7f6] border border-[#4cd7f6]/50 font-bold' 
+                  : 'bg-[#353534]/50 text-[#e1bfb7] border border-transparent hover:border-[#333333]'
+              }`}
+            >
+              {lang}
+            </button>
+          ))}
         </div>
 
         {/* Snippet List */}
         <div className="flex-1 overflow-y-auto flex flex-col gap-3 pr-2 chat-scroll">
-          {peerReviews.length === 0 && !isCreating && (
-            <p className="text-[#e1bfb7] text-sm text-center mt-10">No reviews in the queue. Post one!</p>
+          {filteredReviews.length === 0 && !isCreating && (
+            <p className="text-[#e1bfb7] text-sm text-center mt-10">No code reviews match this filter.</p>
           )}
-          {peerReviews.map((review, idx) => {
+          {filteredReviews.map((review, idx) => {
             const isActive = activeReview?.id === review.id;
             const borderColors = ['border-l-[#EA5D3A]', 'border-l-[#10B981]', 'border-l-[#EF4444]', 'border-l-[#F59E0B]'];
             const borderColor = borderColors[idx % borderColors.length];
@@ -166,7 +183,7 @@ export default function StitchCodeReviewHub() {
                 ></textarea>
               </div>
               <div className="flex justify-end pt-2">
-                <button type="submit" className="bg-[#4cd7f6] text-[#0D0D0D] px-6 py-2 rounded font-bold hover:brightness-110 transition-all">
+                <button type="submit" className="bg-[#4cd7f6] text-[#0D0D0D] px-6 py-2 rounded font-bold hover:brightness-110 transition-all cursor-pointer">
                   Post for Review
                 </button>
               </div>
@@ -192,7 +209,7 @@ export default function StitchCodeReviewHub() {
               </div>
               <button 
                 onClick={() => giveKudos(activeReview.id)}
-                className="bg-transparent border border-[#4cd7f6] text-[#4cd7f6] px-4 py-2 rounded text-sm font-medium hover:bg-[#4cd7f6]/10 hover:shadow-[0_0_10px_rgba(76,215,246,0.3)] transition-all flex items-center gap-2"
+                className="bg-transparent border border-[#4cd7f6] text-[#4cd7f6] px-4 py-2 rounded text-sm font-medium hover:bg-[#4cd7f6]/10 hover:shadow-[0_0_10px_rgba(76,215,246,0.3)] transition-all flex items-center gap-2 cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">favorite</span>
                 Kudos ({activeReview.kudos_count || 0})
@@ -267,7 +284,7 @@ export default function StitchCodeReviewHub() {
                   ></textarea>
                   <button 
                     onClick={handlePostComment}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[#4cd7f6] p-2 hover:bg-[#4cd7f6]/10 rounded-full transition-colors"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[#4cd7f6] p-2 hover:bg-[#4cd7f6]/10 rounded-full transition-colors cursor-pointer"
                   >
                     <span className="material-symbols-outlined">send</span>
                   </button>

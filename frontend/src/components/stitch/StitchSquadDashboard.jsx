@@ -1,15 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useSquadStore } from '../../store/useSquadStore';
 
-export default function StitchSquadDashboard() {
+export default function StitchSquadDashboard({ onNavigate }) {
   const { profile } = useAuth();
   const { activeSquad, members, messages } = useSquadStore();
+  const [showBattleModal, setShowBattleModal] = useState(false);
 
   const currentUserName = profile?.name || 'Grinder';
 
   return (
-    <div className="bg-[#0D0D0D] text-[#e5e2e1] min-h-screen flex flex-col font-['Inter'] antialiased p-4 md:p-8 max-w-[1440px] mx-auto space-y-8">
+    <div className="bg-[#0D0D0D] text-[#e5e2e1] min-h-screen flex flex-col font-['Inter'] antialiased p-4 md:p-8 max-w-[1440px] mx-auto space-y-8 relative">
+      {/* 1v1 Battle Matchmaker Modal */}
+      {showBattleModal && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-[#1c1b1b] border border-[#EA5D3A]/50 p-6 rounded-2xl max-w-lg w-full shadow-2xl space-y-6 text-center">
+            <div className="w-16 h-16 rounded-full bg-[#EA5D3A]/20 border border-[#EA5D3A]/50 flex items-center justify-center mx-auto text-[#EA5D3A] animate-pulse">
+              <span className="material-symbols-outlined text-3xl">swords</span>
+            </div>
+            <h3 className="font-['Outfit'] text-2xl font-bold text-white">1v1 Code Battle Arena</h3>
+            <p className="font-['Inter'] text-sm text-[#e1bfb7]">
+              Searching for online squad members to match in a 15-minute speed solve battle...
+            </p>
+            <div className="p-4 bg-[#121212] rounded-xl border border-white/10 flex items-center justify-around font-['JetBrains_Mono'] text-sm">
+              <div className="flex items-center gap-2 text-[#4cd7f6]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping"></span>
+                <span>{currentUserName}</span>
+              </div>
+              <span className="text-[#EA5D3A] font-bold text-lg">VS</span>
+              <span className="text-[#e1bfb7] animate-pulse">Searching Opponent...</span>
+            </div>
+            <div className="flex justify-center gap-4 pt-2">
+              <button 
+                onClick={() => setShowBattleModal(false)}
+                className="px-6 py-2.5 rounded-lg bg-[#353534] text-[#e1bfb7] hover:text-white transition-colors text-sm font-bold cursor-pointer"
+              >
+                Cancel Battle
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header Section */}
       <div className="flex flex-col gap-1">
         <h1 className="font-['Outfit'] text-3xl font-bold text-white">{activeSquad?.name || 'Squad Alpha'}</h1>
@@ -22,9 +54,9 @@ export default function StitchSquadDashboard() {
       <section className="glass-panel bg-[rgba(30,30,30,0.85)] backdrop-blur-[12px] border border-[rgba(51,51,51,0.6)] rounded-xl p-5 interactive-glow transition-all duration-300">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-['Outfit'] text-lg font-bold text-[#4cd7f6]">Live Presence</h2>
-          <a className="font-['Inter'] text-xs text-[#e1bfb7] hover:text-[#4cd7f6] transition-colors flex items-center gap-1" href="#">
-            View All <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
+          <span className="font-['Inter'] text-xs text-[#e1bfb7] flex items-center gap-1">
+            {members.filter(m => m.isOnline).length} Active Online
+          </span>
         </div>
 
         {/* Horizontal scroll container */}
@@ -116,11 +148,17 @@ export default function StitchSquadDashboard() {
 
         {/* Actions & Analytics */}
         <section className="lg:col-span-4 flex flex-col gap-4 sticky top-24">
-          <button className="w-full bg-[#EA5D3A] text-white py-3 px-4 rounded-lg font-['Outfit'] text-base font-bold flex items-center justify-center gap-2 hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.4)] transition-all cursor-pointer">
+          <button 
+            onClick={() => setShowBattleModal(true)}
+            className="w-full bg-[#EA5D3A] text-white py-3 px-4 rounded-lg font-['Outfit'] text-base font-bold flex items-center justify-center gap-2 hover:brightness-110 shadow-[0_0_15px_rgba(234,93,58,0.4)] transition-all cursor-pointer"
+          >
             <span className="material-symbols-outlined">swords</span> Start 1v1 Battle
           </button>
 
-          <button className="w-full bg-transparent border border-[#333333] hover:border-[#4cd7f6] text-[#e5e2e1] hover:text-[#4cd7f6] py-3 px-4 rounded-lg font-['Outfit'] text-base font-bold flex items-center justify-center gap-2 transition-all cursor-pointer">
+          <button 
+            onClick={() => onNavigate && onNavigate('reviews')}
+            className="w-full bg-transparent border border-[#333333] hover:border-[#4cd7f6] text-[#e5e2e1] hover:text-[#4cd7f6] py-3 px-4 rounded-lg font-['Outfit'] text-base font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+          >
             <span className="material-symbols-outlined">code</span> Post Code Review
           </button>
 
@@ -138,7 +176,7 @@ export default function StitchSquadDashboard() {
               </div>
               <div className="flex justify-between items-center py-1">
                 <span className="text-[#e1bfb7]">Avg Solved/Week</span>
-                <span className="font-['JetBrains_Mono'] text-white font-semibold">-</span>
+                <span className="font-['JetBrains_Mono'] text-white font-semibold">Active</span>
               </div>
               <div className="flex justify-between items-center py-1">
                 <span className="text-[#e1bfb7]">Global Rank</span>

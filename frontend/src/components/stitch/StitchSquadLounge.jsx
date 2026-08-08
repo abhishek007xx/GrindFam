@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SquadChat from '../squad/SquadChat';
+import { useSquadStore } from '../../store/useSquadStore';
 
 export default function StitchSquadLounge({ showSidebar = true }) {
-  const [activeChannel, setActiveChannel] = useState('general');
+  const { activeChannel, setActiveChannel, members, activeSquad } = useSquadStore();
 
   return (
     <div className="bg-[#131313] text-[#e5e2e1] min-h-screen flex flex-col md:flex-row overflow-hidden font-['Inter']">
@@ -10,18 +11,16 @@ export default function StitchSquadLounge({ showSidebar = true }) {
       {showSidebar && (
         <nav className="w-full md:w-[280px] bg-[#0e0e0e] border-r border-white/10 flex flex-col py-6 px-4 shrink-0">
           <div className="px-4 mb-8 flex items-center gap-4">
-            <img
-              alt="Squad Terminal"
-              className="w-10 h-10 rounded-lg object-cover ring-2 ring-[#353534]"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIwHIaa31XSaQ21h4vGBfIkMxb-efbXX3czeVvAawxlixpfvnTqNxGe0HKbZX_gLFPlHNVfYVNzfweyKwhULUFziKwPnz1hxmSo_QOthK5GcYqiioSp4bOMUVAS9GnhTDBePkG1P5RuIRfC9D3DuWollfw9RXZsrt-P56cpjVUCFOKJ_qKyyWixQvIqxj4bv-G6QcRtCm436YVDAgeCXJ_8bmyJDM81fyKcv53lj6rQhGhVxkkRYVQ"
-            />
+            <div className="w-10 h-10 rounded-lg bg-[#EA5D3A] flex items-center justify-center font-['Outfit'] font-bold text-white text-xl">
+              {(activeSquad?.name || 'S').charAt(0).toUpperCase()}
+            </div>
             <div>
-              <h1 className="font-['Outfit'] text-lg font-bold text-[#ffb4a2]">Developer Hub</h1>
-              <p className="font-['Inter'] text-xs text-[#e1bfb7]">Elite Tier</p>
+              <h1 className="font-['Outfit'] text-lg font-bold text-[#ffb4a2]">{activeSquad?.name || 'Developer Hub'}</h1>
+              <p className="font-['Inter'] text-xs text-[#e1bfb7]">{activeSquad?.squad_type || 'Elite Tier'}</p>
             </div>
           </div>
           <div className="px-4 mt-auto mb-6">
-            <h3 className="font-['Outfit'] text-base font-bold text-[#e5e2e1] mb-3">DSA Dream Team</h3>
+            <h3 className="font-['Outfit'] text-base font-bold text-[#e5e2e1] mb-3">Channels</h3>
             <ul className="flex flex-col gap-1 font-['JetBrains_Mono'] text-xs">
               <li>
                 <button
@@ -64,20 +63,11 @@ export default function StitchSquadLounge({ showSidebar = true }) {
         <header className="h-16 bg-[#131313]/85 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-6 shrink-0 sticky top-0 z-40">
           <div className="flex items-center gap-4">
             <h2 className="font-['Outfit'] text-2xl font-bold text-[#e5e2e1] flex items-center gap-2">
-              <span className="text-[#e1bfb7] font-light">#</span>{activeChannel}
+              <span className="text-[#e1bfb7] font-light">#</span>{activeChannel || 'general'}
             </h2>
             <div className="hidden md:flex bg-[#353534] px-3 py-1 rounded-full text-[#e1bfb7] font-['JetBrains_Mono'] text-xs items-center gap-1">
-              <span className="material-symbols-outlined text-[14px]">group</span> 24 Members
+              <span className="material-symbols-outlined text-[14px]">group</span> {members.length || 1} Members
             </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button className="text-[#e1bfb7] hover:text-[#4cd7f6] transition-all">
-              <span className="material-symbols-outlined">search</span>
-            </button>
-            <button className="text-[#e1bfb7] hover:text-[#4cd7f6] transition-all">
-              <span className="material-symbols-outlined">more_vert</span>
-            </button>
           </div>
         </header>
 
