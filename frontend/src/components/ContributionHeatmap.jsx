@@ -135,13 +135,13 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
   const cellGap = 3;
 
   const yearlyPercent = Math.min(100, Math.round(((stats.activeDays || 0) / 365) * 100));
-  const donutRadius = 14;
-  const donutCircumference = 2 * Math.PI * donutRadius;
-  const donutStrokeOffset = donutCircumference * (1 - yearlyPercent / 100);
+  const bigRadius = 28;
+  const bigCircumference = 2 * Math.PI * bigRadius;
+  const bigStrokeOffset = bigCircumference * (1 - yearlyPercent / 100);
 
   return (
     <div className="dash-card p-4 border border-[#333333] dark:border-[#333333] light:border-slate-200 bg-[#1E1E1E] dark:bg-[#1E1E1E] light:bg-white rounded-2xl shadow-sm" id="activity-section">
-      {/* Header with Inline Metrics & Circular Donut Ring */}
+      {/* Header with Title & Stat Chips */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-3 pb-3 border-b border-[#2C2C2C] dark:border-[#2C2C2C] light:border-slate-200">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-[#10B981] flex-shrink-0">
@@ -160,7 +160,7 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
           </div>
         </div>
 
-        {/* Inline Stats Chips + ⭕ Circular Progress Donut Ring in Header */}
+        {/* Header Right Stat Chips */}
         <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[11px] font-bold">
             <Flame className="w-3.5 h-3.5" />
@@ -181,91 +181,99 @@ const ContributionHeatmap = ({ onWeeklyDataLoaded }) => {
             <span>Best: {stats.longestStreak || 0}d</span>
           </div>
 
-          {/* ⭕ CIRCULAR DONUT RING GAUGE */}
-          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex-shrink-0">
-            <div className="relative w-8 h-8 flex-shrink-0">
-              <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                <circle cx="18" cy="18" r={donutRadius} fill="none" stroke="#1B2B23" strokeWidth="3.5" />
-                <circle
-                  cx="18" cy="18" r={donutRadius}
-                  fill="none" stroke="#10B981" strokeWidth="3.5"
-                  strokeLinecap="round"
-                  strokeDasharray={donutCircumference}
-                  strokeDashoffset={donutStrokeOffset}
-                  style={{ transition: 'stroke-dashoffset 0.8s ease-out' }}
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-mono text-[8px] font-black text-white">{yearlyPercent}%</span>
-              </div>
-            </div>
-            <div className="leading-tight">
-              <p className="text-[10px] font-bold text-emerald-400">Yearly Consistency</p>
-              <p className="text-[9px] text-zinc-400 font-medium">{stats.activeDays || 0}/365 Days</p>
-            </div>
-          </div>
-
           {loading && <Loader2 className="w-4 h-4 animate-spin text-[#10B981] flex-shrink-0 ml-1" />}
         </div>
       </div>
 
-      {/* Heatmap Grid Section */}
+      {/* Heatmap Grid + ⭕ BADA SA GOL Donut Gauge in Red Circle Spot */}
       <div className="overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-        <div className="min-w-[700px]">
-          {/* Month labels row */}
-          <div className="flex ml-8 mb-1" style={{ gap: `${cellGap}px` }}>
-            {weeks.map((_, wi) => {
-              const label = monthLabels.find((m) => m.weekIndex === wi);
-              return (
-                <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
-                  {label && (
-                    <span className="text-[9px] text-[#A3A3A3] font-medium">{label.label}</span>
-                  )}
-                </div>
-              );
-            })}
+        <div className="flex items-center justify-between min-w-[850px] gap-4">
+          {/* Heatmap 52-Week Grid */}
+          <div className="flex-1">
+            {/* Month labels row */}
+            <div className="flex ml-8 mb-1" style={{ gap: `${cellGap}px` }}>
+              {weeks.map((_, wi) => {
+                const label = monthLabels.find((m) => m.weekIndex === wi);
+                return (
+                  <div key={wi} style={{ width: `${cellSize}px`, flexShrink: 0 }}>
+                    {label && (
+                      <span className="text-[9px] text-[#A3A3A3] font-medium">{label.label}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Grid: day labels + cells */}
+            <div className="flex items-center">
+              {/* Day-of-week labels */}
+              <div className="flex flex-col w-6 mr-1.5 flex-shrink-0" style={{ gap: `${cellGap}px` }}>
+                {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
+                  <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
+                    <span className="text-[9px] text-[#A3A3A3] font-medium pr-1">{label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Columns = weeks */}
+              <div className="flex" style={{ gap: `${cellGap}px` }}>
+                {weeks.map((week, wi) => (
+                  <div key={wi} className="flex flex-col" style={{ gap: `${cellGap}px` }}>
+                    {week.map((day, di) => {
+                      if (!day) {
+                        return <div key={di} style={{ width: cellSize, height: cellSize }} />;
+                      }
+                      const level = getLevel(day.count, maxCount);
+                      return (
+                        <div
+                          key={di}
+                          className="rounded-[2px] cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-emerald-400"
+                          style={{
+                            width: cellSize,
+                            height: cellSize,
+                            backgroundColor: activeLevelColors[level],
+                          }}
+                          onMouseEnter={(e) => handleMouseEnter(day, e)}
+                          onMouseLeave={() => setHoveredDay(null)}
+                        />
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Grid: day labels + cells */}
-          <div className="flex items-center">
-            {/* Day-of-week labels */}
-            <div className="flex flex-col w-6 mr-1.5 flex-shrink-0" style={{ gap: `${cellGap}px` }}>
-              {['', 'Mon', '', 'Wed', '', 'Fri', ''].map((label, i) => (
-                <div key={i} className="flex items-center justify-end" style={{ height: `${cellSize}px` }}>
-                  <span className="text-[9px] text-[#A3A3A3] font-medium pr-1">{label}</span>
-                </div>
-              ))}
+          {/* ⭕ BADA SA GOL - Placed in the exact spot indicated by the user's Red Circle */}
+          <div className="flex flex-col items-center justify-center p-3.5 bg-[#141416] dark:bg-[#141416] light:bg-slate-50 border border-[#2B2B32] rounded-2xl flex-shrink-0 min-w-[150px] shadow-md">
+            <div className="relative w-20 h-20 mb-1">
+              <svg viewBox="0 0 70 70" className="w-full h-full -rotate-90">
+                <circle cx="35" cy="35" r={bigRadius} fill="none" stroke="#222228" strokeWidth="5.5" />
+                <circle
+                  cx="35" cy="35" r={bigRadius}
+                  fill="none" stroke="#10B981" strokeWidth="5.5"
+                  strokeLinecap="round"
+                  strokeDasharray={bigCircumference}
+                  strokeDashoffset={bigStrokeOffset}
+                  style={{ transition: 'stroke-dashoffset 1s ease-out' }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span className="font-mono text-base font-black text-white dark:text-white light:text-slate-900 leading-none">
+                  {yearlyPercent}%
+                </span>
+                <span className="text-[7px] font-extrabold uppercase tracking-wider text-[#10B981] mt-0.5">Yearly</span>
+              </div>
             </div>
+            <p className="text-xs font-black text-white dark:text-white light:text-slate-900 text-center">Consistency</p>
+            <p className="text-[10px] text-zinc-400 text-center mt-0.5">
+              <span className="font-bold text-[#10B981]">{stats.activeDays || 0}</span> / 365 Days
+            </p>
+          </div>
 
-            {/* Columns = weeks */}
-            <div className="flex" style={{ gap: `${cellGap}px` }}>
-              {weeks.map((week, wi) => (
-                <div key={wi} className="flex flex-col" style={{ gap: `${cellGap}px` }}>
-                  {week.map((day, di) => {
-                    if (!day) {
-                      return <div key={di} style={{ width: cellSize, height: cellSize }} />;
-                    }
-                    const level = getLevel(day.count, maxCount);
-                    return (
-                      <div
-                        key={di}
-                        className="rounded-[2px] cursor-pointer transition-all duration-100 hover:ring-1 hover:ring-emerald-400"
-                        style={{
-                          width: cellSize,
-                          height: cellSize,
-                          backgroundColor: activeLevelColors[level],
-                        }}
-                        onMouseEnter={(e) => handleMouseEnter(day, e)}
-                        onMouseLeave={() => setHoveredDay(null)}
-                      />
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-
-            {/* Legend inline on the right */}
-            <div className="flex items-center gap-1 ml-auto pl-4 border-l border-[#2A2A2A]">
+          {/* Legend inline on the far right */}
+          <div className="flex flex-col justify-end items-end h-full flex-shrink-0 pl-3 border-l border-[#2A2A2A]">
+            <div className="flex items-center gap-1">
               <span className="text-[9px] text-[#A3A3A3] font-medium mr-0.5">Less</span>
               {[0, 1, 2, 3, 4].map((lvl) => (
                 <div
