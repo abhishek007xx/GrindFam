@@ -48,19 +48,19 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
                         style={{
                           height: val > 0 ? `${Math.max(height, 8)}%` : '3px',
                           background: val > 0
-                            ? 'linear-gradient(180deg, #22c55e 0%, #16a34a 100%)'
+                            ? 'linear-gradient(180deg, #EA5D3A 0%, #F2704E 100%)'
                             : '#2C2C2C',
                           opacity: isToday ? 1 : 0.4
                         }}
                       ></div>
                       {val > 0 && (
                         <div
-                          className="absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#22c55e] border-2 border-[#1E1E1E]"
+                          className="absolute left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#EA5D3A] border-2 border-[#1E1E1E]"
                           style={{ bottom: `${height}%`, transform: 'translate(-50%, 50%)' }}
                         ></div>
                       )}
                     </div>
-                    <span className={`text-[10px] ${isToday ? 'text-[#22c55e] font-bold' : 'text-[#737373]'}`}>{day}</span>
+                    <span className={`text-[10px] ${isToday ? 'text-[#EA5D3A] font-bold' : 'text-[#737373]'}`}>{day}</span>
                   </div>
                 );
               })}
@@ -76,7 +76,7 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
               <circle cx="50" cy="50" r={radius} fill="none" stroke="#2C2C2C" strokeWidth="8" />
               <circle
                 cx="50" cy="50" r={radius}
-                fill="none" stroke="#22c55e" strokeWidth="8"
+                fill="none" stroke="#EA5D3A" strokeWidth="8"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
                 strokeDashoffset={dashoffset}
@@ -91,7 +91,7 @@ const ProgressChart = ({ yourTodayCount = 0, dailyTarget = 5, weeklyData = [] })
           {/* Legend */}
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#22c55e] flex-shrink-0"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-[#EA5D3A] flex-shrink-0"></span>
               <span className="text-[#F4F4F5] font-medium">{solved} Solved</span>
             </div>
             <div className="flex items-center gap-2">

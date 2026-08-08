@@ -95,7 +95,7 @@ export default function SquadLeaderboard() {
   const topThree = leaderboard.slice(0, 3);
   const remainingList = leaderboard.slice(3);
 
-  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#22c55e] animate-spin" /></div>;
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#EA5D3A] animate-spin" /></div>;
 
   return (
     <div className="space-y-6">
@@ -178,19 +178,19 @@ export default function SquadLeaderboard() {
                         {isMe && <span className="text-[9px] bg-[#EA5D3A]/20 text-[#EA5D3A] px-1.5 py-0.5 rounded font-bold">YOU</span>}
                         {m.role === 'admin' && <Crown className="w-3.5 h-3.5 text-amber-400" title="Admin" />}
                       </div>
-                      <div className="flex items-center gap-3 text-[10px] text-[#869585] mt-0.5">
-                        <span className="text-[#22c55e] font-semibold">{m.solved} Solved</span>
+                      <div className="flex items-center gap-3 text-[10px] text-zinc-400 mt-0.5">
+                        <span className="text-[#EA5D3A] font-semibold">{m.solved} Solved</span>
                         <span>•</span>
-                        <span className="text-[#ff8b7c] font-semibold flex items-center gap-0.5">
-                          <Flame className="w-3 h-3" /> {m.streak}d streak
+                        <span className="text-amber-400 font-semibold flex items-center gap-0.5">
+                          <Flame className="w-3 h-3 text-amber-400" /> {m.streak}d streak
                         </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="text-right flex-shrink-0">
-                    <span className="text-base font-extrabold text-[#22c55e]">{m.points}</span>
-                    <span className="text-[10px] text-[#869585] block font-semibold uppercase">pts</span>
+                    <span className="text-base font-extrabold text-[#EA5D3A]">{m.points}</span>
+                    <span className="text-[10px] text-zinc-400 block font-semibold uppercase">pts</span>
                   </div>
                 </div>
               );

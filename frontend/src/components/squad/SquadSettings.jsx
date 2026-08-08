@@ -112,17 +112,17 @@ export default function SquadSettings() {
   return (
     <div className="space-y-6 text-[#dce5d9]">
       {/* Sub Tabs */}
-      <div className="flex bg-[#091009] border border-[#3d4a3d] rounded-xl p-1 text-xs">
+      <div className="flex bg-[#141414] border border-[#333333] rounded-xl p-1 text-xs">
         <button
           onClick={() => setActiveTab('general')}
-          className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'general' ? 'bg-[#22c55e] text-[#0e150e]' : 'text-[#869585]'}`}
+          className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'general' ? 'bg-[#EA5D3A] text-white' : 'text-zinc-400'}`}
         >
           General Settings
         </button>
         {isAdmin && (
           <button
             onClick={() => setActiveTab('roles')}
-            className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'roles' ? 'bg-[#22c55e] text-[#0e150e]' : 'text-[#869585]'}`}
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'roles' ? 'bg-[#EA5D3A] text-white' : 'text-zinc-400'}`}
           >
             Roles & Permissions
           </button>
@@ -130,7 +130,7 @@ export default function SquadSettings() {
         {isAdmin && (
           <button
             onClick={() => setActiveTab('discord')}
-            className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'discord' ? 'bg-[#22c55e] text-[#0e150e]' : 'text-[#869585]'}`}
+            className={`flex-1 py-2 rounded-lg font-bold transition-all ${activeTab === 'discord' ? 'bg-[#EA5D3A] text-white' : 'text-zinc-400'}`}
           >
             Discord Integration
           </button>
@@ -139,23 +139,23 @@ export default function SquadSettings() {
 
       {feedback && (
         <div className={`p-3 rounded-xl text-xs font-bold ${
-          feedback.type === 'success' ? 'bg-[#22c55e]/20 text-[#22c55e] border border-[#22c55e]/30' : 'bg-[#ff8b7c]/20 text-[#ff8b7c] border border-[#ff8b7c]/30'
+          feedback.type === 'success' ? 'bg-[#EA5D3A]/20 text-[#EA5D3A] border border-[#EA5D3A]/30' : 'bg-[#ff8b7c]/20 text-[#ff8b7c] border border-[#ff8b7c]/30'
         }`}>
           {feedback.text}
         </div>
       )}
 
       {/* Invite Code Box */}
-      <div className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-3">
+      <div className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-3">
         <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-          <Shield className="w-4 h-4 text-[#22c55e]" /> Invite Code
+          <Shield className="w-4 h-4 text-[#EA5D3A]" /> Invite Code
         </h3>
-        <div className="flex items-center justify-between p-3 bg-[#091009] border border-[#3d4a3d] rounded-xl">
+        <div className="flex items-center justify-between p-3 bg-[#141414] border border-[#333333] rounded-xl">
           <div>
-            <span className="text-xs text-[#869585] block">Share Code:</span>
-            <span className="font-mono text-base font-bold text-[#22c55e]">{activeSquad?.invite_code || activeSquad?.code}</span>
+            <span className="text-xs text-zinc-400 block">Share Code:</span>
+            <span className="font-mono text-base font-bold text-[#EA5D3A]">{activeSquad?.invite_code || activeSquad?.code}</span>
           </div>
-          <button onClick={handleCopyCode} className="px-3 py-1.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-lg text-xs font-bold flex items-center gap-1">
+          <button onClick={handleCopyCode} className="px-3 py-1.5 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-lg text-xs font-bold flex items-center gap-1 transition-all">
             {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             <span>{copied ? 'Copied!' : 'Copy Code'}</span>
           </button>
@@ -165,48 +165,48 @@ export default function SquadSettings() {
       {/* Tab 1: General Settings */}
       {activeTab === 'general' && (
         isAdmin ? (
-          <form onSubmit={handleSave} className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-4">
+          <form onSubmit={handleSave} className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-4">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <Save className="w-4 h-4 text-[#22d3ee]" /> Edit Community Details (Admin)
+              <Save className="w-4 h-4 text-[#EA5D3A]" /> Edit Community Details (Admin)
             </h3>
 
             <div>
-              <label className="text-xs text-[#869585] block mb-1">Community Name</label>
+              <label className="text-xs text-zinc-400 block mb-1">Community Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white focus:outline-none focus:border-[#22c55e]"
+                className="w-full px-3 py-2 bg-[#141414] border border-[#333333] rounded-xl text-sm text-white focus:outline-none focus:border-[#EA5D3A]"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-[#869585] block mb-1">Goal (e.g. Amazon SDE Prep)</label>
+              <label className="text-xs text-zinc-400 block mb-1">Goal (e.g. Amazon SDE Prep)</label>
               <input
                 type="text"
                 value={goal}
                 onChange={(e) => setGoal(e.target.value)}
-                className="w-full px-3 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white focus:outline-none focus:border-[#22c55e]"
+                className="w-full px-3 py-2 bg-[#141414] border border-[#333333] rounded-xl text-sm text-white focus:outline-none focus:border-[#EA5D3A]"
               />
             </div>
 
             <div>
-              <label className="text-xs text-[#869585] block mb-1">Description</label>
+              <label className="text-xs text-zinc-400 block mb-1">Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full p-3 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-white focus:outline-none focus:border-[#22c55e]"
+                className="w-full p-3 bg-[#141414] border border-[#333333] rounded-xl text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
               />
             </div>
 
             <div>
-              <label className="text-xs text-[#869585] block mb-1">Visibility</label>
+              <label className="text-xs text-zinc-400 block mb-1">Visibility</label>
               <select
                 value={squadType}
                 onChange={(e) => setSquadType(e.target.value)}
-                className="w-full px-3 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-sm text-white focus:outline-none focus:border-[#22c55e]"
+                className="w-full px-3 py-2 bg-[#141414] border border-[#333333] rounded-xl text-sm text-white focus:outline-none focus:border-[#EA5D3A]"
               >
                 <option value="private">Private (Friends, max 10)</option>
                 <option value="community">Community (Public, max 100)</option>
@@ -216,24 +216,24 @@ export default function SquadSettings() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full py-2.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all"
+              className="w-full py-2.5 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-md"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save Settings
             </button>
           </form>
         ) : (
-          <div className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-3">
+          <div className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-3">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider">Community Overview</h3>
             <p className="text-sm font-semibold text-white">{activeSquad?.name}</p>
-            <p className="text-xs text-[#869585]">{activeSquad?.description || activeSquad?.goal || 'No description set'}</p>
+            <p className="text-xs text-zinc-400">{activeSquad?.description || activeSquad?.goal || 'No description set'}</p>
           </div>
         )
       )}
 
       {/* Tab 2: Roles Management */}
       {activeTab === 'roles' && isAdmin && (
-        <div className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-4">
+        <div className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-4">
           <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <Award className="w-4 h-4 text-[#faa61a]" /> Manage Member Roles
           </h3>
@@ -241,20 +241,20 @@ export default function SquadSettings() {
             {members.map((m) => {
               const currentRole = m.roles?.includes('admin') ? 'admin' : m.roles?.includes('moderator') ? 'moderator' : m.roles?.includes('mentor') ? 'mentor' : 'member';
               return (
-                <div key={m.user_id} className="p-3 bg-[#091009] border border-[#3d4a3d] rounded-xl flex items-center justify-between">
+                <div key={m.user_id} className="p-3 bg-[#141414] border border-[#333333] rounded-xl flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold">
                       {(m.name || 'G')[0].toUpperCase()}
                     </div>
                     <div>
                       <p className="text-xs font-bold text-white">{m.name}</p>
-                      <p className="text-[10px] text-[#869585]">@{m.leetcode_username || 'grinder'}</p>
+                      <p className="text-[10px] text-zinc-400">@{m.leetcode_username || 'grinder'}</p>
                     </div>
                   </div>
                   <select
                     value={currentRole}
                     onChange={(e) => handleRoleChange(m.user_id, e.target.value)}
-                    className="px-2.5 py-1 bg-[#1a221a] border border-[#3d4a3d] rounded-lg text-xs text-white focus:outline-none focus:border-[#22c55e]"
+                    className="px-2.5 py-1 bg-[#1E1E1E] border border-[#333333] rounded-lg text-xs text-white focus:outline-none focus:border-[#EA5D3A]"
                   >
                     <option value="admin">Admin</option>
                     <option value="moderator">Moderator</option>

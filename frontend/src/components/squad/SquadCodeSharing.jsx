@@ -89,56 +89,56 @@ export default function SquadCodeSharing() {
           <Code className="w-5 h-5 text-[#22d3ee]" /> Shared Code Snippets ({snippets.length})
         </h3>
         <button onClick={() => setShowForm(!showForm)}
-          className="px-3.5 py-2 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold transition-all shadow flex items-center gap-1.5">
+          className="px-3.5 py-2 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl text-xs font-bold transition-all shadow flex items-center gap-1.5">
           <Plus className="w-4 h-4" /> {showForm ? 'Cancel' : 'Share Snippet'}
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmitSnippet} className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-3">
+        <form onSubmit={handleSubmitSnippet} className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-3">
           <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}
             placeholder="Snippet Title (e.g. 2-Pointer O(N) solution for 3Sum)" required
-            className="w-full px-4 py-2.5 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-white placeholder-[#869585] focus:outline-none focus:border-[#22c55e]" />
+            className="w-full px-4 py-2.5 bg-[#141414] border border-[#333333] rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A]" />
           <div className="flex gap-2">
             <select value={language} onChange={(e) => setLanguage(e.target.value)}
-              className="px-3 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-white focus:outline-none focus:border-[#22c55e]">
+              className="px-3 py-2 bg-[#141414] border border-[#333333] rounded-xl text-xs text-white focus:outline-none focus:border-[#EA5D3A]">
               {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
             <input type="text" value={problemSlug} onChange={(e) => setProblemSlug(e.target.value)}
               placeholder="LeetCode Problem Slug (e.g. 3sum)"
-              className="flex-1 px-4 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-white placeholder-[#869585] focus:outline-none focus:border-[#22c55e]" />
+              className="flex-1 px-4 py-2 bg-[#141414] border border-[#333333] rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A]" />
           </div>
           <textarea value={code} onChange={(e) => setCode(e.target.value)}
             placeholder="// Paste code snippet here..." rows={6} required
-            className="w-full p-4 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-[#22c55e] font-mono focus:outline-none focus:border-[#22c55e]" />
+            className="w-full p-4 bg-[#141414] border border-[#333333] rounded-xl text-xs text-amber-300 font-mono focus:outline-none focus:border-[#EA5D3A]" />
           <button type="submit" disabled={submitting}
-            className="w-full py-2.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold disabled:opacity-40 transition-all">
+            className="w-full py-2.5 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl text-xs font-bold disabled:opacity-40 transition-all shadow-md">
             {submitting ? 'Publishing...' : 'Share Solution'}
           </button>
         </form>
       )}
 
-      {snippets.length === 0 ? (
-        <div className="text-center py-16 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl">
-          <Code className="w-12 h-12 text-[#3d4a3d] mx-auto mb-3" />
-          <p className="text-sm font-bold text-white">No code snippets shared yet</p>
-          <p className="text-xs text-[#869585] mt-1">Be the first to share a solution with your squad!</p>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {snippets.map((snip) => {
+      {/* Snippets List */}
+      <div className="space-y-4">
+        {snippets.length === 0 ? (
+          <div className="p-8 text-center bg-[#1E1E1E] border border-[#333333] rounded-2xl">
+            <Code2 className="w-8 h-8 text-zinc-500 mx-auto mb-2" />
+            <p className="text-xs text-zinc-400">No code snippets shared yet. Click "Share Snippet" to collaborate!</p>
+          </div>
+        ) : (
+          snippets.map(snip => {
             const isExpanded = expandedSnippet === snip.id;
             const snipComments = comments[snip.id] || [];
             return (
-              <div key={snip.id} className="p-4 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl hover:border-[#22c55e]/40 transition-all space-y-3">
+              <div key={snip.id} className="p-4 bg-[#1E1E1E] border border-[#333333] rounded-2xl hover:border-[#EA5D3A]/40 transition-all space-y-3">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-2xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
+                    <div className="w-9 h-9 rounded-2xl bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold">
                       {getInitial(snip.author?.name)}
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-white">{snip.title}</h4>
-                      <div className="flex items-center gap-2 text-[11px] text-[#869585] mt-0.5">
+                      <div className="flex items-center gap-2 text-[11px] text-zinc-400 mt-0.5">
                         <span>By {snip.author?.name || 'Member'}</span>
                         <span>•</span>
                         <span className="text-[#22d3ee] font-mono">{snip.language}</span>
@@ -149,7 +149,7 @@ export default function SquadCodeSharing() {
                               href={`https://leetcode.com/problems/${snip.problem_slug}`}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-[#22c55e] hover:underline flex items-center gap-1"
+                              className="text-[#EA5D3A] hover:underline flex items-center gap-1"
                             >
                               LeetCode <ExternalLink className="w-3 h-3" />
                             </a>
@@ -162,14 +162,14 @@ export default function SquadCodeSharing() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleCopyCode(snip.id, snip.code)}
-                      className="px-2.5 py-1 bg-[#091009] hover:bg-[#23272b] text-[#dce5d9] border border-[#3d4a3d] rounded-lg text-xs font-semibold flex items-center gap-1"
+                      className="px-2.5 py-1 bg-[#141414] hover:bg-[#262626] text-zinc-200 border border-[#333333] rounded-lg text-xs font-semibold flex items-center gap-1"
                     >
                       <Copy className="w-3.5 h-3.5" />
                       <span>{copiedId === snip.id ? 'Copied!' : 'Copy'}</span>
                     </button>
                     <button
                       onClick={() => toggleSnippet(snip.id)}
-                      className="flex items-center gap-1 text-[11px] text-[#22c55e] bg-[#22c55e]/10 px-3 py-1 rounded-lg border border-[#22c55e]/20 font-bold hover:bg-[#22c55e]/20"
+                      className="flex items-center gap-1 text-[11px] text-[#EA5D3A] bg-[#EA5D3A]/10 px-3 py-1 rounded-lg border border-[#EA5D3A]/20 font-bold hover:bg-[#EA5D3A]/20"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
                       <span>Discuss ({snipComments.length})</span>
@@ -179,18 +179,18 @@ export default function SquadCodeSharing() {
                 </div>
 
                 {isExpanded && (
-                  <div className="space-y-4 pt-3 border-t border-[#3d4a3d]">
-                    <pre className="p-4 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs font-mono text-[#22c55e] overflow-x-auto">
+                  <div className="space-y-4 pt-3 border-t border-[#333333]">
+                    <pre className="p-4 bg-[#141414] border border-[#333333] rounded-xl text-xs font-mono text-amber-300 overflow-x-auto">
                       <code>{snip.code}</code>
                     </pre>
 
                     {/* Comments */}
                     <div className="space-y-2">
-                      <h5 className="text-xs font-bold text-[#869585]">Peer Discussion ({snipComments.length})</h5>
+                      <h5 className="text-xs font-bold text-zinc-400">Peer Discussion ({snipComments.length})</h5>
                       {snipComments.map((c) => (
-                        <div key={c.id} className="p-3 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs flex items-start gap-2">
-                          <span className="font-bold text-[#22c55e]">{c.author?.name}:</span>
-                          <span className="text-[#dce5d9] flex-1">{c.content}</span>
+                        <div key={c.id} className="p-3 bg-[#141414] border border-[#333333] rounded-xl text-xs flex items-start gap-2">
+                          <span className="font-bold text-[#EA5D3A]">{c.author?.name}:</span>
+                          <span className="text-zinc-200 flex-1">{c.content}</span>
                         </div>
                       ))}
 
@@ -200,9 +200,9 @@ export default function SquadCodeSharing() {
                           value={commentInputs[snip.id] || ''}
                           onChange={(e) => setCommentInputs({ ...commentInputs, [snip.id]: e.target.value })}
                           placeholder="Write a code review comment..."
-                          className="flex-1 px-3 py-2 bg-[#091009] border border-[#3d4a3d] rounded-xl text-xs text-white placeholder-[#869585] focus:outline-none focus:border-[#22c55e]"
+                          className="flex-1 px-3 py-2 bg-[#141414] border border-[#333333] rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-[#EA5D3A]"
                         />
-                        <button onClick={() => handleAddComment(snip.id)} className="p-2 bg-[#22c55e] text-[#0e150e] rounded-xl font-bold">
+                        <button onClick={() => handleAddComment(snip.id)} className="p-2 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl font-bold transition-colors">
                           <Send className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -211,9 +211,9 @@ export default function SquadCodeSharing() {
                 )}
               </div>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
     </div>
   );
 }

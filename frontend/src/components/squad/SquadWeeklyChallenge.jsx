@@ -122,7 +122,7 @@ export default function SquadWeeklyChallenge() {
     return Math.max(0, Math.ceil((e - new Date()) / 86400000));
   };
 
-  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#22c55e] animate-spin" /></div>;
+  if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 text-[#EA5D3A] animate-spin" /></div>;
 
   const totalSolvedSquad = Object.values(memberSolvedCounts).reduce((a, b) => a + b, 0);
   const targetCount = (challenge?.problems?.length || 5) * members.length;
@@ -132,47 +132,47 @@ export default function SquadWeeklyChallenge() {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl">
         <div>
           <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Target className="w-5 h-5 text-[#22c55e]" /> Squad Weekly Challenge
+            <Target className="w-5 h-5 text-[#EA5D3A]" /> Squad Weekly Challenge
           </h3>
-          <p className="text-xs text-[#869585] mt-1">Vote on 5 target LeetCode problems for your squad to tackle together this week.</p>
+          <p className="text-xs text-zinc-400 mt-1">Vote on 5 target LeetCode problems for your squad to tackle together this week.</p>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={handleLogSolve}
-            className="px-3.5 py-1.5 bg-[#22c55e] hover:bg-[#1ea34d] text-[#0e150e] rounded-xl text-xs font-bold transition-all shadow flex items-center gap-1.5"
+            className="px-3.5 py-1.5 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl text-xs font-bold transition-all shadow flex items-center gap-1.5"
           >
             <Flame className="w-4 h-4" /> Log a Solve
           </button>
-          <div className="flex items-center gap-1.5 bg-[#22c55e]/10 px-3 py-1.5 rounded-xl border border-[#22c55e]/20 text-xs font-semibold text-[#22c55e]">
+          <div className="flex items-center gap-1.5 bg-[#EA5D3A]/10 px-3 py-1.5 rounded-xl border border-[#EA5D3A]/20 text-xs font-semibold text-[#EA5D3A]">
             <Timer className="w-4 h-4" /> {getDaysLeft()}d left (ends {getWeekEnd()})
           </div>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-2">
+      <div className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-2">
         <div className="flex items-center justify-between text-xs font-bold">
-          <span className="text-[#dce5d9]">Squad Progress</span>
-          <span className="text-[#22c55e]">{totalSolvedSquad} / {targetCount} solved ({progressPercent}%)</span>
+          <span className="text-white">Squad Progress</span>
+          <span className="text-[#EA5D3A]">{totalSolvedSquad} / {targetCount} solved ({progressPercent}%)</span>
         </div>
-        <div className="h-2.5 bg-[#091009] rounded-full overflow-hidden border border-[#3d4a3d]">
-          <div className="h-full bg-gradient-to-r from-[#22c55e] to-[#22d3ee] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
+        <div className="h-2.5 bg-[#141414] rounded-full overflow-hidden border border-[#333333]">
+          <div className="h-full bg-gradient-to-r from-[#EA5D3A] to-amber-500 transition-all duration-500" style={{ width: `${progressPercent}%` }} />
         </div>
       </div>
 
       {/* Member Progress & Nudge Rows */}
-      <div className="p-5 bg-[#1a221a] border border-[#3d4a3d] rounded-2xl space-y-3">
-        <h4 className="text-xs font-bold uppercase text-[#869585] tracking-wider">Member Progress This Week</h4>
+      <div className="p-5 bg-[#1E1E1E] border border-[#333333] rounded-2xl space-y-3">
+        <h4 className="text-xs font-bold uppercase text-zinc-400 tracking-wider">Member Progress This Week</h4>
         <div className="space-y-2">
           {members.map(m => {
             const count = memberSolvedCounts[m.user_id] || 0;
             return (
-              <div key={m.user_id} className="p-3 bg-[#091009] border border-[#3d4a3d] rounded-xl flex items-center justify-between">
+              <div key={m.user_id} className="p-3 bg-[#141414] border border-[#333333] rounded-xl flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-[#22c55e] flex items-center justify-center text-[#0e150e] text-xs font-bold">
+                  <div className="w-8 h-8 rounded-xl bg-[#EA5D3A] flex items-center justify-center text-white text-xs font-bold">
                     {(m.name || 'G')[0].toUpperCase()}
                   </div>
                   <div>

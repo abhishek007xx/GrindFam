@@ -26,12 +26,12 @@ const EditTargetModal = ({ isOpen, currentTarget = 5, onClose, onSave }) => {
         </button>
 
         <div className="flex items-center gap-3 mb-5">
-          <div className="p-2.5 rounded-xl bg-[#22c55e]/10 border border-[#22c55e]/25 text-[#22c55e]">
+          <div className="p-2.5 rounded-xl bg-[#EA5D3A]/10 border border-[#EA5D3A]/25 text-[#EA5D3A]">
             <Target className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white">Edit Group Target</h3>
-            <p className="text-[11px] text-[#A3A3A3]">Updates for everyone in your squad</p>
+            <h3 className="text-base font-bold text-white">Edit Daily Target</h3>
+            <p className="text-[11px] text-[#A3A3A3]">Updates your daily target goal quota</p>
           </div>
         </div>
 
@@ -39,13 +39,13 @@ const EditTargetModal = ({ isOpen, currentTarget = 5, onClose, onSave }) => {
           <div>
             <label className="block text-xs font-semibold text-[#A3A3A3] uppercase tracking-wider mb-2">Questions Per Day</label>
             <input type="number" min="1" max="100" required value={targetValue} onChange={(e) => setTargetValue(e.target.value)}
-              className="w-full px-4 py-3 bg-[#141414] border border-[#333333] rounded-xl text-white font-extrabold text-2xl text-center focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:border-transparent"
+              className="w-full px-4 py-3 bg-[#141414] border border-[#333333] rounded-xl text-white font-extrabold text-2xl text-center focus:outline-none focus:ring-2 focus:ring-[#EA5D3A] focus:border-transparent"
             />
           </div>
           {error && <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400 text-xs text-center">{error}</div>}
           <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#2C2C2C]">
             <button type="button" onClick={onClose} className="px-4 py-2 bg-[#2C2C2C] hover:bg-[#333333] text-[#A3A3A3] rounded-xl text-xs font-semibold transition-colors">Cancel</button>
-            <button type="submit" disabled={loading} className="px-5 py-2 bg-[#22c55e] hover:bg-[#16a34a] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50">
+            <button type="submit" disabled={loading} className="px-5 py-2 bg-[#EA5D3A] hover:bg-[#f2704e] text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5 disabled:opacity-50">
               {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
               <span>Save</span>
             </button>

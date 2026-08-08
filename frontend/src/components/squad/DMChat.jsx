@@ -67,7 +67,7 @@ export default function DMChat({ threadId, otherUser }) {
             href={`https://leetcode.com/u/${partner.leetcode_username}`}
             target="_blank"
             rel="noreferrer"
-            className="text-xs text-[#22c55e] hover:underline flex items-center gap-1 font-semibold"
+            className="text-xs text-[#EA5D3A] hover:underline flex items-center gap-1 font-semibold"
           >
             <span>LeetCode</span>
             <ExternalLink className="w-3.5 h-3.5" />
@@ -82,7 +82,7 @@ export default function DMChat({ threadId, otherUser }) {
           return (
             <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-[70%] px-4 py-2.5 rounded-2xl ${
-                isMe ? 'bg-emerald-600 text-white font-medium shadow-md shadow-emerald-600/10' : 'bg-[#1E1E1E] border border-[#333333] text-[#F4F4F5]'
+                isMe ? 'bg-[#EA5D3A] text-white font-medium shadow-md shadow-[#EA5D3A]/20' : 'bg-[#1E1E1E] border border-[#333333] text-[#F4F4F5]'
               }`}>
                 <p className="text-sm whitespace-pre-wrap break-words">{msg.content}</p>
                 <div className="text-[10px] opacity-70 mt-1 text-right">

@@ -27,7 +27,7 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             onClick={() => setActiveTab('intern')}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'intern'
-                ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                 : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
@@ -39,7 +39,7 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             onClick={() => setActiveTab('campus')}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'campus'
-                ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                 : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
@@ -51,7 +51,7 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             onClick={() => setActiveTab('senior')}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all ${
               activeTab === 'senior'
-                ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
+                ? 'bg-[#EA5D3A] text-white shadow-lg shadow-[#EA5D3A]/25'
                 : 'text-[#A3A3A3] hover:text-white'
             }`}
           >
@@ -158,9 +158,9 @@ export default function RoleLevelRoadmap({ companyName = 'Company' }) {
             exit={{ opacity: 0, y: -10 }}
             className="space-y-6"
           >
-            <div className="p-4 rounded-xl bg-gradient-to-r from-[#22c55e]/10 via-transparent to-transparent border border-[#22c55e]/20">
+            <div className="p-4 rounded-xl bg-gradient-to-r from-[#EA5D3A]/10 via-transparent to-transparent border border-[#EA5D3A]/20">
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <Award className="w-4 h-4 text-[#22c55e]" />
+                <Award className="w-4 h-4 text-[#EA5D3A]" />
                 3-Month Campus Placement Sprint
               </h3>
               <p className="text-xs text-[#A3A3A3] mt-1">
