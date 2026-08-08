@@ -81,13 +81,14 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
         "body-md": ["Inter"],
-        "headline-lg-mobile": ["Geist"],
         "body-lg": ["Inter"],
-        "label-caps": ["Geist"],
-        "display": ["Geist"],
-        "headline-md": ["Geist"],
-        "headline-lg": ["Geist"],
-        "code-snippet": ["Courier Prime"]
+        "body-sm": ["Inter"],
+        "mono-label": ["JetBrains Mono", "monospace"],
+        "mono-code": ["JetBrains Mono", "monospace"],
+        "headline-xl": ["Outfit", "sans-serif"],
+        "headline-lg": ["Outfit", "sans-serif"],
+        "headline-md": ["Outfit", "sans-serif"],
+        "headline-lg-mobile": ["Outfit", "sans-serif"],
       },
       fontSize: {
         "body-md": ["16px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
