@@ -15,6 +15,8 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
     }
   });
 
+  const location = useLocation();
+
   const toggleCollapse = () => {
     setIsCollapsed(prev => {
       const next = !prev;
@@ -24,6 +26,13 @@ export default function MainLayout({ children, onRefresh, refreshing, platformTo
       return next;
     });
   };
+
+  // Automatically collapse sidebar on Community section for max screen area (as requested)
+  useEffect(() => {
+    if (location.pathname === '/community' || location.pathname.startsWith('/community')) {
+      setIsCollapsed(true);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="h-screen w-full flex bg-[#141414] dark:bg-[#141414] light:bg-slate-50 text-zinc-200 dark:text-zinc-200 light:text-slate-900 overflow-hidden">

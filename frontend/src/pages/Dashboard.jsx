@@ -23,6 +23,7 @@ import SpacedRepetitionVault from '../components/dashboardZones/SpacedRepetition
 import ContestsGamification from '../components/dashboardZones/ContestsGamification';
 import DailyGrindProTip from '../components/dashboardZones/DailyGrindProTip';
 import ShareCardModal from '../components/ShareCardModal';
+import SquadHub from './SquadHub';
 import {
   Loader2, AlertCircle, RefreshCw, Heart, Shield, Copy, Check, Users,
   Flame, ArrowRight, RotateCcw, BookOpen, Building2, FileCode2,
@@ -485,74 +486,10 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* TAB 5: SQUAD & SOCIAL */}
+          {/* TAB 5: SQUAD & SOCIAL (GRIND HUB 2.0) */}
           {activeMainTab === 'social' && (
-            <div className="space-y-6 animate-fadeIn">
-              <div className="dash-card p-6 border border-[#333333] bg-[#121212] relative overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Shield className="w-5 h-5 text-[#EA5D3A]" />
-                      <span className="text-xs font-bold uppercase text-[#EA5D3A] tracking-wider">Your Active Squad</span>
-                    </div>
-                    <h2 className="text-2xl font-bold text-white tracking-tight">{dashboardData.squadInfo?.name || "Global Squad"}</h2>
-                    <p className="text-xs text-zinc-400 mt-1">
-                      Squad Code: <span className="font-mono text-[#EA5D3A] font-bold">{dashboardData.squadInfo?.code || "N/A"}</span>
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={handleCopySquadCode}
-                      className="px-4 py-2.5 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold flex items-center gap-2 border border-[#333333] transition-all"
-                    >
-                      {copiedCode ? <Check className="w-4 h-4 text-[#EA5D3A]" /> : <Copy className="w-4 h-4" />}
-                      <span>{copiedCode ? 'Code Copied!' : 'Copy Squad Code'}</span>
-                    </button>
-
-                    <button
-                      onClick={() => setIsSquadModalOpen(true)}
-                      className="px-4 py-2.5 rounded-xl bg-[#EA5D3A] hover:bg-[#F2704E] text-white text-xs font-bold flex items-center gap-2 transition-all shadow-sm"
-                    >
-                      <Users className="w-4 h-4" /> Manage Squad
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Active Social Tab View */}
-              {socialTab === 'leaderboard' && (
-                <LeaderboardTable
-                  leaderboard={dashboardData.leaderboard}
-                  dailyTarget={dailyTarget}
-                  onRemoveFriend={handleRemoveFriend}
-                  removingId={removingId}
-                />
-              )}
-
-              {socialTab === 'squad' && (
-                <LeaderboardTable
-                  leaderboard={dashboardData.leaderboard}
-                  dailyTarget={dailyTarget}
-                  onRemoveFriend={handleRemoveFriend}
-                  removingId={removingId}
-                />
-              )}
-
-              {socialTab === 'friends' && (
-                <FriendsList
-                  token={token}
-                  onRemoveFriend={handleRemoveFriend}
-                  removingId={removingId}
-                  onOpenAddFriend={() => handleTabChange('addFriend')}
-                />
-              )}
-
-              {socialTab === 'addFriend' && (
-                <div className="max-w-2xl mx-auto" id="add-friend-section">
-                  <AddFriend onAddFriend={handleAddFriend} />
-                </div>
-              )}
+            <div className="animate-fadeIn">
+              <SquadHub />
             </div>
           )}
         </div>
