@@ -57,6 +57,7 @@ export default function Sidebar({
   const name = profile?.name || user?.user_metadata?.name || 'Grinder';
   const handle = profile?.leetcode_username || profile?.username || user?.email?.split('@')[0] || 'user';
   const initials = getInitials(name);
+  const avatarUrl = profile?.avatar_url || profile?.avatarUrl || user?.user_metadata?.avatar_url || user?.user_metadata?.avatarUrl || user?.user_metadata?.picture;
 
   const level = Math.max(1, Math.floor(platformTotal / 10) + 1);
   const xpInLevel = (platformTotal % 10) * 50;
@@ -301,9 +302,9 @@ export default function Sidebar({
           onClick={() => navigate('/settings')}
         >
           <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 overflow-hidden flex-shrink-0">
-            {profile?.avatar_url || profile?.avatarUrl ? (
+            {avatarUrl ? (
               <img
-                src={profile.avatar_url || profile.avatarUrl}
+                src={avatarUrl}
                 alt={name}
                 className="w-full h-full object-cover"
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -318,9 +319,9 @@ export default function Sidebar({
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5 min-w-0 cursor-pointer" onClick={() => navigate('/settings')}>
               <div className="w-9 h-9 rounded-full bg-[#EA5D3A] flex items-center justify-center text-white font-bold text-xs shadow-md border border-white/20 flex-shrink-0 overflow-hidden">
-                {profile?.avatar_url || profile?.avatarUrl ? (
+                {avatarUrl ? (
                   <img
-                    src={profile.avatar_url || profile.avatarUrl}
+                    src={avatarUrl}
                     alt={name}
                     className="w-full h-full object-cover"
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}

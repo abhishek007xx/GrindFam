@@ -109,7 +109,8 @@ export default function StitchSettings() {
           .update({
             name: accountForm.name,
             username: accountForm.username,
-            leetcode_username: accountForm.leetcode_username
+            leetcode_username: accountForm.leetcode_username,
+            avatar_url: accountForm.avatar_url
           })
           .eq('id', user.id);
       } catch (_) {}
