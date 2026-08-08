@@ -156,6 +156,22 @@ const getDashboardData = async (req, res) => {
               // Sync historical submission calendar into daily_activity
               await syncUserLeetCodeHistory(profile.id, profile.leetcode_username, true);
 
+              // Upsert solved LeetCode questions into user_progress
+              if (lcData.recentAcSubmissions && lcData.recentAcSubmissions.length > 0) {
+                const solvedRows = lcData.recentAcSubmissions.map(slug => ({
+                  user_id: profile.id,
+                  problem_id: slug,
+                  status: 'solved',
+                  solve_count: 1,
+                  solved_at: new Date().toISOString()
+                }));
+                try {
+                  await supabase.from('user_progress').upsert(solvedRows, { onConflict: 'user_id,problem_id' });
+                } catch (upsertErr) {
+                  console.warn('user_progress upsert warning:', upsertErr.message);
+                }
+              }
+
               // Upsert today's count — use max(existing, incoming)
               let finalTodayCount = todayCount;
               const existingTodayRow = activityRows.find(r => r.activity_date === todayDate);

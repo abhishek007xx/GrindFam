@@ -45,7 +45,7 @@ const fetchUserTodayData = async (username) => {
             }
           }
         }
-        recentAcSubmissionList(username: $username, limit: 20) {
+        recentAcSubmissionList(username: $username, limit: 100) {
           title
           titleSlug
           timestamp
@@ -109,8 +109,12 @@ const fetchUserTodayData = async (username) => {
 
       const recentSubmissions = data.recentAcSubmissionList || [];
       const todayProblemSlugs = new Set();
+      const allSolvedSlugs = new Set();
 
       recentSubmissions.forEach((sub) => {
+        const slug = sub.titleSlug || sub.title;
+        if (slug) allSolvedSlugs.add(slug);
+
         const subTimestampMs = parseInt(sub.timestamp, 10) * 1000;
         const subDate = new Date(subTimestampMs);
         const subUtcStr = subDate.toISOString().split('T')[0];
@@ -119,12 +123,20 @@ const fetchUserTodayData = async (username) => {
         const diffHours = (now.getTime() - subTimestampMs) / (1000 * 60 * 60);
 
         if (diffHours <= 24 || subUtcStr === todayUtcStr || subLocalStr === todayLocalStr) {
-          todayProblemSlugs.add(sub.titleSlug || sub.title);
+          todayProblemSlugs.add(slug);
         }
       });
 
       const todayCount = todayProblemSlugs.size;
       const avatarUrl = data.matchedUser.profile?.userAvatar || null;
+
+      if (userId && allSolvedSlugs.size > 0) {
+        const progressEntries = Array.from(allSolvedSlugs).map(slug => ({
+          user_id: userId,
+          slug: slug
+        }));
+        await supabase.from('user_progress').upsert(progressEntries, { onConflict: 'user_id, slug' });
+      }
 
       return {
         username: cleanUsername,

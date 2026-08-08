@@ -73,12 +73,13 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
-        useTrackStore.getState().fetchUserProgress(session.user.id);
+        await fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
+        const lcUsername = session.user.user_metadata?.leetcode_username;
+        useTrackStore.getState().fetchUserProgress(session.user.id, lcUsername);
       }
       setLoading(false);
     });
@@ -89,7 +90,8 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         await fetchProfile(session.user.id, session.user.email, session.user.user_metadata);
-        useTrackStore.getState().fetchUserProgress(session.user.id);
+        const lcUsername = session.user.user_metadata?.leetcode_username;
+        useTrackStore.getState().fetchUserProgress(session.user.id, lcUsername);
       } else {
         setProfile(null);
       }

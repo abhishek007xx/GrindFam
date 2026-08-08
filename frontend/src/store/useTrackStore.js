@@ -271,8 +271,8 @@ export const useTrackStore = create((set, get) => ({
     }
   },
 
-  // Fetch complete user progress from Supabase
-  fetchUserProgress: async (userId) => {
+  // Fetch complete user progress from Supabase & LeetCode
+  fetchUserProgress: async (userId, leetcodeUsername = null) => {
     if (!userId) return;
     set({ loading: true });
     try {
@@ -303,9 +303,70 @@ export const useTrackStore = create((set, get) => ({
       const merged = { ...current, ...map };
       try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(merged)); } catch (_) {}
       set({ progressMap: merged, loading: false });
+
+      // Trigger LeetCode AC submissions sync if leetcodeUsername provided
+      if (leetcodeUsername) {
+        get().syncLeetCodeUserProgress(userId, leetcodeUsername);
+      }
     } catch (e) {
       console.warn('Failed to fetch user progress:', e);
       set({ loading: false });
+    }
+  },
+
+  // Sync recent accepted submissions from LeetCode into progressMap & Supabase
+  syncLeetCodeUserProgress: async (userId, leetcodeUsername) => {
+    if (!leetcodeUsername || !leetcodeUsername.trim()) return;
+    const cleanUsername = leetcodeUsername.trim();
+
+    try {
+      const res = await fetch(`https://alfa-leetcode-api.onrender.com/${cleanUsername}/acSubmission`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const submissionList = data?.count ? data?.submission : Array.isArray(data) ? data : [];
+
+      if (submissionList && submissionList.length > 0) {
+        const currentMap = get().progressMap;
+        const nextMap = { ...currentMap };
+        const rowsToUpsert = [];
+
+        submissionList.forEach(sub => {
+          const slug = sub.titleSlug || sub.title;
+          if (slug) {
+            const keys = getProblemKeys(slug);
+            const existing = get().getProblemProgress(slug);
+            const record = {
+              status: 'solved',
+              solve_count: Math.max(1, existing.solve_count || 1),
+              solved_at: sub.timestamp ? new Date(parseInt(sub.timestamp, 10) * 1000).toISOString() : new Date().toISOString(),
+              personal_notes: existing.personal_notes || ''
+            };
+            keys.forEach(k => { nextMap[k] = record; });
+
+            if (userId) {
+              rowsToUpsert.push({
+                user_id: userId,
+                problem_id: slug,
+                status: 'solved',
+                solve_count: Math.max(1, existing.solve_count || 1),
+                solved_at: record.solved_at,
+                personal_notes: record.personal_notes
+              });
+            }
+          }
+        });
+
+        try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextMap)); } catch (_) {}
+        set({ progressMap: nextMap });
+
+        if (userId && rowsToUpsert.length > 0) {
+          try {
+            await supabase.from('user_progress').upsert(rowsToUpsert, { onConflict: 'user_id,problem_id' });
+          } catch (_) {}
+        }
+      }
+    } catch (err) {
+      console.warn('Frontend LeetCode sync warning:', err);
     }
   }
 }));
