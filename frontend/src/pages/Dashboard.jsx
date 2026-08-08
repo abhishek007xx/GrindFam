@@ -205,7 +205,11 @@ const Dashboard = () => {
         sessionStorage.setItem('grindfam_dashboard_cache', JSON.stringify(response.data));
       } catch (e) {}
       if (response.data?.dailyTarget) setDailyTarget(response.data.dailyTarget);
-      if (user?.id) useTrackStore.getState().fetchUserProgress(user.id);
+      if (user?.id) {
+        const lcUsername = response.data?.userProfile?.leetcode_username || profile?.leetcode_username;
+        await useTrackStore.getState().syncLeetCodeUserProgress(user.id, lcUsername, { force: true });
+        await useTrackStore.getState().fetchUserProgress(user.id, lcUsername, { force: true });
+      }
     } catch (err) {
       setError(err.response?.data?.error || err.message || 'Failed to sync LeetCode data.');
     } finally {

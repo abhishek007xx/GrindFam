@@ -250,11 +250,15 @@ export const SettingsProvider = ({ children }) => {
   const syncLeetcodeNow = async () => {
     setSyncingLc(true);
     try {
-      await new Promise(res => setTimeout(res, 1200));
+      await new Promise(res => setTimeout(res, 800));
       const nowIso = new Date().toISOString();
       await updateSettings({ lastSyncedAt: nowIso });
       if (settings.leetcodeUsername) {
         await verifyLeetcode(settings.leetcodeUsername);
+        if (user?.id) {
+          await useTrackStore.getState().syncLeetCodeUserProgress(user.id, settings.leetcodeUsername, { force: true });
+          await useTrackStore.getState().fetchUserProgress(user.id, settings.leetcodeUsername, { force: true });
+        }
       }
       return nowIso;
     } finally {

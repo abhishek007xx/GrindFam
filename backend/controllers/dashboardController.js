@@ -150,7 +150,7 @@ const getDashboardData = async (req, res) => {
 
         // Live LeetCode GraphQL API calls ONLY when forceSync is explicitly true (user clicked Sync button)
         if (forceSync) {
-          const lcData = await fetchUserTodayData(profile.leetcode_username);
+          const lcData = await fetchUserTodayData(profile.leetcode_username, profile.id);
           todayCount = lcData.todayCount || 0;
           easyCount = lcData.easyCount || 0;
           mediumCount = lcData.mediumCount || 0;
@@ -371,7 +371,7 @@ const syncUserLeetCodeSolvedProblems = async (req, res) => {
       return res.status(400).json({ error: 'No LeetCode username provided or linked to your profile.' });
     }
 
-    const lcData = await fetchUserTodayData(leetcodeUsername);
+    const lcData = await fetchUserTodayData(leetcodeUsername, userId);
     const solvedSlugs = lcData.recentAcSubmissions || [];
 
     if (userId && solvedSlugs.length > 0) {

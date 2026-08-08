@@ -271,7 +271,7 @@ export const useTrackStore = create((set, get) => ({
   },
 
   // Fetch complete user progress from Supabase & LeetCode
-  fetchUserProgress: async (userId, inputUsername = null) => {
+  fetchUserProgress: async (userId, inputUsername = null, options = {}) => {
     if (!userId) return;
     set({ loading: true });
     try {
@@ -316,7 +316,7 @@ export const useTrackStore = create((set, get) => ({
 
       // Trigger LeetCode AC submissions sync if username exists
       if (lcUsername && String(lcUsername).trim()) {
-        get().syncLeetCodeUserProgress(userId, String(lcUsername).trim());
+        get().syncLeetCodeUserProgress(userId, String(lcUsername).trim(), options);
       }
     } catch (e) {
       console.warn('Failed to fetch user progress:', e);
@@ -341,10 +341,18 @@ export const useTrackStore = create((set, get) => ({
 
     let solvedSlugs = [];
 
+    // Fetch auth token if user is logged in
+    let authToken = null;
+    try {
+      const session = (await supabase.auth.getSession())?.data?.session;
+      authToken = session?.access_token || null;
+    } catch (_) {}
+
     // Tier 1: Vercel Native Serverless API Route (CORS-free, server-side Node.js execution)
     try {
       const url = `${API_BASE_URL}/dashboard/leetcode-solved?username=${encodeURIComponent(cleanUsername)}`;
-      const vercelRes = await fetch(url);
+      const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
+      const vercelRes = await fetch(url, { headers });
       if (vercelRes.ok) {
         const vercelData = await vercelRes.json();
         if (vercelData?.solvedSlugs && Array.isArray(vercelData.solvedSlugs) && vercelData.solvedSlugs.length > 0) {

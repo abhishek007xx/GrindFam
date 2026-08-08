@@ -11,9 +11,10 @@ const formatDateStr = (d) => {
 /**
  * Fetch LeetCode stats and today's solved problems for a user with retry & timeout protection.
  * @param {string} username - LeetCode username
+ * @param {string} [userId] - Optional Supabase User UUID
  * @returns {Promise<Object>} User data with totalSolved, todayCount, difficulty breakdown
  */
-const fetchUserTodayData = async (username) => {
+const fetchUserTodayData = async (username, userId = null) => {
   if (!username || typeof username !== 'string' || !username.trim()) {
     return {
       username: 'Unknown',
@@ -133,9 +134,16 @@ const fetchUserTodayData = async (username) => {
       if (userId && allSolvedSlugs.size > 0) {
         const progressEntries = Array.from(allSolvedSlugs).map(slug => ({
           user_id: userId,
-          slug: slug
+          problem_id: slug,
+          status: 'solved',
+          solve_count: 1,
+          solved_at: new Date().toISOString()
         }));
-        await supabase.from('user_progress').upsert(progressEntries, { onConflict: 'user_id, slug' });
+        try {
+          await supabase.from('user_progress').upsert(progressEntries, { onConflict: 'user_id,problem_id' });
+        } catch (upsertErr) {
+          console.warn('user_progress upsert warning in leetcodeService:', upsertErr.message);
+        }
       }
 
       return {
@@ -147,6 +155,8 @@ const fetchUserTodayData = async (username) => {
         mediumCount,
         hardCount,
         targetHit: todayCount >= 5,
+        recentAcSubmissions: Array.from(allSolvedSlugs),
+        todayAcSubmissions: Array.from(todayProblemSlugs),
         error: null
       };
     } catch (error) {
