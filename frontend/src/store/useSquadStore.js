@@ -132,7 +132,7 @@ export const useSquadStore = create((set, get) => ({
 
       if (userIds.length > 0) {
         const { data: profiles } = await supabase
-          .from('profiles').select('id, username, leetcode_username, discord_username')
+          .from('profiles').select('id, username, leetcode_username, discord_username, avatar_url')
           .in('id', userIds);
         (profiles || []).forEach(p => { profileMap[p.id] = p; });
 
@@ -154,7 +154,7 @@ export const useSquadStore = create((set, get) => ({
         const prof = profileMap[m.user_id] || {};
         return {
           ...m,
-          name: prof.username || prof.leetcode_username || 'Grinder',
+          name: prof.username || prof.leetcode_username || 'Grinder', avatar_url: prof.avatar_url,
           username: prof.username || prof.leetcode_username || '',
           leetcode_username: prof.leetcode_username || '',
           discord_username: prof.discord_username || '',
@@ -175,7 +175,7 @@ export const useSquadStore = create((set, get) => ({
       const missingAuthorIds = [...new Set((rawMessages || []).map(m => m.user_id))].filter(id => id && !profileMap[id]);
       if (missingAuthorIds.length > 0) {
         const { data: extraProfiles } = await supabase
-          .from('profiles').select('id, username, leetcode_username')
+          .from('profiles').select('id, username, leetcode_username, avatar_url')
           .in('id', missingAuthorIds);
         (extraProfiles || []).forEach(p => { profileMap[p.id] = p; });
       }
@@ -184,7 +184,7 @@ export const useSquadStore = create((set, get) => ({
         const prof = profileMap[m.user_id] || {};
         return {
           ...m,
-          author_name: prof.username || prof.leetcode_username || 'Member'
+          author_name: prof.username || prof.leetcode_username || 'Member', author_avatar_url: prof.avatar_url
         };
       }).reverse();
 
@@ -197,7 +197,7 @@ export const useSquadStore = create((set, get) => ({
       let snipProfileMap = {};
       if (snipUserIds.length > 0) {
         const { data: snipProfiles } = await supabase
-          .from('profiles').select('id, username, leetcode_username')
+          .from('profiles').select('id, username, leetcode_username, avatar_url')
           .in('id', snipUserIds);
         (snipProfiles || []).forEach(p => { snipProfileMap[p.id] = p; });
       }
@@ -349,7 +349,7 @@ export const useSquadStore = create((set, get) => ({
 
     const { data: prof, error: profErr } = await supabase
       .from('profiles')
-      .select('id, username, leetcode_username')
+      .select('id, username, leetcode_username, avatar_url')
       .or(`username.ilike.${cleanInput},leetcode_username.ilike.${cleanInput},email.ilike.${cleanInput}`)
       .maybeSingle();
 
@@ -398,13 +398,13 @@ export const useSquadStore = create((set, get) => ({
 
     if (user) {
       try {
-        const { data: prof } = await supabase.from('profiles').select('username, leetcode_username, name').eq('id', user.id).maybeSingle();
-        author_name = prof?.username || prof?.name || prof?.leetcode_username || user.email?.split('@')[0] || 'You';
+        const { data: prof } = await supabase.from('profiles').select('username, leetcode_username, name, avatar_url').eq('id', user.id).maybeSingle();
+        author_name = prof?.username || prof?.name || prof?.leetcode_username || user.email?.split('@')[0] || 'You'; let author_avatar_url = prof?.avatar_url || null;
       } catch (_) {
         author_name = user.email?.split('@')[0] || 'You';
       }
     } else {
-      author_name = 'Guest Grinder';
+      author_name = 'Guest Grinder'; let author_avatar_url = null;
     }
 
     const tempId = `msg-${Date.now()}`;
@@ -436,7 +436,7 @@ export const useSquadStore = create((set, get) => ({
 
         if (!error && data) {
           set((s) => ({
-            messages: s.messages.map(m => m.id === tempId ? { ...data, author_name } : m)
+            messages: s.messages.map(m => m.id === tempId ? { ...data, author_name, author_avatar_url } : m)
           }));
         }
       } catch (err) {
@@ -531,7 +531,7 @@ export const useSquadStore = create((set, get) => ({
     if (!realtimeChannel) return;
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    const { data: prof } = await supabase.from('profiles').select('username, leetcode_username').eq('id', user.id).maybeSingle();
+    const { data: prof } = await supabase.from('profiles').select('username, leetcode_username, avatar_url').eq('id', user.id).maybeSingle();
     const username = prof?.username || prof?.leetcode_username || 'Someone';
 
     realtimeChannel.send({
@@ -568,11 +568,11 @@ export const useSquadStore = create((set, get) => ({
         if (currentMessages.some(m => m.id === newMsg.id)) return;
 
         const { data: prof } = await supabase.from('profiles')
-          .select('username, leetcode_username').eq('id', newMsg.user_id).maybeSingle();
-        const author_name = prof?.username || prof?.leetcode_username || 'Member';
+          .select('username, leetcode_username, avatar_url').eq('id', newMsg.user_id).maybeSingle();
+        const author_name = prof?.username || prof?.leetcode_username || 'Member'; const author_avatar_url = prof?.avatar_url;
 
         set((state) => ({
-          messages: [...state.messages.filter(m => !m.id.toString().startsWith('temp-')), { ...newMsg, author_name }]
+          messages: [...state.messages.filter(m => !m.id.toString().startsWith('temp-')), { ...newMsg, author_name, author_avatar_url }]
         }));
       })
       .on('postgres_changes', {
@@ -627,7 +627,7 @@ export const useSquadStore = create((set, get) => ({
       if (authorIds.length > 0) {
         const { data: profiles } = await supabase
           .from('profiles')
-          .select('id, username, leetcode_username')
+          .select('id, username, leetcode_username, avatar_url')
           .in('id', authorIds);
         (profiles || []).forEach(p => { profileMap[p.id] = p; });
       }
@@ -648,7 +648,7 @@ export const useSquadStore = create((set, get) => ({
         if (reviewerIds.length > 0) {
           const { data: rProfiles } = await supabase
             .from('profiles')
-            .select('id, username, leetcode_username')
+            .select('id, username, leetcode_username, avatar_url')
             .in('id', reviewerIds);
           (rProfiles || []).forEach(p => { reviewerProfileMap[p.id] = p; });
         }
@@ -667,7 +667,7 @@ export const useSquadStore = create((set, get) => ({
         const prof = profileMap[r.author_id] || {};
         return {
           ...r,
-          author_name: prof.username || prof.leetcode_username || 'Member',
+          author_name: prof.username || prof.leetcode_username || 'Member', author_avatar_url: prof.avatar_url,
           annotations: annotationsMap[r.id] || []
         };
       });
@@ -684,7 +684,7 @@ export const useSquadStore = create((set, get) => ({
 
     const { data: prof } = await supabase
       .from('profiles')
-      .select('username, leetcode_username')
+      .select('username, leetcode_username, avatar_url')
       .eq('id', user.id)
       .maybeSingle();
     const author_name = prof?.username || prof?.leetcode_username || 'You';
@@ -747,7 +747,7 @@ export const useSquadStore = create((set, get) => ({
 
     const { data: prof } = await supabase
       .from('profiles')
-      .select('username, leetcode_username')
+      .select('username, leetcode_username, avatar_url')
       .eq('id', user.id)
       .maybeSingle();
     const reviewer_name = prof?.username || prof?.leetcode_username || 'You';
@@ -862,7 +862,7 @@ export const useSquadStore = create((set, get) => ({
       if (partnerIds.length > 0) {
         const { data: profiles } = await supabase
           .from('profiles')
-          .select('id, username, leetcode_username')
+          .select('id, username, leetcode_username, avatar_url')
           .in('id', partnerIds);
         (profiles || []).forEach(p => { profileMap[p.id] = p; });
       }
@@ -891,7 +891,7 @@ export const useSquadStore = create((set, get) => ({
         return {
           ...t,
           partnerId,
-          partnerName: prof.username || prof.leetcode_username || 'Grinder',
+          partnername: prof.username || prof.leetcode_username || 'Grinder', avatar_url: prof.avatar_url,
           leetcode_username: prof.leetcode_username || '',
           lastMessage: lastMsg?.content || 'Started a conversation',
           lastTime: lastMsg?.created_at || t.created_at,
@@ -935,7 +935,7 @@ export const useSquadStore = create((set, get) => ({
 
       const { data: partnerProf } = await supabase
         .from('profiles')
-        .select('username, leetcode_username')
+        .select('username, leetcode_username, avatar_url')
         .eq('id', partnerId)
         .maybeSingle();
 
@@ -970,7 +970,7 @@ export const useSquadStore = create((set, get) => ({
       if (senderIds.length > 0) {
         const { data: profiles } = await supabase
           .from('profiles')
-          .select('id, username, leetcode_username')
+          .select('id, username, leetcode_username, avatar_url')
           .in('id', senderIds);
         (profiles || []).forEach(p => { profileMap[p.id] = p; });
       }
@@ -1074,11 +1074,11 @@ export const useSquadStore = create((set, get) => ({
         if (currentMsgs.some(m => m.id === newMsg.id)) return;
 
         const { data: prof } = await supabase.from('profiles')
-          .select('username, leetcode_username').eq('id', newMsg.sender_id).maybeSingle();
+          .select('username, leetcode_username, avatar_url').eq('id', newMsg.sender_id).maybeSingle();
         const author_name = prof?.username || prof?.leetcode_username || 'User';
 
         set((s) => ({
-          dmMessages: [...s.dmMessages.filter(m => !m.id.toString().startsWith('temp-dm-')), { ...newMsg, author_name }]
+          dmMessages: [...s.dmMessages.filter(m => !m.id.toString().startsWith('temp-dm-')), { ...newMsg, author_name, author_avatar_url }]
         }));
 
         get().markDMRead(threadId);
@@ -1131,7 +1131,7 @@ export const useSquadStore = create((set, get) => ({
       if (allUserIds.size > 0) {
         const { data: profiles } = await supabase
           .from('profiles')
-          .select('id, username, leetcode_username')
+          .select('id, username, leetcode_username, avatar_url')
           .in('id', Array.from(allUserIds));
           
         (profiles || []).forEach(p => { profileMap[p.id] = p; });

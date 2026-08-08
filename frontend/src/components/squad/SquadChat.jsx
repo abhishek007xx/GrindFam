@@ -160,9 +160,12 @@ export default function SquadChat() {
           groupedMessages.map((group, gIdx) => (
             <div key={gIdx} className="group relative flex gap-3 py-2 px-3 -mx-2 hover:bg-[#1E1E1E]/70 dark:hover:bg-[#1E1E1E]/70 light:hover:bg-slate-100/80 rounded-xl transition-colors mt-2">
               <div className="flex-shrink-0 w-9 pt-0.5">
-                <div className="w-9 h-9 rounded-2xl flex items-center justify-center text-white text-xs font-bold shadow-sm"
-                  style={{ backgroundColor: getAvatarColor(group.author_name) }}>
-                  {getInitial(group.author_name)}
+                <div className="w-8 h-8 rounded-full bg-[#333333] flex items-center justify-center text-xs font-bold text-white flex-shrink-0 overflow-hidden">
+                  {group.author_avatar_url ? (
+                    <img src={group.author_avatar_url} alt={group.author_name} className="w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  ) : (
+                    group.author_name ? group.author_name.charAt(0).toUpperCase() : 'U'
+                  )}
                 </div>
               </div>
 
